@@ -1,7 +1,5 @@
 package com.flogramming.web.rest.vm;
 
-import lombok.Data;
-
 public class CustomLoginVM {
 
     String clientCode;
