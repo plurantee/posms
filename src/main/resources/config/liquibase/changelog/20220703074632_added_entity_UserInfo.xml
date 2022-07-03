@@ -41,6 +41,8 @@
                   tableName="user_info"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
+            <column name="user_id" type="numeric"/>
+            <column name="client_code_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
