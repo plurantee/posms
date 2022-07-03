@@ -16,9 +16,10 @@ export default class LoginForm extends Vue {
   public login = null;
   public password = null;
   public rememberMe: boolean = null;
+  public clientCode = null;
 
   public doLogin(): void {
-    const data = { username: this.login, password: this.password, rememberMe: this.rememberMe };
+    const data = { clientCode: this.clientCode, username: this.login, password: this.password, rememberMe: this.rememberMe };
     axios
       .post('api/authenticate', data)
       .then(result => {

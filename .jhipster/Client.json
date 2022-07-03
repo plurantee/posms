@@ -1,0 +1,31 @@
+{
+  "applications": "*",
+  "changelogDate": "20220703074631",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "client",
+  "fields": [
+    {
+      "fieldName": "clientName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "clientCode",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Client",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "userInfo",
+      "otherEntityRelationshipName": "clientCode",
+      "relationshipName": "userInfo",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

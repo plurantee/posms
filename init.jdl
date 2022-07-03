@@ -1,0 +1,15 @@
+
+entity Client {
+	clientName String
+    clientCode String
+}
+
+entity UserInfo {
+
+}
+relationship OneToOne {
+    UserInfo{user} to User
+}
+relationship OneToMany {
+    Client to UserInfo{clientCode}
+}

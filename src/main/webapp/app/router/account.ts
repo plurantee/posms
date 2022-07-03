@@ -9,11 +9,6 @@ const Settings = () => import('@/account/settings/settings.vue');
 
 export default [
   {
-    path: '/register',
-    name: 'Register',
-    component: Register,
-  },
-  {
     path: '/account/activate',
     name: 'Activate',
     component: Activate,

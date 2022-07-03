@@ -111,8 +111,6 @@
             v-if="!authenticated"
             active-class="active"
           >
-            <font-awesome-icon icon="user-plus" />
-            <span>Register</span>
           </b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>

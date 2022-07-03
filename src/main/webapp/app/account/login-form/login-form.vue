@@ -8,6 +8,18 @@
       </div>
       <div class="col-md-8">
         <b-form role="form" v-on:submit.prevent="doLogin()">
+          <b-form-group label="Client Code" label-for="clientCode">
+            <b-form-input
+              id="clientCode"
+              type="text"
+              name="clientCode"
+              autofocus
+              placeholder="Client Code"
+              v-model="clientCode"
+              data-cy="clientCode"
+            >
+            </b-form-input>
+          </b-form-group>
           <b-form-group label="Username" label-for="username">
             <b-form-input
               id="username"

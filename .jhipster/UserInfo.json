@@ -1,0 +1,29 @@
+{
+  "applications": "*",
+  "changelogDate": "20220703074632",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "user_info",
+  "fields": [],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "UserInfo",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "userInfo",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "userInfo",
+      "relationshipName": "clientCode",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

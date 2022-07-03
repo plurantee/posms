@@ -27,9 +27,14 @@ export default class AccountService {
   }
 
   public retrieveAccount(): Promise<boolean> {
+    const token = localStorage.getItem('jhi-authenticationToken') || sessionStorage.getItem('jhi-authenticationToken');
     return new Promise(resolve => {
       axios
-        .get<any>('api/account')
+        .get<any>('api/account', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then(response => {
           this.store.commit('authenticate');
           const account = response.data;
