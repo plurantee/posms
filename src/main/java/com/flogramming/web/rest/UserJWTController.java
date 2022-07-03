@@ -3,6 +3,7 @@ package com.flogramming.web.rest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.flogramming.security.jwt.JWTFilter;
 import com.flogramming.security.jwt.TokenProvider;
+import com.flogramming.web.rest.vm.CustomLoginVM;
 import com.flogramming.web.rest.vm.LoginVM;
 import javax.validation.Valid;
 import org.springframework.http.HttpHeaders;
@@ -31,15 +32,15 @@ public class UserJWTController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
+    public ResponseEntity<JWTToken> authorize(@Valid @RequestBody CustomLoginVM loginVM) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-            loginVM.getUsername(),
-            loginVM.getPassword()
+            loginVM.getClientCode() + "-" + loginVM.getUser().getUsername(),
+            loginVM.getUser().getPassword()
         );
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());
+        String jwt = tokenProvider.createToken(authentication, loginVM.getUser().isRememberMe());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
