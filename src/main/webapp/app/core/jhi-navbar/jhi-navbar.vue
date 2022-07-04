@@ -1,18 +1,24 @@
 <template>
-  <div class="">
+  <b-navbar toggleable>
     <b-navbar-toggle v-b-toggle.sidebar-no-header>
       <template>
-        <b-icon icon="list" viewBox="2 0 7 7"></b-icon>
+        <b-icon class="burger" icon="list"></b-icon>
       </template>
+      <b-navbar-brand class="logo" b-link to="/">
+        <span class="logo-img"></span>
+        <span class="navbar-title">POS System</span> <span class="navbar-version">{{ version }}</span>
+      </b-navbar-brand>
     </b-navbar-toggle>
     <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header shadow>
       <template #default="{ hide }">
+        <b-button class="no-bg" variant="primary" block @click="hide">
+          <b-navbar-brand class="logo" b-link to="/">
+            <span class="logo-img"></span>
+            <span class="navbar-title">POS System</span>
+            <b-icon icon="box-arrow-left"></b-icon>
+          </b-navbar-brand>
+        </b-button>
         <div class="p-3">
-          <h4 id="sidebar-no-header-title">Custom header sidebar</h4>
-          <p>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus,
-            porta ac consectetur ac, vestibulum at eros.
-          </p>
           <nav class="mb-3">
             <b-nav vertical>
               <b-nav-item to="/" exact>
@@ -118,7 +124,6 @@
               </b-nav-item-dropdown>
             </b-nav>
           </nav>
-          <b-button variant="primary" block @click="hide">Close Sidebar</b-button>
         </div>
       </template>
     </b-sidebar>
@@ -238,7 +243,7 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar-->
-  </div>
+  </b-navbar>
 </template>
 
 <script lang="ts" src="./jhi-navbar.component.ts"></script>
@@ -248,6 +253,27 @@
 /* ==========================================================================
     Navbar
     ========================================================================== */
+.navbar > button {
+  border-color: rgba(0, 0, 0, 0);
+}
+.no-bg {
+  border-color: inherit;
+  background-color: inherit;
+}
+.no-bg:hover {
+  border-color: inherit;
+  background-color: inherit;
+}
+.no-bg:active {
+  border-color: inherit;
+  background-color: inherit;
+}
+.burger {
+  font-size: 2.5rem;
+}
+a {
+  color: inherit;
+}
 .navbar-version {
   font-size: 10px;
 }
@@ -273,7 +299,11 @@
     Logo styles
     ========================================================================== */
 .navbar-brand.logo {
-  padding: 5px 15px;
+  padding: 0px 20px;
+}
+
+.logo {
+  padding-bottom: 20px;
 }
 
 .logo .logo-img {
