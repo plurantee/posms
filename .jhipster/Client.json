@@ -25,6 +25,12 @@
       "otherEntityRelationshipName": "clientCode",
       "relationshipName": "userInfo",
       "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "shop",
+      "otherEntityRelationshipName": "clientCode",
+      "relationshipName": "shop",
+      "relationshipType": "one-to-many"
     }
   ],
   "service": "no"

@@ -1,0 +1,36 @@
+{
+  "applications": "*",
+  "changelogDate": "20220704053022",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "shop",
+  "fields": [
+    {
+      "fieldName": "shopCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shopName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shopType",
+      "fieldType": "ShopType",
+      "fieldValues": "LAZADA,SHOPEE,INTERNAL"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Shop",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "shop",
+      "relationshipName": "clientCode",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

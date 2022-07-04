@@ -1,0 +1,24 @@
+{
+  "applications": "*",
+  "changelogDate": "20220704053023",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "shop_items",
+  "fields": [
+    {
+      "fieldName": "stock",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "Double"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ShopItems",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

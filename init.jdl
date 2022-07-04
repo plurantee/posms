@@ -1,15 +1,32 @@
 
 entity Client {
-	clientName String
+    clientName String
     clientCode String
 }
-
+entity Shop {
+    shopCode String
+    shopName String
+    shopType ShopType
+}
 entity UserInfo {
+}
+entity ShopItems {
+    stock Integer
+    price Double
 
 }
+
+enum ShopType {
+    LAZADA, SHOPEE, INTERNAL
+}
+
 relationship OneToOne {
     UserInfo{user} to User
 }
 relationship OneToMany {
     Client to UserInfo{clientCode}
+}
+
+relationship OneToMany {
+    Client to Shop{clientCode}
 }

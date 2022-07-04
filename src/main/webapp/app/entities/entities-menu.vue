@@ -8,6 +8,14 @@
       <font-awesome-icon icon="asterisk" />
       <span>User Info</span>
     </b-dropdown-item>
+    <b-dropdown-item to="/shop">
+      <font-awesome-icon icon="asterisk" />
+      <span>Shop</span>
+    </b-dropdown-item>
+    <b-dropdown-item to="/shop-items">
+      <font-awesome-icon icon="asterisk" />
+      <span>Shop Items</span>
+    </b-dropdown-item>
     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
   </div>
 </template>

@@ -1,15 +1,14 @@
 package com.flogramming.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * A UserInfo.
+ * A ShopItems.
  */
 @Entity
-@Table(name = "user_info")
-public class UserInfo implements Serializable {
+@Table(name = "shop_items")
+public class ShopItems implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,13 +18,11 @@ public class UserInfo implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private User user;
+    @Column(name = "stock")
+    private Integer stock;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "userInfos", "shops" }, allowSetters = true)
-    private Client clientCode;
+    @Column(name = "price")
+    private Double price;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -33,7 +30,7 @@ public class UserInfo implements Serializable {
         return this.id;
     }
 
-    public UserInfo id(Long id) {
+    public ShopItems id(Long id) {
         this.setId(id);
         return this;
     }
@@ -42,30 +39,30 @@ public class UserInfo implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return this.user;
+    public Integer getStock() {
+        return this.stock;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public UserInfo user(User user) {
-        this.setUser(user);
+    public ShopItems stock(Integer stock) {
+        this.setStock(stock);
         return this;
     }
 
-    public Client getClientCode() {
-        return this.clientCode;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
-    public void setClientCode(Client client) {
-        this.clientCode = client;
+    public Double getPrice() {
+        return this.price;
     }
 
-    public UserInfo clientCode(Client client) {
-        this.setClientCode(client);
+    public ShopItems price(Double price) {
+        this.setPrice(price);
         return this;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -75,10 +72,10 @@ public class UserInfo implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof UserInfo)) {
+        if (!(o instanceof ShopItems)) {
             return false;
         }
-        return id != null && id.equals(((UserInfo) o).id);
+        return id != null && id.equals(((ShopItems) o).id);
     }
 
     @Override
@@ -90,8 +87,10 @@ public class UserInfo implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "UserInfo{" +
+        return "ShopItems{" +
             "id=" + getId() +
+            ", stock=" + getStock() +
+            ", price=" + getPrice() +
             "}";
     }
 }

@@ -15,6 +15,18 @@ const UserInfo = () => import('@/entities/user-info/user-info.vue');
 const UserInfoUpdate = () => import('@/entities/user-info/user-info-update.vue');
 // prettier-ignore
 const UserInfoDetails = () => import('@/entities/user-info/user-info-details.vue');
+// prettier-ignore
+const Shop = () => import('@/entities/shop/shop.vue');
+// prettier-ignore
+const ShopUpdate = () => import('@/entities/shop/shop-update.vue');
+// prettier-ignore
+const ShopDetails = () => import('@/entities/shop/shop-details.vue');
+// prettier-ignore
+const ShopItems = () => import('@/entities/shop-items/shop-items.vue');
+// prettier-ignore
+const ShopItemsUpdate = () => import('@/entities/shop-items/shop-items-update.vue');
+// prettier-ignore
+const ShopItemsDetails = () => import('@/entities/shop-items/shop-items-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -67,6 +79,54 @@ export default {
       path: 'user-info/:userInfoId/view',
       name: 'UserInfoView',
       component: UserInfoDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shop',
+      name: 'Shop',
+      component: Shop,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shop/new',
+      name: 'ShopCreate',
+      component: ShopUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shop/:shopId/edit',
+      name: 'ShopEdit',
+      component: ShopUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shop/:shopId/view',
+      name: 'ShopView',
+      component: ShopDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shop-items',
+      name: 'ShopItems',
+      component: ShopItems,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shop-items/new',
+      name: 'ShopItemsCreate',
+      component: ShopItemsUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shop-items/:shopItemsId/edit',
+      name: 'ShopItemsEdit',
+      component: ShopItemsUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shop-items/:shopItemsId/view',
+      name: 'ShopItemsView',
+      component: ShopItemsDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

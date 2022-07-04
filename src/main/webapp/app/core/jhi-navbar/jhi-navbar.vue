@@ -27,6 +27,12 @@
                   <span>Home</span>
                 </span>
               </b-nav-item>
+              <b-nav-item to="/shops" exact>
+                <span>
+                  <b-icon icon="bag-check-fill"></b-icon>
+                  <span>Shops</span>
+                </span>
+              </b-nav-item>
               <b-nav-item-dropdown right id="entity-menu" v-if="authenticated" active-class="active" class="pointer" data-cy="entity">
                 <span slot="button-content" class="navbar-dropdown-menu">
                   <font-awesome-icon icon="th-list" />

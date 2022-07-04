@@ -1,15 +1,16 @@
 package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.flogramming.domain.enumeration.ShopType;
 import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * A UserInfo.
+ * A Shop.
  */
 @Entity
-@Table(name = "user_info")
-public class UserInfo implements Serializable {
+@Table(name = "shop")
+public class Shop implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,9 +20,15 @@ public class UserInfo implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private User user;
+    @Column(name = "shop_code")
+    private String shopCode;
+
+    @Column(name = "shop_name")
+    private String shopName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "shop_type")
+    private ShopType shopType;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "userInfos", "shops" }, allowSetters = true)
@@ -33,7 +40,7 @@ public class UserInfo implements Serializable {
         return this.id;
     }
 
-    public UserInfo id(Long id) {
+    public Shop id(Long id) {
         this.setId(id);
         return this;
     }
@@ -42,17 +49,43 @@ public class UserInfo implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return this.user;
+    public String getShopCode() {
+        return this.shopCode;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public UserInfo user(User user) {
-        this.setUser(user);
+    public Shop shopCode(String shopCode) {
+        this.setShopCode(shopCode);
         return this;
+    }
+
+    public void setShopCode(String shopCode) {
+        this.shopCode = shopCode;
+    }
+
+    public String getShopName() {
+        return this.shopName;
+    }
+
+    public Shop shopName(String shopName) {
+        this.setShopName(shopName);
+        return this;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public ShopType getShopType() {
+        return this.shopType;
+    }
+
+    public Shop shopType(ShopType shopType) {
+        this.setShopType(shopType);
+        return this;
+    }
+
+    public void setShopType(ShopType shopType) {
+        this.shopType = shopType;
     }
 
     public Client getClientCode() {
@@ -63,7 +96,7 @@ public class UserInfo implements Serializable {
         this.clientCode = client;
     }
 
-    public UserInfo clientCode(Client client) {
+    public Shop clientCode(Client client) {
         this.setClientCode(client);
         return this;
     }
@@ -75,10 +108,10 @@ public class UserInfo implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof UserInfo)) {
+        if (!(o instanceof Shop)) {
             return false;
         }
-        return id != null && id.equals(((UserInfo) o).id);
+        return id != null && id.equals(((Shop) o).id);
     }
 
     @Override
@@ -90,8 +123,11 @@ public class UserInfo implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "UserInfo{" +
+        return "Shop{" +
             "id=" + getId() +
+            ", shopCode='" + getShopCode() + "'" +
+            ", shopName='" + getShopName() + "'" +
+            ", shopType='" + getShopType() + "'" +
             "}";
     }
 }

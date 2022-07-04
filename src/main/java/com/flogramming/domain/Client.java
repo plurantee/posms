@@ -21,7 +21,7 @@ public class Client implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "client_name", unique = true)
+    @Column(name = "client_name")
     private String clientName;
 
     @Column(name = "client_code")
@@ -30,6 +30,10 @@ public class Client implements Serializable {
     @OneToMany(mappedBy = "clientCode")
     @JsonIgnoreProperties(value = { "user", "clientCode" }, allowSetters = true)
     private Set<UserInfo> userInfos = new HashSet<>();
+
+    @OneToMany(mappedBy = "clientCode")
+    @JsonIgnoreProperties(value = { "clientCode" }, allowSetters = true)
+    private Set<Shop> shops = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -100,6 +104,37 @@ public class Client implements Serializable {
     public Client removeUserInfo(UserInfo userInfo) {
         this.userInfos.remove(userInfo);
         userInfo.setClientCode(null);
+        return this;
+    }
+
+    public Set<Shop> getShops() {
+        return this.shops;
+    }
+
+    public void setShops(Set<Shop> shops) {
+        if (this.shops != null) {
+            this.shops.forEach(i -> i.setClientCode(null));
+        }
+        if (shops != null) {
+            shops.forEach(i -> i.setClientCode(this));
+        }
+        this.shops = shops;
+    }
+
+    public Client shops(Set<Shop> shops) {
+        this.setShops(shops);
+        return this;
+    }
+
+    public Client addShop(Shop shop) {
+        this.shops.add(shop);
+        shop.setClientCode(this);
+        return this;
+    }
+
+    public Client removeShop(Shop shop) {
+        this.shops.remove(shop);
+        shop.setClientCode(null);
         return this;
     }
 
