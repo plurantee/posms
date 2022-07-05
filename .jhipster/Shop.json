@@ -26,6 +26,12 @@
   "readOnly": false,
   "relationships": [
     {
+      "otherEntityName": "lazadaOrder",
+      "otherEntityRelationshipName": "shop",
+      "relationshipName": "lazadaOrder",
+      "relationshipType": "one-to-many"
+    },
+    {
       "otherEntityName": "client",
       "otherEntityRelationshipName": "shop",
       "relationshipName": "clientCode",

@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
-        <h2 id="posmsApp.userInfo.home.createOrEditLabel" data-cy="UserInfoCreateUpdateHeading">Create or edit a UserInfo</h2>
+        <h2 id="floPosmsApp.userInfo.home.createOrEditLabel" data-cy="UserInfoCreateUpdateHeading">Create or edit a UserInfo</h2>
         <div>
           <div class="form-group" v-if="userInfo.id">
             <label for="id">ID</label>
@@ -17,7 +17,7 @@
                 v-for="userOption in users"
                 :key="userOption.id"
               >
-                {{ userOption.login }}
+                {{ userOption.id }}
               </option>
             </select>
           </div>
@@ -30,7 +30,7 @@
                 v-for="clientOption in clients"
                 :key="clientOption.id"
               >
-                {{ clientOption.clientCode }}
+                {{ clientOption.id }}
               </option>
             </select>
           </div>

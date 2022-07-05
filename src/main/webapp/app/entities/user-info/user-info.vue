@@ -80,7 +80,7 @@
     </div>
     <b-modal ref="removeEntity" id="removeEntity">
       <span slot="modal-title"
-        ><span id="posmsApp.userInfo.delete.question" data-cy="userInfoDeleteDialogHeading">Confirm delete operation</span></span
+        ><span id="floPosmsApp.userInfo.delete.question" data-cy="userInfoDeleteDialogHeading">Confirm delete operation</span></span
       >
       <div class="modal-body">
         <p id="jhi-delete-userInfo-heading">Are you sure you want to delete this User Info?</p>

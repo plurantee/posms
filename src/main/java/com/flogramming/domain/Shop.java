@@ -3,6 +3,8 @@ package com.flogramming.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.flogramming.domain.enumeration.ShopType;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -29,6 +31,10 @@ public class Shop implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "shop_type")
     private ShopType shopType;
+
+    @OneToMany(mappedBy = "shop")
+    @JsonIgnoreProperties(value = { "shop" }, allowSetters = true)
+    private Set<LazadaOrder> lazadaOrders = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "userInfos", "shops" }, allowSetters = true)
@@ -86,6 +92,37 @@ public class Shop implements Serializable {
 
     public void setShopType(ShopType shopType) {
         this.shopType = shopType;
+    }
+
+    public Set<LazadaOrder> getLazadaOrders() {
+        return this.lazadaOrders;
+    }
+
+    public void setLazadaOrders(Set<LazadaOrder> lazadaOrders) {
+        if (this.lazadaOrders != null) {
+            this.lazadaOrders.forEach(i -> i.setShop(null));
+        }
+        if (lazadaOrders != null) {
+            lazadaOrders.forEach(i -> i.setShop(this));
+        }
+        this.lazadaOrders = lazadaOrders;
+    }
+
+    public Shop lazadaOrders(Set<LazadaOrder> lazadaOrders) {
+        this.setLazadaOrders(lazadaOrders);
+        return this;
+    }
+
+    public Shop addLazadaOrder(LazadaOrder lazadaOrder) {
+        this.lazadaOrders.add(lazadaOrder);
+        lazadaOrder.setShop(this);
+        return this;
+    }
+
+    public Shop removeLazadaOrder(LazadaOrder lazadaOrder) {
+        this.lazadaOrders.remove(lazadaOrder);
+        lazadaOrder.setShop(null);
+        return this;
     }
 
     public Client getClientCode() {

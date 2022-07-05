@@ -54,7 +54,7 @@
                 v-for="clientOption in clients"
                 :key="clientOption.id"
               >
-                {{ clientOption.clientName }}
+                {{ clientOption.id }}
               </option>
             </select>
           </div>

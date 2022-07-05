@@ -2,6 +2,9 @@ import { Component, Vue, Inject } from 'vue-property-decorator';
 
 import AlertService from '@/shared/alert/alert.service';
 
+import LazadaOrderService from '@/entities/lazada-order/lazada-order.service';
+import { ILazadaOrder } from '@/shared/model/lazada-order.model';
+
 import ClientService from '@/entities/client/client.service';
 import { IClient } from '@/shared/model/client.model';
 
@@ -25,6 +28,10 @@ export default class ShopUpdate extends Vue {
   @Inject('alertService') private alertService: () => AlertService;
 
   public shop: IShop = new Shop();
+
+  @Inject('lazadaOrderService') private lazadaOrderService: () => LazadaOrderService;
+
+  public lazadaOrders: ILazadaOrder[] = [];
 
   @Inject('clientService') private clientService: () => ClientService;
 
@@ -111,6 +118,11 @@ export default class ShopUpdate extends Vue {
   }
 
   public initRelationships(): void {
+    this.lazadaOrderService()
+      .retrieve()
+      .then(res => {
+        this.lazadaOrders = res.data;
+      });
     this.clientService()
       .retrieve()
       .then(res => {

@@ -1,0 +1,307 @@
+{
+  "applications": "*",
+  "changelogDate": "20220705034729",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "lazada_order",
+  "fields": [
+    {
+      "fieldName": "orderItemId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "orderType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "guarantee",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lazadaId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sellerSku",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "wareHouse",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createTime",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "updateTime",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "rtaSla",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "ttsSla",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "orderNumber",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "invoiceRequired",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "invoiceNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "customerName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "customerEmail",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nationalRegistrationNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingAddress2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingAddress3",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingAddress4",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingAddress5",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingPhone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingPhone2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingCity",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingPostCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingCountry",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingRegion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "billingName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "billingAddr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "billingAddr3",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "billingAddr4",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "billingAddr5",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "billingPhone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "billingPhone2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "billingCity",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "billingPostCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "billingCountry",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "taxCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "taxInvoiceRequested",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "payMethod",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "paidPrice",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "unitPrice",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sellerDiscountTotal",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingFee",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "walletCredit",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "itemName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "variation",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cdShippingProvider",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingProvider",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shipmentTypeName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingProviderType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cdTrackingCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trackingCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trackingUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingProviderFM",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trackingCodeFM",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trackingUrlFM",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "promisedShippingTime",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "premium",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "buyerFailedDeliveryReturnInitiator",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "buyerFailedDeliveryReason",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "buyerFailedDeliveryDetail",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "buyerFailedDeliveryUserName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bundleId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bundleDiscount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "refundAmount",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "LazadaOrder",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "shop",
+      "otherEntityRelationshipName": "lazadaOrder",
+      "relationshipName": "shop",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

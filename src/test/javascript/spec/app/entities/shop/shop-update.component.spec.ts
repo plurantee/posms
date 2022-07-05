@@ -9,6 +9,8 @@ import ShopUpdateComponent from '@/entities/shop/shop-update.vue';
 import ShopClass from '@/entities/shop/shop-update.component';
 import ShopService from '@/entities/shop/shop.service';
 
+import LazadaOrderService from '@/entities/lazada-order/lazada-order.service';
+
 import ClientService from '@/entities/client/client.service';
 import AlertService from '@/shared/alert/alert.service';
 
@@ -41,6 +43,11 @@ describe('Component Tests', () => {
         provide: {
           shopService: () => shopServiceStub,
           alertService: () => new AlertService(),
+
+          lazadaOrderService: () =>
+            sinon.createStubInstance<LazadaOrderService>(LazadaOrderService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
 
           clientService: () =>
             sinon.createStubInstance<ClientService>(ClientService, {

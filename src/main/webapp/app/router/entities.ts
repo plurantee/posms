@@ -27,6 +27,12 @@ const ShopItems = () => import('@/entities/shop-items/shop-items.vue');
 const ShopItemsUpdate = () => import('@/entities/shop-items/shop-items-update.vue');
 // prettier-ignore
 const ShopItemsDetails = () => import('@/entities/shop-items/shop-items-details.vue');
+// prettier-ignore
+const LazadaOrder = () => import('@/entities/lazada-order/lazada-order.vue');
+// prettier-ignore
+const LazadaOrderUpdate = () => import('@/entities/lazada-order/lazada-order-update.vue');
+// prettier-ignore
+const LazadaOrderDetails = () => import('@/entities/lazada-order/lazada-order-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -127,6 +133,30 @@ export default {
       path: 'shop-items/:shopItemsId/view',
       name: 'ShopItemsView',
       component: ShopItemsDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'lazada-order',
+      name: 'LazadaOrder',
+      component: LazadaOrder,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'lazada-order/new',
+      name: 'LazadaOrderCreate',
+      component: LazadaOrderUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'lazada-order/:lazadaOrderId/edit',
+      name: 'LazadaOrderEdit',
+      component: LazadaOrderUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'lazada-order/:lazadaOrderId/view',
+      name: 'LazadaOrderView',
+      component: LazadaOrderDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

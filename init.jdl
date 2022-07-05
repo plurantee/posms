@@ -15,10 +15,83 @@ entity ShopItems {
     price Double
 
 }
-
+entity LazadaOrder {
+    orderItemId String
+    orderType String
+    guarantee String
+    deliveryType String
+    lazadaId String
+    sellerSku String
+    wareHouse String
+    createTime LocalDate
+    updateTime LocalDate
+    rtaSla LocalDate
+    ttsSla LocalDate
+    orderNumber LocalDate
+    invoiceRequired Boolean
+    invoiceNumber String
+    deliveryDate LocalDate
+    customerName String
+    customerEmail String
+    nationalRegistrationNumber String
+    shippingName String
+    shippingAddress String
+    shippingAddress2 String
+    shippingAddress3 String
+    shippingAddress4 String
+    shippingAddress5 String
+    shippingPhone String
+    shippingPhone2 String
+    shippingCity String
+    shippingPostCode String
+    shippingCountry String
+    shippingRegion String
+    billingName String
+    billingAddr String
+    billingAddr3 String
+    billingAddr4 String
+    billingAddr5 String
+    billingPhone String
+    billingPhone2 String
+    billingCity String
+    billingPostCode String
+    billingCountry String
+    taxCode String	
+    branchNumber String	
+    taxInvoiceRequested String	
+    payMethod String	
+    paidPrice String	
+    unitPrice String
+    sellerDiscountTotal String
+    shippingFee String
+    walletCredit String
+    itemName String	
+    variation String
+    cdShippingProvider String
+    shippingProvider String
+    shipmentTypeName String
+    shippingProviderType String	
+    cdTrackingCode String
+    trackingCode String
+    trackingUrl String
+    shippingProviderFM String
+    trackingCodeFM String
+    trackingUrlFM String
+    promisedShippingTime LocalDate
+    premium String	
+    status String
+    buyerFailedDeliveryReturnInitiator String
+    buyerFailedDeliveryReason  String
+    buyerFailedDeliveryDetail String
+    buyerFailedDeliveryUserName String
+    bundleId String
+    bundleDiscount String
+    refundAmount String
+}
 enum ShopType {
     LAZADA, SHOPEE, INTERNAL
 }
+
 
 relationship OneToOne {
     UserInfo{user} to User
@@ -29,4 +102,8 @@ relationship OneToMany {
 
 relationship OneToMany {
     Client to Shop{clientCode}
+}
+
+relationship OneToMany {
+    Shop{lazadaOrder} to LazadaOrder{shop}
 }

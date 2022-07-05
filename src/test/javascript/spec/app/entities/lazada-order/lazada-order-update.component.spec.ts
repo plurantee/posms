@@ -5,11 +5,9 @@ import Router from 'vue-router';
 import { ToastPlugin } from 'bootstrap-vue';
 
 import * as config from '@/shared/config/config';
-import ClientUpdateComponent from '@/entities/client/client-update.vue';
-import ClientClass from '@/entities/client/client-update.component';
-import ClientService from '@/entities/client/client.service';
-
-import UserInfoService from '@/entities/user-info/user-info.service';
+import LazadaOrderUpdateComponent from '@/entities/lazada-order/lazada-order-update.vue';
+import LazadaOrderClass from '@/entities/lazada-order/lazada-order-update.component';
+import LazadaOrderService from '@/entities/lazada-order/lazada-order.service';
 
 import ShopService from '@/entities/shop/shop.service';
 import AlertService from '@/shared/alert/alert.service';
@@ -28,26 +26,21 @@ localVue.component('b-form-datepicker', {});
 localVue.component('b-form-input', {});
 
 describe('Component Tests', () => {
-  describe('Client Management Update Component', () => {
-    let wrapper: Wrapper<ClientClass>;
-    let comp: ClientClass;
-    let clientServiceStub: SinonStubbedInstance<ClientService>;
+  describe('LazadaOrder Management Update Component', () => {
+    let wrapper: Wrapper<LazadaOrderClass>;
+    let comp: LazadaOrderClass;
+    let lazadaOrderServiceStub: SinonStubbedInstance<LazadaOrderService>;
 
     beforeEach(() => {
-      clientServiceStub = sinon.createStubInstance<ClientService>(ClientService);
+      lazadaOrderServiceStub = sinon.createStubInstance<LazadaOrderService>(LazadaOrderService);
 
-      wrapper = shallowMount<ClientClass>(ClientUpdateComponent, {
+      wrapper = shallowMount<LazadaOrderClass>(LazadaOrderUpdateComponent, {
         store,
         localVue,
         router,
         provide: {
-          clientService: () => clientServiceStub,
+          lazadaOrderService: () => lazadaOrderServiceStub,
           alertService: () => new AlertService(),
-
-          userInfoService: () =>
-            sinon.createStubInstance<UserInfoService>(UserInfoService, {
-              retrieve: sinon.stub().resolves({}),
-            } as any),
 
           shopService: () =>
             sinon.createStubInstance<ShopService>(ShopService, {
@@ -62,30 +55,30 @@ describe('Component Tests', () => {
       it('Should call update service on save for existing entity', async () => {
         // GIVEN
         const entity = { id: 123 };
-        comp.client = entity;
-        clientServiceStub.update.resolves(entity);
+        comp.lazadaOrder = entity;
+        lazadaOrderServiceStub.update.resolves(entity);
 
         // WHEN
         comp.save();
         await comp.$nextTick();
 
         // THEN
-        expect(clientServiceStub.update.calledWith(entity)).toBeTruthy();
+        expect(lazadaOrderServiceStub.update.calledWith(entity)).toBeTruthy();
         expect(comp.isSaving).toEqual(false);
       });
 
       it('Should call create service on save for new entity', async () => {
         // GIVEN
         const entity = {};
-        comp.client = entity;
-        clientServiceStub.create.resolves(entity);
+        comp.lazadaOrder = entity;
+        lazadaOrderServiceStub.create.resolves(entity);
 
         // WHEN
         comp.save();
         await comp.$nextTick();
 
         // THEN
-        expect(clientServiceStub.create.calledWith(entity)).toBeTruthy();
+        expect(lazadaOrderServiceStub.create.calledWith(entity)).toBeTruthy();
         expect(comp.isSaving).toEqual(false);
       });
     });
@@ -93,16 +86,16 @@ describe('Component Tests', () => {
     describe('Before route enter', () => {
       it('Should retrieve data', async () => {
         // GIVEN
-        const foundClient = { id: 123 };
-        clientServiceStub.find.resolves(foundClient);
-        clientServiceStub.retrieve.resolves([foundClient]);
+        const foundLazadaOrder = { id: 123 };
+        lazadaOrderServiceStub.find.resolves(foundLazadaOrder);
+        lazadaOrderServiceStub.retrieve.resolves([foundLazadaOrder]);
 
         // WHEN
-        comp.beforeRouteEnter({ params: { clientId: 123 } }, null, cb => cb(comp));
+        comp.beforeRouteEnter({ params: { lazadaOrderId: 123 } }, null, cb => cb(comp));
         await comp.$nextTick();
 
         // THEN
-        expect(comp.client).toBe(foundClient);
+        expect(comp.lazadaOrder).toBe(foundLazadaOrder);
       });
     });
 

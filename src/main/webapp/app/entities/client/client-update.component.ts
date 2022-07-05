@@ -5,6 +5,9 @@ import AlertService from '@/shared/alert/alert.service';
 import UserInfoService from '@/entities/user-info/user-info.service';
 import { IUserInfo } from '@/shared/model/user-info.model';
 
+import ShopService from '@/entities/shop/shop.service';
+import { IShop } from '@/shared/model/shop.model';
+
 import { IClient, Client } from '@/shared/model/client.model';
 import ClientService from './client.service';
 
@@ -27,6 +30,10 @@ export default class ClientUpdate extends Vue {
   @Inject('userInfoService') private userInfoService: () => UserInfoService;
 
   public userInfos: IUserInfo[] = [];
+
+  @Inject('shopService') private shopService: () => ShopService;
+
+  public shops: IShop[] = [];
   public isSaving = false;
   public currentLanguage = '';
 
@@ -112,6 +119,11 @@ export default class ClientUpdate extends Vue {
       .retrieve()
       .then(res => {
         this.userInfos = res.data;
+      });
+    this.shopService()
+      .retrieve()
+      .then(res => {
+        this.shops = res.data;
       });
   }
 }

@@ -32,7 +32,7 @@ public class Client implements Serializable {
     private Set<UserInfo> userInfos = new HashSet<>();
 
     @OneToMany(mappedBy = "clientCode")
-    @JsonIgnoreProperties(value = { "clientCode" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "lazadaOrders", "clientCode" }, allowSetters = true)
     private Set<Shop> shops = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

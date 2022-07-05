@@ -72,7 +72,7 @@
     </div>
     <b-modal ref="removeEntity" id="removeEntity">
       <span slot="modal-title"
-        ><span id="posmsApp.client.delete.question" data-cy="clientDeleteDialogHeading">Confirm delete operation</span></span
+        ><span id="floPosmsApp.client.delete.question" data-cy="clientDeleteDialogHeading">Confirm delete operation</span></span
       >
       <div class="modal-body">
         <p id="jhi-delete-client-heading">Are you sure you want to delete this Client?</p>
