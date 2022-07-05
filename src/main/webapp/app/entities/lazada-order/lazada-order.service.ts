@@ -114,8 +114,4 @@ export default class LazadaOrderService {
         });
     });
   }
-
-  class LazadaExcelFile {
-    file: any;
-  } 
 }

@@ -8,7 +8,7 @@ import { IShop } from '@/shared/model/shop.model';
 
 @Component({
   watch: {
-    shop: async function() {
+    shop: async function () {
       if (this.shop) {
         this.posts = await this.retrieveAllLazadaOrdersByShop(this.shop);
       }
@@ -35,7 +35,7 @@ export default class LazadaOrder extends Vue {
   private file = null;
 
   public clear(): void {
-    this.retrieveAllLazadaOrdersByShop(this.shop);
+    this.retrieveAllLazadaOrdersByShop(this.$props.shop);
   }
 
   public retrieveAllLazadaOrdersByShop(shop: IShop): void {
@@ -103,10 +103,11 @@ export default class LazadaOrder extends Vue {
   }
 
   public uploadFile(): void {
-    this.file = this.$refs.file.files[0];
+    this.file = (<HTMLInputElement>this.$refs.file).files[0];
   }
 
   public submitFile(): void {
+    // eslint-disable-next-line prefer-const
     let formData = new FormData();
     formData.append('file', this.file);
     this.lazadaOrderService()
