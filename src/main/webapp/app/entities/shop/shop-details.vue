@@ -39,6 +39,7 @@
             <font-awesome-icon icon="pencil-alt"></font-awesome-icon>&nbsp;<span> Edit</span>
           </button>
         </router-link>
+        <lazada-order v-if="shop" :shop="shop"></lazada-order>
       </div>
     </div>
   </div>

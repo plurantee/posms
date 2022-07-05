@@ -3,8 +3,13 @@ import { Component, Vue, Inject } from 'vue-property-decorator';
 import { IShop } from '@/shared/model/shop.model';
 import ShopService from './shop.service';
 import AlertService from '@/shared/alert/alert.service';
+const LazadaOrder = () => import('@/entities/lazada-order/lazada-order.vue');
 
-@Component
+@Component({
+  components: {
+    'lazada-order': LazadaOrder,
+  },
+})
 export default class ShopDetails extends Vue {
   @Inject('shopService') private shopService: () => ShopService;
   @Inject('alertService') private alertService: () => AlertService;

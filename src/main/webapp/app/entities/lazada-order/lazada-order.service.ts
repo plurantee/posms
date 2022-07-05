@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { ILazadaExcelFile, ILazadaOrder } from '@/shared/model/lazada-order.model';
+import { IShop } from '@/shared/model/shop.model';
 
 const baseApiUrl = 'api/lazada-orders';
 
@@ -22,6 +23,18 @@ export default class LazadaOrderService {
     return new Promise<any>((resolve, reject) => {
       axios
         .get(baseApiUrl)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+  public retrieveByShop(shop: IShop): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .get(`${baseApiUrl}/shop/${shop.id}`)
         .then(res => {
           resolve(res);
         })

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 id="page-heading" data-cy="LazadaOrderHeading">
-      <span id="lazada-order-heading">Lazada Orders</span>
+      <span id="lazada-order-heading">Lazada Orders for <b>{{shop.shopName}}</b> </span>
       <div class="d-flex justify-content-end">
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>

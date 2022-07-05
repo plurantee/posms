@@ -1,7 +1,9 @@
 package com.flogramming.web.rest;
 
 import com.flogramming.domain.LazadaOrder;
+import com.flogramming.domain.Shop;
 import com.flogramming.repository.LazadaOrderRepository;
+import com.flogramming.repository.ShopRepository;
 import com.flogramming.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -35,9 +37,11 @@ public class LazadaOrderResource {
     private String applicationName;
 
     private final LazadaOrderRepository lazadaOrderRepository;
+    private final ShopRepository shopRepository;
 
-    public LazadaOrderResource(LazadaOrderRepository lazadaOrderRepository) {
+    public LazadaOrderResource(LazadaOrderRepository lazadaOrderRepository, ShopRepository shopRepository) {
         this.lazadaOrderRepository = lazadaOrderRepository;
+        this.shopRepository = shopRepository;
     }
 
     /**
@@ -364,7 +368,15 @@ public class LazadaOrderResource {
         log.debug("REST request to get all LazadaOrders");
         return lazadaOrderRepository.findAll();
     }
-
+    @GetMapping("/lazada-orders/shop/{id}")
+    public List<LazadaOrder> getAllLazadaOrdersByShop(@PathVariable Long id) {
+        log.debug("REST request to get all LazadaOrders");
+        Optional<Shop> shop = shopRepository.findById(id);
+        if (shop.isPresent()) {
+            return lazadaOrderRepository.findByShop(shop.get());
+        }
+        return null;
+    }
     /**
      * {@code GET  /lazada-orders/:id} : get the "id" lazadaOrder.
      *
