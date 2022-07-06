@@ -4,7 +4,10 @@ import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.Shop;
 import com.flogramming.repository.LazadaOrderRepository;
 import com.flogramming.repository.ShopRepository;
+import com.flogramming.service.ExcelFileService;
 import com.flogramming.web.rest.errors.BadRequestAlertException;
+
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -38,10 +41,13 @@ public class LazadaOrderResource {
 
     private final LazadaOrderRepository lazadaOrderRepository;
     private final ShopRepository shopRepository;
+    private final ExcelFileService excelFileService;
 
-    public LazadaOrderResource(LazadaOrderRepository lazadaOrderRepository, ShopRepository shopRepository) {
+    public LazadaOrderResource(LazadaOrderRepository lazadaOrderRepository, ShopRepository shopRepository,
+                               ExcelFileService excelFileService) {
         this.lazadaOrderRepository = lazadaOrderRepository;
         this.shopRepository = shopRepository;
+        this.excelFileService = excelFileService;
     }
 
     /**
@@ -65,8 +71,9 @@ public class LazadaOrderResource {
     }
 
     @PostMapping(path="/lazada-orders/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(@RequestParam("file") MultipartFile file) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(@RequestParam("file") MultipartFile file) throws IOException {
+        List<LazadaOrder> lazadaOrders = excelFileService.processLazadaExcelFile(file);
+        return ResponseEntity.ok(lazadaOrders);
     }
 
     /**
