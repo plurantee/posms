@@ -34,6 +34,10 @@ export default class LazadaOrder extends Vue {
 
   private file = null;
 
+  public mounted(): void {
+    this.clear();
+  }
+
   public clear(): void {
     this.retrieveAllLazadaOrdersByShop(this.$props.shop);
   }
