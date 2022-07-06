@@ -41,6 +41,12 @@
             <span>{{ lazadaOrder.sellerSku }}</span>
           </dd>
           <dt>
+            <span>Lazada Sku</span>
+          </dt>
+          <dd>
+            <span>{{ lazadaOrder.lazadaSku }}</span>
+          </dd>
+          <dt>
             <span>Ware House</span>
           </dt>
           <dd>

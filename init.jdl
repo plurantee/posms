@@ -22,6 +22,7 @@ entity LazadaOrder {
     deliveryType String
     lazadaId String
     sellerSku String
+    lazadaSku String
     wareHouse String
     createTime LocalDate
     updateTime LocalDate
@@ -56,21 +57,21 @@ entity LazadaOrder {
     billingCity String
     billingPostCode String
     billingCountry String
-    taxCode String	
-    branchNumber String	
-    taxInvoiceRequested String	
-    payMethod String	
-    paidPrice String	
+    taxCode String
+    branchNumber String
+    taxInvoiceRequested String
+    payMethod String
+    paidPrice String
     unitPrice String
     sellerDiscountTotal String
     shippingFee String
     walletCredit String
-    itemName String	
+    itemName String
     variation String
     cdShippingProvider String
     shippingProvider String
     shipmentTypeName String
-    shippingProviderType String	
+    shippingProviderType String
     cdTrackingCode String
     trackingCode String
     trackingUrl String
@@ -78,7 +79,7 @@ entity LazadaOrder {
     trackingCodeFM String
     trackingUrlFM String
     promisedShippingTime LocalDate
-    premium String	
+    premium String
     status String
     buyerFailedDeliveryReturnInitiator String
     buyerFailedDeliveryReason  String

@@ -77,6 +77,13 @@ public class ExcelFileService {
         for (HashMap<String, String> row : excelHashMap.values()) {
             LazadaOrder lazadaOrder = new LazadaOrder();
             lazadaOrder.setShop(shop);
+            lazadaOrder.setOrderItemId(row.get("orderItemId"));
+            lazadaOrder.setOrderType(row.get("orderType"));
+            lazadaOrder.setGuarantee(row.get("Guarantee"));
+            lazadaOrder.setDeliveryType(row.get("deliveryType"));
+            lazadaOrder.setLazadaId(row.get("lazadaId"));
+            lazadaOrder.setSellerSku(row.get("sellerSku"));
+            lazadaOrder.setLazadaSku(row.get("lazadaSku"));
             result.add(lazadaOrder);
         }
         lazadaOrderRepository.saveAll(result);

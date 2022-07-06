@@ -32,6 +32,9 @@
             <column name="seller_sku" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="lazada_sku" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="ware_house" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

@@ -30,6 +30,10 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "lazadaSku",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "wareHouse",
       "fieldType": "String"
     },

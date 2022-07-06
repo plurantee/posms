@@ -3,8 +3,6 @@ package com.flogramming.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 import javax.persistence.*;
 
 /**
@@ -22,7 +20,7 @@ public class LazadaOrder implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "order_item_id", unique = true)
+    @Column(name = "order_item_id")
     private String orderItemId;
 
     @Column(name = "order_type")
@@ -39,6 +37,9 @@ public class LazadaOrder implements Serializable {
 
     @Column(name = "seller_sku")
     private String sellerSku;
+
+    @Column(name = "lazada_sku")
+    private String lazadaSku;
 
     @Column(name = "ware_house")
     private String wareHouse;
@@ -330,6 +331,19 @@ public class LazadaOrder implements Serializable {
 
     public void setSellerSku(String sellerSku) {
         this.sellerSku = sellerSku;
+    }
+
+    public String getLazadaSku() {
+        return this.lazadaSku;
+    }
+
+    public LazadaOrder lazadaSku(String lazadaSku) {
+        this.setLazadaSku(lazadaSku);
+        return this;
+    }
+
+    public void setLazadaSku(String lazadaSku) {
+        this.lazadaSku = lazadaSku;
     }
 
     public String getWareHouse() {
@@ -1220,6 +1234,7 @@ public class LazadaOrder implements Serializable {
             ", deliveryType='" + getDeliveryType() + "'" +
             ", lazadaId='" + getLazadaId() + "'" +
             ", sellerSku='" + getSellerSku() + "'" +
+            ", lazadaSku='" + getLazadaSku() + "'" +
             ", wareHouse='" + getWareHouse() + "'" +
             ", createTime='" + getCreateTime() + "'" +
             ", updateTime='" + getUpdateTime() + "'" +

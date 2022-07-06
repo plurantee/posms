@@ -8,6 +8,7 @@ export interface ILazadaOrder {
   deliveryType?: string | null;
   lazadaId?: string | null;
   sellerSku?: string | null;
+  lazadaSku?: string | null;
   wareHouse?: string | null;
   createTime?: Date | null;
   updateTime?: Date | null;
@@ -85,6 +86,7 @@ export class LazadaOrder implements ILazadaOrder {
     public deliveryType?: string | null,
     public lazadaId?: string | null,
     public sellerSku?: string | null,
+    public lazadaSku?: string | null,
     public wareHouse?: string | null,
     public createTime?: Date | null,
     public updateTime?: Date | null,
@@ -153,17 +155,5 @@ export class LazadaOrder implements ILazadaOrder {
     public shop?: IShop | null
   ) {
     this.invoiceRequired = this.invoiceRequired ?? false;
-  }
-
-
-}
-
-export interface ILazadaExcelFile {
-  file: any;
-}
-
-export class LazadaExcelFile implements ILazadaExcelFile {
-  constructor(public file: any) {
-    
   }
 }
