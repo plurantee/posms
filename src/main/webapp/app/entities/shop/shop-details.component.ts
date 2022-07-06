@@ -15,6 +15,7 @@ export default class ShopDetails extends Vue {
   @Inject('alertService') private alertService: () => AlertService;
 
   public shop: IShop = {};
+  public shopNav = null;
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -37,5 +38,9 @@ export default class ShopDetails extends Vue {
 
   public previousState() {
     this.$router.go(-1);
+  }
+
+  public switchNav(value: string) {
+    this.shopNav = value;
   }
 }
