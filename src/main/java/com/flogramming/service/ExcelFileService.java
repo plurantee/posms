@@ -29,7 +29,6 @@ public class ExcelFileService {
     public List<LazadaOrder> processLazadaExcelFile(MultipartFile file) throws IOException {
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
-        Map<Integer, List<String>> data = new HashMap<>();
         Map<Integer, HashMap<String, String>> excelHashMap = new HashMap<>();
         List<String> columnNames = new ArrayList<>();
         Row columnNamesRow = sheet.getRow(0);
@@ -41,10 +40,8 @@ public class ExcelFileService {
                     break;
             }
         }
-        List<LazadaOrder> result = new ArrayList<>();
         int i = 0;
         for (Row row : sheet) {
-            data.put(i, new ArrayList<>());
             excelHashMap.put(i, new HashMap<>());
             for (int j=0; j < columnNames.size(); j++) {
                 switch (row.getCell(j).getCellType()) {
@@ -72,6 +69,89 @@ public class ExcelFileService {
 
             i++;
         }
-        return result;
+        return setFromExcelHashMap(excelHashMap);
+    }
+
+    public List<LazadaOrder> setFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
+        List<LazadaOrder> result = new ArrayList<>();
+        excelHashMap.remove(0); // Column rows
+        for (HashMap<String, String> row : excelHashMap.values()) {
+
+        }
+        /*
+        * orderItemId
+            orderType
+            Guarantee
+            deliveryType
+            lazadaId
+            sellerSku
+            lazadaSku
+            wareHouse
+            createTime
+            updateTime
+            rtsSla
+            ttsSla
+            orderNumber
+            invoiceRequired
+            invoiceNumber
+            deliveredDate
+            customerName
+            customerEmail
+            nationalRegistrationNumber
+            shippingName
+            shippingAddress
+            shippingAddress2
+            shippingAddress3
+            shippingAddress4
+            shippingAddress5
+            shippingPhone
+            shippingPhone2
+            shippingCity
+            shippingPostCode
+            shippingCountry
+            shippingRegion
+            billingName
+            billingAddr
+            billingAddr2
+            billingAddr3
+            billingAddr4
+            billingAddr5
+            billingPhone
+            billingPhone2
+            billingCity
+            billingPostCode
+            billingCountry
+            taxCode
+            branchNumber
+            taxInvoiceRequested
+            payMethod
+            paidPrice
+            unitPrice
+            sellerDiscountTotal
+            shippingFee
+            walletCredit
+            itemName
+            variation
+            cdShippingProvider
+            shippingProvider
+            shipmentTypeName
+            shippingProviderType
+            cdTrackingCode
+            trackingCode
+            trackingUrl
+            shippingProviderFM
+            trackingCodeFM
+            trackingUrlFM
+            promisedShippingTime
+            premium
+            status
+            buyerFailedDeliveryReturnInitiator
+            buyerFailedDeliveryReason
+            buyerFailedDeliveryDetail
+            buyerFailedDeliveryUserName
+            bundleId
+            bundleDiscount
+            refundAmount
+        * */
     }
 }
