@@ -71,8 +71,9 @@ public class LazadaOrderResource {
     }
 
     @PostMapping(path="/lazada-orders/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(@RequestParam("file") MultipartFile file) throws IOException {
-        List<LazadaOrder> lazadaOrders = excelFileService.processLazadaExcelFile(file);
+    public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(@RequestParam("file") MultipartFile file, @RequestParam("shopId") Long shopId) throws IOException {
+        Optional<Shop> oShop = shopRepository.findById(shopId);
+        List<LazadaOrder> lazadaOrders = excelFileService.processLazadaExcelFile(file, oShop.get());
         return ResponseEntity.ok(lazadaOrders);
     }
 

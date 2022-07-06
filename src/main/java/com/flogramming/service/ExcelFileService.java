@@ -1,9 +1,8 @@
 package com.flogramming.service;
 
 import com.flogramming.domain.LazadaOrder;
+import com.flogramming.domain.Shop;
 import com.flogramming.repository.LazadaOrderRepository;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ooxml.POIXMLDocument;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,7 +25,7 @@ public class ExcelFileService {
     @Autowired
     private LazadaOrderRepository lazadaOrderRepository;
 
-    public List<LazadaOrder> processLazadaExcelFile(MultipartFile file) throws IOException {
+    public List<LazadaOrder> processLazadaExcelFile(MultipartFile file, Shop shop) throws IOException {
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
         Map<Integer, HashMap<String, String>> excelHashMap = new HashMap<>();
@@ -69,15 +68,19 @@ public class ExcelFileService {
 
             i++;
         }
-        return setFromExcelHashMap(excelHashMap);
+        return setFromExcelHashMap(excelHashMap, shop);
     }
 
-    public List<LazadaOrder> setFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
+    public List<LazadaOrder> setFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap, Shop shop) {
         List<LazadaOrder> result = new ArrayList<>();
         excelHashMap.remove(0); // Column rows
         for (HashMap<String, String> row : excelHashMap.values()) {
-
+            LazadaOrder lazadaOrder = new LazadaOrder();
+            lazadaOrder.setShop(shop);
+            result.add(lazadaOrder);
         }
+        lazadaOrderRepository.saveAll(result);
+        return result;
         /*
         * orderItemId
             orderType

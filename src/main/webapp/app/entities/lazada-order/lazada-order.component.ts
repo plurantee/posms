@@ -110,14 +110,16 @@ export default class LazadaOrder extends Vue {
     // eslint-disable-next-line prefer-const
     let formData = new FormData();
     formData.append('file', this.file);
+    formData.append('shopId', this.$props.shop.id);
     this.lazadaOrderService()
       .uploadLazadaExcel(formData)
       .then(
         res => {
-          this.lazadaOrders = res.data;
+          this.handleSyncList();
           this.isFetching = false;
         },
         err => {
+          this.handleSyncList();
           this.isFetching = false;
           this.alertService().showHttpError(this, err.response);
         }
