@@ -22,7 +22,7 @@ public class LazadaOrder implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "order_item_id")
+    @Column(name = "order_item_id", unique = true)
     private String orderItemId;
 
     @Column(name = "order_type")
