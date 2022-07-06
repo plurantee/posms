@@ -4,7 +4,7 @@
       <template>
         <b-icon class="burger" icon="list"></b-icon>
       </template>
-      <b-navbar-brand class="logo" b-link to="/">
+      <b-navbar-brand class="logo">
         <span class="logo-img"></span>
         <span class="navbar-title">POS System</span> <span class="navbar-version">{{ version }}</span>
       </b-navbar-brand>
@@ -12,7 +12,7 @@
     <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header shadow>
       <template #default="{ hide }">
         <b-button class="no-bg" variant="primary" block @click="hide">
-          <b-navbar-brand class="logo" b-link to="/">
+          <b-navbar-brand class="logo">
             <span class="logo-img"></span>
             <span class="navbar-title">POS System</span>
             <b-icon icon="box-arrow-left"></b-icon>
@@ -33,7 +33,14 @@
                   <span>Shops</span>
                 </span>
               </b-nav-item>
-              <b-nav-item-dropdown right id="entity-menu" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated" active-class="active" class="pointer" data-cy="entity">
+              <b-nav-item-dropdown
+                right
+                id="entity-menu"
+                v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated"
+                active-class="active"
+                class="pointer"
+                data-cy="entity"
+              >
                 <span slot="button-content" class="navbar-dropdown-menu">
                   <font-awesome-icon icon="th-list" />
                   <span class="no-bold">Entities</span>

@@ -40,7 +40,9 @@
             <td>{{ shop.shopType }}</td>
             <td>
               <div v-if="shop.clientCode">
-                <router-link :to="{ name: 'ClientView', params: { clientId: shop.clientCode.id } }">{{ shop.clientCode.id }}</router-link>
+                <router-link :to="{ name: 'ClientView', params: { clientId: shop.clientCode.id } }">{{
+                  shop.clientCode.clientCode
+                }}</router-link>
               </div>
             </td>
             <td class="text-right">

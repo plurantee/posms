@@ -1,5 +1,6 @@
 <template>
-  <div class="row justify-content-center">
+<div>
+<div class="row justify-content-center">
     <div class="col-8">
       <div v-if="shop">
         <h2 class="jh-entity-heading" data-cy="shopDetailsHeading"><span>Shop</span> {{ shop.id }}</h2>
@@ -39,10 +40,11 @@
             <font-awesome-icon icon="pencil-alt"></font-awesome-icon>&nbsp;<span> Edit</span>
           </button>
         </router-link>
-        <lazada-order v-if="shop" :shop="shop"></lazada-order>
       </div>
     </div>
   </div>
+      <lazada-order v-if="shop" :shop="shop"></lazada-order>
+</div>
 </template>
 
 <script lang="ts" src="./shop-details.component.ts"></script>

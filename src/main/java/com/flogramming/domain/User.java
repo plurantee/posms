@@ -225,4 +225,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", activationKey='" + activationKey + '\'' +
             "}";
     }
+
+    public boolean hasRole(String role) {
+        return this.authorities.stream().map(Authority::getName).anyMatch(a -> a.equals(role));
+
+    }
 }

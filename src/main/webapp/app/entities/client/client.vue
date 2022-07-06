@@ -36,7 +36,7 @@
         <tbody>
           <tr v-for="client in clients" :key="client.id" data-cy="entityTable">
             <td>
-              <router-link :to="{ name: 'ClientView', params: { clientId: client.id } }">{{ client.id }}</router-link>
+              <router-link :to="{ name: 'ClientView', params: { clientId: client.id } }">{{ client.clientName }}</router-link>
             </td>
             <td>{{ client.clientName }}</td>
             <td>{{ client.clientCode }}</td>

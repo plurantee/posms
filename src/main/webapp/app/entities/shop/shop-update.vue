@@ -9,18 +9,6 @@
             <input type="text" class="form-control" id="id" name="id" v-model="shop.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="shop-shopCode">Shop Code</label>
-            <input
-              type="text"
-              class="form-control"
-              name="shopCode"
-              id="shop-shopCode"
-              data-cy="shopCode"
-              :class="{ valid: !$v.shop.shopCode.$invalid, invalid: $v.shop.shopCode.$invalid }"
-              v-model="$v.shop.shopCode.$model"
-            />
-          </div>
-          <div class="form-group">
             <label class="form-control-label" for="shop-shopName">Shop Name</label>
             <input
               type="text"
@@ -45,7 +33,7 @@
               <option v-for="shopType in shopTypeValues" :key="shopType" v-bind:value="shopType">{{ shopType }}</option>
             </select>
           </div>
-          <div class="form-group">
+          <div v-if="hasAnyAuthority('ROLE_ADMIN')" class="form-group">
             <label class="form-control-label" for="shop-clientCode">Client Code</label>
             <select class="form-control" id="shop-clientCode" data-cy="clientCode" name="clientCode" v-model="shop.clientCode">
               <option v-bind:value="null"></option>
@@ -54,7 +42,7 @@
                 v-for="clientOption in clients"
                 :key="clientOption.id"
               >
-                {{ clientOption.id }}
+                {{ clientOption.clientCode }}
               </option>
             </select>
           </div>

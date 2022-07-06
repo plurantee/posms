@@ -1,15 +1,30 @@
 <template>
   <div>
     <h2 id="page-heading" data-cy="LazadaOrderHeading">
-      <span id="lazada-order-heading">Lazada Orders for <b>{{shop.shopName}}</b> </span>
+      <span id="lazada-order-heading"
+        >Lazada Orders for <b>{{ shop.shopName }}</b>
+      </span>
       <div class="d-flex justify-content-end">
-        <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
-          <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
-        </button>
         <router-link :to="{ name: 'LazadaOrderCreate' }" custom v-slot="{ navigate }">
-         <div>
-          <input type="file" v-on:change="uploadFile()" ref="file">
-          <button @click="submitFile()">Upload!</button>
+          <div>
+            <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
+              <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
+            </button>
+            <b-form-file
+              v-model="file"
+              placeholder="Upload Lazada File"
+              v-on:change="uploadFile()"
+              drop-placeholder="Drop file here..."
+            ></b-form-file>
+            <button
+              @click="submitFile()"
+              id="jh-create-entity"
+              data-cy="entityCreateButton"
+              class="btn btn-primary jh-create-entity create-lazada-order"
+            >
+              <font-awesome-icon icon="plus"></font-awesome-icon>
+              <span> Upload Lazada Orders </span>
+            </button>
           </div>
           <button
             @click="navigate"
@@ -18,7 +33,7 @@
             class="btn btn-primary jh-create-entity create-lazada-order"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span> Upload Lazada Orders </span>
+            <span> Manual Put Lazada Order </span>
           </button>
         </router-link>
       </div>
