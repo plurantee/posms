@@ -35,6 +35,28 @@
               </b-nav-item>
               <b-nav-item-dropdown
                 right
+                id="user-menu"
+                v-if="authenticated"
+                :class="{ 'router-link-active': subIsActive('/admin') }"
+                active-class="active"
+                class="pointer"
+                data-cy="userMenu"
+              >
+                <span slot="button-content" class="navbar-dropdown-menu">
+                  <font-awesome-icon icon="users-cog" />
+                  <span class="no-bold">Client Admin</span>
+                </span>
+                <b-dropdown-item to="/admin/user-management" active-class="active">
+                  <font-awesome-icon icon="users" />
+                  <span>User management</span>
+                </b-dropdown-item>
+                <b-dropdown-item to="/admin/register" active-class="active">
+                  <font-awesome-icon icon="users" />
+                  <span>Register New User</span>
+                </b-dropdown-item>
+              </b-nav-item-dropdown>
+              <b-nav-item-dropdown
+                right
                 id="entity-menu"
                 v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated"
                 active-class="active"

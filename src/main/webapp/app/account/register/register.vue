@@ -22,6 +22,21 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <form id="register-form" name="registerForm" role="form" v-on:submit.prevent="register()" v-if="!success" no-validate>
+          <div class="form-group" v-if="hasAnyAuthority('ROLE_ADMIN')">
+            <label class="form-control-label" for="clientCode">Client Code</label>
+            <select
+              class="form-control"
+              id="clientCode"
+              data-cy="clientCode"
+              name="clientCode"
+              v-model="$v.registerAccount.clientCode.$model"
+            >
+              <option v-bind:value="null"></option>
+              <option v-for="clientOption in clients" :key="clientOption.id">
+                {{ clientOption.clientCode }}
+              </option>
+            </select>
+          </div>
           <div class="form-group">
             <label class="form-control-label" for="username">Username</label>
             <input

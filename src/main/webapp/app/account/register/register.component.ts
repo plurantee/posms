@@ -4,10 +4,15 @@ import { email, helpers, maxLength, minLength, required, sameAs } from 'vuelidat
 import LoginService from '@/account/login.service';
 import RegisterService from '@/account/register/register.service';
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from '@/constants';
+import { IClient } from '@/shared/model/client.model';
+import AccountService from '@/account/account.service';
 
 const loginPattern = helpers.regex('alpha', /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/);
 const validations: any = {
   registerAccount: {
+    clientCode: {
+      required,
+    },
     login: {
       required,
       minLength: minLength(1),
@@ -43,16 +48,28 @@ const validations: any = {
 export default class Register extends Vue {
   @Inject('registerService') private registerService: () => RegisterService;
   @Inject('loginService') private loginService: () => LoginService;
+  @Inject('accountService') private accountService: () => AccountService;
   public registerAccount: any = {
+    clientCode: undefined,
     login: undefined,
     email: undefined,
     password: undefined,
   };
+  private hasAnyAuthorityValue = false;
   public confirmPassword: any = null;
   public error = '';
   public errorEmailExists = '';
   public errorUserExists = '';
   public success = false;
+  public clients: IClient[] = [];
+
+  public mounted(): void {
+    this.registerService()
+      .getClients()
+      .then(res => {
+        this.clients = res.data;
+      });
+  }
 
   public register(): void {
     this.error = null;
@@ -78,5 +95,14 @@ export default class Register extends Vue {
 
   public openLogin(): void {
     this.loginService().openLogin((<any>this).$root);
+  }
+
+  public hasAnyAuthority(authorities: any): boolean {
+    this.accountService()
+      .hasAnyAuthorityAndCheckAuth(authorities)
+      .then(value => {
+        this.hasAnyAuthorityValue = value;
+      });
+    return this.hasAnyAuthorityValue;
   }
 }

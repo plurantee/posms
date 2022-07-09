@@ -15,13 +15,13 @@ export default [
     path: '/admin/register',
     name: 'Register',
     component: Register,
-    meta: { authorities: [Authority.ADMIN] },
+    meta: { authorities: [Authority.USER] },
   },
   {
     path: '/admin/user-management',
     name: 'JhiUser',
     component: JhiUserManagementComponent,
-    meta: { authorities: [Authority.ADMIN] },
+    meta: { authorities: [Authority.USER] },
   },
   {
     path: '/admin/user-management/new',

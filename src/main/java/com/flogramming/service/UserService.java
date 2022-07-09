@@ -2,13 +2,16 @@ package com.flogramming.service;
 
 import com.flogramming.config.Constants;
 import com.flogramming.domain.Authority;
+import com.flogramming.domain.Client;
 import com.flogramming.domain.User;
 import com.flogramming.repository.AuthorityRepository;
+import com.flogramming.repository.ClientRepository;
 import com.flogramming.repository.UserRepository;
 import com.flogramming.security.AuthoritiesConstants;
 import com.flogramming.security.SecurityUtils;
 import com.flogramming.service.dto.AdminUserDTO;
 import com.flogramming.service.dto.UserDTO;
+import com.flogramming.web.rest.vm.ManagedUserVM;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -40,17 +43,20 @@ public class UserService {
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
+    private final ClientRepository clientRepository;
 
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
+        CacheManager cacheManager,
+        ClientRepository clientRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.clientRepository = clientRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -93,7 +99,13 @@ public class UserService {
             });
     }
 
-    public User registerUser(AdminUserDTO userDTO, String password) {
+    public User registerUser(ManagedUserVM userDTO, String password) {
+        var oClient = clientRepository.findByClientCode(userDTO.getClientCode());
+        if (oClient.isEmpty()) {
+            throw new ClientDoesNotExistException();
+        }
+        var client = oClient.get();
+        userDTO.setLogin(client.getClientCode() + "-" + userDTO.getLogin());
         userRepository
             .findOneByLogin(userDTO.getLogin().toLowerCase())
             .ifPresent(existingUser -> {
