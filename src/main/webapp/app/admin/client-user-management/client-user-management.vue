@@ -7,7 +7,7 @@
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isLoading">
           <font-awesome-icon icon="sync" :spin="isLoading"></font-awesome-icon> <span>Refresh List</span>
         </button>
-        <router-link custom v-slot="{ navigate }" :to="{ name: 'JhiUserCreate' }">
+        <router-link custom v-slot="{ navigate }" to="client-admin/register">
           <button @click="navigate" class="btn btn-primary jh-create-entity">
             <font-awesome-icon icon="plus"></font-awesome-icon> <span>Create a new User</span>
           </button>
