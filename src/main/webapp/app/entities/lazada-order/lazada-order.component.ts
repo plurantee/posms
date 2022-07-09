@@ -1,6 +1,6 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
-import { ILazadaOrder, ILazadaExcelFile } from '@/shared/model/lazada-order.model';
+import { ILazadaOrder } from '@/shared/model/lazada-order.model';
 
 import LazadaOrderService from './lazada-order.service';
 import AlertService from '@/shared/alert/alert.service';
@@ -12,7 +12,7 @@ import { IShop } from '@/shared/model/shop.model';
       if (this.shop) {
         this.posts = await this.retrieveAllLazadaOrdersByShop(this.shop);
       }
-    }
+    },
   },
   mixins: [Vue2Filters.mixin],
   props: {

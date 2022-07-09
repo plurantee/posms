@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { ILazadaExcelFile, ILazadaOrder } from '@/shared/model/lazada-order.model';
+import { ILazadaOrder } from '@/shared/model/lazada-order.model';
 import { IShop } from '@/shared/model/shop.model';
 
 const baseApiUrl = 'api/lazada-orders';
@@ -73,13 +73,11 @@ export default class LazadaOrderService {
   public uploadLazadaExcel(file: FormData) {
     return new Promise<any>((resolve, reject) => {
       axios
-        .post(`${baseApiUrl}/upload`, file, 
-        {
+        .post(`${baseApiUrl}/upload`, file, {
           headers: {
-          'Content-Type': 'multipart/form-data'
-          }
-        }
-        )
+            'Content-Type': 'multipart/form-data',
+          },
+        })
         .then(res => {
           resolve(res.data);
         })
