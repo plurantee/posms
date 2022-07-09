@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.*;
-import lombok.Builder;
-import lombok.Data;
 
 /**
  * A LazadaOrder.
