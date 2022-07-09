@@ -340,7 +340,7 @@ public class UserService {
         List<String> auths = new ArrayList<>();
         auths.add(AuthoritiesConstants.USER);
         auths.add(AuthoritiesConstants.CLIENT_USER);
-        if (isAdmin || true) {
+        if (isAdmin) {
             auths.add(AuthoritiesConstants.ADMIN);
         }
         return auths;

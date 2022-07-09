@@ -154,15 +154,16 @@ public class ClientAdminResource {
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<AdminUserDTO> updateUser(@Valid @RequestBody AdminUserDTO userDTO) {
         log.debug("REST request to update User : {}", userDTO);
-        if (
-            !userService.getCurrentUser().getUser().hasRole(AuthoritiesConstants.ADMIN) &&
-            userDTO.getAuthorities().contains(AuthoritiesConstants.ADMIN)
-        ) {
+        boolean isUserAdmin = userService.getCurrentUser().getUser().hasRole(AuthoritiesConstants.ADMIN);
+        if (!isUserAdmin && userDTO.getAuthorities().contains(AuthoritiesConstants.ADMIN)) {
             throw new AccessDeniedException("User not allowed to do this :)");
         }
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
             throw new EmailAlreadyUsedException();
+        }
+        if (existingUser.isPresent() && existingUser.get().hasRole(AuthoritiesConstants.ADMIN) && !isUserAdmin) {
+            throw new AccessDeniedException("User not allowed to edit Admin!)");
         }
         existingUser = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
