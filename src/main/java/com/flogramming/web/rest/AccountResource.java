@@ -1,6 +1,7 @@
 package com.flogramming.web.rest;
 
 import com.flogramming.domain.User;
+import com.flogramming.domain.UserInfo;
 import com.flogramming.repository.UserRepository;
 import com.flogramming.security.SecurityUtils;
 import com.flogramming.service.MailService;
@@ -60,6 +61,10 @@ public class AccountResource {
     public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
         if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
+        }
+        UserInfo loggedInUserInfo = userService.getCurrentUser();
+        if (!loggedInUserInfo.getUser().hasRole("ROLE_ADMIN") || StringUtils.isEmpty(managedUserVM.getClientCode())) {
+            managedUserVM.setClientCode(loggedInUserInfo.getClientCode().getClientCode());
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
         mailService.sendActivationEmail(user);

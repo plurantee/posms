@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Component, Inject } from 'vue-property-decorator';
-import UserManagementService from './client-user-management.service';
+import UserManagementService from '../user-management/user-management.service';
 import AlertService from '@/shared/alert/alert.service';
 
 @Component
@@ -19,7 +19,7 @@ export default class ClientUserManagementView extends Vue {
   }
   public init(userId: number): void {
     this.userManagementService()
-      .get(userId)
+      .clientGet(userId)
       .then(res => {
         this.user = res.data;
       })

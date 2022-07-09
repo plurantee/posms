@@ -29,6 +29,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -153,6 +154,12 @@ public class ClientAdminResource {
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<AdminUserDTO> updateUser(@Valid @RequestBody AdminUserDTO userDTO) {
         log.debug("REST request to update User : {}", userDTO);
+        if (
+            !userService.getCurrentUser().getUser().hasRole(AuthoritiesConstants.ADMIN) &&
+            userDTO.getAuthorities().contains(AuthoritiesConstants.ADMIN)
+        ) {
+            throw new AccessDeniedException("User not allowed to do this :)");
+        }
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
             throw new EmailAlreadyUsedException();
@@ -178,7 +185,7 @@ public class ClientAdminResource {
     @GetMapping("/users")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<List<AdminUserDTO>> getAllUsers(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
-        UserInfo currentUserInfo = getCurrentUser();
+        UserInfo currentUserInfo = userService.getCurrentUser();
         log.debug("REST request to get all User for an admin");
         if (!onlyContainsAllowedProperties(pageable)) {
             return ResponseEntity.badRequest().build();
@@ -229,13 +236,8 @@ public class ClientAdminResource {
             .build();
     }
 
-    private UserInfo getCurrentUser() {
-        User user = userService.getUserWithAuthorities().get();
-        return userInfoRepository.findByUser(user).get();
-    }
-
     private void validateAccessToUser(String login) {
-        UserInfo currentUser = getCurrentUser();
+        UserInfo currentUser = userService.getCurrentUser();
         User requestedUser = userRepository.findOneByLogin(login).get();
         UserInfo requestedUserInfo = userInfoRepository.findByUser(requestedUser).get();
         if (!currentUser.getClientCode().getClientCode().equals(requestedUserInfo.getClientCode().getClientCode())) {

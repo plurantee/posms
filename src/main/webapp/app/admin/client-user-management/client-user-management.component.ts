@@ -1,6 +1,6 @@
 import { Component, Inject, Vue } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
-import UserManagementService from './client-user-management.service';
+import UserManagementService from '../user-management/user-management.service';
 import AlertService from '@/shared/alert/alert.service';
 
 @Component({

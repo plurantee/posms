@@ -7,7 +7,7 @@
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isLoading">
           <font-awesome-icon icon="sync" :spin="isLoading"></font-awesome-icon> <span>Refresh List</span>
         </button>
-        <router-link custom v-slot="{ navigate }" to="client-admin/register">
+        <router-link custom v-slot="{ navigate }" to="/client-admin/register" exact>
           <button @click="navigate" class="btn btn-primary jh-create-entity">
             <font-awesome-icon icon="plus"></font-awesome-icon> <span>Create a new User</span>
           </button>
@@ -49,7 +49,7 @@
         <tbody v-if="users">
           <tr v-for="user in users" :key="user.id" :id="user.login">
             <td>
-              <router-link :to="{ name: 'JhiUserView', params: { userId: user.login } }">{{ user.id }}</router-link>
+              <router-link :to="{ name: 'ClientUserView', params: { userId: user.login } }">{{ user.id }}</router-link>
             </td>
             <td>{{ user.login }}</td>
             <td class="jhi-user-email">{{ user.email }}</td>
@@ -77,13 +77,13 @@
             <td>{{ user.lastModifiedDate | formatDate }}</td>
             <td class="text-right">
               <div class="btn-group">
-                <router-link :to="{ name: 'JhiUserView', params: { userId: user.login } }" custom v-slot="{ navigate }">
+                <router-link :to="{ name: 'ClientUserView', params: { userId: user.login } }" custom v-slot="{ navigate }">
                   <button @click="navigate" class="btn btn-info btn-sm details">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline">View</span>
                   </button>
                 </router-link>
-                <router-link :to="{ name: 'JhiUserEdit', params: { userId: user.login } }" custom v-slot="{ navigate }">
+                <router-link :to="{ name: 'ClientUserEdit', params: { userId: user.login } }" custom v-slot="{ navigate }">
                   <button @click="navigate" class="btn btn-primary btn-sm edit">
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                     <span class="d-none d-md-inline">Edit</span>

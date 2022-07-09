@@ -1,6 +1,6 @@
 import { email, maxLength, minLength, required } from 'vuelidate/lib/validators';
 import { Component, Inject, Vue } from 'vue-property-decorator';
-import UserManagementService from './client-user-management.service';
+import UserManagementService from '../user-management/user-management.service';
 import { IUser, User } from '@/shared/model/user.model';
 import AlertService from '@/shared/alert/alert.service';
 
@@ -70,7 +70,7 @@ export default class ClientUserManagementEdit extends Vue {
 
   public init(userId: number): void {
     this.userManagementService()
-      .get(userId)
+      .clientGet(userId)
       .then(res => {
         this.userAccount = res.data;
       });
@@ -84,7 +84,7 @@ export default class ClientUserManagementEdit extends Vue {
     this.isSaving = true;
     if (this.userAccount.id) {
       this.userManagementService()
-        .update(this.userAccount)
+        .clientUpdate(this.userAccount)
         .then(res => {
           this.returnToList();
           this.$root.$bvToast.toast(this.getMessageFromHeader(res).toString(), {

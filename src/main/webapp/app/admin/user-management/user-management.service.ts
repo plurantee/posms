@@ -23,6 +23,12 @@ export default class UserManagementService {
     return axios.get(`api/admin/users?${buildPaginationQueryOpts(req)}`);
   }
 
+  public clientGet(userId: number): Promise<any> {
+    return axios.get(`api/client-admin/users/${userId}`);
+  }
+  public clientUpdate(user: IUser): Promise<any> {
+    return axios.put('api/client-admin/users', user);
+  }
   public retrieveByClient(req?: any): Promise<any> {
     return axios.get(`api/client-admin/users?${buildPaginationQueryOpts(req)}`);
   }

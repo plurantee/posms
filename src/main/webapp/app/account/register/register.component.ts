@@ -10,9 +10,7 @@ import AccountService from '@/account/account.service';
 const loginPattern = helpers.regex('alpha', /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/);
 const validations: any = {
   registerAccount: {
-    clientCode: {
-      required,
-    },
+    clientCode: {},
     login: {
       required,
       minLength: minLength(1),

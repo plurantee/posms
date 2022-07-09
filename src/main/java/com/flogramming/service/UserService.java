@@ -4,8 +4,10 @@ import com.flogramming.config.Constants;
 import com.flogramming.domain.Authority;
 import com.flogramming.domain.Client;
 import com.flogramming.domain.User;
+import com.flogramming.domain.UserInfo;
 import com.flogramming.repository.AuthorityRepository;
 import com.flogramming.repository.ClientRepository;
+import com.flogramming.repository.UserInfoRepository;
 import com.flogramming.repository.UserRepository;
 import com.flogramming.security.AuthoritiesConstants;
 import com.flogramming.security.SecurityUtils;
@@ -44,19 +46,22 @@ public class UserService {
 
     private final CacheManager cacheManager;
     private final ClientRepository clientRepository;
+    private final UserInfoRepository userInfoRepository;
 
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         CacheManager cacheManager,
-        ClientRepository clientRepository
+        ClientRepository clientRepository,
+        UserInfoRepository userInfoRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
         this.clientRepository = clientRepository;
+        this.userInfoRepository = userInfoRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -135,7 +140,7 @@ public class UserService {
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
         // new user is not active
-        newUser.setActivated(false);
+        newUser.setActivated(true);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
@@ -144,6 +149,12 @@ public class UserService {
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUser(newUser);
+        userInfo.setClientCode(client);
+        userInfoRepository.save(userInfo);
+
         return newUser;
     }
 
@@ -325,7 +336,14 @@ public class UserService {
      */
     @Transactional(readOnly = true)
     public List<String> getAuthorities() {
-        return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
+        boolean isAdmin = getCurrentUser().getUser().hasRole(AuthoritiesConstants.ADMIN);
+        List<String> auths = new ArrayList<>();
+        auths.add(AuthoritiesConstants.USER);
+        auths.add(AuthoritiesConstants.CLIENT_USER);
+        if (isAdmin || true) {
+            auths.add(AuthoritiesConstants.ADMIN);
+        }
+        return auths;
     }
 
     private void clearUserCaches(User user) {
@@ -333,5 +351,10 @@ public class UserService {
         if (user.getEmail() != null) {
             Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
         }
+    }
+
+    public UserInfo getCurrentUser() {
+        User user = getUserWithAuthorities().get();
+        return userInfoRepository.findByUser(user).get();
     }
 }
