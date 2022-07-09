@@ -27,7 +27,7 @@
                   <span>Home</span>
                 </span>
               </b-nav-item>
-              <b-nav-item to="/shop" exact>
+              <b-nav-item v-if="authenticated" to="/shop" exact>
                 <span>
                   <b-icon icon="bag-check-fill"></b-icon>
                   <span>Shops</span>
@@ -46,11 +46,11 @@
                   <font-awesome-icon icon="users-cog" />
                   <span class="no-bold">Client Admin</span>
                 </span>
-                <b-dropdown-item to="/admin/user-management" active-class="active">
+                <b-dropdown-item to="/client-admin/user-management" active-class="active">
                   <font-awesome-icon icon="users" />
                   <span>User management</span>
                 </b-dropdown-item>
-                <b-dropdown-item to="/admin/register" active-class="active">
+                <b-dropdown-item to="/client-admin/register" active-class="active">
                   <font-awesome-icon icon="users" />
                   <span>Register New User</span>
                 </b-dropdown-item>

@@ -4,6 +4,11 @@ const Register = () => import('@/account/register/register.vue');
 const JhiUserManagementComponent = () => import('@/admin/user-management/user-management.vue');
 const JhiUserManagementViewComponent = () => import('@/admin/user-management/user-management-view.vue');
 const JhiUserManagementEditComponent = () => import('@/admin/user-management/user-management-edit.vue');
+
+const ClientUserManagementComponent = () => import('@/admin/client-user-management/client-user-management.vue');
+const ClientUserManagementViewComponent = () => import('@/admin/client-user-management/client-user-management-view.vue');
+const ClientUserManagementEditComponent = () => import('@/admin/client-user-management/client-user-management-edit.vue');
+
 const JhiDocsComponent = () => import('@/admin/docs/docs.vue');
 const JhiConfigurationComponent = () => import('@/admin/configuration/configuration.vue');
 const JhiHealthComponent = () => import('@/admin/health/health.vue');
@@ -21,7 +26,7 @@ export default [
     path: '/admin/user-management',
     name: 'JhiUser',
     component: JhiUserManagementComponent,
-    meta: { authorities: [Authority.USER] },
+    meta: { authorities: [Authority.ADMIN] },
   },
   {
     path: '/admin/user-management/new',
@@ -41,6 +46,38 @@ export default [
     component: JhiUserManagementViewComponent,
     meta: { authorities: [Authority.ADMIN] },
   },
+  // client admin
+  {
+    path: '/client-admin/register',
+    name: 'Register',
+    component: Register,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/client-admin/user-management',
+    name: 'ClientUser',
+    component: ClientUserManagementComponent,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/client-admin/user-management/new',
+    name: 'ClientUserCreate',
+    component: ClientUserManagementEditComponent,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/client-admin/user-management/:userId/edit',
+    name: 'ClientUserEdit',
+    component: ClientUserManagementEditComponent,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/client-admin/user-management/:userId/view',
+    name: 'ClientUserView',
+    component: ClientUserManagementViewComponent,
+    meta: { authorities: [Authority.USER] },
+  },
+  //
   {
     path: '/admin/docs',
     name: 'JhiDocsComponent',
