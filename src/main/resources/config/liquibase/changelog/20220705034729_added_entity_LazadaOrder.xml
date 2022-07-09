@@ -38,19 +38,19 @@
             <column name="ware_house" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="create_time" type="date">
+            <column name="create_time" type="timestamp">
                 <constraints nullable="true" />
             </column>
-            <column name="update_time" type="date">
+            <column name="update_time" type="timestamp">
                 <constraints nullable="true" />
             </column>
-            <column name="rta_sla" type="date">
+            <column name="rta_sla" type="timestamp">
                 <constraints nullable="true" />
             </column>
-            <column name="tts_sla" type="date">
+            <column name="tts_sla" type="timestamp">
                 <constraints nullable="true" />
             </column>
-            <column name="order_number" type="date">
+            <column name="order_number" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="invoice_required" type="boolean">
@@ -59,7 +59,7 @@
             <column name="invoice_number" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="delivery_date" type="date">
+            <column name="delivery_date" type="timestamp">
                 <constraints nullable="true" />
             </column>
             <column name="customer_name" type="varchar(255)">
@@ -111,6 +111,9 @@
                 <constraints nullable="true" />
             </column>
             <column name="billing_addr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="billing_addr_2" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="billing_addr_3" type="varchar(255)">
@@ -200,7 +203,7 @@
             <column name="tracking_url_fm" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="promised_shipping_time" type="date">
+            <column name="promised_shipping_time" type="timestamp">
                 <constraints nullable="true" />
             </column>
             <column name="premium" type="varchar(255)">

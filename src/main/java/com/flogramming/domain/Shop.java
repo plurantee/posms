@@ -100,10 +100,10 @@ public class Shop implements Serializable {
 
     public void setLazadaOrders(Set<LazadaOrder> lazadaOrders) {
         if (this.lazadaOrders != null) {
-            this.lazadaOrders.forEach(i -> i.setShop(null));
+            this.lazadaOrders.forEach(i -> i.shop(null));
         }
         if (lazadaOrders != null) {
-            lazadaOrders.forEach(i -> i.setShop(this));
+            lazadaOrders.forEach(i -> i.shop(this));
         }
         this.lazadaOrders = lazadaOrders;
     }
@@ -115,13 +115,13 @@ public class Shop implements Serializable {
 
     public Shop addLazadaOrder(LazadaOrder lazadaOrder) {
         this.lazadaOrders.add(lazadaOrder);
-        lazadaOrder.setShop(this);
+        lazadaOrder.shop(this);
         return this;
     }
 
     public Shop removeLazadaOrder(LazadaOrder lazadaOrder) {
         this.lazadaOrders.remove(lazadaOrder);
-        lazadaOrder.setShop(null);
+        lazadaOrder.shop(null);
         return this;
     }
 

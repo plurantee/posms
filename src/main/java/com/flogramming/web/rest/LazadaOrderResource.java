@@ -6,7 +6,6 @@ import com.flogramming.repository.LazadaOrderRepository;
 import com.flogramming.repository.ShopRepository;
 import com.flogramming.service.ExcelFileService;
 import com.flogramming.web.rest.errors.BadRequestAlertException;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -43,8 +42,11 @@ public class LazadaOrderResource {
     private final ShopRepository shopRepository;
     private final ExcelFileService excelFileService;
 
-    public LazadaOrderResource(LazadaOrderRepository lazadaOrderRepository, ShopRepository shopRepository,
-                               ExcelFileService excelFileService) {
+    public LazadaOrderResource(
+        LazadaOrderRepository lazadaOrderRepository,
+        ShopRepository shopRepository,
+        ExcelFileService excelFileService
+    ) {
         this.lazadaOrderRepository = lazadaOrderRepository;
         this.shopRepository = shopRepository;
         this.excelFileService = excelFileService;
@@ -70,8 +72,11 @@ public class LazadaOrderResource {
             .body(result);
     }
 
-    @PostMapping(path="/lazada-orders/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(@RequestParam("file") MultipartFile file, @RequestParam("shopId") Long shopId) throws IOException {
+    @PostMapping(path = "/lazada-orders/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(
+        @RequestParam("file") MultipartFile file,
+        @RequestParam("shopId") Long shopId
+    ) throws IOException {
         Optional<Shop> oShop = shopRepository.findById(shopId);
         List<LazadaOrder> lazadaOrders = excelFileService.processLazadaExcelFile(file, oShop.get());
         return ResponseEntity.ok(lazadaOrders);
@@ -143,217 +148,217 @@ public class LazadaOrderResource {
             .findById(lazadaOrder.getId())
             .map(existingLazadaOrder -> {
                 if (lazadaOrder.getOrderItemId() != null) {
-                    existingLazadaOrder.setOrderItemId(lazadaOrder.getOrderItemId());
+                    existingLazadaOrder.OrderItemId(lazadaOrder.getOrderItemId());
                 }
                 if (lazadaOrder.getOrderType() != null) {
-                    existingLazadaOrder.setOrderType(lazadaOrder.getOrderType());
+                    existingLazadaOrder.OrderType(lazadaOrder.getOrderType());
                 }
                 if (lazadaOrder.getGuarantee() != null) {
-                    existingLazadaOrder.setGuarantee(lazadaOrder.getGuarantee());
+                    existingLazadaOrder.Guarantee(lazadaOrder.getGuarantee());
                 }
                 if (lazadaOrder.getDeliveryType() != null) {
-                    existingLazadaOrder.setDeliveryType(lazadaOrder.getDeliveryType());
+                    existingLazadaOrder.DeliveryType(lazadaOrder.getDeliveryType());
                 }
                 if (lazadaOrder.getLazadaId() != null) {
-                    existingLazadaOrder.setLazadaId(lazadaOrder.getLazadaId());
+                    existingLazadaOrder.LazadaId(lazadaOrder.getLazadaId());
                 }
                 if (lazadaOrder.getSellerSku() != null) {
-                    existingLazadaOrder.setSellerSku(lazadaOrder.getSellerSku());
+                    existingLazadaOrder.SellerSku(lazadaOrder.getSellerSku());
                 }
                 if (lazadaOrder.getWareHouse() != null) {
-                    existingLazadaOrder.setWareHouse(lazadaOrder.getWareHouse());
+                    existingLazadaOrder.WareHouse(lazadaOrder.getWareHouse());
                 }
                 if (lazadaOrder.getCreateTime() != null) {
-                    existingLazadaOrder.setCreateTime(lazadaOrder.getCreateTime());
+                    existingLazadaOrder.CreateTime(lazadaOrder.getCreateTime());
                 }
                 if (lazadaOrder.getUpdateTime() != null) {
-                    existingLazadaOrder.setUpdateTime(lazadaOrder.getUpdateTime());
+                    existingLazadaOrder.UpdateTime(lazadaOrder.getUpdateTime());
                 }
                 if (lazadaOrder.getRtaSla() != null) {
-                    existingLazadaOrder.setRtaSla(lazadaOrder.getRtaSla());
+                    existingLazadaOrder.RtaSla(lazadaOrder.getRtaSla());
                 }
                 if (lazadaOrder.getTtsSla() != null) {
-                    existingLazadaOrder.setTtsSla(lazadaOrder.getTtsSla());
+                    existingLazadaOrder.TtsSla(lazadaOrder.getTtsSla());
                 }
                 if (lazadaOrder.getOrderNumber() != null) {
-                    existingLazadaOrder.setOrderNumber(lazadaOrder.getOrderNumber());
+                    existingLazadaOrder.OrderNumber(lazadaOrder.getOrderNumber());
                 }
                 if (lazadaOrder.getInvoiceRequired() != null) {
-                    existingLazadaOrder.setInvoiceRequired(lazadaOrder.getInvoiceRequired());
+                    existingLazadaOrder.InvoiceRequired(lazadaOrder.getInvoiceRequired());
                 }
                 if (lazadaOrder.getInvoiceNumber() != null) {
-                    existingLazadaOrder.setInvoiceNumber(lazadaOrder.getInvoiceNumber());
+                    existingLazadaOrder.InvoiceNumber(lazadaOrder.getInvoiceNumber());
                 }
                 if (lazadaOrder.getDeliveryDate() != null) {
-                    existingLazadaOrder.setDeliveryDate(lazadaOrder.getDeliveryDate());
+                    existingLazadaOrder.DeliveryDate(lazadaOrder.getDeliveryDate());
                 }
                 if (lazadaOrder.getCustomerName() != null) {
-                    existingLazadaOrder.setCustomerName(lazadaOrder.getCustomerName());
+                    existingLazadaOrder.CustomerName(lazadaOrder.getCustomerName());
                 }
                 if (lazadaOrder.getCustomerEmail() != null) {
-                    existingLazadaOrder.setCustomerEmail(lazadaOrder.getCustomerEmail());
+                    existingLazadaOrder.CustomerEmail(lazadaOrder.getCustomerEmail());
                 }
                 if (lazadaOrder.getNationalRegistrationNumber() != null) {
-                    existingLazadaOrder.setNationalRegistrationNumber(lazadaOrder.getNationalRegistrationNumber());
+                    existingLazadaOrder.NationalRegistrationNumber(lazadaOrder.getNationalRegistrationNumber());
                 }
                 if (lazadaOrder.getShippingName() != null) {
-                    existingLazadaOrder.setShippingName(lazadaOrder.getShippingName());
+                    existingLazadaOrder.ShippingName(lazadaOrder.getShippingName());
                 }
                 if (lazadaOrder.getShippingAddress() != null) {
-                    existingLazadaOrder.setShippingAddress(lazadaOrder.getShippingAddress());
+                    existingLazadaOrder.ShippingAddress(lazadaOrder.getShippingAddress());
                 }
                 if (lazadaOrder.getShippingAddress2() != null) {
-                    existingLazadaOrder.setShippingAddress2(lazadaOrder.getShippingAddress2());
+                    existingLazadaOrder.ShippingAddress2(lazadaOrder.getShippingAddress2());
                 }
                 if (lazadaOrder.getShippingAddress3() != null) {
-                    existingLazadaOrder.setShippingAddress3(lazadaOrder.getShippingAddress3());
+                    existingLazadaOrder.ShippingAddress3(lazadaOrder.getShippingAddress3());
                 }
                 if (lazadaOrder.getShippingAddress4() != null) {
-                    existingLazadaOrder.setShippingAddress4(lazadaOrder.getShippingAddress4());
+                    existingLazadaOrder.ShippingAddress4(lazadaOrder.getShippingAddress4());
                 }
                 if (lazadaOrder.getShippingAddress5() != null) {
-                    existingLazadaOrder.setShippingAddress5(lazadaOrder.getShippingAddress5());
+                    existingLazadaOrder.ShippingAddress5(lazadaOrder.getShippingAddress5());
                 }
                 if (lazadaOrder.getShippingPhone() != null) {
-                    existingLazadaOrder.setShippingPhone(lazadaOrder.getShippingPhone());
+                    existingLazadaOrder.ShippingPhone(lazadaOrder.getShippingPhone());
                 }
                 if (lazadaOrder.getShippingPhone2() != null) {
-                    existingLazadaOrder.setShippingPhone2(lazadaOrder.getShippingPhone2());
+                    existingLazadaOrder.ShippingPhone2(lazadaOrder.getShippingPhone2());
                 }
                 if (lazadaOrder.getShippingCity() != null) {
-                    existingLazadaOrder.setShippingCity(lazadaOrder.getShippingCity());
+                    existingLazadaOrder.ShippingCity(lazadaOrder.getShippingCity());
                 }
                 if (lazadaOrder.getShippingPostCode() != null) {
-                    existingLazadaOrder.setShippingPostCode(lazadaOrder.getShippingPostCode());
+                    existingLazadaOrder.ShippingPostCode(lazadaOrder.getShippingPostCode());
                 }
                 if (lazadaOrder.getShippingCountry() != null) {
-                    existingLazadaOrder.setShippingCountry(lazadaOrder.getShippingCountry());
+                    existingLazadaOrder.ShippingCountry(lazadaOrder.getShippingCountry());
                 }
                 if (lazadaOrder.getShippingRegion() != null) {
-                    existingLazadaOrder.setShippingRegion(lazadaOrder.getShippingRegion());
+                    existingLazadaOrder.ShippingRegion(lazadaOrder.getShippingRegion());
                 }
                 if (lazadaOrder.getBillingName() != null) {
-                    existingLazadaOrder.setBillingName(lazadaOrder.getBillingName());
+                    existingLazadaOrder.BillingName(lazadaOrder.getBillingName());
                 }
                 if (lazadaOrder.getBillingAddr() != null) {
-                    existingLazadaOrder.setBillingAddr(lazadaOrder.getBillingAddr());
+                    existingLazadaOrder.BillingAddr(lazadaOrder.getBillingAddr());
                 }
                 if (lazadaOrder.getBillingAddr3() != null) {
-                    existingLazadaOrder.setBillingAddr3(lazadaOrder.getBillingAddr3());
+                    existingLazadaOrder.BillingAddr3(lazadaOrder.getBillingAddr3());
                 }
                 if (lazadaOrder.getBillingAddr4() != null) {
-                    existingLazadaOrder.setBillingAddr4(lazadaOrder.getBillingAddr4());
+                    existingLazadaOrder.BillingAddr4(lazadaOrder.getBillingAddr4());
                 }
                 if (lazadaOrder.getBillingAddr5() != null) {
-                    existingLazadaOrder.setBillingAddr5(lazadaOrder.getBillingAddr5());
+                    existingLazadaOrder.BillingAddr5(lazadaOrder.getBillingAddr5());
                 }
                 if (lazadaOrder.getBillingPhone() != null) {
-                    existingLazadaOrder.setBillingPhone(lazadaOrder.getBillingPhone());
+                    existingLazadaOrder.BillingPhone(lazadaOrder.getBillingPhone());
                 }
                 if (lazadaOrder.getBillingPhone2() != null) {
-                    existingLazadaOrder.setBillingPhone2(lazadaOrder.getBillingPhone2());
+                    existingLazadaOrder.BillingPhone2(lazadaOrder.getBillingPhone2());
                 }
                 if (lazadaOrder.getBillingCity() != null) {
-                    existingLazadaOrder.setBillingCity(lazadaOrder.getBillingCity());
+                    existingLazadaOrder.BillingCity(lazadaOrder.getBillingCity());
                 }
                 if (lazadaOrder.getBillingPostCode() != null) {
-                    existingLazadaOrder.setBillingPostCode(lazadaOrder.getBillingPostCode());
+                    existingLazadaOrder.BillingPostCode(lazadaOrder.getBillingPostCode());
                 }
                 if (lazadaOrder.getBillingCountry() != null) {
-                    existingLazadaOrder.setBillingCountry(lazadaOrder.getBillingCountry());
+                    existingLazadaOrder.BillingCountry(lazadaOrder.getBillingCountry());
                 }
                 if (lazadaOrder.getTaxCode() != null) {
-                    existingLazadaOrder.setTaxCode(lazadaOrder.getTaxCode());
+                    existingLazadaOrder.TaxCode(lazadaOrder.getTaxCode());
                 }
                 if (lazadaOrder.getBranchNumber() != null) {
-                    existingLazadaOrder.setBranchNumber(lazadaOrder.getBranchNumber());
+                    existingLazadaOrder.BranchNumber(lazadaOrder.getBranchNumber());
                 }
                 if (lazadaOrder.getTaxInvoiceRequested() != null) {
-                    existingLazadaOrder.setTaxInvoiceRequested(lazadaOrder.getTaxInvoiceRequested());
+                    existingLazadaOrder.TaxInvoiceRequested(lazadaOrder.getTaxInvoiceRequested());
                 }
                 if (lazadaOrder.getPayMethod() != null) {
-                    existingLazadaOrder.setPayMethod(lazadaOrder.getPayMethod());
+                    existingLazadaOrder.PayMethod(lazadaOrder.getPayMethod());
                 }
                 if (lazadaOrder.getPaidPrice() != null) {
-                    existingLazadaOrder.setPaidPrice(lazadaOrder.getPaidPrice());
+                    existingLazadaOrder.PaidPrice(lazadaOrder.getPaidPrice());
                 }
                 if (lazadaOrder.getUnitPrice() != null) {
-                    existingLazadaOrder.setUnitPrice(lazadaOrder.getUnitPrice());
+                    existingLazadaOrder.UnitPrice(lazadaOrder.getUnitPrice());
                 }
                 if (lazadaOrder.getSellerDiscountTotal() != null) {
-                    existingLazadaOrder.setSellerDiscountTotal(lazadaOrder.getSellerDiscountTotal());
+                    existingLazadaOrder.SellerDiscountTotal(lazadaOrder.getSellerDiscountTotal());
                 }
                 if (lazadaOrder.getShippingFee() != null) {
-                    existingLazadaOrder.setShippingFee(lazadaOrder.getShippingFee());
+                    existingLazadaOrder.ShippingFee(lazadaOrder.getShippingFee());
                 }
                 if (lazadaOrder.getWalletCredit() != null) {
-                    existingLazadaOrder.setWalletCredit(lazadaOrder.getWalletCredit());
+                    existingLazadaOrder.WalletCredit(lazadaOrder.getWalletCredit());
                 }
                 if (lazadaOrder.getItemName() != null) {
-                    existingLazadaOrder.setItemName(lazadaOrder.getItemName());
+                    existingLazadaOrder.ItemName(lazadaOrder.getItemName());
                 }
                 if (lazadaOrder.getVariation() != null) {
-                    existingLazadaOrder.setVariation(lazadaOrder.getVariation());
+                    existingLazadaOrder.Variation(lazadaOrder.getVariation());
                 }
                 if (lazadaOrder.getCdShippingProvider() != null) {
-                    existingLazadaOrder.setCdShippingProvider(lazadaOrder.getCdShippingProvider());
+                    existingLazadaOrder.CdShippingProvider(lazadaOrder.getCdShippingProvider());
                 }
                 if (lazadaOrder.getShippingProvider() != null) {
-                    existingLazadaOrder.setShippingProvider(lazadaOrder.getShippingProvider());
+                    existingLazadaOrder.ShippingProvider(lazadaOrder.getShippingProvider());
                 }
                 if (lazadaOrder.getShipmentTypeName() != null) {
-                    existingLazadaOrder.setShipmentTypeName(lazadaOrder.getShipmentTypeName());
+                    existingLazadaOrder.ShipmentTypeName(lazadaOrder.getShipmentTypeName());
                 }
                 if (lazadaOrder.getShippingProviderType() != null) {
-                    existingLazadaOrder.setShippingProviderType(lazadaOrder.getShippingProviderType());
+                    existingLazadaOrder.ShippingProviderType(lazadaOrder.getShippingProviderType());
                 }
                 if (lazadaOrder.getCdTrackingCode() != null) {
-                    existingLazadaOrder.setCdTrackingCode(lazadaOrder.getCdTrackingCode());
+                    existingLazadaOrder.CdTrackingCode(lazadaOrder.getCdTrackingCode());
                 }
                 if (lazadaOrder.getTrackingCode() != null) {
-                    existingLazadaOrder.setTrackingCode(lazadaOrder.getTrackingCode());
+                    existingLazadaOrder.TrackingCode(lazadaOrder.getTrackingCode());
                 }
                 if (lazadaOrder.getTrackingUrl() != null) {
-                    existingLazadaOrder.setTrackingUrl(lazadaOrder.getTrackingUrl());
+                    existingLazadaOrder.TrackingUrl(lazadaOrder.getTrackingUrl());
                 }
                 if (lazadaOrder.getShippingProviderFM() != null) {
-                    existingLazadaOrder.setShippingProviderFM(lazadaOrder.getShippingProviderFM());
+                    existingLazadaOrder.ShippingProviderFM(lazadaOrder.getShippingProviderFM());
                 }
                 if (lazadaOrder.getTrackingCodeFM() != null) {
-                    existingLazadaOrder.setTrackingCodeFM(lazadaOrder.getTrackingCodeFM());
+                    existingLazadaOrder.TrackingCodeFM(lazadaOrder.getTrackingCodeFM());
                 }
                 if (lazadaOrder.getTrackingUrlFM() != null) {
-                    existingLazadaOrder.setTrackingUrlFM(lazadaOrder.getTrackingUrlFM());
+                    existingLazadaOrder.TrackingUrlFM(lazadaOrder.getTrackingUrlFM());
                 }
                 if (lazadaOrder.getPromisedShippingTime() != null) {
-                    existingLazadaOrder.setPromisedShippingTime(lazadaOrder.getPromisedShippingTime());
+                    existingLazadaOrder.PromisedShippingTime(lazadaOrder.getPromisedShippingTime());
                 }
                 if (lazadaOrder.getPremium() != null) {
-                    existingLazadaOrder.setPremium(lazadaOrder.getPremium());
+                    existingLazadaOrder.Premium(lazadaOrder.getPremium());
                 }
                 if (lazadaOrder.getStatus() != null) {
-                    existingLazadaOrder.setStatus(lazadaOrder.getStatus());
+                    existingLazadaOrder.Status(lazadaOrder.getStatus());
                 }
                 if (lazadaOrder.getBuyerFailedDeliveryReturnInitiator() != null) {
-                    existingLazadaOrder.setBuyerFailedDeliveryReturnInitiator(lazadaOrder.getBuyerFailedDeliveryReturnInitiator());
+                    existingLazadaOrder.BuyerFailedDeliveryReturnInitiator(lazadaOrder.getBuyerFailedDeliveryReturnInitiator());
                 }
                 if (lazadaOrder.getBuyerFailedDeliveryReason() != null) {
-                    existingLazadaOrder.setBuyerFailedDeliveryReason(lazadaOrder.getBuyerFailedDeliveryReason());
+                    existingLazadaOrder.BuyerFailedDeliveryReason(lazadaOrder.getBuyerFailedDeliveryReason());
                 }
                 if (lazadaOrder.getBuyerFailedDeliveryDetail() != null) {
-                    existingLazadaOrder.setBuyerFailedDeliveryDetail(lazadaOrder.getBuyerFailedDeliveryDetail());
+                    existingLazadaOrder.BuyerFailedDeliveryDetail(lazadaOrder.getBuyerFailedDeliveryDetail());
                 }
                 if (lazadaOrder.getBuyerFailedDeliveryUserName() != null) {
-                    existingLazadaOrder.setBuyerFailedDeliveryUserName(lazadaOrder.getBuyerFailedDeliveryUserName());
+                    existingLazadaOrder.BuyerFailedDeliveryUserName(lazadaOrder.getBuyerFailedDeliveryUserName());
                 }
                 if (lazadaOrder.getBundleId() != null) {
-                    existingLazadaOrder.setBundleId(lazadaOrder.getBundleId());
+                    existingLazadaOrder.BundleId(lazadaOrder.getBundleId());
                 }
                 if (lazadaOrder.getBundleDiscount() != null) {
-                    existingLazadaOrder.setBundleDiscount(lazadaOrder.getBundleDiscount());
+                    existingLazadaOrder.BundleDiscount(lazadaOrder.getBundleDiscount());
                 }
                 if (lazadaOrder.getRefundAmount() != null) {
-                    existingLazadaOrder.setRefundAmount(lazadaOrder.getRefundAmount());
+                    existingLazadaOrder.RefundAmount(lazadaOrder.getRefundAmount());
                 }
 
                 return existingLazadaOrder;
@@ -376,6 +381,7 @@ public class LazadaOrderResource {
         log.debug("REST request to get all LazadaOrders");
         return lazadaOrderRepository.findAll();
     }
+
     @GetMapping("/lazada-orders/shop/{id}")
     public List<LazadaOrder> getAllLazadaOrdersByShop(@PathVariable Long id) {
         log.debug("REST request to get all LazadaOrders");
@@ -385,6 +391,7 @@ public class LazadaOrderResource {
         }
         return null;
     }
+
     /**
      * {@code GET  /lazada-orders/:id} : get the "id" lazadaOrder.
      *

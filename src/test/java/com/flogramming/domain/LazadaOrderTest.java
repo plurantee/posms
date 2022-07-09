@@ -10,9 +10,9 @@ class LazadaOrderTest {
     @Test
     void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(LazadaOrder.class);
-        LazadaOrder lazadaOrder1 = new LazadaOrder();
+        LazadaOrder lazadaOrder1 = new LazadaOrderBuilder().createLazadaOrder();
         lazadaOrder1.setId(1L);
-        LazadaOrder lazadaOrder2 = new LazadaOrder();
+        LazadaOrder lazadaOrder2 = new LazadaOrderBuilder().createLazadaOrder();
         lazadaOrder2.setId(lazadaOrder1.getId());
         assertThat(lazadaOrder1).isEqualTo(lazadaOrder2);
         lazadaOrder2.setId(2L);
