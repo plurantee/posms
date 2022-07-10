@@ -7,6 +7,7 @@ import com.flogramming.repository.LazadaOrderRepository;
 import com.flogramming.util.OrdersUtil;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -186,6 +187,8 @@ public class ExcelFileService {
             return null;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
-        return ZonedDateTime.parse(date, formatter);
+        LocalDateTime ldt = LocalDateTime.parse(date, formatter);
+        ZoneId zoneId = ZoneId.of("Asia/Manila");
+        return ldt.atZone(zoneId);
     }
 }

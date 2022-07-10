@@ -52,7 +52,7 @@
       </b-nav>
     </div>
 
-    <lazada-order v-if="shop && shopNav == 'lazada'" :shop="shop"></lazada-order>
+    <client-lazada-order v-if="shop && shopNav == 'lazada'" :shop="shop"></client-lazada-order>
   </div>
 </template>
 

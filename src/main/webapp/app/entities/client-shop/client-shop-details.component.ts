@@ -8,7 +8,7 @@ const ClientLazadaOrder = () => import('@/entities/client-lazada-order/client-la
 
 @Component({
   components: {
-    'lazada-order': ClientLazadaOrder,
+    'client-lazada-order': ClientLazadaOrder,
   },
 })
 export default class ClientShopDetails extends Vue {

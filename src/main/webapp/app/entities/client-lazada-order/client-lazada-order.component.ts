@@ -58,19 +58,7 @@ export default class ClientLazadaOrder extends LazadaOrder {
       );
   }
   public retrieveAllLazadaOrders(): void {
-    this.isFetching = true;
-    this.clientLazadaOrderService()
-      .retrieve()
-      .then(
-        res => {
-          this.lazadaOrders = res.data;
-          this.isFetching = false;
-        },
-        err => {
-          this.isFetching = false;
-          this.clientAlertService().showHttpError(this, err.response);
-        }
-      );
+    return;
   }
 
   public handleSyncList(): void {
