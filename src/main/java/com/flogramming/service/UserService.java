@@ -36,31 +36,28 @@ import tech.jhipster.security.RandomUtil;
 @Transactional
 public class UserService {
 
-    private final Logger log = LoggerFactory.getLogger(UserService.class);
+    protected final Logger log = LoggerFactory.getLogger(UserService.class);
 
-    private final UserRepository userRepository;
+    protected final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
+    protected final PasswordEncoder passwordEncoder;
 
-    private final AuthorityRepository authorityRepository;
+    protected final AuthorityRepository authorityRepository;
 
-    private final CacheManager cacheManager;
-    private final ClientRepository clientRepository;
-    private final UserInfoRepository userInfoRepository;
+    protected final CacheManager cacheManager;
+    protected final UserInfoRepository userInfoRepository;
 
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         CacheManager cacheManager,
-        ClientRepository clientRepository,
         UserInfoRepository userInfoRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
-        this.clientRepository = clientRepository;
         this.userInfoRepository = userInfoRepository;
     }
 
@@ -105,12 +102,6 @@ public class UserService {
     }
 
     public User registerUser(ManagedUserVM userDTO, String password) {
-        var oClient = clientRepository.findByClientCode(userDTO.getClientCode());
-        if (oClient.isEmpty()) {
-            throw new ClientDoesNotExistException();
-        }
-        var client = oClient.get();
-        userDTO.setLogin(client.getClientCode() + "-" + userDTO.getLogin());
         userRepository
             .findOneByLogin(userDTO.getLogin().toLowerCase())
             .ifPresent(existingUser -> {
@@ -150,15 +141,10 @@ public class UserService {
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
 
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUser(newUser);
-        userInfo.setClientCode(client);
-        userInfoRepository.save(userInfo);
-
         return newUser;
     }
 
-    private boolean removeNonActivatedUser(User existingUser) {
+    protected boolean removeNonActivatedUser(User existingUser) {
         if (existingUser.isActivated()) {
             return false;
         }
@@ -336,25 +322,17 @@ public class UserService {
      */
     @Transactional(readOnly = true)
     public List<String> getAuthorities() {
-        boolean isAdmin = getCurrentUser().getUser().hasRole(AuthoritiesConstants.ADMIN);
         List<String> auths = new ArrayList<>();
         auths.add(AuthoritiesConstants.USER);
         auths.add(AuthoritiesConstants.CLIENT_USER);
-        if (isAdmin) {
-            auths.add(AuthoritiesConstants.ADMIN);
-        }
+        auths.add(AuthoritiesConstants.ADMIN);
         return auths;
     }
 
-    private void clearUserCaches(User user) {
+    protected void clearUserCaches(User user) {
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
         if (user.getEmail() != null) {
             Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
         }
-    }
-
-    public UserInfo getCurrentUser() {
-        User user = getUserWithAuthorities().get();
-        return userInfoRepository.findByUser(user).get();
     }
 }

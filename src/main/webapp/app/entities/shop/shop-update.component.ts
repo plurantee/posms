@@ -11,7 +11,6 @@ import { IClient } from '@/shared/model/client.model';
 import { IShop, Shop } from '@/shared/model/shop.model';
 import ShopService from './shop.service';
 import { ShopType } from '@/shared/model/enumerations/shop-type.model';
-import AccountService from '@/account/account.service';
 
 const validations: any = {
   shop: {
@@ -27,7 +26,6 @@ const validations: any = {
 export default class ShopUpdate extends Vue {
   @Inject('shopService') private shopService: () => ShopService;
   @Inject('alertService') private alertService: () => AlertService;
-  @Inject('accountService') private accountService: () => AccountService;
 
   public shop: IShop = new Shop();
 
@@ -41,7 +39,6 @@ export default class ShopUpdate extends Vue {
   public shopTypeValues: string[] = Object.keys(ShopType);
   public isSaving = false;
   public currentLanguage = '';
-  private hasAnyAuthorityValue = false;
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -131,14 +128,5 @@ export default class ShopUpdate extends Vue {
       .then(res => {
         this.clients = res.data;
       });
-  }
-
-  public hasAnyAuthority(authorities: any): boolean {
-    this.accountService()
-      .hasAnyAuthorityAndCheckAuth(authorities)
-      .then(value => {
-        this.hasAnyAuthorityValue = value;
-      });
-    return this.hasAnyAuthorityValue;
   }
 }

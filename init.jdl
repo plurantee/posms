@@ -83,7 +83,7 @@ entity LazadaOrder {
     shippingProviderFM String
     trackingCodeFM String
     trackingUrlFM String
-    promisedShippingTime LocalDate
+    promisedShippingTime ZonedDateTime
     premium String
     status String
     buyerFailedDeliveryReturnInitiator String

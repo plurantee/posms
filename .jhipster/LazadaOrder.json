@@ -39,23 +39,23 @@
     },
     {
       "fieldName": "createTime",
-      "fieldType": "LocalDate"
+      "fieldType": "ZonedDateTime"
     },
     {
       "fieldName": "updateTime",
-      "fieldType": "LocalDate"
+      "fieldType": "ZonedDateTime"
     },
     {
       "fieldName": "rtaSla",
-      "fieldType": "LocalDate"
+      "fieldType": "ZonedDateTime"
     },
     {
       "fieldName": "ttsSla",
-      "fieldType": "LocalDate"
+      "fieldType": "ZonedDateTime"
     },
     {
       "fieldName": "orderNumber",
-      "fieldType": "LocalDate"
+      "fieldType": "String"
     },
     {
       "fieldName": "invoiceRequired",
@@ -67,7 +67,7 @@
     },
     {
       "fieldName": "deliveryDate",
-      "fieldType": "LocalDate"
+      "fieldType": "ZonedDateTime"
     },
     {
       "fieldName": "customerName",
@@ -135,6 +135,10 @@
     },
     {
       "fieldName": "billingAddr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "billingAddr2",
       "fieldType": "String"
     },
     {
@@ -255,7 +259,7 @@
     },
     {
       "fieldName": "promisedShippingTime",
-      "fieldType": "LocalDate"
+      "fieldType": "ZonedDateTime"
     },
     {
       "fieldName": "premium",

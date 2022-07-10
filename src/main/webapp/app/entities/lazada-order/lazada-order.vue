@@ -1,31 +1,12 @@
 <template>
   <div>
     <h2 id="page-heading" data-cy="LazadaOrderHeading">
-      <span id="lazada-order-heading"
-        >Lazada Orders for <b>{{ shop.shopName }}</b>
-      </span>
+      <span id="lazada-order-heading">Lazada Orders</span>
       <div class="d-flex justify-content-end">
+        <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
+          <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
+        </button>
         <router-link :to="{ name: 'LazadaOrderCreate' }" custom v-slot="{ navigate }">
-          <div>
-            <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
-              <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
-            </button>
-            <b-form-file
-              v-model="file"
-              placeholder="Upload Lazada File"
-              v-on:change="uploadFile()"
-              drop-placeholder="Drop file here..."
-            ></b-form-file>
-            <button
-              @click="submitFile()"
-              id="jh-create-entity"
-              data-cy="entityCreateButton"
-              class="btn btn-primary jh-create-entity create-lazada-order"
-            >
-              <font-awesome-icon icon="plus"></font-awesome-icon>
-              <span> Upload Lazada Orders </span>
-            </button>
-          </div>
           <button
             @click="navigate"
             id="jh-create-entity"
@@ -33,7 +14,7 @@
             class="btn btn-primary jh-create-entity create-lazada-order"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span> Manual Put Lazada Order </span>
+            <span> Create a new Lazada Order </span>
           </button>
         </router-link>
       </div>
@@ -53,9 +34,74 @@
             <th scope="row"><span>Delivery Type</span></th>
             <th scope="row"><span>Lazada Id</span></th>
             <th scope="row"><span>Seller Sku</span></th>
+            <th scope="row"><span>Lazada Sku</span></th>
             <th scope="row"><span>Ware House</span></th>
             <th scope="row"><span>Create Time</span></th>
             <th scope="row"><span>Update Time</span></th>
+            <th scope="row"><span>Rta Sla</span></th>
+            <th scope="row"><span>Tts Sla</span></th>
+            <th scope="row"><span>Order Number</span></th>
+            <th scope="row"><span>Invoice Required</span></th>
+            <th scope="row"><span>Invoice Number</span></th>
+            <th scope="row"><span>Delivery Date</span></th>
+            <th scope="row"><span>Customer Name</span></th>
+            <th scope="row"><span>Customer Email</span></th>
+            <th scope="row"><span>National Registration Number</span></th>
+            <th scope="row"><span>Shipping Name</span></th>
+            <th scope="row"><span>Shipping Address</span></th>
+            <th scope="row"><span>Shipping Address 2</span></th>
+            <th scope="row"><span>Shipping Address 3</span></th>
+            <th scope="row"><span>Shipping Address 4</span></th>
+            <th scope="row"><span>Shipping Address 5</span></th>
+            <th scope="row"><span>Shipping Phone</span></th>
+            <th scope="row"><span>Shipping Phone 2</span></th>
+            <th scope="row"><span>Shipping City</span></th>
+            <th scope="row"><span>Shipping Post Code</span></th>
+            <th scope="row"><span>Shipping Country</span></th>
+            <th scope="row"><span>Shipping Region</span></th>
+            <th scope="row"><span>Billing Name</span></th>
+            <th scope="row"><span>Billing Addr</span></th>
+            <th scope="row"><span>Billing Addr 2</span></th>
+            <th scope="row"><span>Billing Addr 3</span></th>
+            <th scope="row"><span>Billing Addr 4</span></th>
+            <th scope="row"><span>Billing Addr 5</span></th>
+            <th scope="row"><span>Billing Phone</span></th>
+            <th scope="row"><span>Billing Phone 2</span></th>
+            <th scope="row"><span>Billing City</span></th>
+            <th scope="row"><span>Billing Post Code</span></th>
+            <th scope="row"><span>Billing Country</span></th>
+            <th scope="row"><span>Tax Code</span></th>
+            <th scope="row"><span>Branch Number</span></th>
+            <th scope="row"><span>Tax Invoice Requested</span></th>
+            <th scope="row"><span>Pay Method</span></th>
+            <th scope="row"><span>Paid Price</span></th>
+            <th scope="row"><span>Unit Price</span></th>
+            <th scope="row"><span>Seller Discount Total</span></th>
+            <th scope="row"><span>Shipping Fee</span></th>
+            <th scope="row"><span>Wallet Credit</span></th>
+            <th scope="row"><span>Item Name</span></th>
+            <th scope="row"><span>Variation</span></th>
+            <th scope="row"><span>Cd Shipping Provider</span></th>
+            <th scope="row"><span>Shipping Provider</span></th>
+            <th scope="row"><span>Shipment Type Name</span></th>
+            <th scope="row"><span>Shipping Provider Type</span></th>
+            <th scope="row"><span>Cd Tracking Code</span></th>
+            <th scope="row"><span>Tracking Code</span></th>
+            <th scope="row"><span>Tracking Url</span></th>
+            <th scope="row"><span>Shipping Provider FM</span></th>
+            <th scope="row"><span>Tracking Code FM</span></th>
+            <th scope="row"><span>Tracking Url FM</span></th>
+            <th scope="row"><span>Promised Shipping Time</span></th>
+            <th scope="row"><span>Premium</span></th>
+            <th scope="row"><span>Status</span></th>
+            <th scope="row"><span>Buyer Failed Delivery Return Initiator</span></th>
+            <th scope="row"><span>Buyer Failed Delivery Reason</span></th>
+            <th scope="row"><span>Buyer Failed Delivery Detail</span></th>
+            <th scope="row"><span>Buyer Failed Delivery User Name</span></th>
+            <th scope="row"><span>Bundle Id</span></th>
+            <th scope="row"><span>Bundle Discount</span></th>
+            <th scope="row"><span>Refund Amount</span></th>
+            <th scope="row"><span>Shop</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -70,10 +116,78 @@
             <td>{{ lazadaOrder.deliveryType }}</td>
             <td>{{ lazadaOrder.lazadaId }}</td>
             <td>{{ lazadaOrder.sellerSku }}</td>
+            <td>{{ lazadaOrder.lazadaSku }}</td>
             <td>{{ lazadaOrder.wareHouse }}</td>
-            <td>{{ lazadaOrder.createTime }}</td>
-            <td>{{ lazadaOrder.updateTime }}</td>
-
+            <td>{{ lazadaOrder.createTime | formatDate }}</td>
+            <td>{{ lazadaOrder.updateTime | formatDate }}</td>
+            <td>{{ lazadaOrder.rtaSla | formatDate }}</td>
+            <td>{{ lazadaOrder.ttsSla | formatDate }}</td>
+            <td>{{ lazadaOrder.orderNumber }}</td>
+            <td>{{ lazadaOrder.invoiceRequired }}</td>
+            <td>{{ lazadaOrder.invoiceNumber }}</td>
+            <td>{{ lazadaOrder.deliveryDate | formatDate }}</td>
+            <td>{{ lazadaOrder.customerName }}</td>
+            <td>{{ lazadaOrder.customerEmail }}</td>
+            <td>{{ lazadaOrder.nationalRegistrationNumber }}</td>
+            <td>{{ lazadaOrder.shippingName }}</td>
+            <td>{{ lazadaOrder.shippingAddress }}</td>
+            <td>{{ lazadaOrder.shippingAddress2 }}</td>
+            <td>{{ lazadaOrder.shippingAddress3 }}</td>
+            <td>{{ lazadaOrder.shippingAddress4 }}</td>
+            <td>{{ lazadaOrder.shippingAddress5 }}</td>
+            <td>{{ lazadaOrder.shippingPhone }}</td>
+            <td>{{ lazadaOrder.shippingPhone2 }}</td>
+            <td>{{ lazadaOrder.shippingCity }}</td>
+            <td>{{ lazadaOrder.shippingPostCode }}</td>
+            <td>{{ lazadaOrder.shippingCountry }}</td>
+            <td>{{ lazadaOrder.shippingRegion }}</td>
+            <td>{{ lazadaOrder.billingName }}</td>
+            <td>{{ lazadaOrder.billingAddr }}</td>
+            <td>{{ lazadaOrder.billingAddr2 }}</td>
+            <td>{{ lazadaOrder.billingAddr3 }}</td>
+            <td>{{ lazadaOrder.billingAddr4 }}</td>
+            <td>{{ lazadaOrder.billingAddr5 }}</td>
+            <td>{{ lazadaOrder.billingPhone }}</td>
+            <td>{{ lazadaOrder.billingPhone2 }}</td>
+            <td>{{ lazadaOrder.billingCity }}</td>
+            <td>{{ lazadaOrder.billingPostCode }}</td>
+            <td>{{ lazadaOrder.billingCountry }}</td>
+            <td>{{ lazadaOrder.taxCode }}</td>
+            <td>{{ lazadaOrder.branchNumber }}</td>
+            <td>{{ lazadaOrder.taxInvoiceRequested }}</td>
+            <td>{{ lazadaOrder.payMethod }}</td>
+            <td>{{ lazadaOrder.paidPrice }}</td>
+            <td>{{ lazadaOrder.unitPrice }}</td>
+            <td>{{ lazadaOrder.sellerDiscountTotal }}</td>
+            <td>{{ lazadaOrder.shippingFee }}</td>
+            <td>{{ lazadaOrder.walletCredit }}</td>
+            <td>{{ lazadaOrder.itemName }}</td>
+            <td>{{ lazadaOrder.variation }}</td>
+            <td>{{ lazadaOrder.cdShippingProvider }}</td>
+            <td>{{ lazadaOrder.shippingProvider }}</td>
+            <td>{{ lazadaOrder.shipmentTypeName }}</td>
+            <td>{{ lazadaOrder.shippingProviderType }}</td>
+            <td>{{ lazadaOrder.cdTrackingCode }}</td>
+            <td>{{ lazadaOrder.trackingCode }}</td>
+            <td>{{ lazadaOrder.trackingUrl }}</td>
+            <td>{{ lazadaOrder.shippingProviderFM }}</td>
+            <td>{{ lazadaOrder.trackingCodeFM }}</td>
+            <td>{{ lazadaOrder.trackingUrlFM }}</td>
+            <td>{{ lazadaOrder.promisedShippingTime | formatDate }}</td>
+            <td>{{ lazadaOrder.premium }}</td>
+            <td>{{ lazadaOrder.status }}</td>
+            <td>{{ lazadaOrder.buyerFailedDeliveryReturnInitiator }}</td>
+            <td>{{ lazadaOrder.buyerFailedDeliveryReason }}</td>
+            <td>{{ lazadaOrder.buyerFailedDeliveryDetail }}</td>
+            <td>{{ lazadaOrder.buyerFailedDeliveryUserName }}</td>
+            <td>{{ lazadaOrder.bundleId }}</td>
+            <td>{{ lazadaOrder.bundleDiscount }}</td>
+            <td>{{ lazadaOrder.refundAmount }}</td>
+            <td>
+              <div v-if="lazadaOrder.shop">
+                <router-link :to="{ name: 'ShopView', params: { shopId: lazadaOrder.shop.id } }">{{ lazadaOrder.shop.id }}</router-link>
+              </div>
+            </td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'LazadaOrderView', params: { lazadaOrderId: lazadaOrder.id } }" custom v-slot="{ navigate }">

@@ -1,5 +1,8 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 
+import dayjs from 'dayjs';
+import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
+
 import AlertService from '@/shared/alert/alert.service';
 
 import ShopService from '@/entities/shop/shop.service';
@@ -16,6 +19,7 @@ const validations: any = {
     deliveryType: {},
     lazadaId: {},
     sellerSku: {},
+    lazadaSku: {},
     wareHouse: {},
     createTime: {},
     updateTime: {},
@@ -42,6 +46,7 @@ const validations: any = {
     shippingRegion: {},
     billingName: {},
     billingAddr: {},
+    billingAddr2: {},
     billingAddr3: {},
     billingAddr4: {},
     billingAddr5: {},
@@ -161,10 +166,39 @@ export default class LazadaOrderUpdate extends Vue {
     }
   }
 
+  public convertDateTimeFromServer(date: Date): string {
+    if (date && dayjs(date).isValid()) {
+      return dayjs(date).format(DATE_TIME_LONG_FORMAT);
+    }
+    return null;
+  }
+
+  public updateInstantField(field, event) {
+    if (event.target.value) {
+      this.lazadaOrder[field] = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
+    } else {
+      this.lazadaOrder[field] = null;
+    }
+  }
+
+  public updateZonedDateTimeField(field, event) {
+    if (event.target.value) {
+      this.lazadaOrder[field] = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
+    } else {
+      this.lazadaOrder[field] = null;
+    }
+  }
+
   public retrieveLazadaOrder(lazadaOrderId): void {
     this.lazadaOrderService()
       .find(lazadaOrderId)
       .then(res => {
+        res.createTime = new Date(res.createTime);
+        res.updateTime = new Date(res.updateTime);
+        res.rtaSla = new Date(res.rtaSla);
+        res.ttsSla = new Date(res.ttsSla);
+        res.deliveryDate = new Date(res.deliveryDate);
+        res.promisedShippingTime = new Date(res.promisedShippingTime);
         this.lazadaOrder = res;
       })
       .catch(error => {

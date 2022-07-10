@@ -17,7 +17,7 @@
                 v-for="userOption in users"
                 :key="userOption.id"
               >
-                {{ userOption.login }}
+                {{ userOption.id }}
               </option>
             </select>
           </div>
@@ -30,7 +30,7 @@
                 v-for="clientOption in clients"
                 :key="clientOption.id"
               >
-                {{ clientOption.clientCode }}
+                {{ clientOption.id }}
               </option>
             </select>
           </div>

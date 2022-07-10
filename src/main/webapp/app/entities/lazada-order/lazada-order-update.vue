@@ -81,6 +81,18 @@
             />
           </div>
           <div class="form-group">
+            <label class="form-control-label" for="lazada-order-lazadaSku">Lazada Sku</label>
+            <input
+              type="text"
+              class="form-control"
+              name="lazadaSku"
+              id="lazada-order-lazadaSku"
+              data-cy="lazadaSku"
+              :class="{ valid: !$v.lazadaOrder.lazadaSku.$invalid, invalid: $v.lazadaOrder.lazadaSku.$invalid }"
+              v-model="$v.lazadaOrder.lazadaSku.$model"
+            />
+          </div>
+          <div class="form-group">
             <label class="form-control-label" for="lazada-order-wareHouse">Ware House</label>
             <input
               type="text"
@@ -94,143 +106,75 @@
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-createTime">Create Time</label>
-            <b-input-group class="mb-3">
-              <b-input-group-prepend>
-                <b-form-datepicker
-                  aria-controls="lazada-order-createTime"
-                  v-model="$v.lazadaOrder.createTime.$model"
-                  name="createTime"
-                  class="form-control"
-                  :locale="currentLanguage"
-                  button-only
-                  today-button
-                  reset-button
-                  close-button
-                >
-                </b-form-datepicker>
-              </b-input-group-prepend>
-              <b-form-input
+            <div class="d-flex">
+              <input
                 id="lazada-order-createTime"
                 data-cy="createTime"
-                type="text"
+                type="datetime-local"
                 class="form-control"
                 name="createTime"
                 :class="{ valid: !$v.lazadaOrder.createTime.$invalid, invalid: $v.lazadaOrder.createTime.$invalid }"
-                v-model="$v.lazadaOrder.createTime.$model"
+                :value="convertDateTimeFromServer($v.lazadaOrder.createTime.$model)"
+                @change="updateZonedDateTimeField('createTime', $event)"
               />
-            </b-input-group>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-updateTime">Update Time</label>
-            <b-input-group class="mb-3">
-              <b-input-group-prepend>
-                <b-form-datepicker
-                  aria-controls="lazada-order-updateTime"
-                  v-model="$v.lazadaOrder.updateTime.$model"
-                  name="updateTime"
-                  class="form-control"
-                  :locale="currentLanguage"
-                  button-only
-                  today-button
-                  reset-button
-                  close-button
-                >
-                </b-form-datepicker>
-              </b-input-group-prepend>
-              <b-form-input
+            <div class="d-flex">
+              <input
                 id="lazada-order-updateTime"
                 data-cy="updateTime"
-                type="text"
+                type="datetime-local"
                 class="form-control"
                 name="updateTime"
                 :class="{ valid: !$v.lazadaOrder.updateTime.$invalid, invalid: $v.lazadaOrder.updateTime.$invalid }"
-                v-model="$v.lazadaOrder.updateTime.$model"
+                :value="convertDateTimeFromServer($v.lazadaOrder.updateTime.$model)"
+                @change="updateZonedDateTimeField('updateTime', $event)"
               />
-            </b-input-group>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-rtaSla">Rta Sla</label>
-            <b-input-group class="mb-3">
-              <b-input-group-prepend>
-                <b-form-datepicker
-                  aria-controls="lazada-order-rtaSla"
-                  v-model="$v.lazadaOrder.rtaSla.$model"
-                  name="rtaSla"
-                  class="form-control"
-                  :locale="currentLanguage"
-                  button-only
-                  today-button
-                  reset-button
-                  close-button
-                >
-                </b-form-datepicker>
-              </b-input-group-prepend>
-              <b-form-input
+            <div class="d-flex">
+              <input
                 id="lazada-order-rtaSla"
                 data-cy="rtaSla"
-                type="text"
+                type="datetime-local"
                 class="form-control"
                 name="rtaSla"
                 :class="{ valid: !$v.lazadaOrder.rtaSla.$invalid, invalid: $v.lazadaOrder.rtaSla.$invalid }"
-                v-model="$v.lazadaOrder.rtaSla.$model"
+                :value="convertDateTimeFromServer($v.lazadaOrder.rtaSla.$model)"
+                @change="updateZonedDateTimeField('rtaSla', $event)"
               />
-            </b-input-group>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-ttsSla">Tts Sla</label>
-            <b-input-group class="mb-3">
-              <b-input-group-prepend>
-                <b-form-datepicker
-                  aria-controls="lazada-order-ttsSla"
-                  v-model="$v.lazadaOrder.ttsSla.$model"
-                  name="ttsSla"
-                  class="form-control"
-                  :locale="currentLanguage"
-                  button-only
-                  today-button
-                  reset-button
-                  close-button
-                >
-                </b-form-datepicker>
-              </b-input-group-prepend>
-              <b-form-input
+            <div class="d-flex">
+              <input
                 id="lazada-order-ttsSla"
                 data-cy="ttsSla"
-                type="text"
+                type="datetime-local"
                 class="form-control"
                 name="ttsSla"
                 :class="{ valid: !$v.lazadaOrder.ttsSla.$invalid, invalid: $v.lazadaOrder.ttsSla.$invalid }"
-                v-model="$v.lazadaOrder.ttsSla.$model"
+                :value="convertDateTimeFromServer($v.lazadaOrder.ttsSla.$model)"
+                @change="updateZonedDateTimeField('ttsSla', $event)"
               />
-            </b-input-group>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-orderNumber">Order Number</label>
-            <b-input-group class="mb-3">
-              <b-input-group-prepend>
-                <b-form-datepicker
-                  aria-controls="lazada-order-orderNumber"
-                  v-model="$v.lazadaOrder.orderNumber.$model"
-                  name="orderNumber"
-                  class="form-control"
-                  :locale="currentLanguage"
-                  button-only
-                  today-button
-                  reset-button
-                  close-button
-                >
-                </b-form-datepicker>
-              </b-input-group-prepend>
-              <b-form-input
-                id="lazada-order-orderNumber"
-                data-cy="orderNumber"
-                type="text"
-                class="form-control"
-                name="orderNumber"
-                :class="{ valid: !$v.lazadaOrder.orderNumber.$invalid, invalid: $v.lazadaOrder.orderNumber.$invalid }"
-                v-model="$v.lazadaOrder.orderNumber.$model"
-              />
-            </b-input-group>
+            <input
+              type="text"
+              class="form-control"
+              name="orderNumber"
+              id="lazada-order-orderNumber"
+              data-cy="orderNumber"
+              :class="{ valid: !$v.lazadaOrder.orderNumber.$invalid, invalid: $v.lazadaOrder.orderNumber.$invalid }"
+              v-model="$v.lazadaOrder.orderNumber.$model"
+            />
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-invoiceRequired">Invoice Required</label>
@@ -258,31 +202,18 @@
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-deliveryDate">Delivery Date</label>
-            <b-input-group class="mb-3">
-              <b-input-group-prepend>
-                <b-form-datepicker
-                  aria-controls="lazada-order-deliveryDate"
-                  v-model="$v.lazadaOrder.deliveryDate.$model"
-                  name="deliveryDate"
-                  class="form-control"
-                  :locale="currentLanguage"
-                  button-only
-                  today-button
-                  reset-button
-                  close-button
-                >
-                </b-form-datepicker>
-              </b-input-group-prepend>
-              <b-form-input
+            <div class="d-flex">
+              <input
                 id="lazada-order-deliveryDate"
                 data-cy="deliveryDate"
-                type="text"
+                type="datetime-local"
                 class="form-control"
                 name="deliveryDate"
                 :class="{ valid: !$v.lazadaOrder.deliveryDate.$invalid, invalid: $v.lazadaOrder.deliveryDate.$invalid }"
-                v-model="$v.lazadaOrder.deliveryDate.$model"
+                :value="convertDateTimeFromServer($v.lazadaOrder.deliveryDate.$model)"
+                @change="updateZonedDateTimeField('deliveryDate', $event)"
               />
-            </b-input-group>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-customerName">Customer Name</label>
@@ -489,6 +420,18 @@
               data-cy="billingAddr"
               :class="{ valid: !$v.lazadaOrder.billingAddr.$invalid, invalid: $v.lazadaOrder.billingAddr.$invalid }"
               v-model="$v.lazadaOrder.billingAddr.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="lazada-order-billingAddr2">Billing Addr 2</label>
+            <input
+              type="text"
+              class="form-control"
+              name="billingAddr2"
+              id="lazada-order-billingAddr2"
+              data-cy="billingAddr2"
+              :class="{ valid: !$v.lazadaOrder.billingAddr2.$invalid, invalid: $v.lazadaOrder.billingAddr2.$invalid }"
+              v-model="$v.lazadaOrder.billingAddr2.$model"
             />
           </div>
           <div class="form-group">
@@ -841,31 +784,18 @@
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-promisedShippingTime">Promised Shipping Time</label>
-            <b-input-group class="mb-3">
-              <b-input-group-prepend>
-                <b-form-datepicker
-                  aria-controls="lazada-order-promisedShippingTime"
-                  v-model="$v.lazadaOrder.promisedShippingTime.$model"
-                  name="promisedShippingTime"
-                  class="form-control"
-                  :locale="currentLanguage"
-                  button-only
-                  today-button
-                  reset-button
-                  close-button
-                >
-                </b-form-datepicker>
-              </b-input-group-prepend>
-              <b-form-input
+            <div class="d-flex">
+              <input
                 id="lazada-order-promisedShippingTime"
                 data-cy="promisedShippingTime"
-                type="text"
+                type="datetime-local"
                 class="form-control"
                 name="promisedShippingTime"
                 :class="{ valid: !$v.lazadaOrder.promisedShippingTime.$invalid, invalid: $v.lazadaOrder.promisedShippingTime.$invalid }"
-                v-model="$v.lazadaOrder.promisedShippingTime.$model"
+                :value="convertDateTimeFromServer($v.lazadaOrder.promisedShippingTime.$model)"
+                @change="updateZonedDateTimeField('promisedShippingTime', $event)"
               />
-            </b-input-group>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-premium">Premium</label>

@@ -4,23 +4,9 @@ import { ILazadaOrder } from '@/shared/model/lazada-order.model';
 
 import LazadaOrderService from './lazada-order.service';
 import AlertService from '@/shared/alert/alert.service';
-import { IShop } from '@/shared/model/shop.model';
 
 @Component({
-  watch: {
-    shop: async function () {
-      if (this.shop) {
-        this.posts = await this.retrieveAllLazadaOrdersByShop(this.shop);
-      }
-    },
-  },
   mixins: [Vue2Filters.mixin],
-  props: {
-    shop: {
-      required: true,
-      type: Object as () => IShop,
-    },
-  },
 })
 export default class LazadaOrder extends Vue {
   @Inject('lazadaOrderService') private lazadaOrderService: () => LazadaOrderService;
@@ -33,29 +19,13 @@ export default class LazadaOrder extends Vue {
   public isFetching = false;
 
   public mounted(): void {
-    this.clear();
+    this.retrieveAllLazadaOrders();
   }
 
   public clear(): void {
-    this.retrieveAllLazadaOrdersByShop(this.$props.shop);
+    this.retrieveAllLazadaOrders();
   }
 
-  public retrieveAllLazadaOrdersByShop(shop: IShop): void {
-    console.log(this.$props.shop);
-    this.isFetching = true;
-    this.lazadaOrderService()
-      .retrieveByShop(shop)
-      .then(
-        res => {
-          this.lazadaOrders = res.data;
-          this.isFetching = false;
-        },
-        err => {
-          this.isFetching = false;
-          this.alertService().showHttpError(this, err.response);
-        }
-      );
-  }
   public retrieveAllLazadaOrders(): void {
     this.isFetching = true;
     this.lazadaOrderService()

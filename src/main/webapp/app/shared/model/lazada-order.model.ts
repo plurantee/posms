@@ -14,7 +14,7 @@ export interface ILazadaOrder {
   updateTime?: Date | null;
   rtaSla?: Date | null;
   ttsSla?: Date | null;
-  orderNumber?: Date | null;
+  orderNumber?: string | null;
   invoiceRequired?: boolean | null;
   invoiceNumber?: string | null;
   deliveryDate?: Date | null;
@@ -35,6 +35,7 @@ export interface ILazadaOrder {
   shippingRegion?: string | null;
   billingName?: string | null;
   billingAddr?: string | null;
+  billingAddr2?: string | null;
   billingAddr3?: string | null;
   billingAddr4?: string | null;
   billingAddr5?: string | null;
@@ -92,7 +93,7 @@ export class LazadaOrder implements ILazadaOrder {
     public updateTime?: Date | null,
     public rtaSla?: Date | null,
     public ttsSla?: Date | null,
-    public orderNumber?: Date | null,
+    public orderNumber?: string | null,
     public invoiceRequired?: boolean | null,
     public invoiceNumber?: string | null,
     public deliveryDate?: Date | null,
@@ -113,6 +114,7 @@ export class LazadaOrder implements ILazadaOrder {
     public shippingRegion?: string | null,
     public billingName?: string | null,
     public billingAddr?: string | null,
+    public billingAddr2?: string | null,
     public billingAddr3?: string | null,
     public billingAddr4?: string | null,
     public billingAddr5?: string | null,

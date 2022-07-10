@@ -39,12 +39,12 @@
               <router-link :to="{ name: 'UserInfoView', params: { userInfoId: userInfo.id } }">{{ userInfo.id }}</router-link>
             </td>
             <td>
-              {{ userInfo.user ? userInfo.user.login : '' }}
+              {{ userInfo.user ? userInfo.user.id : '' }}
             </td>
             <td>
               <div v-if="userInfo.clientCode">
                 <router-link :to="{ name: 'ClientView', params: { clientId: userInfo.clientCode.id } }">{{
-                  userInfo.clientCode.clientCode
+                  userInfo.clientCode.id
                 }}</router-link>
               </div>
             </td>

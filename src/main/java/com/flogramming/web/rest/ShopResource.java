@@ -1,11 +1,7 @@
 package com.flogramming.web.rest;
 
 import com.flogramming.domain.Shop;
-import com.flogramming.domain.User;
-import com.flogramming.domain.UserInfo;
 import com.flogramming.repository.ShopRepository;
-import com.flogramming.repository.UserInfoRepository;
-import com.flogramming.service.UserService;
 import com.flogramming.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -36,15 +32,10 @@ public class ShopResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-
     private final ShopRepository shopRepository;
-    private final UserService userService;
-    private final UserInfoRepository userInfoRepository;
 
-    public ShopResource(ShopRepository shopRepository, UserService userService, UserInfoRepository userInfoRepository) {
+    public ShopResource(ShopRepository shopRepository) {
         this.shopRepository = shopRepository;
-        this.userService = userService;
-        this.userInfoRepository = userInfoRepository;
     }
 
     /**
@@ -56,15 +47,9 @@ public class ShopResource {
      */
     @PostMapping("/shops")
     public ResponseEntity<Shop> createShop(@RequestBody Shop shop) throws URISyntaxException {
-        User user = userService.getUserWithAuthorities().get();
-        UserInfo userInfo = userInfoRepository.findByUser(user).get();
         log.debug("REST request to save Shop : {}", shop);
         if (shop.getId() != null) {
             throw new BadRequestAlertException("A new shop cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        shop.setShopCode(userInfo.getClientCode().getClientCode() + "-" + shop.getShopName().replaceAll("\\s+",""));
-        if(!user.hasRole("ROLE_ADMIN")) {
-            shop.setClientCode(userInfo.getClientCode());
         }
         Shop result = shopRepository.save(shop);
         return ResponseEntity
@@ -162,15 +147,7 @@ public class ShopResource {
     @GetMapping("/shops")
     public List<Shop> getAllShops() {
         log.debug("REST request to get all Shops");
-        User user = userService.getUserWithAuthorities().get();
-        UserInfo userInfo = userInfoRepository.findByUser(user).get();
-        if (user.hasRole("ROLE_ADMIN")) {
-            return shopRepository.findAll();
-        } else {
-            return shopRepository.findByClientCode(userInfo.getClientCode());
-        }
-
-
+        return shopRepository.findAll();
     }
 
     /**

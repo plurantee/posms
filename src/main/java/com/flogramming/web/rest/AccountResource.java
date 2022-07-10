@@ -4,6 +4,7 @@ import com.flogramming.domain.User;
 import com.flogramming.domain.UserInfo;
 import com.flogramming.repository.UserRepository;
 import com.flogramming.security.SecurityUtils;
+import com.flogramming.service.ClientUserService;
 import com.flogramming.service.MailService;
 import com.flogramming.service.UserService;
 import com.flogramming.service.dto.AdminUserDTO;
@@ -38,11 +39,11 @@ public class AccountResource {
 
     private final UserRepository userRepository;
 
-    private final UserService userService;
+    private final ClientUserService userService;
 
     private final MailService mailService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    public AccountResource(UserRepository userRepository, ClientUserService userService, MailService mailService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;

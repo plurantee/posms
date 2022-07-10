@@ -1,5 +1,6 @@
 package com.flogramming.web.rest;
 
+import com.flogramming.service.ClientUserService;
 import com.flogramming.service.UserService;
 import com.flogramming.service.dto.UserDTO;
 import java.util.*;
@@ -26,9 +27,9 @@ public class PublicUserResource {
 
     private final Logger log = LoggerFactory.getLogger(PublicUserResource.class);
 
-    private final UserService userService;
+    private final ClientUserService userService;
 
-    public PublicUserResource(UserService userService) {
+    public PublicUserResource(ClientUserService userService) {
         this.userService = userService;
     }
 

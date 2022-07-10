@@ -2,7 +2,7 @@ package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import javax.persistence.*;
 
 /**
@@ -45,16 +45,16 @@ public class LazadaOrder implements Serializable {
     private String wareHouse;
 
     @Column(name = "create_time")
-    private LocalDateTime createTime;
+    private ZonedDateTime createTime;
 
     @Column(name = "update_time")
-    private LocalDateTime updateTime;
+    private ZonedDateTime updateTime;
 
     @Column(name = "rta_sla")
-    private LocalDateTime rtaSla;
+    private ZonedDateTime rtaSla;
 
     @Column(name = "tts_sla")
-    private LocalDateTime ttsSla;
+    private ZonedDateTime ttsSla;
 
     @Column(name = "order_number")
     private String orderNumber;
@@ -66,7 +66,7 @@ public class LazadaOrder implements Serializable {
     private String invoiceNumber;
 
     @Column(name = "delivery_date")
-    private LocalDateTime deliveryDate;
+    private ZonedDateTime deliveryDate;
 
     @Column(name = "customer_name")
     private String customerName;
@@ -210,7 +210,7 @@ public class LazadaOrder implements Serializable {
     private String trackingUrlFM;
 
     @Column(name = "promised_shipping_time")
-    private LocalDateTime promisedShippingTime;
+    private ZonedDateTime promisedShippingTime;
 
     @Column(name = "premium")
     private String premium;
@@ -250,11 +250,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder id(Long id) {
-        this.Id(id);
+        this.setId(id);
         return this;
     }
 
-    public void Id(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -263,11 +263,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder orderItemId(String orderItemId) {
-        this.OrderItemId(orderItemId);
+        this.setOrderItemId(orderItemId);
         return this;
     }
 
-    public void OrderItemId(String orderItemId) {
+    public void setOrderItemId(String orderItemId) {
         this.orderItemId = orderItemId;
     }
 
@@ -276,11 +276,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder orderType(String orderType) {
-        this.OrderType(orderType);
+        this.setOrderType(orderType);
         return this;
     }
 
-    public void OrderType(String orderType) {
+    public void setOrderType(String orderType) {
         this.orderType = orderType;
     }
 
@@ -289,11 +289,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder guarantee(String guarantee) {
-        this.Guarantee(guarantee);
+        this.setGuarantee(guarantee);
         return this;
     }
 
-    public void Guarantee(String guarantee) {
+    public void setGuarantee(String guarantee) {
         this.guarantee = guarantee;
     }
 
@@ -302,11 +302,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder deliveryType(String deliveryType) {
-        this.DeliveryType(deliveryType);
+        this.setDeliveryType(deliveryType);
         return this;
     }
 
-    public void DeliveryType(String deliveryType) {
+    public void setDeliveryType(String deliveryType) {
         this.deliveryType = deliveryType;
     }
 
@@ -315,11 +315,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder lazadaId(String lazadaId) {
-        this.LazadaId(lazadaId);
+        this.setLazadaId(lazadaId);
         return this;
     }
 
-    public void LazadaId(String lazadaId) {
+    public void setLazadaId(String lazadaId) {
         this.lazadaId = lazadaId;
     }
 
@@ -328,11 +328,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder sellerSku(String sellerSku) {
-        this.SellerSku(sellerSku);
+        this.setSellerSku(sellerSku);
         return this;
     }
 
-    public void SellerSku(String sellerSku) {
+    public void setSellerSku(String sellerSku) {
         this.sellerSku = sellerSku;
     }
 
@@ -341,11 +341,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder lazadaSku(String lazadaSku) {
-        this.LazadaSku(lazadaSku);
+        this.setLazadaSku(lazadaSku);
         return this;
     }
 
-    public void LazadaSku(String lazadaSku) {
+    public void setLazadaSku(String lazadaSku) {
         this.lazadaSku = lazadaSku;
     }
 
@@ -354,63 +354,63 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder wareHouse(String wareHouse) {
-        this.WareHouse(wareHouse);
+        this.setWareHouse(wareHouse);
         return this;
     }
 
-    public void WareHouse(String wareHouse) {
+    public void setWareHouse(String wareHouse) {
         this.wareHouse = wareHouse;
     }
 
-    public LocalDateTime getCreateTime() {
+    public ZonedDateTime getCreateTime() {
         return this.createTime;
     }
 
-    public LazadaOrder createTime(LocalDateTime createTime) {
-        this.CreateTime(createTime);
+    public LazadaOrder createTime(ZonedDateTime createTime) {
+        this.setCreateTime(createTime);
         return this;
     }
 
-    public void CreateTime(LocalDateTime createTime) {
+    public void setCreateTime(ZonedDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDateTime getUpdateTime() {
+    public ZonedDateTime getUpdateTime() {
         return this.updateTime;
     }
 
-    public LazadaOrder updateTime(LocalDateTime updateTime) {
-        this.UpdateTime(updateTime);
+    public LazadaOrder updateTime(ZonedDateTime updateTime) {
+        this.setUpdateTime(updateTime);
         return this;
     }
 
-    public void UpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(ZonedDateTime updateTime) {
         this.updateTime = updateTime;
     }
 
-    public LocalDateTime getRtaSla() {
+    public ZonedDateTime getRtaSla() {
         return this.rtaSla;
     }
 
-    public LazadaOrder rtaSla(LocalDateTime rtaSla) {
-        this.RtaSla(rtaSla);
+    public LazadaOrder rtaSla(ZonedDateTime rtaSla) {
+        this.setRtaSla(rtaSla);
         return this;
     }
 
-    public void RtaSla(LocalDateTime rtaSla) {
+    public void setRtaSla(ZonedDateTime rtaSla) {
         this.rtaSla = rtaSla;
     }
 
-    public LocalDateTime getTtsSla() {
+    public ZonedDateTime getTtsSla() {
         return this.ttsSla;
     }
 
-    public LazadaOrder ttsSla(LocalDateTime ttsSla) {
-        this.TtsSla(ttsSla);
+    public LazadaOrder ttsSla(ZonedDateTime ttsSla) {
+        this.setTtsSla(ttsSla);
         return this;
     }
 
-    public void TtsSla(LocalDateTime ttsSla) {
+    public void setTtsSla(ZonedDateTime ttsSla) {
         this.ttsSla = ttsSla;
     }
 
@@ -419,11 +419,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder orderNumber(String orderNumber) {
-        this.OrderNumber(orderNumber);
+        this.setOrderNumber(orderNumber);
         return this;
     }
 
-    public void OrderNumber(String orderNumber) {
+    public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
 
@@ -432,11 +432,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder invoiceRequired(Boolean invoiceRequired) {
-        this.InvoiceRequired(invoiceRequired);
+        this.setInvoiceRequired(invoiceRequired);
         return this;
     }
 
-    public void InvoiceRequired(Boolean invoiceRequired) {
+    public void setInvoiceRequired(Boolean invoiceRequired) {
         this.invoiceRequired = invoiceRequired;
     }
 
@@ -445,24 +445,24 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder invoiceNumber(String invoiceNumber) {
-        this.InvoiceNumber(invoiceNumber);
+        this.setInvoiceNumber(invoiceNumber);
         return this;
     }
 
-    public void InvoiceNumber(String invoiceNumber) {
+    public void setInvoiceNumber(String invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
     }
 
-    public LocalDateTime getDeliveryDate() {
+    public ZonedDateTime getDeliveryDate() {
         return this.deliveryDate;
     }
 
-    public LazadaOrder deliveryDate(LocalDateTime deliveryDate) {
-        this.DeliveryDate(deliveryDate);
+    public LazadaOrder deliveryDate(ZonedDateTime deliveryDate) {
+        this.setDeliveryDate(deliveryDate);
         return this;
     }
 
-    public void DeliveryDate(LocalDateTime deliveryDate) {
+    public void setDeliveryDate(ZonedDateTime deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
@@ -471,11 +471,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder customerName(String customerName) {
-        this.CustomerName(customerName);
+        this.setCustomerName(customerName);
         return this;
     }
 
-    public void CustomerName(String customerName) {
+    public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
@@ -484,11 +484,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder customerEmail(String customerEmail) {
-        this.CustomerEmail(customerEmail);
+        this.setCustomerEmail(customerEmail);
         return this;
     }
 
-    public void CustomerEmail(String customerEmail) {
+    public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
     }
 
@@ -497,11 +497,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder nationalRegistrationNumber(String nationalRegistrationNumber) {
-        this.NationalRegistrationNumber(nationalRegistrationNumber);
+        this.setNationalRegistrationNumber(nationalRegistrationNumber);
         return this;
     }
 
-    public void NationalRegistrationNumber(String nationalRegistrationNumber) {
+    public void setNationalRegistrationNumber(String nationalRegistrationNumber) {
         this.nationalRegistrationNumber = nationalRegistrationNumber;
     }
 
@@ -510,11 +510,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingName(String shippingName) {
-        this.ShippingName(shippingName);
+        this.setShippingName(shippingName);
         return this;
     }
 
-    public void ShippingName(String shippingName) {
+    public void setShippingName(String shippingName) {
         this.shippingName = shippingName;
     }
 
@@ -523,11 +523,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingAddress(String shippingAddress) {
-        this.ShippingAddress(shippingAddress);
+        this.setShippingAddress(shippingAddress);
         return this;
     }
 
-    public void ShippingAddress(String shippingAddress) {
+    public void setShippingAddress(String shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
 
@@ -536,11 +536,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingAddress2(String shippingAddress2) {
-        this.ShippingAddress2(shippingAddress2);
+        this.setShippingAddress2(shippingAddress2);
         return this;
     }
 
-    public void ShippingAddress2(String shippingAddress2) {
+    public void setShippingAddress2(String shippingAddress2) {
         this.shippingAddress2 = shippingAddress2;
     }
 
@@ -549,11 +549,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingAddress3(String shippingAddress3) {
-        this.ShippingAddress3(shippingAddress3);
+        this.setShippingAddress3(shippingAddress3);
         return this;
     }
 
-    public void ShippingAddress3(String shippingAddress3) {
+    public void setShippingAddress3(String shippingAddress3) {
         this.shippingAddress3 = shippingAddress3;
     }
 
@@ -562,11 +562,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingAddress4(String shippingAddress4) {
-        this.ShippingAddress4(shippingAddress4);
+        this.setShippingAddress4(shippingAddress4);
         return this;
     }
 
-    public void ShippingAddress4(String shippingAddress4) {
+    public void setShippingAddress4(String shippingAddress4) {
         this.shippingAddress4 = shippingAddress4;
     }
 
@@ -575,11 +575,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingAddress5(String shippingAddress5) {
-        this.ShippingAddress5(shippingAddress5);
+        this.setShippingAddress5(shippingAddress5);
         return this;
     }
 
-    public void ShippingAddress5(String shippingAddress5) {
+    public void setShippingAddress5(String shippingAddress5) {
         this.shippingAddress5 = shippingAddress5;
     }
 
@@ -588,11 +588,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingPhone(String shippingPhone) {
-        this.ShippingPhone(shippingPhone);
+        this.setShippingPhone(shippingPhone);
         return this;
     }
 
-    public void ShippingPhone(String shippingPhone) {
+    public void setShippingPhone(String shippingPhone) {
         this.shippingPhone = shippingPhone;
     }
 
@@ -601,11 +601,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingPhone2(String shippingPhone2) {
-        this.ShippingPhone2(shippingPhone2);
+        this.setShippingPhone2(shippingPhone2);
         return this;
     }
 
-    public void ShippingPhone2(String shippingPhone2) {
+    public void setShippingPhone2(String shippingPhone2) {
         this.shippingPhone2 = shippingPhone2;
     }
 
@@ -614,11 +614,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingCity(String shippingCity) {
-        this.ShippingCity(shippingCity);
+        this.setShippingCity(shippingCity);
         return this;
     }
 
-    public void ShippingCity(String shippingCity) {
+    public void setShippingCity(String shippingCity) {
         this.shippingCity = shippingCity;
     }
 
@@ -627,11 +627,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingPostCode(String shippingPostCode) {
-        this.ShippingPostCode(shippingPostCode);
+        this.setShippingPostCode(shippingPostCode);
         return this;
     }
 
-    public void ShippingPostCode(String shippingPostCode) {
+    public void setShippingPostCode(String shippingPostCode) {
         this.shippingPostCode = shippingPostCode;
     }
 
@@ -640,11 +640,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingCountry(String shippingCountry) {
-        this.ShippingCountry(shippingCountry);
+        this.setShippingCountry(shippingCountry);
         return this;
     }
 
-    public void ShippingCountry(String shippingCountry) {
+    public void setShippingCountry(String shippingCountry) {
         this.shippingCountry = shippingCountry;
     }
 
@@ -653,11 +653,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingRegion(String shippingRegion) {
-        this.ShippingRegion(shippingRegion);
+        this.setShippingRegion(shippingRegion);
         return this;
     }
 
-    public void ShippingRegion(String shippingRegion) {
+    public void setShippingRegion(String shippingRegion) {
         this.shippingRegion = shippingRegion;
     }
 
@@ -666,11 +666,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder billingName(String billingName) {
-        this.BillingName(billingName);
+        this.setBillingName(billingName);
         return this;
     }
 
-    public void BillingName(String billingName) {
+    public void setBillingName(String billingName) {
         this.billingName = billingName;
     }
 
@@ -679,11 +679,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder billingAddr(String billingAddr) {
-        this.BillingAddr(billingAddr);
+        this.setBillingAddr(billingAddr);
         return this;
     }
 
-    public void BillingAddr(String billingAddr) {
+    public void setBillingAddr(String billingAddr) {
         this.billingAddr = billingAddr;
     }
 
@@ -692,11 +692,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder billingAddr2(String billingAddr2) {
-        this.BillingAddr2(billingAddr2);
+        this.setBillingAddr2(billingAddr2);
         return this;
     }
 
-    public void BillingAddr2(String billingAddr2) {
+    public void setBillingAddr2(String billingAddr2) {
         this.billingAddr2 = billingAddr2;
     }
 
@@ -705,11 +705,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder billingAddr3(String billingAddr3) {
-        this.BillingAddr3(billingAddr3);
+        this.setBillingAddr3(billingAddr3);
         return this;
     }
 
-    public void BillingAddr3(String billingAddr3) {
+    public void setBillingAddr3(String billingAddr3) {
         this.billingAddr3 = billingAddr3;
     }
 
@@ -718,11 +718,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder billingAddr4(String billingAddr4) {
-        this.BillingAddr4(billingAddr4);
+        this.setBillingAddr4(billingAddr4);
         return this;
     }
 
-    public void BillingAddr4(String billingAddr4) {
+    public void setBillingAddr4(String billingAddr4) {
         this.billingAddr4 = billingAddr4;
     }
 
@@ -731,11 +731,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder billingAddr5(String billingAddr5) {
-        this.BillingAddr5(billingAddr5);
+        this.setBillingAddr5(billingAddr5);
         return this;
     }
 
-    public void BillingAddr5(String billingAddr5) {
+    public void setBillingAddr5(String billingAddr5) {
         this.billingAddr5 = billingAddr5;
     }
 
@@ -744,11 +744,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder billingPhone(String billingPhone) {
-        this.BillingPhone(billingPhone);
+        this.setBillingPhone(billingPhone);
         return this;
     }
 
-    public void BillingPhone(String billingPhone) {
+    public void setBillingPhone(String billingPhone) {
         this.billingPhone = billingPhone;
     }
 
@@ -757,11 +757,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder billingPhone2(String billingPhone2) {
-        this.BillingPhone2(billingPhone2);
+        this.setBillingPhone2(billingPhone2);
         return this;
     }
 
-    public void BillingPhone2(String billingPhone2) {
+    public void setBillingPhone2(String billingPhone2) {
         this.billingPhone2 = billingPhone2;
     }
 
@@ -770,11 +770,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder billingCity(String billingCity) {
-        this.BillingCity(billingCity);
+        this.setBillingCity(billingCity);
         return this;
     }
 
-    public void BillingCity(String billingCity) {
+    public void setBillingCity(String billingCity) {
         this.billingCity = billingCity;
     }
 
@@ -783,11 +783,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder billingPostCode(String billingPostCode) {
-        this.BillingPostCode(billingPostCode);
+        this.setBillingPostCode(billingPostCode);
         return this;
     }
 
-    public void BillingPostCode(String billingPostCode) {
+    public void setBillingPostCode(String billingPostCode) {
         this.billingPostCode = billingPostCode;
     }
 
@@ -796,11 +796,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder billingCountry(String billingCountry) {
-        this.BillingCountry(billingCountry);
+        this.setBillingCountry(billingCountry);
         return this;
     }
 
-    public void BillingCountry(String billingCountry) {
+    public void setBillingCountry(String billingCountry) {
         this.billingCountry = billingCountry;
     }
 
@@ -809,11 +809,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder taxCode(String taxCode) {
-        this.TaxCode(taxCode);
+        this.setTaxCode(taxCode);
         return this;
     }
 
-    public void TaxCode(String taxCode) {
+    public void setTaxCode(String taxCode) {
         this.taxCode = taxCode;
     }
 
@@ -822,11 +822,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder branchNumber(String branchNumber) {
-        this.BranchNumber(branchNumber);
+        this.setBranchNumber(branchNumber);
         return this;
     }
 
-    public void BranchNumber(String branchNumber) {
+    public void setBranchNumber(String branchNumber) {
         this.branchNumber = branchNumber;
     }
 
@@ -835,11 +835,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder taxInvoiceRequested(String taxInvoiceRequested) {
-        this.TaxInvoiceRequested(taxInvoiceRequested);
+        this.setTaxInvoiceRequested(taxInvoiceRequested);
         return this;
     }
 
-    public void TaxInvoiceRequested(String taxInvoiceRequested) {
+    public void setTaxInvoiceRequested(String taxInvoiceRequested) {
         this.taxInvoiceRequested = taxInvoiceRequested;
     }
 
@@ -848,11 +848,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder payMethod(String payMethod) {
-        this.PayMethod(payMethod);
+        this.setPayMethod(payMethod);
         return this;
     }
 
-    public void PayMethod(String payMethod) {
+    public void setPayMethod(String payMethod) {
         this.payMethod = payMethod;
     }
 
@@ -861,11 +861,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder paidPrice(String paidPrice) {
-        this.PaidPrice(paidPrice);
+        this.setPaidPrice(paidPrice);
         return this;
     }
 
-    public void PaidPrice(String paidPrice) {
+    public void setPaidPrice(String paidPrice) {
         this.paidPrice = paidPrice;
     }
 
@@ -874,11 +874,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder unitPrice(String unitPrice) {
-        this.UnitPrice(unitPrice);
+        this.setUnitPrice(unitPrice);
         return this;
     }
 
-    public void UnitPrice(String unitPrice) {
+    public void setUnitPrice(String unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -887,11 +887,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder sellerDiscountTotal(String sellerDiscountTotal) {
-        this.SellerDiscountTotal(sellerDiscountTotal);
+        this.setSellerDiscountTotal(sellerDiscountTotal);
         return this;
     }
 
-    public void SellerDiscountTotal(String sellerDiscountTotal) {
+    public void setSellerDiscountTotal(String sellerDiscountTotal) {
         this.sellerDiscountTotal = sellerDiscountTotal;
     }
 
@@ -900,11 +900,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingFee(String shippingFee) {
-        this.ShippingFee(shippingFee);
+        this.setShippingFee(shippingFee);
         return this;
     }
 
-    public void ShippingFee(String shippingFee) {
+    public void setShippingFee(String shippingFee) {
         this.shippingFee = shippingFee;
     }
 
@@ -913,11 +913,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder walletCredit(String walletCredit) {
-        this.WalletCredit(walletCredit);
+        this.setWalletCredit(walletCredit);
         return this;
     }
 
-    public void WalletCredit(String walletCredit) {
+    public void setWalletCredit(String walletCredit) {
         this.walletCredit = walletCredit;
     }
 
@@ -926,11 +926,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder itemName(String itemName) {
-        this.ItemName(itemName);
+        this.setItemName(itemName);
         return this;
     }
 
-    public void ItemName(String itemName) {
+    public void setItemName(String itemName) {
         this.itemName = itemName;
     }
 
@@ -939,11 +939,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder variation(String variation) {
-        this.Variation(variation);
+        this.setVariation(variation);
         return this;
     }
 
-    public void Variation(String variation) {
+    public void setVariation(String variation) {
         this.variation = variation;
     }
 
@@ -952,11 +952,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder cdShippingProvider(String cdShippingProvider) {
-        this.CdShippingProvider(cdShippingProvider);
+        this.setCdShippingProvider(cdShippingProvider);
         return this;
     }
 
-    public void CdShippingProvider(String cdShippingProvider) {
+    public void setCdShippingProvider(String cdShippingProvider) {
         this.cdShippingProvider = cdShippingProvider;
     }
 
@@ -965,11 +965,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingProvider(String shippingProvider) {
-        this.ShippingProvider(shippingProvider);
+        this.setShippingProvider(shippingProvider);
         return this;
     }
 
-    public void ShippingProvider(String shippingProvider) {
+    public void setShippingProvider(String shippingProvider) {
         this.shippingProvider = shippingProvider;
     }
 
@@ -978,11 +978,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shipmentTypeName(String shipmentTypeName) {
-        this.ShipmentTypeName(shipmentTypeName);
+        this.setShipmentTypeName(shipmentTypeName);
         return this;
     }
 
-    public void ShipmentTypeName(String shipmentTypeName) {
+    public void setShipmentTypeName(String shipmentTypeName) {
         this.shipmentTypeName = shipmentTypeName;
     }
 
@@ -991,11 +991,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingProviderType(String shippingProviderType) {
-        this.ShippingProviderType(shippingProviderType);
+        this.setShippingProviderType(shippingProviderType);
         return this;
     }
 
-    public void ShippingProviderType(String shippingProviderType) {
+    public void setShippingProviderType(String shippingProviderType) {
         this.shippingProviderType = shippingProviderType;
     }
 
@@ -1004,11 +1004,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder cdTrackingCode(String cdTrackingCode) {
-        this.CdTrackingCode(cdTrackingCode);
+        this.setCdTrackingCode(cdTrackingCode);
         return this;
     }
 
-    public void CdTrackingCode(String cdTrackingCode) {
+    public void setCdTrackingCode(String cdTrackingCode) {
         this.cdTrackingCode = cdTrackingCode;
     }
 
@@ -1017,11 +1017,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder trackingCode(String trackingCode) {
-        this.TrackingCode(trackingCode);
+        this.setTrackingCode(trackingCode);
         return this;
     }
 
-    public void TrackingCode(String trackingCode) {
+    public void setTrackingCode(String trackingCode) {
         this.trackingCode = trackingCode;
     }
 
@@ -1030,11 +1030,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder trackingUrl(String trackingUrl) {
-        this.TrackingUrl(trackingUrl);
+        this.setTrackingUrl(trackingUrl);
         return this;
     }
 
-    public void TrackingUrl(String trackingUrl) {
+    public void setTrackingUrl(String trackingUrl) {
         this.trackingUrl = trackingUrl;
     }
 
@@ -1043,11 +1043,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder shippingProviderFM(String shippingProviderFM) {
-        this.ShippingProviderFM(shippingProviderFM);
+        this.setShippingProviderFM(shippingProviderFM);
         return this;
     }
 
-    public void ShippingProviderFM(String shippingProviderFM) {
+    public void setShippingProviderFM(String shippingProviderFM) {
         this.shippingProviderFM = shippingProviderFM;
     }
 
@@ -1056,11 +1056,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder trackingCodeFM(String trackingCodeFM) {
-        this.TrackingCodeFM(trackingCodeFM);
+        this.setTrackingCodeFM(trackingCodeFM);
         return this;
     }
 
-    public void TrackingCodeFM(String trackingCodeFM) {
+    public void setTrackingCodeFM(String trackingCodeFM) {
         this.trackingCodeFM = trackingCodeFM;
     }
 
@@ -1069,24 +1069,24 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder trackingUrlFM(String trackingUrlFM) {
-        this.TrackingUrlFM(trackingUrlFM);
+        this.setTrackingUrlFM(trackingUrlFM);
         return this;
     }
 
-    public void TrackingUrlFM(String trackingUrlFM) {
+    public void setTrackingUrlFM(String trackingUrlFM) {
         this.trackingUrlFM = trackingUrlFM;
     }
 
-    public LocalDateTime getPromisedShippingTime() {
+    public ZonedDateTime getPromisedShippingTime() {
         return this.promisedShippingTime;
     }
 
-    public LazadaOrder promisedShippingTime(LocalDateTime promisedShippingTime) {
-        this.PromisedShippingTime(promisedShippingTime);
+    public LazadaOrder promisedShippingTime(ZonedDateTime promisedShippingTime) {
+        this.setPromisedShippingTime(promisedShippingTime);
         return this;
     }
 
-    public void PromisedShippingTime(LocalDateTime promisedShippingTime) {
+    public void setPromisedShippingTime(ZonedDateTime promisedShippingTime) {
         this.promisedShippingTime = promisedShippingTime;
     }
 
@@ -1095,11 +1095,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder premium(String premium) {
-        this.Premium(premium);
+        this.setPremium(premium);
         return this;
     }
 
-    public void Premium(String premium) {
+    public void setPremium(String premium) {
         this.premium = premium;
     }
 
@@ -1108,11 +1108,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder status(String status) {
-        this.Status(status);
+        this.setStatus(status);
         return this;
     }
 
-    public void Status(String status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -1121,11 +1121,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder buyerFailedDeliveryReturnInitiator(String buyerFailedDeliveryReturnInitiator) {
-        this.BuyerFailedDeliveryReturnInitiator(buyerFailedDeliveryReturnInitiator);
+        this.setBuyerFailedDeliveryReturnInitiator(buyerFailedDeliveryReturnInitiator);
         return this;
     }
 
-    public void BuyerFailedDeliveryReturnInitiator(String buyerFailedDeliveryReturnInitiator) {
+    public void setBuyerFailedDeliveryReturnInitiator(String buyerFailedDeliveryReturnInitiator) {
         this.buyerFailedDeliveryReturnInitiator = buyerFailedDeliveryReturnInitiator;
     }
 
@@ -1134,11 +1134,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder buyerFailedDeliveryReason(String buyerFailedDeliveryReason) {
-        this.BuyerFailedDeliveryReason(buyerFailedDeliveryReason);
+        this.setBuyerFailedDeliveryReason(buyerFailedDeliveryReason);
         return this;
     }
 
-    public void BuyerFailedDeliveryReason(String buyerFailedDeliveryReason) {
+    public void setBuyerFailedDeliveryReason(String buyerFailedDeliveryReason) {
         this.buyerFailedDeliveryReason = buyerFailedDeliveryReason;
     }
 
@@ -1147,11 +1147,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder buyerFailedDeliveryDetail(String buyerFailedDeliveryDetail) {
-        this.BuyerFailedDeliveryDetail(buyerFailedDeliveryDetail);
+        this.setBuyerFailedDeliveryDetail(buyerFailedDeliveryDetail);
         return this;
     }
 
-    public void BuyerFailedDeliveryDetail(String buyerFailedDeliveryDetail) {
+    public void setBuyerFailedDeliveryDetail(String buyerFailedDeliveryDetail) {
         this.buyerFailedDeliveryDetail = buyerFailedDeliveryDetail;
     }
 
@@ -1160,11 +1160,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder buyerFailedDeliveryUserName(String buyerFailedDeliveryUserName) {
-        this.BuyerFailedDeliveryUserName(buyerFailedDeliveryUserName);
+        this.setBuyerFailedDeliveryUserName(buyerFailedDeliveryUserName);
         return this;
     }
 
-    public void BuyerFailedDeliveryUserName(String buyerFailedDeliveryUserName) {
+    public void setBuyerFailedDeliveryUserName(String buyerFailedDeliveryUserName) {
         this.buyerFailedDeliveryUserName = buyerFailedDeliveryUserName;
     }
 
@@ -1173,11 +1173,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder bundleId(String bundleId) {
-        this.BundleId(bundleId);
+        this.setBundleId(bundleId);
         return this;
     }
 
-    public void BundleId(String bundleId) {
+    public void setBundleId(String bundleId) {
         this.bundleId = bundleId;
     }
 
@@ -1186,11 +1186,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder bundleDiscount(String bundleDiscount) {
-        this.BundleDiscount(bundleDiscount);
+        this.setBundleDiscount(bundleDiscount);
         return this;
     }
 
-    public void BundleDiscount(String bundleDiscount) {
+    public void setBundleDiscount(String bundleDiscount) {
         this.bundleDiscount = bundleDiscount;
     }
 
@@ -1199,11 +1199,11 @@ public class LazadaOrder implements Serializable {
     }
 
     public LazadaOrder refundAmount(String refundAmount) {
-        this.RefundAmount(refundAmount);
+        this.setRefundAmount(refundAmount);
         return this;
     }
 
-    public void RefundAmount(String refundAmount) {
+    public void setRefundAmount(String refundAmount) {
         this.refundAmount = refundAmount;
     }
 
@@ -1211,12 +1211,12 @@ public class LazadaOrder implements Serializable {
         return this.shop;
     }
 
-    public void Shop(Shop shop) {
+    public void setShop(Shop shop) {
         this.shop = shop;
     }
 
     public LazadaOrder shop(Shop shop) {
-        this.Shop(shop);
+        this.setShop(shop);
         return this;
     }
 
@@ -1277,6 +1277,7 @@ public class LazadaOrder implements Serializable {
             ", shippingRegion='" + getShippingRegion() + "'" +
             ", billingName='" + getBillingName() + "'" +
             ", billingAddr='" + getBillingAddr() + "'" +
+            ", billingAddr2='" + getBillingAddr2() + "'" +
             ", billingAddr3='" + getBillingAddr3() + "'" +
             ", billingAddr4='" + getBillingAddr4() + "'" +
             ", billingAddr5='" + getBillingAddr5() + "'" +
@@ -1317,157 +1318,5 @@ public class LazadaOrder implements Serializable {
             ", bundleDiscount='" + getBundleDiscount() + "'" +
             ", refundAmount='" + getRefundAmount() + "'" +
             "}";
-    }
-
-    public LazadaOrder() {}
-
-    public LazadaOrder(
-        String orderItemId,
-        String orderType,
-        String guarantee,
-        String deliveryType,
-        String lazadaId,
-        String sellerSku,
-        String lazadaSku,
-        String wareHouse,
-        LocalDateTime createTime,
-        LocalDateTime updateTime,
-        LocalDateTime rtaSla,
-        LocalDateTime ttsSla,
-        String orderNumber,
-        Boolean invoiceRequired,
-        String invoiceNumber,
-        LocalDateTime deliveryDate,
-        String customerName,
-        String customerEmail,
-        String nationalRegistrationNumber,
-        String shippingName,
-        String shippingAddress,
-        String shippingAddress2,
-        String shippingAddress3,
-        String shippingAddress4,
-        String shippingAddress5,
-        String shippingPhone,
-        String shippingPhone2,
-        String shippingCity,
-        String shippingPostCode,
-        String shippingCountry,
-        String shippingRegion,
-        String billingName,
-        String billingAddr,
-        String billingAddr3,
-        String billingAddr4,
-        String billingAddr5,
-        String billingPhone,
-        String billingPhone2,
-        String billingCity,
-        String billingPostCode,
-        String billingCountry,
-        String taxCode,
-        String branchNumber,
-        String taxInvoiceRequested,
-        String payMethod,
-        String paidPrice,
-        String unitPrice,
-        String sellerDiscountTotal,
-        String shippingFee,
-        String walletCredit,
-        String itemName,
-        String variation,
-        String cdShippingProvider,
-        String shippingProvider,
-        String shipmentTypeName,
-        String shippingProviderType,
-        String cdTrackingCode,
-        String trackingCode,
-        String trackingUrl,
-        String shippingProviderFM,
-        String trackingCodeFM,
-        String trackingUrlFM,
-        LocalDateTime promisedShippingTime,
-        String premium,
-        String status,
-        String buyerFailedDeliveryReturnInitiator,
-        String buyerFailedDeliveryReason,
-        String buyerFailedDeliveryDetail,
-        String buyerFailedDeliveryUserName,
-        String bundleId,
-        String bundleDiscount,
-        String refundAmount,
-        Shop shop
-    ) {
-        this.orderItemId = orderItemId;
-        this.orderType = orderType;
-        this.guarantee = guarantee;
-        this.deliveryType = deliveryType;
-        this.lazadaId = lazadaId;
-        this.sellerSku = sellerSku;
-        this.lazadaSku = lazadaSku;
-        this.wareHouse = wareHouse;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-        this.rtaSla = rtaSla;
-        this.ttsSla = ttsSla;
-        this.orderNumber = orderNumber;
-        this.invoiceRequired = invoiceRequired;
-        this.invoiceNumber = invoiceNumber;
-        this.deliveryDate = deliveryDate;
-        this.customerName = customerName;
-        this.customerEmail = customerEmail;
-        this.nationalRegistrationNumber = nationalRegistrationNumber;
-        this.shippingName = shippingName;
-        this.shippingAddress = shippingAddress;
-        this.shippingAddress2 = shippingAddress2;
-        this.shippingAddress3 = shippingAddress3;
-        this.shippingAddress4 = shippingAddress4;
-        this.shippingAddress5 = shippingAddress5;
-        this.shippingPhone = shippingPhone;
-        this.shippingPhone2 = shippingPhone2;
-        this.shippingCity = shippingCity;
-        this.shippingPostCode = shippingPostCode;
-        this.shippingCountry = shippingCountry;
-        this.shippingRegion = shippingRegion;
-        this.billingName = billingName;
-        this.billingAddr = billingAddr;
-        this.billingAddr3 = billingAddr3;
-        this.billingAddr4 = billingAddr4;
-        this.billingAddr5 = billingAddr5;
-        this.billingPhone = billingPhone;
-        this.billingPhone2 = billingPhone2;
-        this.billingCity = billingCity;
-        this.billingPostCode = billingPostCode;
-        this.billingCountry = billingCountry;
-        this.taxCode = taxCode;
-        this.branchNumber = branchNumber;
-        this.taxInvoiceRequested = taxInvoiceRequested;
-        this.payMethod = payMethod;
-        this.paidPrice = paidPrice;
-        this.unitPrice = unitPrice;
-        this.sellerDiscountTotal = sellerDiscountTotal;
-        this.shippingFee = shippingFee;
-        this.walletCredit = walletCredit;
-        this.itemName = itemName;
-        this.variation = variation;
-        this.cdShippingProvider = cdShippingProvider;
-        this.shippingProvider = shippingProvider;
-        this.shipmentTypeName = shipmentTypeName;
-        this.shippingProviderType = shippingProviderType;
-        this.cdTrackingCode = cdTrackingCode;
-        this.trackingCode = trackingCode;
-        this.trackingUrl = trackingUrl;
-        this.shippingProviderFM = shippingProviderFM;
-        this.trackingCodeFM = trackingCodeFM;
-        this.trackingUrlFM = trackingUrlFM;
-        this.promisedShippingTime = promisedShippingTime;
-        this.premium = premium;
-        this.status = status;
-        this.buyerFailedDeliveryReturnInitiator = buyerFailedDeliveryReturnInitiator;
-        this.buyerFailedDeliveryReason = buyerFailedDeliveryReason;
-        this.buyerFailedDeliveryDetail = buyerFailedDeliveryDetail;
-        this.buyerFailedDeliveryUserName = buyerFailedDeliveryUserName;
-        this.bundleId = bundleId;
-        this.bundleDiscount = bundleDiscount;
-        this.refundAmount = refundAmount;
-        this.shop = shop;
     }
 }

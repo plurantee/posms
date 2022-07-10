@@ -2,10 +2,12 @@ package com.flogramming.service;
 
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.Shop;
+import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.LazadaOrderRepository;
 import com.flogramming.util.OrdersUtil;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ExcelFileService {
 
     @Autowired
-    private LazadaOrderRepository lazadaOrderRepository;
+    private ClientLazadaOrderRepository lazadaOrderRepository;
 
     public List<LazadaOrder> processLazadaExcelFile(MultipartFile file, Shop shop) throws IOException {
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
@@ -179,11 +181,11 @@ public class ExcelFileService {
         * */
     }
 
-    public LocalDateTime convertDate(String date) {
+    public ZonedDateTime convertDate(String date) {
         if (StringUtils.isEmpty(date)) {
             return null;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
-        return LocalDateTime.parse(date, formatter);
+        return ZonedDateTime.parse(date, formatter);
     }
 }

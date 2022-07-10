@@ -3,11 +3,11 @@ package com.flogramming.web.rest;
 import com.flogramming.config.Constants;
 import com.flogramming.domain.User;
 import com.flogramming.domain.UserInfo;
-import com.flogramming.repository.UserInfoRepository;
+import com.flogramming.repository.ClientUserInfoRepository;
 import com.flogramming.repository.UserRepository;
 import com.flogramming.security.AuthoritiesConstants;
+import com.flogramming.service.ClientUserService;
 import com.flogramming.service.MailService;
-import com.flogramming.service.UserService;
 import com.flogramming.service.dto.AdminUserDTO;
 import com.flogramming.web.rest.errors.BadRequestAlertException;
 import com.flogramming.web.rest.errors.EmailAlreadyUsedException;
@@ -87,17 +87,17 @@ public class ClientAdminResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final UserService userService;
+    private final ClientUserService userService;
 
     private final UserRepository userRepository;
-    private final UserInfoRepository userInfoRepository;
+    private final ClientUserInfoRepository userInfoRepository;
 
     private final MailService mailService;
 
     public ClientAdminResource(
-        UserService userService,
+        ClientUserService userService,
         UserRepository userRepository,
-        UserInfoRepository userInfoRepository,
+        ClientUserInfoRepository userInfoRepository,
         MailService mailService
     ) {
         this.userService = userService;

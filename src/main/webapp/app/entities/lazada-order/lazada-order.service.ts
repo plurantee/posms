@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import { ILazadaOrder } from '@/shared/model/lazada-order.model';
-import { IShop } from '@/shared/model/shop.model';
 
 const baseApiUrl = 'api/lazada-orders';
 
@@ -31,18 +30,6 @@ export default class LazadaOrderService {
         });
     });
   }
-  public retrieveByShop(shop: IShop): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
-      axios
-        .get(`${baseApiUrl}/shop/${shop.id}`)
-        .then(res => {
-          resolve(res);
-        })
-        .catch(err => {
-          reject(err);
-        });
-    });
-  }
 
   public delete(id: number): Promise<any> {
     return new Promise<any>((resolve, reject) => {
@@ -61,23 +48,6 @@ export default class LazadaOrderService {
     return new Promise<ILazadaOrder>((resolve, reject) => {
       axios
         .post(`${baseApiUrl}`, entity)
-        .then(res => {
-          resolve(res.data);
-        })
-        .catch(err => {
-          reject(err);
-        });
-    });
-  }
-
-  public uploadLazadaExcel(file: FormData) {
-    return new Promise<any>((resolve, reject) => {
-      axios
-        .post(`${baseApiUrl}/upload`, file, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
         .then(res => {
           resolve(res.data);
         })

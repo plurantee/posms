@@ -56,25 +56,25 @@
             <span>Create Time</span>
           </dt>
           <dd>
-            <span>{{ lazadaOrder.createTime }}</span>
+            <span>{{ lazadaOrder.createTime | formatDate }}</span>
           </dd>
           <dt>
             <span>Update Time</span>
           </dt>
           <dd>
-            <span>{{ lazadaOrder.updateTime }}</span>
+            <span>{{ lazadaOrder.updateTime | formatDate }}</span>
           </dd>
           <dt>
             <span>Rta Sla</span>
           </dt>
           <dd>
-            <span>{{ lazadaOrder.rtaSla }}</span>
+            <span>{{ lazadaOrder.rtaSla | formatDate }}</span>
           </dd>
           <dt>
             <span>Tts Sla</span>
           </dt>
           <dd>
-            <span>{{ lazadaOrder.ttsSla }}</span>
+            <span>{{ lazadaOrder.ttsSla | formatDate }}</span>
           </dd>
           <dt>
             <span>Order Number</span>
@@ -98,7 +98,7 @@
             <span>Delivery Date</span>
           </dt>
           <dd>
-            <span>{{ lazadaOrder.deliveryDate }}</span>
+            <span>{{ lazadaOrder.deliveryDate | formatDate }}</span>
           </dd>
           <dt>
             <span>Customer Name</span>
@@ -201,6 +201,12 @@
           </dt>
           <dd>
             <span>{{ lazadaOrder.billingAddr }}</span>
+          </dd>
+          <dt>
+            <span>Billing Addr 2</span>
+          </dt>
+          <dd>
+            <span>{{ lazadaOrder.billingAddr2 }}</span>
           </dd>
           <dt>
             <span>Billing Addr 3</span>
@@ -380,7 +386,7 @@
             <span>Promised Shipping Time</span>
           </dt>
           <dd>
-            <span>{{ lazadaOrder.promisedShippingTime }}</span>
+            <span>{{ lazadaOrder.promisedShippingTime | formatDate }}</span>
           </dd>
           <dt>
             <span>Premium</span>

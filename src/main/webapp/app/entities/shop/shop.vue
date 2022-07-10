@@ -22,6 +22,8 @@
       <table class="table table-striped" aria-describedby="shops">
         <thead>
           <tr>
+            <th scope="row"><span>ID</span></th>
+            <th scope="row"><span>Shop Code</span></th>
             <th scope="row"><span>Shop Name</span></th>
             <th scope="row"><span>Shop Type</span></th>
             <th scope="row"><span>Client Code</span></th>
@@ -31,14 +33,14 @@
         <tbody>
           <tr v-for="shop in shops" :key="shop.id" data-cy="entityTable">
             <td>
-              <router-link :to="{ name: 'ShopView', params: { shopId: shop.id } }">{{ shop.shopName }}</router-link>
+              <router-link :to="{ name: 'ShopView', params: { shopId: shop.id } }">{{ shop.id }}</router-link>
             </td>
+            <td>{{ shop.shopCode }}</td>
+            <td>{{ shop.shopName }}</td>
             <td>{{ shop.shopType }}</td>
             <td>
               <div v-if="shop.clientCode">
-                <router-link :to="{ name: 'ClientView', params: { clientId: shop.clientCode.id } }">{{
-                  shop.clientCode.clientCode
-                }}</router-link>
+                <router-link :to="{ name: 'ClientView', params: { clientId: shop.clientCode.id } }">{{ shop.clientCode.id }}</router-link>
               </div>
             </td>
             <td class="text-right">
