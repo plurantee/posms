@@ -2,9 +2,10 @@ import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
 import { ILazadaOrder } from '@/shared/model/lazada-order.model';
 
-import LazadaOrderService from './lazada-order.service';
+import ClientLazadaOrderService from './client-lazada-order.service';
 import AlertService from '@/shared/alert/alert.service';
 import { IShop } from '@/shared/model/shop.model';
+import LazadaOrder from '../lazada-order/lazada-order.component';
 
 @Component({
   watch: {
@@ -22,15 +23,15 @@ import { IShop } from '@/shared/model/shop.model';
     },
   },
 })
-export default class LazadaOrder extends Vue {
-  @Inject('lazadaOrderService') private lazadaOrderService: () => LazadaOrderService;
-  @Inject('alertService') private alertService: () => AlertService;
-
-  private removeId: number = null;
+export default class ClientLazadaOrder extends LazadaOrder {
+  @Inject('clientLazadaOrderService') private clientLazadaOrderService: () => ClientLazadaOrderService;
+  @Inject('alertService') private clientAlertService: () => AlertService;
 
   public lazadaOrders: ILazadaOrder[] = [];
 
   public isFetching = false;
+
+  private file = null;
 
   public mounted(): void {
     this.clear();
@@ -43,7 +44,7 @@ export default class LazadaOrder extends Vue {
   public retrieveAllLazadaOrdersByShop(shop: IShop): void {
     console.log(this.$props.shop);
     this.isFetching = true;
-    this.lazadaOrderService()
+    this.clientLazadaOrderService()
       .retrieveByShop(shop)
       .then(
         res => {
@@ -52,13 +53,13 @@ export default class LazadaOrder extends Vue {
         },
         err => {
           this.isFetching = false;
-          this.alertService().showHttpError(this, err.response);
+          this.clientAlertService().showHttpError(this, err.response);
         }
       );
   }
   public retrieveAllLazadaOrders(): void {
     this.isFetching = true;
-    this.lazadaOrderService()
+    this.clientLazadaOrderService()
       .retrieve()
       .then(
         res => {
@@ -67,7 +68,7 @@ export default class LazadaOrder extends Vue {
         },
         err => {
           this.isFetching = false;
-          this.alertService().showHttpError(this, err.response);
+          this.clientAlertService().showHttpError(this, err.response);
         }
       );
   }
@@ -76,32 +77,28 @@ export default class LazadaOrder extends Vue {
     this.clear();
   }
 
-  public prepareRemove(instance: ILazadaOrder): void {
-    this.removeId = instance.id;
-    if (<any>this.$refs.removeEntity) {
-      (<any>this.$refs.removeEntity).show();
-    }
+  public uploadFile(): void {
+    this.file = (<HTMLInputElement>this.$refs.file).files[0];
   }
 
-  public removeLazadaOrder(): void {
-    this.lazadaOrderService()
-      .delete(this.removeId)
-      .then(() => {
-        const message = 'A LazadaOrder is deleted with identifier ' + this.removeId;
-        this.$bvToast.toast(message.toString(), {
-          toaster: 'b-toaster-top-center',
-          title: 'Info',
-          variant: 'danger',
-          solid: true,
-          autoHideDelay: 5000,
-        });
-        this.removeId = null;
-        this.retrieveAllLazadaOrders();
-        this.closeDialog();
-      })
-      .catch(error => {
-        this.alertService().showHttpError(this, error.response);
-      });
+  public submitFile(): void {
+    // eslint-disable-next-line prefer-const
+    let formData = new FormData();
+    formData.append('file', this.file);
+    formData.append('shopId', this.$props.shop.id);
+    this.clientLazadaOrderService()
+      .uploadLazadaExcel(formData)
+      .then(
+        res => {
+          this.handleSyncList();
+          this.isFetching = false;
+        },
+        err => {
+          this.handleSyncList();
+          this.isFetching = false;
+          this.clientAlertService().showHttpError(this, err.response);
+        }
+      );
   }
 
   public closeDialog(): void {

@@ -35,6 +35,16 @@ const LazadaOrderUpdate = () => import('@/entities/lazada-order/lazada-order-upd
 const LazadaOrderDetails = () => import('@/entities/lazada-order/lazada-order-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
+const ClientShop = () => import('@/entities/client-shop/client-shop.vue');
+// prettier-ignore
+const ClientShopUpdate = () => import('@/entities/client-shop/client-shop-update.vue');
+// prettier-ignore
+const ClientShopDetails = () => import('@/entities/client-shop/client-shop-details.vue');
+const ClientLazadaOrder = () => import('@/entities/client-lazada-order/client-lazada-order.vue');
+// prettier-ignore
+const ClientLazadaOrderUpdate = () => import('@/entities/client-lazada-order/client-lazada-order-update.vue');
+// prettier-ignore
+const ClientLazadaOrderDetails = () => import('@/entities/client-lazada-order/client-lazada-order-details.vue');
 export default {
   path: '/',
   component: Entities,
@@ -160,5 +170,47 @@ export default {
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here
+    {
+      path: 'client/shop',
+      name: 'ClientShop',
+      component: ClientShop,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/shop/new',
+      name: 'ClientShopCreate',
+      component: ClientShopUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/shop/:shopId/edit',
+      name: 'ClientShopEdit',
+      component: ClientShopUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/shop/:shopId/view',
+      name: 'ClientShopView',
+      component: ClientShopDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/lazada-order/new',
+      name: 'ClientLazadaOrderCreate',
+      component: ClientLazadaOrderUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/lazada-order/:lazadaOrderId/edit',
+      name: 'ClientLazadaOrderEdit',
+      component: ClientLazadaOrderUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/lazada-order/:lazadaOrderId/view',
+      name: 'ClientLazadaOrderView',
+      component: ClientLazadaOrderDetails,
+      meta: { authorities: [Authority.USER] },
+    },
   ],
 };

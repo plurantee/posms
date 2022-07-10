@@ -27,7 +27,7 @@
                   <span>Home</span>
                 </span>
               </b-nav-item>
-              <b-nav-item v-if="authenticated" to="/shop" exact>
+              <b-nav-item v-if="authenticated" to="/client/shop" exact>
                 <span>
                   <b-icon icon="bag-check-fill"></b-icon>
                   <span>Shops</span>

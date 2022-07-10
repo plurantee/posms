@@ -1,13 +1,13 @@
 import { Component, Inject, Vue } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
-import UserManagementService from '../user-management/user-management.service';
 import AlertService from '@/shared/alert/alert.service';
+import ClientUserManagementService from './client-user-management.service';
 
 @Component({
   mixins: [Vue2Filters.mixin],
 })
 export default class ClientUserManagementComponent extends Vue {
-  @Inject('userManagementService') private userManagementService: () => UserManagementService;
+  @Inject('clientUserManagementService') private userManagementService: () => ClientUserManagementService;
   @Inject('alertService') private alertService: () => AlertService;
 
   public error = '';

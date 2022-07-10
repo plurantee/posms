@@ -1,0 +1,130 @@
+<template>
+  <div>
+    <h2 id="page-heading" data-cy="LazadaOrderHeading">
+      <span id="lazada-order-heading"
+        >Lazada Orders for <b>{{ shop.shopName }}</b>
+      </span>
+      <div class="d-flex justify-content-end">
+        <router-link :to="{ name: 'LazadaOrderCreate' }" custom v-slot="{ navigate }">
+          <div>
+            <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
+              <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
+            </button>
+            <b-form-file
+              v-model="file"
+              placeholder="Upload Lazada File"
+              v-on:change="uploadFile()"
+              drop-placeholder="Drop file here..."
+            ></b-form-file>
+            <button
+              @click="submitFile()"
+              id="jh-create-entity"
+              data-cy="entityCreateButton"
+              class="btn btn-primary jh-create-entity create-lazada-order"
+            >
+              <font-awesome-icon icon="plus"></font-awesome-icon>
+              <span> Upload Lazada Orders </span>
+            </button>
+          </div>
+          <button
+            @click="navigate"
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+            class="btn btn-primary jh-create-entity create-lazada-order"
+          >
+            <font-awesome-icon icon="plus"></font-awesome-icon>
+            <span> Manual Put Lazada Order </span>
+          </button>
+        </router-link>
+      </div>
+    </h2>
+    <br />
+    <div class="alert alert-warning" v-if="!isFetching && lazadaOrders && lazadaOrders.length === 0">
+      <span>No lazadaOrders found</span>
+    </div>
+    <div class="table-responsive" v-if="lazadaOrders && lazadaOrders.length > 0">
+      <table class="table table-striped" aria-describedby="lazadaOrders">
+        <thead>
+          <tr>
+            <th scope="row"><span>ID</span></th>
+            <th scope="row"><span>Order Item Id</span></th>
+            <th scope="row"><span>Order Type</span></th>
+            <th scope="row"><span>Guarantee</span></th>
+            <th scope="row"><span>Delivery Type</span></th>
+            <th scope="row"><span>Lazada Id</span></th>
+            <th scope="row"><span>Seller Sku</span></th>
+            <th scope="row"><span>Ware House</span></th>
+            <th scope="row"><span>Create Time</span></th>
+            <th scope="row"><span>Update Time</span></th>
+            <th scope="row"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="lazadaOrder in lazadaOrders" :key="lazadaOrder.id" data-cy="entityTable">
+            <td>
+              <router-link :to="{ name: 'LazadaOrderView', params: { lazadaOrderId: lazadaOrder.id } }">{{ lazadaOrder.id }}</router-link>
+            </td>
+            <td>{{ lazadaOrder.orderItemId }}</td>
+            <td>{{ lazadaOrder.orderType }}</td>
+            <td>{{ lazadaOrder.guarantee }}</td>
+            <td>{{ lazadaOrder.deliveryType }}</td>
+            <td>{{ lazadaOrder.lazadaId }}</td>
+            <td>{{ lazadaOrder.sellerSku }}</td>
+            <td>{{ lazadaOrder.wareHouse }}</td>
+            <td>{{ lazadaOrder.createTime }}</td>
+            <td>{{ lazadaOrder.updateTime }}</td>
+
+            <td class="text-right">
+              <div class="btn-group">
+                <router-link :to="{ name: 'LazadaOrderView', params: { lazadaOrderId: lazadaOrder.id } }" custom v-slot="{ navigate }">
+                  <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
+                    <font-awesome-icon icon="eye"></font-awesome-icon>
+                    <span class="d-none d-md-inline">View</span>
+                  </button>
+                </router-link>
+                <router-link :to="{ name: 'LazadaOrderEdit', params: { lazadaOrderId: lazadaOrder.id } }" custom v-slot="{ navigate }">
+                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
+                    <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
+                    <span class="d-none d-md-inline">Edit</span>
+                  </button>
+                </router-link>
+                <b-button
+                  v-on:click="prepareRemove(lazadaOrder)"
+                  variant="danger"
+                  class="btn btn-sm"
+                  data-cy="entityDeleteButton"
+                  v-b-modal.removeEntity
+                >
+                  <font-awesome-icon icon="times"></font-awesome-icon>
+                  <span class="d-none d-md-inline">Delete</span>
+                </b-button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <b-modal ref="removeEntity" id="removeEntity">
+      <span slot="modal-title"
+        ><span id="floPosmsApp.lazadaOrder.delete.question" data-cy="lazadaOrderDeleteDialogHeading">Confirm delete operation</span></span
+      >
+      <div class="modal-body">
+        <p id="jhi-delete-lazadaOrder-heading">Are you sure you want to delete this Lazada Order?</p>
+      </div>
+      <div slot="modal-footer">
+        <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Cancel</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="jhi-confirm-delete-lazadaOrder"
+          data-cy="entityConfirmDeleteButton"
+          v-on:click="removeLazadaOrder()"
+        >
+          Delete
+        </button>
+      </div>
+    </b-modal>
+  </div>
+</template>
+
+<script lang="ts" src="./client-lazada-order.component.ts"></script>

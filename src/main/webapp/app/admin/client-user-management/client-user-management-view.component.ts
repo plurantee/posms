@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import { Component, Inject } from 'vue-property-decorator';
-import UserManagementService from '../user-management/user-management.service';
 import AlertService from '@/shared/alert/alert.service';
+import ClientUserManagementService from './client-user-management.service';
 
 @Component
 export default class ClientUserManagementView extends Vue {
-  @Inject('userManagementService') private userManagementService: () => UserManagementService;
+  @Inject('clientUserManagementService') private userManagementService: () => ClientUserManagementService;
   @Inject('alertService') private alertService: () => AlertService;
 
   public user: any = null;

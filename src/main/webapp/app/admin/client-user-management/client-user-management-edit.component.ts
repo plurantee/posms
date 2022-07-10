@@ -1,8 +1,8 @@
 import { email, maxLength, minLength, required } from 'vuelidate/lib/validators';
 import { Component, Inject, Vue } from 'vue-property-decorator';
-import UserManagementService from '../user-management/user-management.service';
 import { IUser, User } from '@/shared/model/user.model';
 import AlertService from '@/shared/alert/alert.service';
+import ClientUserManagementService from './client-user-management.service';
 
 const loginValidator = (value: string) => {
   if (!value) {
@@ -37,7 +37,7 @@ const validations: any = {
   validations,
 })
 export default class ClientUserManagementEdit extends Vue {
-  @Inject('userManagementService') private userManagementService: () => UserManagementService;
+  @Inject('clientUserManagementService') private userManagementService: () => ClientUserManagementService;
   @Inject('alertService') private alertService: () => AlertService;
 
   public userAccount: IUser;
