@@ -20,6 +20,7 @@
     <include file="config/liquibase/changelog/20220704053022_added_entity_Shop.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220704053023_added_entity_ShopItems.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220705034729_added_entity_LazadaOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220711110715_added_entity_ShopeeOrder.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20220703074632_added_entity_constraints_UserInfo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220704053022_added_entity_constraints_Shop.xml" relativeToChangelogFile="false"/>

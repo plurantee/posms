@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity ShopeeOrder.
+    -->
+    <changeSet id="20220711110715-1" author="jhipster">
+        <createTable tableName="shopee_order">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="order_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="return_refund_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="tracking_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="shipping_option" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="shipment_method" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="estimated_ship_out_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="ship_time" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="order_creation_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="order_paid_time" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="parent_sku_reference_no" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="product_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sku_reference_no" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="variation_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="original_price" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="deal_price" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="quantity" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="product_subtotal" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_discount" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="price_discount_from_seller" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="shopee_rebate" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="sku_total_weight" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="number_of_items_in_order" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="order_total_weight" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="seller_voucher" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="seller_absorbed_coin_cashback" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="shopee_voucher" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="bundle_deals_indicator_yn" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="shopee_bundle_discount" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="seller_bundle_discount" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="shopee_coins_offset" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="credit_card_discount_total" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="products_price_paid_by_buyer" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="buyer_paid_shipping_fee_shipping_rebate_estimate" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="reverse_shipping_fee" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="service_fee_grand_total" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="estimated_shipping_fee" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="username_buyer" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="receiver_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="phone_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="delivery_address" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="town" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="district" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="province" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="region" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="country" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="zip_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="remark_from_buyer" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="order_complete_time" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="note" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="shopee_order" columnName="estimated_ship_out_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="shopee_order" columnName="ship_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="shopee_order" columnName="order_creation_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="shopee_order" columnName="order_paid_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="shopee_order" columnName="order_complete_time" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20220711110715-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/shopee_order.csv"
+                  separator=";"
+                  tableName="shopee_order"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="order_id" type="string"/>
+            <column name="order_status" type="string"/>
+            <column name="return_refund_status" type="string"/>
+            <column name="tracking_number" type="string"/>
+            <column name="shipping_option" type="string"/>
+            <column name="shipment_method" type="string"/>
+            <column name="estimated_ship_out_date" type="date"/>
+            <column name="ship_time" type="date"/>
+            <column name="order_creation_date" type="date"/>
+            <column name="order_paid_time" type="date"/>
+            <column name="parent_sku_reference_no" type="string"/>
+            <column name="product_name" type="string"/>
+            <column name="sku_reference_no" type="string"/>
+            <column name="variation_name" type="string"/>
+            <column name="original_price" type="numeric"/>
+            <column name="deal_price" type="numeric"/>
+            <column name="quantity" type="numeric"/>
+            <column name="product_subtotal" type="numeric"/>
+            <column name="total_discount" type="numeric"/>
+            <column name="price_discount_from_seller" type="numeric"/>
+            <column name="shopee_rebate" type="numeric"/>
+            <column name="sku_total_weight" type="string"/>
+            <column name="number_of_items_in_order" type="string"/>
+            <column name="order_total_weight" type="string"/>
+            <column name="seller_voucher" type="numeric"/>
+            <column name="seller_absorbed_coin_cashback" type="string"/>
+            <column name="shopee_voucher" type="numeric"/>
+            <column name="bundle_deals_indicator_yn" type="string"/>
+            <column name="shopee_bundle_discount" type="numeric"/>
+            <column name="seller_bundle_discount" type="numeric"/>
+            <column name="shopee_coins_offset" type="numeric"/>
+            <column name="credit_card_discount_total" type="numeric"/>
+            <column name="products_price_paid_by_buyer" type="numeric"/>
+            <column name="buyer_paid_shipping_fee_shipping_rebate_estimate" type="string"/>
+            <column name="reverse_shipping_fee" type="numeric"/>
+            <column name="service_fee_grand_total" type="numeric"/>
+            <column name="estimated_shipping_fee" type="numeric"/>
+            <column name="username_buyer" type="string"/>
+            <column name="receiver_name" type="string"/>
+            <column name="phone_number" type="string"/>
+            <column name="delivery_address" type="string"/>
+            <column name="town" type="string"/>
+            <column name="district" type="string"/>
+            <column name="province" type="string"/>
+            <column name="region" type="string"/>
+            <column name="country" type="string"/>
+            <column name="zip_code" type="string"/>
+            <column name="remark_from_buyer" type="string"/>
+            <column name="order_complete_time" type="date"/>
+            <column name="note" type="string"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

@@ -152,19 +152,19 @@
             <column name="pay_method" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="paid_price" type="varchar(255)">
+            <column name="paid_price" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="unit_price" type="varchar(255)">
+            <column name="unit_price" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="seller_discount_total" type="varchar(255)">
+            <column name="seller_discount_total" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="shipping_fee" type="varchar(255)">
+            <column name="shipping_fee" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="wallet_credit" type="varchar(255)">
+            <column name="wallet_credit" type="double">
                 <constraints nullable="true" />
             </column>
             <column name="item_name" type="varchar(255)">
@@ -227,10 +227,10 @@
             <column name="bundle_id" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="bundle_discount" type="varchar(255)">
+            <column name="bundle_discount" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="refund_amount" type="varchar(255)">
+            <column name="refund_amount" type="double">
                 <constraints nullable="true" />
             </column>
             <column name="shop_id" type="bigint">
@@ -309,11 +309,11 @@
             <column name="branch_number" type="string"/>
             <column name="tax_invoice_requested" type="string"/>
             <column name="pay_method" type="string"/>
-            <column name="paid_price" type="string"/>
-            <column name="unit_price" type="string"/>
-            <column name="seller_discount_total" type="string"/>
-            <column name="shipping_fee" type="string"/>
-            <column name="wallet_credit" type="string"/>
+            <column name="paid_price" type="numeric"/>
+            <column name="unit_price" type="numeric"/>
+            <column name="seller_discount_total" type="numeric"/>
+            <column name="shipping_fee" type="numeric"/>
+            <column name="wallet_credit" type="numeric"/>
             <column name="item_name" type="string"/>
             <column name="variation" type="string"/>
             <column name="cd_shipping_provider" type="string"/>
@@ -334,8 +334,8 @@
             <column name="buyer_failed_delivery_detail" type="string"/>
             <column name="buyer_failed_delivery_user_name" type="string"/>
             <column name="bundle_id" type="string"/>
-            <column name="bundle_discount" type="string"/>
-            <column name="refund_amount" type="string"/>
+            <column name="bundle_discount" type="numeric"/>
+            <column name="refund_amount" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

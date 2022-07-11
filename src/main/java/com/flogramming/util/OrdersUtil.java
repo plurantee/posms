@@ -253,27 +253,27 @@ public class OrdersUtil {
         return lazadaOrder;
     }
 
-    public LazadaOrder paidPrice(String paidPrice) {
+    public LazadaOrder paidPrice(Double paidPrice) {
         lazadaOrder.setPaidPrice(paidPrice);
         return lazadaOrder;
     }
 
-    public LazadaOrder unitPrice(String unitPrice) {
+    public LazadaOrder unitPrice(Double unitPrice) {
         lazadaOrder.setUnitPrice(unitPrice);
         return lazadaOrder;
     }
 
-    public LazadaOrder sellerDiscountTotal(String sellerDiscountTotal) {
+    public LazadaOrder sellerDiscountTotal(Double sellerDiscountTotal) {
         lazadaOrder.setSellerDiscountTotal(sellerDiscountTotal);
         return lazadaOrder;
     }
 
-    public LazadaOrder shippingFee(String shippingFee) {
+    public LazadaOrder shippingFee(Double shippingFee) {
         lazadaOrder.setShippingFee(shippingFee);
         return lazadaOrder;
     }
 
-    public LazadaOrder walletCredit(String walletCredit) {
+    public LazadaOrder walletCredit(Double walletCredit) {
         lazadaOrder.setWalletCredit(walletCredit);
         return lazadaOrder;
     }
@@ -378,12 +378,12 @@ public class OrdersUtil {
         return lazadaOrder;
     }
 
-    public LazadaOrder bundleDiscount(String bundleDiscount) {
+    public LazadaOrder bundleDiscount(Double bundleDiscount) {
         lazadaOrder.setBundleDiscount(bundleDiscount);
         return lazadaOrder;
     }
 
-    public LazadaOrder refundAmount(String refundAmount) {
+    public LazadaOrder refundAmount(Double refundAmount) {
         lazadaOrder.setRefundAmount(refundAmount);
         return lazadaOrder;
     }

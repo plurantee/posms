@@ -138,11 +138,11 @@ public class ExcelFileService {
             lazadaUtil.branchNumber(row.get("branchNumber"));
             lazadaUtil.taxInvoiceRequested(row.get("taxInvoiceRequested"));
             lazadaUtil.payMethod(row.get("payMethod"));
-            lazadaUtil.paidPrice(row.get("paidPrice"));
-            lazadaUtil.unitPrice(row.get("unitPrice"));
-            lazadaUtil.sellerDiscountTotal(row.get("sellerDiscountTotal"));
-            lazadaUtil.shippingFee(row.get("shippingFee"));
-            lazadaUtil.walletCredit(row.get("walletCredit"));
+            lazadaUtil.paidPrice(valueOf(row.get("paidPrice")));
+            lazadaUtil.unitPrice(valueOf(row.get("unitPrice")));
+            lazadaUtil.sellerDiscountTotal(valueOf(row.get("sellerDiscountTotal")));
+            lazadaUtil.shippingFee(valueOf(row.get("shippingFee")));
+            lazadaUtil.walletCredit(valueOf(row.get("walletCredit")));
             lazadaUtil.itemName(row.get("itemName"));
             lazadaUtil.variation(row.get("variation"));
             lazadaUtil.cdShippingProvider(row.get("cdShippingProvider"));
@@ -162,8 +162,8 @@ public class ExcelFileService {
             lazadaUtil.buyerFailedDeliveryDetail(row.get("buyerFailedDeliveryDetail"));
             lazadaUtil.buyerFailedDeliveryUserName(row.get("buyerFailedDeliveryUserName"));
             lazadaUtil.bundleId(row.get("bundleId"));
-            lazadaUtil.bundleDiscount(row.get("bundleDiscount"));
-            lazadaUtil.refundAmount(row.get("refundAmount"));
+            lazadaUtil.bundleDiscount(valueOf(row.get("bundleDiscount")));
+            lazadaUtil.refundAmount(valueOf(row.get("refundAmount")));
 
             lazadaOrderRepository.save(lazadaUtil.getLazadaOrder());
         }
@@ -190,5 +190,15 @@ public class ExcelFileService {
         LocalDateTime ldt = LocalDateTime.parse(date, formatter);
         ZoneId zoneId = ZoneId.of("Asia/Manila");
         return ldt.atZone(zoneId);
+    }
+
+    private Double valueOf(String strValue) {
+        double result;
+        try {
+            result = Double.parseDouble(strValue);
+        } catch (NumberFormatException e) {
+            result = 0.0;
+        }
+        return result;
     }
 }

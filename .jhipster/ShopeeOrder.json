@@ -1,0 +1,216 @@
+{
+  "applications": "*",
+  "changelogDate": "20220711110715",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "shopee_order",
+  "fields": [
+    {
+      "fieldName": "orderId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "orderStatus",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "returnRefundStatus",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trackingNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingOption",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shipmentMethod",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "estimatedShipOutDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "shipTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "orderCreationDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "orderPaidTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "parentSkuReferenceNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "productName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "skuReferenceNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "variationName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "originalPrice",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "dealPrice",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "quantity",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "productSubtotal",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "totalDiscount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "priceDiscountFromSeller",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "shopeeRebate",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "skuTotalWeight",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "numberOfItemsInOrder",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "orderTotalWeight",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sellerVoucher",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sellerAbsorbedCoinCashback",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shopeeVoucher",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "bundleDealsIndicatorYN",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shopeeBundleDiscount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sellerBundleDiscount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "shopeeCoinsOffset",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "creditCardDiscountTotal",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "productsPricePaidByBuyer",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "buyerPaidShippingFeeShippingRebateEstimate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "reverseShippingFee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "serviceFeeGrandTotal",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "estimatedShippingFee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "usernameBuyer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "receiverName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phoneNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "town",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "district",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "province",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "region",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "country",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "zipCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "remarkFromBuyer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "orderCompleteTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "note",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ShopeeOrder",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

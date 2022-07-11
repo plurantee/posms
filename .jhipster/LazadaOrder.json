@@ -191,23 +191,23 @@
     },
     {
       "fieldName": "paidPrice",
-      "fieldType": "String"
+      "fieldType": "Double"
     },
     {
       "fieldName": "unitPrice",
-      "fieldType": "String"
+      "fieldType": "Double"
     },
     {
       "fieldName": "sellerDiscountTotal",
-      "fieldType": "String"
+      "fieldType": "Double"
     },
     {
       "fieldName": "shippingFee",
-      "fieldType": "String"
+      "fieldType": "Double"
     },
     {
       "fieldName": "walletCredit",
-      "fieldType": "String"
+      "fieldType": "Double"
     },
     {
       "fieldName": "itemName",
@@ -291,11 +291,11 @@
     },
     {
       "fieldName": "bundleDiscount",
-      "fieldType": "String"
+      "fieldType": "Double"
     },
     {
       "fieldName": "refundAmount",
-      "fieldType": "String"
+      "fieldType": "Double"
     }
   ],
   "fluentMethods": true,

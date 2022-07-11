@@ -48,11 +48,11 @@ export interface ILazadaOrder {
   branchNumber?: string | null;
   taxInvoiceRequested?: string | null;
   payMethod?: string | null;
-  paidPrice?: string | null;
-  unitPrice?: string | null;
-  sellerDiscountTotal?: string | null;
-  shippingFee?: string | null;
-  walletCredit?: string | null;
+  paidPrice?: number | null;
+  unitPrice?: number | null;
+  sellerDiscountTotal?: number | null;
+  shippingFee?: number | null;
+  walletCredit?: number | null;
   itemName?: string | null;
   variation?: string | null;
   cdShippingProvider?: string | null;
@@ -73,8 +73,8 @@ export interface ILazadaOrder {
   buyerFailedDeliveryDetail?: string | null;
   buyerFailedDeliveryUserName?: string | null;
   bundleId?: string | null;
-  bundleDiscount?: string | null;
-  refundAmount?: string | null;
+  bundleDiscount?: number | null;
+  refundAmount?: number | null;
   shop?: IShop | null;
 }
 
@@ -127,11 +127,11 @@ export class LazadaOrder implements ILazadaOrder {
     public branchNumber?: string | null,
     public taxInvoiceRequested?: string | null,
     public payMethod?: string | null,
-    public paidPrice?: string | null,
-    public unitPrice?: string | null,
-    public sellerDiscountTotal?: string | null,
-    public shippingFee?: string | null,
-    public walletCredit?: string | null,
+    public paidPrice?: number | null,
+    public unitPrice?: number | null,
+    public sellerDiscountTotal?: number | null,
+    public shippingFee?: number | null,
+    public walletCredit?: number | null,
     public itemName?: string | null,
     public variation?: string | null,
     public cdShippingProvider?: string | null,
@@ -152,8 +152,8 @@ export class LazadaOrder implements ILazadaOrder {
     public buyerFailedDeliveryDetail?: string | null,
     public buyerFailedDeliveryUserName?: string | null,
     public bundleId?: string | null,
-    public bundleDiscount?: string | null,
-    public refundAmount?: string | null,
+    public bundleDiscount?: number | null,
+    public refundAmount?: number | null,
     public shop?: IShop | null
   ) {
     this.invoiceRequired = this.invoiceRequired ?? false;

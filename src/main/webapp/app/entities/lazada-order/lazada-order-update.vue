@@ -581,61 +581,61 @@
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-paidPrice">Paid Price</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               name="paidPrice"
               id="lazada-order-paidPrice"
               data-cy="paidPrice"
               :class="{ valid: !$v.lazadaOrder.paidPrice.$invalid, invalid: $v.lazadaOrder.paidPrice.$invalid }"
-              v-model="$v.lazadaOrder.paidPrice.$model"
+              v-model.number="$v.lazadaOrder.paidPrice.$model"
             />
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-unitPrice">Unit Price</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               name="unitPrice"
               id="lazada-order-unitPrice"
               data-cy="unitPrice"
               :class="{ valid: !$v.lazadaOrder.unitPrice.$invalid, invalid: $v.lazadaOrder.unitPrice.$invalid }"
-              v-model="$v.lazadaOrder.unitPrice.$model"
+              v-model.number="$v.lazadaOrder.unitPrice.$model"
             />
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-sellerDiscountTotal">Seller Discount Total</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               name="sellerDiscountTotal"
               id="lazada-order-sellerDiscountTotal"
               data-cy="sellerDiscountTotal"
               :class="{ valid: !$v.lazadaOrder.sellerDiscountTotal.$invalid, invalid: $v.lazadaOrder.sellerDiscountTotal.$invalid }"
-              v-model="$v.lazadaOrder.sellerDiscountTotal.$model"
+              v-model.number="$v.lazadaOrder.sellerDiscountTotal.$model"
             />
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-shippingFee">Shipping Fee</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               name="shippingFee"
               id="lazada-order-shippingFee"
               data-cy="shippingFee"
               :class="{ valid: !$v.lazadaOrder.shippingFee.$invalid, invalid: $v.lazadaOrder.shippingFee.$invalid }"
-              v-model="$v.lazadaOrder.shippingFee.$model"
+              v-model.number="$v.lazadaOrder.shippingFee.$model"
             />
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-walletCredit">Wallet Credit</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               name="walletCredit"
               id="lazada-order-walletCredit"
               data-cy="walletCredit"
               :class="{ valid: !$v.lazadaOrder.walletCredit.$invalid, invalid: $v.lazadaOrder.walletCredit.$invalid }"
-              v-model="$v.lazadaOrder.walletCredit.$model"
+              v-model.number="$v.lazadaOrder.walletCredit.$model"
             />
           </div>
           <div class="form-group">
@@ -898,25 +898,25 @@
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-bundleDiscount">Bundle Discount</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               name="bundleDiscount"
               id="lazada-order-bundleDiscount"
               data-cy="bundleDiscount"
               :class="{ valid: !$v.lazadaOrder.bundleDiscount.$invalid, invalid: $v.lazadaOrder.bundleDiscount.$invalid }"
-              v-model="$v.lazadaOrder.bundleDiscount.$model"
+              v-model.number="$v.lazadaOrder.bundleDiscount.$model"
             />
           </div>
           <div class="form-group">
             <label class="form-control-label" for="lazada-order-refundAmount">Refund Amount</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               name="refundAmount"
               id="lazada-order-refundAmount"
               data-cy="refundAmount"
               :class="{ valid: !$v.lazadaOrder.refundAmount.$invalid, invalid: $v.lazadaOrder.refundAmount.$invalid }"
-              v-model="$v.lazadaOrder.refundAmount.$model"
+              v-model.number="$v.lazadaOrder.refundAmount.$model"
             />
           </div>
           <div class="form-group">

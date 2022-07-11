@@ -19,6 +19,59 @@ enum ShopType {
     LAZADA, SHOPEE, INTERNAL
 }
 
+entity ShopeeOrder {
+    orderId String
+    orderStatus String
+    returnRefundStatus String
+    trackingNumber String
+    shippingOption String
+    shipmentMethod String
+    estimatedShipOutDate ZonedDateTime
+    shipTime ZonedDateTime
+    orderCreationDate ZonedDateTime
+    orderPaidTime ZonedDateTime
+    parentSkuReferenceNo String
+    productName String
+    skuReferenceNo String
+    variationName String
+    originalPrice Double
+    dealPrice Double
+    quantity Double
+    productSubtotal Double
+    totalDiscount Double
+    priceDiscountFromSeller Double
+    shopeeRebate Double
+    skuTotalWeight String
+    numberOfItemsInOrder String
+    orderTotalWeight String
+    sellerVoucher Double
+    sellerAbsorbedCoinCashback String
+    shopeeVoucher Double
+    bundleDealsIndicatorYN String
+    shopeeBundleDiscount Double
+    sellerBundleDiscount Double
+    shopeeCoinsOffset Double
+    creditCardDiscountTotal Double
+    productsPricePaidByBuyer Double
+    buyerPaidShippingFeeShippingRebateEstimate String
+    reverseShippingFee Double
+    serviceFeeGrandTotal Double
+    estimatedShippingFee Double
+    usernameBuyer String
+    receiverName String
+    phoneNumber String
+    deliveryAddress String
+    town String
+    district String
+    province String
+    region String
+    country String
+    zipCode String
+    remarkFromBuyer String
+    orderCompleteTime ZonedDateTime
+    note String
+}
+
 entity LazadaOrder {
     orderItemId String
     orderType String
@@ -66,11 +119,11 @@ entity LazadaOrder {
     branchNumber String
     taxInvoiceRequested String
     payMethod String
-    paidPrice String
-    unitPrice String
-    sellerDiscountTotal String
-    shippingFee String
-    walletCredit String
+    paidPrice Double
+    unitPrice Double
+    sellerDiscountTotal Double
+    shippingFee Double
+    walletCredit Double
     itemName String
     variation String
     cdShippingProvider String
@@ -91,8 +144,8 @@ entity LazadaOrder {
     buyerFailedDeliveryDetail String
     buyerFailedDeliveryUserName String
     bundleId String
-    bundleDiscount String
-    refundAmount String
+    bundleDiscount Double
+    refundAmount Double
 }
 
 relationship OneToOne {

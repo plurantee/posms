@@ -159,19 +159,19 @@ public class LazadaOrder implements Serializable {
     private String payMethod;
 
     @Column(name = "paid_price")
-    private String paidPrice;
+    private Double paidPrice;
 
     @Column(name = "unit_price")
-    private String unitPrice;
+    private Double unitPrice;
 
     @Column(name = "seller_discount_total")
-    private String sellerDiscountTotal;
+    private Double sellerDiscountTotal;
 
     @Column(name = "shipping_fee")
-    private String shippingFee;
+    private Double shippingFee;
 
     @Column(name = "wallet_credit")
-    private String walletCredit;
+    private Double walletCredit;
 
     @Column(name = "item_name")
     private String itemName;
@@ -234,10 +234,10 @@ public class LazadaOrder implements Serializable {
     private String bundleId;
 
     @Column(name = "bundle_discount")
-    private String bundleDiscount;
+    private Double bundleDiscount;
 
     @Column(name = "refund_amount")
-    private String refundAmount;
+    private Double refundAmount;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "lazadaOrders", "clientCode" }, allowSetters = true)
@@ -856,68 +856,68 @@ public class LazadaOrder implements Serializable {
         this.payMethod = payMethod;
     }
 
-    public String getPaidPrice() {
+    public Double getPaidPrice() {
         return this.paidPrice;
     }
 
-    public LazadaOrder paidPrice(String paidPrice) {
+    public LazadaOrder paidPrice(Double paidPrice) {
         this.setPaidPrice(paidPrice);
         return this;
     }
 
-    public void setPaidPrice(String paidPrice) {
+    public void setPaidPrice(Double paidPrice) {
         this.paidPrice = paidPrice;
     }
 
-    public String getUnitPrice() {
+    public Double getUnitPrice() {
         return this.unitPrice;
     }
 
-    public LazadaOrder unitPrice(String unitPrice) {
+    public LazadaOrder unitPrice(Double unitPrice) {
         this.setUnitPrice(unitPrice);
         return this;
     }
 
-    public void setUnitPrice(String unitPrice) {
+    public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public String getSellerDiscountTotal() {
+    public Double getSellerDiscountTotal() {
         return this.sellerDiscountTotal;
     }
 
-    public LazadaOrder sellerDiscountTotal(String sellerDiscountTotal) {
+    public LazadaOrder sellerDiscountTotal(Double sellerDiscountTotal) {
         this.setSellerDiscountTotal(sellerDiscountTotal);
         return this;
     }
 
-    public void setSellerDiscountTotal(String sellerDiscountTotal) {
+    public void setSellerDiscountTotal(Double sellerDiscountTotal) {
         this.sellerDiscountTotal = sellerDiscountTotal;
     }
 
-    public String getShippingFee() {
+    public Double getShippingFee() {
         return this.shippingFee;
     }
 
-    public LazadaOrder shippingFee(String shippingFee) {
+    public LazadaOrder shippingFee(Double shippingFee) {
         this.setShippingFee(shippingFee);
         return this;
     }
 
-    public void setShippingFee(String shippingFee) {
+    public void setShippingFee(Double shippingFee) {
         this.shippingFee = shippingFee;
     }
 
-    public String getWalletCredit() {
+    public Double getWalletCredit() {
         return this.walletCredit;
     }
 
-    public LazadaOrder walletCredit(String walletCredit) {
+    public LazadaOrder walletCredit(Double walletCredit) {
         this.setWalletCredit(walletCredit);
         return this;
     }
 
-    public void setWalletCredit(String walletCredit) {
+    public void setWalletCredit(Double walletCredit) {
         this.walletCredit = walletCredit;
     }
 
@@ -1181,29 +1181,29 @@ public class LazadaOrder implements Serializable {
         this.bundleId = bundleId;
     }
 
-    public String getBundleDiscount() {
+    public Double getBundleDiscount() {
         return this.bundleDiscount;
     }
 
-    public LazadaOrder bundleDiscount(String bundleDiscount) {
+    public LazadaOrder bundleDiscount(Double bundleDiscount) {
         this.setBundleDiscount(bundleDiscount);
         return this;
     }
 
-    public void setBundleDiscount(String bundleDiscount) {
+    public void setBundleDiscount(Double bundleDiscount) {
         this.bundleDiscount = bundleDiscount;
     }
 
-    public String getRefundAmount() {
+    public Double getRefundAmount() {
         return this.refundAmount;
     }
 
-    public LazadaOrder refundAmount(String refundAmount) {
+    public LazadaOrder refundAmount(Double refundAmount) {
         this.setRefundAmount(refundAmount);
         return this;
     }
 
-    public void setRefundAmount(String refundAmount) {
+    public void setRefundAmount(Double refundAmount) {
         this.refundAmount = refundAmount;
     }
 
@@ -1290,11 +1290,11 @@ public class LazadaOrder implements Serializable {
             ", branchNumber='" + getBranchNumber() + "'" +
             ", taxInvoiceRequested='" + getTaxInvoiceRequested() + "'" +
             ", payMethod='" + getPayMethod() + "'" +
-            ", paidPrice='" + getPaidPrice() + "'" +
-            ", unitPrice='" + getUnitPrice() + "'" +
-            ", sellerDiscountTotal='" + getSellerDiscountTotal() + "'" +
-            ", shippingFee='" + getShippingFee() + "'" +
-            ", walletCredit='" + getWalletCredit() + "'" +
+            ", paidPrice=" + getPaidPrice() +
+            ", unitPrice=" + getUnitPrice() +
+            ", sellerDiscountTotal=" + getSellerDiscountTotal() +
+            ", shippingFee=" + getShippingFee() +
+            ", walletCredit=" + getWalletCredit() +
             ", itemName='" + getItemName() + "'" +
             ", variation='" + getVariation() + "'" +
             ", cdShippingProvider='" + getCdShippingProvider() + "'" +
@@ -1315,8 +1315,8 @@ public class LazadaOrder implements Serializable {
             ", buyerFailedDeliveryDetail='" + getBuyerFailedDeliveryDetail() + "'" +
             ", buyerFailedDeliveryUserName='" + getBuyerFailedDeliveryUserName() + "'" +
             ", bundleId='" + getBundleId() + "'" +
-            ", bundleDiscount='" + getBundleDiscount() + "'" +
-            ", refundAmount='" + getRefundAmount() + "'" +
+            ", bundleDiscount=" + getBundleDiscount() +
+            ", refundAmount=" + getRefundAmount() +
             "}";
     }
 }
