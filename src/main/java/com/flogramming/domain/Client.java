@@ -35,6 +35,14 @@ public class Client implements Serializable {
     @JsonIgnoreProperties(value = { "lazadaOrders", "shopeeOrders", "clientCode" }, allowSetters = true)
     private Set<Shop> shops = new HashSet<>();
 
+    @OneToMany(mappedBy = "client")
+    @JsonIgnoreProperties(value = { "client", "shop" }, allowSetters = true)
+    private Set<LazadaOrder> lazadaOrders = new HashSet<>();
+
+    @OneToMany(mappedBy = "client")
+    @JsonIgnoreProperties(value = { "client", "shop" }, allowSetters = true)
+    private Set<ShopeeOrder> shopeeOrders = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -135,6 +143,68 @@ public class Client implements Serializable {
     public Client removeShop(Shop shop) {
         this.shops.remove(shop);
         shop.setClientCode(null);
+        return this;
+    }
+
+    public Set<LazadaOrder> getLazadaOrders() {
+        return this.lazadaOrders;
+    }
+
+    public void setLazadaOrders(Set<LazadaOrder> lazadaOrders) {
+        if (this.lazadaOrders != null) {
+            this.lazadaOrders.forEach(i -> i.setClient(null));
+        }
+        if (lazadaOrders != null) {
+            lazadaOrders.forEach(i -> i.setClient(this));
+        }
+        this.lazadaOrders = lazadaOrders;
+    }
+
+    public Client lazadaOrders(Set<LazadaOrder> lazadaOrders) {
+        this.setLazadaOrders(lazadaOrders);
+        return this;
+    }
+
+    public Client addLazadaOrder(LazadaOrder lazadaOrder) {
+        this.lazadaOrders.add(lazadaOrder);
+        lazadaOrder.setClient(this);
+        return this;
+    }
+
+    public Client removeLazadaOrder(LazadaOrder lazadaOrder) {
+        this.lazadaOrders.remove(lazadaOrder);
+        lazadaOrder.setClient(null);
+        return this;
+    }
+
+    public Set<ShopeeOrder> getShopeeOrders() {
+        return this.shopeeOrders;
+    }
+
+    public void setShopeeOrders(Set<ShopeeOrder> shopeeOrders) {
+        if (this.shopeeOrders != null) {
+            this.shopeeOrders.forEach(i -> i.setClient(null));
+        }
+        if (shopeeOrders != null) {
+            shopeeOrders.forEach(i -> i.setClient(this));
+        }
+        this.shopeeOrders = shopeeOrders;
+    }
+
+    public Client shopeeOrders(Set<ShopeeOrder> shopeeOrders) {
+        this.setShopeeOrders(shopeeOrders);
+        return this;
+    }
+
+    public Client addShopeeOrder(ShopeeOrder shopeeOrder) {
+        this.shopeeOrders.add(shopeeOrder);
+        shopeeOrder.setClient(this);
+        return this;
+    }
+
+    public Client removeShopeeOrder(ShopeeOrder shopeeOrder) {
+        this.shopeeOrders.remove(shopeeOrder);
+        shopeeOrder.setClient(null);
         return this;
     }
 

@@ -80,6 +80,7 @@
             <th scope="row"><span>Remark From Buyer</span></th>
             <th scope="row"><span>Order Complete Time</span></th>
             <th scope="row"><span>Note</span></th>
+            <th scope="row"><span>Client</span></th>
             <th scope="row"><span>Shop</span></th>
             <th scope="row"></th>
           </tr>
@@ -141,6 +142,13 @@
             <td>{{ shopeeOrder.remarkFromBuyer }}</td>
             <td>{{ shopeeOrder.orderCompleteTime | formatDate }}</td>
             <td>{{ shopeeOrder.note }}</td>
+            <td>
+              <div v-if="shopeeOrder.client">
+                <router-link :to="{ name: 'ClientView', params: { clientId: shopeeOrder.client.id } }">{{
+                  shopeeOrder.client.id
+                }}</router-link>
+              </div>
+            </td>
             <td>
               <div v-if="shopeeOrder.shop">
                 <router-link :to="{ name: 'ShopView', params: { shopId: shopeeOrder.shop.id } }">{{ shopeeOrder.shop.id }}</router-link>

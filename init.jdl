@@ -162,6 +162,14 @@ relationship OneToMany {
 }
 
 relationship OneToMany {
+    Client{lazadaOrder} to LazadaOrder{client}
+}
+
+relationship OneToMany {
+    Client{shopeeOrder} to ShopeeOrder{client}
+}
+
+relationship OneToMany {
     Shop{lazadaOrder} to LazadaOrder{shop}
 }
 

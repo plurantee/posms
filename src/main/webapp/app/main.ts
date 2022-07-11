@@ -28,6 +28,10 @@ import ClientUserManagementService from './admin/client-user-management/client-u
 
 import '../content/scss/global.scss';
 import '../content/scss/vendor.scss';
+import ClientShopeeOrderService from './entities/client-shopee-order/client-shopee-order.service';
+import ClientLazadaOrderService from './entities/client-lazada-order/client-lazada-order.service';
+import ClientShopService from './entities/client-shop/client-shop.service';
+import clientShopeeOrderService from './entities/client-shopee-order/client-shopee-order.service';
 /* tslint:disable */
 
 // jhipster-needle-add-entity-service-to-main-import - JHipster will import entities services here
@@ -91,6 +95,9 @@ const vue = new Vue({
     // jhipster-needle-add-entity-service-to-main - JHipster will import entities services here
     accountService: () => accountService,
     alertService: () => new AlertService(),
+    clientLazadaOrderService: () => new ClientLazadaOrderService(),
+    clientShopService: () => new ClientShopService(),
+    clientShopeeOrderService: () => new ClientShopeeOrderService(),
   },
   store,
 });

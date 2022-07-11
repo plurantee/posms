@@ -17,7 +17,7 @@ export default class ClientShopDetails extends Vue {
   @Inject('alertService') private alertService: () => AlertService;
 
   public shop: IShop = {};
-  public shopNav = null;
+  public shopNav = 'lazada';
 
   beforeRouteEnter(to, from, next) {
     next(vm => {

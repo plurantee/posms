@@ -1,5 +1,6 @@
 package com.flogramming.repository;
 
+import com.flogramming.domain.Client;
 import com.flogramming.domain.Shop;
 import com.flogramming.domain.ShopeeOrder;
 import java.util.List;
@@ -13,6 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClientShopeeOrderRepository extends ShopeeOrderRepository {
     List<ShopeeOrder> findByShop(Shop shop);
-
+    List<ShopeeOrder> findByClient(Client client);
     Optional<ShopeeOrder> findByOrderId(String orderId);
 }

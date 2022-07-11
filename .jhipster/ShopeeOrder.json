@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20220711110715",
+  "changelogDate": "20220711143035",
   "dto": "no",
   "embedded": false,
   "entityTableName": "shopee_order",
@@ -220,6 +220,12 @@
   "pagination": "no",
   "readOnly": false,
   "relationships": [
+    {
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "shopeeOrder",
+      "relationshipName": "client",
+      "relationshipType": "many-to-one"
+    },
     {
       "otherEntityName": "shop",
       "otherEntityRelationshipName": "shopeeOrder",

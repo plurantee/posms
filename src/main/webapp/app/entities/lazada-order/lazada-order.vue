@@ -101,6 +101,7 @@
             <th scope="row"><span>Bundle Id</span></th>
             <th scope="row"><span>Bundle Discount</span></th>
             <th scope="row"><span>Refund Amount</span></th>
+            <th scope="row"><span>Client</span></th>
             <th scope="row"><span>Shop</span></th>
             <th scope="row"></th>
           </tr>
@@ -183,6 +184,13 @@
             <td>{{ lazadaOrder.bundleId }}</td>
             <td>{{ lazadaOrder.bundleDiscount }}</td>
             <td>{{ lazadaOrder.refundAmount }}</td>
+            <td>
+              <div v-if="lazadaOrder.client">
+                <router-link :to="{ name: 'ClientView', params: { clientId: lazadaOrder.client.id } }">{{
+                  lazadaOrder.client.id
+                }}</router-link>
+              </div>
+            </td>
             <td>
               <div v-if="lazadaOrder.shop">
                 <router-link :to="{ name: 'ShopView', params: { shopId: lazadaOrder.shop.id } }">{{ lazadaOrder.shop.id }}</router-link>

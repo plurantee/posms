@@ -18,7 +18,7 @@ import LazadaOrder from '../lazada-order/lazada-order.component';
   mixins: [Vue2Filters.mixin],
   props: {
     shop: {
-      required: true,
+      required: false,
       type: Object as () => IShop,
     },
   },
@@ -38,11 +38,30 @@ export default class ClientLazadaOrder extends LazadaOrder {
   }
 
   public clear(): void {
-    this.retrieveAllLazadaOrdersByShop(this.$props.shop);
+    if (this.$props?.shop) {
+      this.retrieveAllLazadaOrdersByShop(this.$props.shop);
+    } else {
+      this.retrieveAllLazadaOrdersByClient();
+    }
+  }
+
+  public retrieveAllLazadaOrdersByClient(): void {
+    this.isFetching = true;
+    this.clientLazadaOrderService()
+      .retrieveByClient()
+      .then(
+        res => {
+          this.lazadaOrders = res.data;
+          this.isFetching = false;
+        },
+        err => {
+          this.isFetching = false;
+          this.clientAlertService().showHttpError(this, err.response);
+        }
+      );
   }
 
   public retrieveAllLazadaOrdersByShop(shop: IShop): void {
-    console.log(this.$props.shop);
     this.isFetching = true;
     this.clientLazadaOrderService()
       .retrieveByShop(shop)
@@ -73,7 +92,6 @@ export default class ClientLazadaOrder extends LazadaOrder {
     // eslint-disable-next-line prefer-const
     let formData = new FormData();
     formData.append('file', this.file);
-    formData.append('shopId', this.$props.shop.id);
     this.clientLazadaOrderService()
       .uploadLazadaExcel(formData)
       .then(

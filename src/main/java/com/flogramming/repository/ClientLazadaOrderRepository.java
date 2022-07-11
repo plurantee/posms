@@ -1,5 +1,6 @@
 package com.flogramming.repository;
 
+import com.flogramming.domain.Client;
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.Shop;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClientLazadaOrderRepository extends LazadaOrderRepository {
     List<LazadaOrder> findByShop(Shop shop);
+    List<LazadaOrder> findByClient(Client client);
 
     Optional<LazadaOrder> findByOrderItemId(String orderItemId);
 }

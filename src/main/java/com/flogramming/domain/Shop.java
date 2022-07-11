@@ -33,15 +33,15 @@ public class Shop implements Serializable {
     private ShopType shopType;
 
     @OneToMany(mappedBy = "shop")
-    @JsonIgnoreProperties(value = { "shop" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "client", "shop" }, allowSetters = true)
     private Set<LazadaOrder> lazadaOrders = new HashSet<>();
 
     @OneToMany(mappedBy = "shop")
-    @JsonIgnoreProperties(value = { "shop" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "client", "shop" }, allowSetters = true)
     private Set<ShopeeOrder> shopeeOrders = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "userInfos", "shops" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "userInfos", "shops", "lazadaOrders", "shopeeOrders" }, allowSetters = true)
     private Client clientCode;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

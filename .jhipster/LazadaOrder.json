@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20220705034729",
+  "changelogDate": "20220711143034",
   "dto": "no",
   "embedded": false,
   "entityTableName": "lazada_order",
@@ -304,6 +304,12 @@
   "pagination": "no",
   "readOnly": false,
   "relationships": [
+    {
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "lazadaOrder",
+      "relationshipName": "client",
+      "relationshipType": "many-to-one"
+    },
     {
       "otherEntityName": "shop",
       "otherEntityRelationshipName": "lazadaOrder",

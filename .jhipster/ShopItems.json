@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20220704053023",
+  "changelogDate": "20220711143033",
   "dto": "no",
   "embedded": false,
   "entityTableName": "shop_items",

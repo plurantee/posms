@@ -1,3 +1,4 @@
+import { IClient } from '@/shared/model/client.model';
 import { IShop } from '@/shared/model/shop.model';
 
 export interface ILazadaOrder {
@@ -75,6 +76,7 @@ export interface ILazadaOrder {
   bundleId?: string | null;
   bundleDiscount?: number | null;
   refundAmount?: number | null;
+  client?: IClient | null;
   shop?: IShop | null;
 }
 
@@ -154,6 +156,7 @@ export class LazadaOrder implements ILazadaOrder {
     public bundleId?: string | null,
     public bundleDiscount?: number | null,
     public refundAmount?: number | null,
+    public client?: IClient | null,
     public shop?: IShop | null
   ) {
     this.invoiceRequired = this.invoiceRequired ?? false;

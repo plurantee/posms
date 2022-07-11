@@ -19,6 +19,19 @@ export default class ClientLazadaOrderService extends LazadaOrderService {
     });
   }
 
+  public retrieveByClient(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .get(`${baseApiUrl}/client`)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
   public uploadLazadaExcel(file: FormData) {
     return new Promise<any>((resolve, reject) => {
       axios

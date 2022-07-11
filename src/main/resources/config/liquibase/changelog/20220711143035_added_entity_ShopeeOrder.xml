@@ -9,7 +9,7 @@
     <!--
         Added the entity ShopeeOrder.
     -->
-    <changeSet id="20220711110715-1" author="jhipster">
+    <changeSet id="20220711143035-1" author="jhipster">
         <createTable tableName="shopee_order">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
@@ -170,6 +170,9 @@
             <column name="note" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="client_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="shop_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -192,7 +195,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220711110715-1-data" author="jhipster" context="faker">
+    <changeSet id="20220711143035-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/shopee_order.csv"
                   separator=";"

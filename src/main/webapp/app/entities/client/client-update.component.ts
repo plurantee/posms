@@ -8,6 +8,12 @@ import { IUserInfo } from '@/shared/model/user-info.model';
 import ShopService from '@/entities/shop/shop.service';
 import { IShop } from '@/shared/model/shop.model';
 
+import LazadaOrderService from '@/entities/lazada-order/lazada-order.service';
+import { ILazadaOrder } from '@/shared/model/lazada-order.model';
+
+import ShopeeOrderService from '@/entities/shopee-order/shopee-order.service';
+import { IShopeeOrder } from '@/shared/model/shopee-order.model';
+
 import { IClient, Client } from '@/shared/model/client.model';
 import ClientService from './client.service';
 
@@ -34,6 +40,14 @@ export default class ClientUpdate extends Vue {
   @Inject('shopService') private shopService: () => ShopService;
 
   public shops: IShop[] = [];
+
+  @Inject('lazadaOrderService') private lazadaOrderService: () => LazadaOrderService;
+
+  public lazadaOrders: ILazadaOrder[] = [];
+
+  @Inject('shopeeOrderService') private shopeeOrderService: () => ShopeeOrderService;
+
+  public shopeeOrders: IShopeeOrder[] = [];
   public isSaving = false;
   public currentLanguage = '';
 
@@ -124,6 +138,16 @@ export default class ClientUpdate extends Vue {
       .retrieve()
       .then(res => {
         this.shops = res.data;
+      });
+    this.lazadaOrderService()
+      .retrieve()
+      .then(res => {
+        this.lazadaOrders = res.data;
+      });
+    this.shopeeOrderService()
+      .retrieve()
+      .then(res => {
+        this.shopeeOrders = res.data;
       });
   }
 }

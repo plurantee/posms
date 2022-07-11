@@ -654,6 +654,19 @@
             />
           </div>
           <div class="form-group">
+            <label class="form-control-label" for="shopee-order-client">Client</label>
+            <select class="form-control" id="shopee-order-client" data-cy="client" name="client" v-model="shopeeOrder.client">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="shopeeOrder.client && clientOption.id === shopeeOrder.client.id ? shopeeOrder.client : clientOption"
+                v-for="clientOption in clients"
+                :key="clientOption.id"
+              >
+                {{ clientOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
             <label class="form-control-label" for="shopee-order-shop">Shop</label>
             <select class="form-control" id="shopee-order-shop" data-cy="shop" name="shop" v-model="shopeeOrder.shop">
               <option v-bind:value="null"></option>

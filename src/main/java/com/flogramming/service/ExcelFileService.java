@@ -1,5 +1,6 @@
 package com.flogramming.service;
 
+import com.flogramming.domain.Client;
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.Shop;
 import com.flogramming.domain.ShopeeOrder;
@@ -35,10 +36,13 @@ public class ExcelFileService {
     @Autowired
     private ClientShopeeOrderRepository clientShopeeOrderRepository;
 
+    @Autowired
+    private ClientUserService clientUserService;
+
     /**
      * Lazada
      * */
-    public List<LazadaOrder> processLazadaExcelFile(MultipartFile file, Shop shop) throws IOException {
+    public List<LazadaOrder> processLazadaExcelFile(MultipartFile file) throws IOException {
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
         Map<Integer, HashMap<String, String>> excelHashMap = new HashMap<>();
@@ -80,13 +84,14 @@ public class ExcelFileService {
 
             i++;
         }
-        return setLazadaOrderFromExcelHashMap(excelHashMap, shop);
+        return setLazadaOrderFromExcelHashMap(excelHashMap);
     }
 
-    public List<LazadaOrder> setLazadaOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap, Shop shop) {
+    public List<LazadaOrder> setLazadaOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
         List<LazadaOrder> result = new ArrayList<>();
         // 04 Jul 2022 11:46
         excelHashMap.remove(0); // Column rows
+        Client client = clientUserService.getCurrentUser().getClientCode();
         for (HashMap<String, String> row : excelHashMap.values()) {
             LazadaOrder lazadaOrder = null;
             var search = lazadaOrderRepository.findByOrderItemId(row.get("orderItemId"));
@@ -96,8 +101,8 @@ public class ExcelFileService {
             } else {
                 lazadaOrder = new LazadaOrder();
             }
+            lazadaOrder.setClient(client);
             OrdersUtil lazadaUtil = new OrdersUtil(lazadaOrder);
-            lazadaUtil.shop(shop);
             lazadaUtil.orderItemId(row.get("orderItemId"));
             lazadaUtil.orderType(row.get("orderType"));
             lazadaUtil.guarantee(row.get("Guarantee"));
@@ -173,13 +178,13 @@ public class ExcelFileService {
 
             lazadaOrderRepository.save(lazadaUtil.getLazadaOrder());
         }
-        return lazadaOrderRepository.findByShop(shop);
+        return lazadaOrderRepository.findByClient(client);
     }
 
     /**
      * Shopee
      * */
-    public List<ShopeeOrder> processShopeeExcelFile(MultipartFile file, Shop shop) throws IOException {
+    public List<ShopeeOrder> processShopeeExcelFile(MultipartFile file) throws IOException {
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
         Map<Integer, HashMap<String, String>> excelHashMap = new HashMap<>();
@@ -231,11 +236,12 @@ public class ExcelFileService {
 
             i++;
         }
-        return setShopeeOrderFromExcelHashMap(excelHashMap, shop);
+        return setShopeeOrderFromExcelHashMap(excelHashMap);
     }
 
-    public List<ShopeeOrder> setShopeeOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap, Shop shop) {
+    public List<ShopeeOrder> setShopeeOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
         List<LazadaOrder> result = new ArrayList<>();
+        Client client = clientUserService.getCurrentUser().getClientCode();
         // 04 Jul 2022 11:46
         excelHashMap.remove(0); // Column rows
         for (HashMap<String, String> row : excelHashMap.values()) {
@@ -247,7 +253,7 @@ public class ExcelFileService {
             } else {
                 shopeeOrder = new ShopeeOrder();
             }
-            shopeeOrder.setShop(shop);
+            shopeeOrder.setClient(client);
             shopeeOrder.setOrderId(row.get("Order ID"));
             shopeeOrder.setOrderStatus(row.get("Order Status"));
             shopeeOrder.setReturnRefundStatus(row.get("Return / Refund Status"));
@@ -303,7 +309,7 @@ public class ExcelFileService {
 
             clientShopeeOrderRepository.save(shopeeOrder);
         }
-        return clientShopeeOrderRepository.findByShop(shop);
+        return clientShopeeOrderRepository.findByClient(client);
     }
 
     /**

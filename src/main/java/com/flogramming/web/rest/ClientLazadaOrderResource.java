@@ -1,9 +1,12 @@
 package com.flogramming.web.rest;
 
+import com.flogramming.domain.Client;
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.Shop;
+import com.flogramming.repository.ClientClientRepository;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ShopRepository;
+import com.flogramming.service.ClientUserService;
 import com.flogramming.service.ExcelFileService;
 import java.io.IOException;
 import java.util.List;
@@ -30,24 +33,23 @@ public class ClientLazadaOrderResource {
     private final ShopRepository shopRepository;
     private final ExcelFileService excelFileService;
     private final ClientLazadaOrderRepository lazadaOrderRepository;
+    private final ClientUserService clientUserService;
 
     public ClientLazadaOrderResource(
         ShopRepository shopRepository,
         ExcelFileService excelFileService,
-        ClientLazadaOrderRepository lazadaOrderRepository
+        ClientLazadaOrderRepository lazadaOrderRepository,
+        ClientUserService clientUserService
     ) {
         this.shopRepository = shopRepository;
         this.excelFileService = excelFileService;
         this.lazadaOrderRepository = lazadaOrderRepository;
+        this.clientUserService = clientUserService;
     }
 
     @PostMapping(path = "/lazada-orders/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(
-        @RequestParam("file") MultipartFile file,
-        @RequestParam("shopId") Long shopId
-    ) throws IOException {
-        Optional<Shop> oShop = shopRepository.findById(shopId);
-        List<LazadaOrder> lazadaOrders = excelFileService.processLazadaExcelFile(file, oShop.get());
+    public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(@RequestParam("file") MultipartFile file) throws IOException {
+        List<LazadaOrder> lazadaOrders = excelFileService.processLazadaExcelFile(file);
         return ResponseEntity.ok(lazadaOrders);
     }
 
@@ -59,5 +61,12 @@ public class ClientLazadaOrderResource {
             return lazadaOrderRepository.findByShop(shop.get());
         }
         return null;
+    }
+
+    @GetMapping("/lazada-orders/client")
+    public List<LazadaOrder> getAllLazadaOrdersByClient() {
+        log.debug("REST request to get all LazadaOrders");
+        Client client = clientUserService.getCurrentUser().getClientCode();
+        return lazadaOrderRepository.findByClient(client);
     }
 }

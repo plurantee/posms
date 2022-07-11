@@ -920,6 +920,19 @@
             />
           </div>
           <div class="form-group">
+            <label class="form-control-label" for="lazada-order-client">Client</label>
+            <select class="form-control" id="lazada-order-client" data-cy="client" name="client" v-model="lazadaOrder.client">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="lazadaOrder.client && clientOption.id === lazadaOrder.client.id ? lazadaOrder.client : clientOption"
+                v-for="clientOption in clients"
+                :key="clientOption.id"
+              >
+                {{ clientOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
             <label class="form-control-label" for="lazada-order-shop">Shop</label>
             <select class="form-control" id="lazada-order-shop" data-cy="shop" name="shop" v-model="lazadaOrder.shop">
               <option v-bind:value="null"></option>

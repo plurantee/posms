@@ -1,9 +1,7 @@
 <template>
   <div>
     <h2 id="page-heading" data-cy="LazadaOrderHeading">
-      <span id="lazada-order-heading"
-        >Lazada Orders for <b>{{ shop.shopName }}</b>
-      </span>
+      <span id="lazada-order-heading">Lazada Orders </span>
       <div class="d-flex justify-content-end">
         <router-link :to="{ name: 'LazadaOrderCreate' }" custom v-slot="{ navigate }">
           <div>

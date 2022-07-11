@@ -19,7 +19,7 @@ import ShopeeOrder from '../shopee-order/shopee-order.component';
   mixins: [Vue2Filters.mixin],
   props: {
     shop: {
-      required: true,
+      required: false,
       type: Object as () => IShop,
     },
   },
@@ -39,15 +39,34 @@ export default class ClientShopeeOrder extends ShopeeOrder {
   }
 
   public clear(): void {
-    this.retrieveAllShopeeOrdersByShop(this.$props.shop);
+    if (this.$props?.shop) {
+      this.retrieveAllShopeeOrdersByShop(this.$props.shop);
+    } else {
+      this.retrieveAllShopeeOrdersByClient();
+    }
   }
 
   public retrieveAllShopeeOrders(): void {
     return;
   }
 
+  public retrieveAllShopeeOrdersByClient(): void {
+    this.isFetching = true;
+    this.clientShopeeOrderService()
+      .retrieveByClient()
+      .then(
+        res => {
+          this.shopeeOrders = res.data;
+          this.isFetching = false;
+        },
+        err => {
+          this.isFetching = false;
+          this.clientAlertService().showHttpError(this, err.response);
+        }
+      );
+  }
+
   public retrieveAllShopeeOrdersByShop(shop: IShop): void {
-    console.log(this.$props.shop);
     this.isFetching = true;
     this.clientShopeeOrderService()
       .retrieveByShop(shop)
@@ -79,7 +98,6 @@ export default class ClientShopeeOrder extends ShopeeOrder {
     // eslint-disable-next-line prefer-const
     let formData = new FormData();
     formData.append('file', this.file);
-    formData.append('shopId', this.$props.shop.id);
     this.clientShopeeOrderService()
       .uploadLazadaExcel(formData)
       .then(

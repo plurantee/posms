@@ -177,6 +177,10 @@ public class ShopeeOrder implements Serializable {
     private String note;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = { "userInfos", "shops", "lazadaOrders", "shopeeOrders" }, allowSetters = true)
+    private Client client;
+
+    @ManyToOne
     @JsonIgnoreProperties(value = { "lazadaOrders", "shopeeOrders", "clientCode" }, allowSetters = true)
     private Shop shop;
 
@@ -869,6 +873,19 @@ public class ShopeeOrder implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Client getClient() {
+        return this.client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public ShopeeOrder client(Client client) {
+        this.setClient(client);
+        return this;
     }
 
     public Shop getShop() {

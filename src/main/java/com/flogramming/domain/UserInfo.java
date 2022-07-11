@@ -24,7 +24,7 @@ public class UserInfo implements Serializable {
     private User user;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "userInfos", "shops" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "userInfos", "shops", "lazadaOrders", "shopeeOrders" }, allowSetters = true)
     private Client clientCode;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

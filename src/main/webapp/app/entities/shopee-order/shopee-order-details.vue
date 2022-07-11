@@ -317,6 +317,16 @@
             <span>{{ shopeeOrder.note }}</span>
           </dd>
           <dt>
+            <span>Client</span>
+          </dt>
+          <dd>
+            <div v-if="shopeeOrder.client">
+              <router-link :to="{ name: 'ClientView', params: { clientId: shopeeOrder.client.id } }">{{
+                shopeeOrder.client.id
+              }}</router-link>
+            </div>
+          </dd>
+          <dt>
             <span>Shop</span>
           </dt>
           <dd>

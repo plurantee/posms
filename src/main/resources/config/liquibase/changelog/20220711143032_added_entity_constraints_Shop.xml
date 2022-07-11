@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Shop.
     -->
-    <changeSet id="20220704053022-2" author="jhipster">
+    <changeSet id="20220711143032-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="client_code_id"
                                  baseTableName="shop"
