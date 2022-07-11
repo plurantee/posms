@@ -29,7 +29,19 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
-
+    <changeSet id="20220704053022-1-data" author="jhipster">
+        <loadData
+            file="config/liquibase/data/shop.csv"
+            separator=";"
+            tableName="shop"
+            usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="shop_code" type="string"/>
+            <column name="shop_name" type="string"/>
+            <column name="shop_type" type="string"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--
