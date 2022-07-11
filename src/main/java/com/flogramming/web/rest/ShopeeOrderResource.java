@@ -222,16 +222,20 @@ public class ShopeeOrderResource {
                 if (shopeeOrder.getProductsPricePaidByBuyer() != null) {
                     existingShopeeOrder.setProductsPricePaidByBuyer(shopeeOrder.getProductsPricePaidByBuyer());
                 }
-                if (shopeeOrder.getBuyerPaidShippingFeeShippingRebateEstimate() != null) {
-                    existingShopeeOrder.setBuyerPaidShippingFeeShippingRebateEstimate(
-                        shopeeOrder.getBuyerPaidShippingFeeShippingRebateEstimate()
-                    );
+                if (shopeeOrder.getBuyerPaidShippingFee() != null) {
+                    existingShopeeOrder.setBuyerPaidShippingFee(shopeeOrder.getBuyerPaidShippingFee());
+                }
+                if (shopeeOrder.getShippingRebateEstimate() != null) {
+                    existingShopeeOrder.setShippingRebateEstimate(shopeeOrder.getShippingRebateEstimate());
                 }
                 if (shopeeOrder.getReverseShippingFee() != null) {
                     existingShopeeOrder.setReverseShippingFee(shopeeOrder.getReverseShippingFee());
                 }
-                if (shopeeOrder.getServiceFeeGrandTotal() != null) {
-                    existingShopeeOrder.setServiceFeeGrandTotal(shopeeOrder.getServiceFeeGrandTotal());
+                if (shopeeOrder.getServiceFee() != null) {
+                    existingShopeeOrder.setServiceFee(shopeeOrder.getServiceFee());
+                }
+                if (shopeeOrder.getGrandTotal() != null) {
+                    existingShopeeOrder.setGrandTotal(shopeeOrder.getGrandTotal());
                 }
                 if (shopeeOrder.getEstimatedShippingFee() != null) {
                     existingShopeeOrder.setEstimatedShippingFee(shopeeOrder.getEstimatedShippingFee());

@@ -119,14 +119,20 @@ public class ShopeeOrder implements Serializable {
     @Column(name = "products_price_paid_by_buyer")
     private Double productsPricePaidByBuyer;
 
-    @Column(name = "buyer_paid_shipping_fee_shipping_rebate_estimate")
-    private String buyerPaidShippingFeeShippingRebateEstimate;
+    @Column(name = "buyer_paid_shipping_fee")
+    private Double buyerPaidShippingFee;
+
+    @Column(name = "shipping_rebate_estimate")
+    private Double shippingRebateEstimate;
 
     @Column(name = "reverse_shipping_fee")
     private Double reverseShippingFee;
 
-    @Column(name = "service_fee_grand_total")
-    private Double serviceFeeGrandTotal;
+    @Column(name = "service_fee")
+    private Double serviceFee;
+
+    @Column(name = "grand_total")
+    private Double grandTotal;
 
     @Column(name = "estimated_shipping_fee")
     private Double estimatedShippingFee;
@@ -618,17 +624,30 @@ public class ShopeeOrder implements Serializable {
         this.productsPricePaidByBuyer = productsPricePaidByBuyer;
     }
 
-    public String getBuyerPaidShippingFeeShippingRebateEstimate() {
-        return this.buyerPaidShippingFeeShippingRebateEstimate;
+    public Double getBuyerPaidShippingFee() {
+        return this.buyerPaidShippingFee;
     }
 
-    public ShopeeOrder buyerPaidShippingFeeShippingRebateEstimate(String buyerPaidShippingFeeShippingRebateEstimate) {
-        this.setBuyerPaidShippingFeeShippingRebateEstimate(buyerPaidShippingFeeShippingRebateEstimate);
+    public ShopeeOrder buyerPaidShippingFee(Double buyerPaidShippingFee) {
+        this.setBuyerPaidShippingFee(buyerPaidShippingFee);
         return this;
     }
 
-    public void setBuyerPaidShippingFeeShippingRebateEstimate(String buyerPaidShippingFeeShippingRebateEstimate) {
-        this.buyerPaidShippingFeeShippingRebateEstimate = buyerPaidShippingFeeShippingRebateEstimate;
+    public void setBuyerPaidShippingFee(Double buyerPaidShippingFee) {
+        this.buyerPaidShippingFee = buyerPaidShippingFee;
+    }
+
+    public Double getShippingRebateEstimate() {
+        return this.shippingRebateEstimate;
+    }
+
+    public ShopeeOrder shippingRebateEstimate(Double shippingRebateEstimate) {
+        this.setShippingRebateEstimate(shippingRebateEstimate);
+        return this;
+    }
+
+    public void setShippingRebateEstimate(Double shippingRebateEstimate) {
+        this.shippingRebateEstimate = shippingRebateEstimate;
     }
 
     public Double getReverseShippingFee() {
@@ -644,17 +663,30 @@ public class ShopeeOrder implements Serializable {
         this.reverseShippingFee = reverseShippingFee;
     }
 
-    public Double getServiceFeeGrandTotal() {
-        return this.serviceFeeGrandTotal;
+    public Double getServiceFee() {
+        return this.serviceFee;
     }
 
-    public ShopeeOrder serviceFeeGrandTotal(Double serviceFeeGrandTotal) {
-        this.setServiceFeeGrandTotal(serviceFeeGrandTotal);
+    public ShopeeOrder serviceFee(Double serviceFee) {
+        this.setServiceFee(serviceFee);
         return this;
     }
 
-    public void setServiceFeeGrandTotal(Double serviceFeeGrandTotal) {
-        this.serviceFeeGrandTotal = serviceFeeGrandTotal;
+    public void setServiceFee(Double serviceFee) {
+        this.serviceFee = serviceFee;
+    }
+
+    public Double getGrandTotal() {
+        return this.grandTotal;
+    }
+
+    public ShopeeOrder grandTotal(Double grandTotal) {
+        this.setGrandTotal(grandTotal);
+        return this;
+    }
+
+    public void setGrandTotal(Double grandTotal) {
+        this.grandTotal = grandTotal;
     }
 
     public Double getEstimatedShippingFee() {
@@ -909,9 +941,11 @@ public class ShopeeOrder implements Serializable {
             ", shopeeCoinsOffset=" + getShopeeCoinsOffset() +
             ", creditCardDiscountTotal=" + getCreditCardDiscountTotal() +
             ", productsPricePaidByBuyer=" + getProductsPricePaidByBuyer() +
-            ", buyerPaidShippingFeeShippingRebateEstimate='" + getBuyerPaidShippingFeeShippingRebateEstimate() + "'" +
+            ", buyerPaidShippingFee=" + getBuyerPaidShippingFee() +
+            ", shippingRebateEstimate=" + getShippingRebateEstimate() +
             ", reverseShippingFee=" + getReverseShippingFee() +
-            ", serviceFeeGrandTotal=" + getServiceFeeGrandTotal() +
+            ", serviceFee=" + getServiceFee() +
+            ", grandTotal=" + getGrandTotal() +
             ", estimatedShippingFee=" + getEstimatedShippingFee() +
             ", usernameBuyer='" + getUsernameBuyer() + "'" +
             ", receiverName='" + getReceiverName() + "'" +

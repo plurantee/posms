@@ -35,9 +35,11 @@ export interface IShopeeOrder {
   shopeeCoinsOffset?: number | null;
   creditCardDiscountTotal?: number | null;
   productsPricePaidByBuyer?: number | null;
-  buyerPaidShippingFeeShippingRebateEstimate?: string | null;
+  buyerPaidShippingFee?: number | null;
+  shippingRebateEstimate?: number | null;
   reverseShippingFee?: number | null;
-  serviceFeeGrandTotal?: number | null;
+  serviceFee?: number | null;
+  grandTotal?: number | null;
   estimatedShippingFee?: number | null;
   usernameBuyer?: string | null;
   receiverName?: string | null;
@@ -91,9 +93,11 @@ export class ShopeeOrder implements IShopeeOrder {
     public shopeeCoinsOffset?: number | null,
     public creditCardDiscountTotal?: number | null,
     public productsPricePaidByBuyer?: number | null,
-    public buyerPaidShippingFeeShippingRebateEstimate?: string | null,
+    public buyerPaidShippingFee?: number | null,
+    public shippingRebateEstimate?: number | null,
     public reverseShippingFee?: number | null,
-    public serviceFeeGrandTotal?: number | null,
+    public serviceFee?: number | null,
+    public grandTotal?: number | null,
     public estimatedShippingFee?: number | null,
     public usernameBuyer?: string | null,
     public receiverName?: string | null,

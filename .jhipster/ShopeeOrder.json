@@ -138,15 +138,23 @@
       "fieldType": "Double"
     },
     {
-      "fieldName": "buyerPaidShippingFeeShippingRebateEstimate",
-      "fieldType": "String"
+      "fieldName": "buyerPaidShippingFee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "shippingRebateEstimate",
+      "fieldType": "Double"
     },
     {
       "fieldName": "reverseShippingFee",
       "fieldType": "Double"
     },
     {
-      "fieldName": "serviceFeeGrandTotal",
+      "fieldName": "serviceFee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "grandTotal",
       "fieldType": "Double"
     },
     {

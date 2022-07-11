@@ -423,20 +423,27 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="shopee-order-buyerPaidShippingFeeShippingRebateEstimate"
-              >Buyer Paid Shipping Fee Shipping Rebate Estimate</label
-            >
+            <label class="form-control-label" for="shopee-order-buyerPaidShippingFee">Buyer Paid Shipping Fee</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
-              name="buyerPaidShippingFeeShippingRebateEstimate"
-              id="shopee-order-buyerPaidShippingFeeShippingRebateEstimate"
-              data-cy="buyerPaidShippingFeeShippingRebateEstimate"
-              :class="{
-                valid: !$v.shopeeOrder.buyerPaidShippingFeeShippingRebateEstimate.$invalid,
-                invalid: $v.shopeeOrder.buyerPaidShippingFeeShippingRebateEstimate.$invalid,
-              }"
-              v-model="$v.shopeeOrder.buyerPaidShippingFeeShippingRebateEstimate.$model"
+              name="buyerPaidShippingFee"
+              id="shopee-order-buyerPaidShippingFee"
+              data-cy="buyerPaidShippingFee"
+              :class="{ valid: !$v.shopeeOrder.buyerPaidShippingFee.$invalid, invalid: $v.shopeeOrder.buyerPaidShippingFee.$invalid }"
+              v-model.number="$v.shopeeOrder.buyerPaidShippingFee.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="shopee-order-shippingRebateEstimate">Shipping Rebate Estimate</label>
+            <input
+              type="number"
+              class="form-control"
+              name="shippingRebateEstimate"
+              id="shopee-order-shippingRebateEstimate"
+              data-cy="shippingRebateEstimate"
+              :class="{ valid: !$v.shopeeOrder.shippingRebateEstimate.$invalid, invalid: $v.shopeeOrder.shippingRebateEstimate.$invalid }"
+              v-model.number="$v.shopeeOrder.shippingRebateEstimate.$model"
             />
           </div>
           <div class="form-group">
@@ -452,15 +459,27 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="shopee-order-serviceFeeGrandTotal">Service Fee Grand Total</label>
+            <label class="form-control-label" for="shopee-order-serviceFee">Service Fee</label>
             <input
               type="number"
               class="form-control"
-              name="serviceFeeGrandTotal"
-              id="shopee-order-serviceFeeGrandTotal"
-              data-cy="serviceFeeGrandTotal"
-              :class="{ valid: !$v.shopeeOrder.serviceFeeGrandTotal.$invalid, invalid: $v.shopeeOrder.serviceFeeGrandTotal.$invalid }"
-              v-model.number="$v.shopeeOrder.serviceFeeGrandTotal.$model"
+              name="serviceFee"
+              id="shopee-order-serviceFee"
+              data-cy="serviceFee"
+              :class="{ valid: !$v.shopeeOrder.serviceFee.$invalid, invalid: $v.shopeeOrder.serviceFee.$invalid }"
+              v-model.number="$v.shopeeOrder.serviceFee.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="shopee-order-grandTotal">Grand Total</label>
+            <input
+              type="number"
+              class="form-control"
+              name="grandTotal"
+              id="shopee-order-grandTotal"
+              data-cy="grandTotal"
+              :class="{ valid: !$v.shopeeOrder.grandTotal.$invalid, invalid: $v.shopeeOrder.grandTotal.$invalid }"
+              v-model.number="$v.shopeeOrder.grandTotal.$model"
             />
           </div>
           <div class="form-group">

@@ -203,10 +203,16 @@
             <span>{{ shopeeOrder.productsPricePaidByBuyer }}</span>
           </dd>
           <dt>
-            <span>Buyer Paid Shipping Fee Shipping Rebate Estimate</span>
+            <span>Buyer Paid Shipping Fee</span>
           </dt>
           <dd>
-            <span>{{ shopeeOrder.buyerPaidShippingFeeShippingRebateEstimate }}</span>
+            <span>{{ shopeeOrder.buyerPaidShippingFee }}</span>
+          </dd>
+          <dt>
+            <span>Shipping Rebate Estimate</span>
+          </dt>
+          <dd>
+            <span>{{ shopeeOrder.shippingRebateEstimate }}</span>
           </dd>
           <dt>
             <span>Reverse Shipping Fee</span>
@@ -215,10 +221,16 @@
             <span>{{ shopeeOrder.reverseShippingFee }}</span>
           </dd>
           <dt>
-            <span>Service Fee Grand Total</span>
+            <span>Service Fee</span>
           </dt>
           <dd>
-            <span>{{ shopeeOrder.serviceFeeGrandTotal }}</span>
+            <span>{{ shopeeOrder.serviceFee }}</span>
+          </dd>
+          <dt>
+            <span>Grand Total</span>
+          </dt>
+          <dd>
+            <span>{{ shopeeOrder.grandTotal }}</span>
           </dd>
           <dt>
             <span>Estimated Shipping Fee</span>

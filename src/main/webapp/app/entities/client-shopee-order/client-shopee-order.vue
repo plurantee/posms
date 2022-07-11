@@ -56,47 +56,6 @@
             <th scope="row"><span>Ship Time</span></th>
             <th scope="row"><span>Order Creation Date</span></th>
             <th scope="row"><span>Order Paid Time</span></th>
-            <th scope="row"><span>Parent Sku Reference No</span></th>
-            <th scope="row"><span>Product Name</span></th>
-            <th scope="row"><span>Sku Reference No</span></th>
-            <th scope="row"><span>Variation Name</span></th>
-            <th scope="row"><span>Original Price</span></th>
-            <th scope="row"><span>Deal Price</span></th>
-            <th scope="row"><span>Quantity</span></th>
-            <th scope="row"><span>Product Subtotal</span></th>
-            <th scope="row"><span>Total Discount</span></th>
-            <th scope="row"><span>Price Discount From Seller</span></th>
-            <th scope="row"><span>Shopee Rebate</span></th>
-            <th scope="row"><span>Sku Total Weight</span></th>
-            <th scope="row"><span>Number Of Items In Order</span></th>
-            <th scope="row"><span>Order Total Weight</span></th>
-            <th scope="row"><span>Seller Voucher</span></th>
-            <th scope="row"><span>Seller Absorbed Coin Cashback</span></th>
-            <th scope="row"><span>Shopee Voucher</span></th>
-            <th scope="row"><span>Bundle Deals Indicator YN</span></th>
-            <th scope="row"><span>Shopee Bundle Discount</span></th>
-            <th scope="row"><span>Seller Bundle Discount</span></th>
-            <th scope="row"><span>Shopee Coins Offset</span></th>
-            <th scope="row"><span>Credit Card Discount Total</span></th>
-            <th scope="row"><span>Products Price Paid By Buyer</span></th>
-            <th scope="row"><span>Buyer Paid Shipping Fee Shipping Rebate Estimate</span></th>
-            <th scope="row"><span>Reverse Shipping Fee</span></th>
-            <th scope="row"><span>Service Fee Grand Total</span></th>
-            <th scope="row"><span>Estimated Shipping Fee</span></th>
-            <th scope="row"><span>Username Buyer</span></th>
-            <th scope="row"><span>Receiver Name</span></th>
-            <th scope="row"><span>Phone Number</span></th>
-            <th scope="row"><span>Delivery Address</span></th>
-            <th scope="row"><span>Town</span></th>
-            <th scope="row"><span>District</span></th>
-            <th scope="row"><span>Province</span></th>
-            <th scope="row"><span>Region</span></th>
-            <th scope="row"><span>Country</span></th>
-            <th scope="row"><span>Zip Code</span></th>
-            <th scope="row"><span>Remark From Buyer</span></th>
-            <th scope="row"><span>Order Complete Time</span></th>
-            <th scope="row"><span>Note</span></th>
-            <th scope="row"><span>Shop</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -115,46 +74,6 @@
             <td>{{ shopeeOrder.shipTime | formatDate }}</td>
             <td>{{ shopeeOrder.orderCreationDate | formatDate }}</td>
             <td>{{ shopeeOrder.orderPaidTime | formatDate }}</td>
-            <td>{{ shopeeOrder.parentSkuReferenceNo }}</td>
-            <td>{{ shopeeOrder.productName }}</td>
-            <td>{{ shopeeOrder.skuReferenceNo }}</td>
-            <td>{{ shopeeOrder.variationName }}</td>
-            <td>{{ shopeeOrder.originalPrice }}</td>
-            <td>{{ shopeeOrder.dealPrice }}</td>
-            <td>{{ shopeeOrder.quantity }}</td>
-            <td>{{ shopeeOrder.productSubtotal }}</td>
-            <td>{{ shopeeOrder.totalDiscount }}</td>
-            <td>{{ shopeeOrder.priceDiscountFromSeller }}</td>
-            <td>{{ shopeeOrder.shopeeRebate }}</td>
-            <td>{{ shopeeOrder.skuTotalWeight }}</td>
-            <td>{{ shopeeOrder.numberOfItemsInOrder }}</td>
-            <td>{{ shopeeOrder.orderTotalWeight }}</td>
-            <td>{{ shopeeOrder.sellerVoucher }}</td>
-            <td>{{ shopeeOrder.sellerAbsorbedCoinCashback }}</td>
-            <td>{{ shopeeOrder.shopeeVoucher }}</td>
-            <td>{{ shopeeOrder.bundleDealsIndicatorYN }}</td>
-            <td>{{ shopeeOrder.shopeeBundleDiscount }}</td>
-            <td>{{ shopeeOrder.sellerBundleDiscount }}</td>
-            <td>{{ shopeeOrder.shopeeCoinsOffset }}</td>
-            <td>{{ shopeeOrder.creditCardDiscountTotal }}</td>
-            <td>{{ shopeeOrder.productsPricePaidByBuyer }}</td>
-            <td>{{ shopeeOrder.buyerPaidShippingFeeShippingRebateEstimate }}</td>
-            <td>{{ shopeeOrder.reverseShippingFee }}</td>
-            <td>{{ shopeeOrder.serviceFeeGrandTotal }}</td>
-            <td>{{ shopeeOrder.estimatedShippingFee }}</td>
-            <td>{{ shopeeOrder.usernameBuyer }}</td>
-            <td>{{ shopeeOrder.receiverName }}</td>
-            <td>{{ shopeeOrder.phoneNumber }}</td>
-            <td>{{ shopeeOrder.deliveryAddress }}</td>
-            <td>{{ shopeeOrder.town }}</td>
-            <td>{{ shopeeOrder.district }}</td>
-            <td>{{ shopeeOrder.province }}</td>
-            <td>{{ shopeeOrder.region }}</td>
-            <td>{{ shopeeOrder.country }}</td>
-            <td>{{ shopeeOrder.zipCode }}</td>
-            <td>{{ shopeeOrder.remarkFromBuyer }}</td>
-            <td>{{ shopeeOrder.orderCompleteTime | formatDate }}</td>
-            <td>{{ shopeeOrder.note }}</td>
             <td>
               <div v-if="shopeeOrder.shop">
                 <router-link :to="{ name: 'ShopView', params: { shopId: shopeeOrder.shop.id } }">{{ shopeeOrder.shop.id }}</router-link>

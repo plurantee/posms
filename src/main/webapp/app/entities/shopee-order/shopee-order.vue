@@ -61,9 +61,11 @@
             <th scope="row"><span>Shopee Coins Offset</span></th>
             <th scope="row"><span>Credit Card Discount Total</span></th>
             <th scope="row"><span>Products Price Paid By Buyer</span></th>
-            <th scope="row"><span>Buyer Paid Shipping Fee Shipping Rebate Estimate</span></th>
+            <th scope="row"><span>Buyer Paid Shipping Fee</span></th>
+            <th scope="row"><span>Shipping Rebate Estimate</span></th>
             <th scope="row"><span>Reverse Shipping Fee</span></th>
-            <th scope="row"><span>Service Fee Grand Total</span></th>
+            <th scope="row"><span>Service Fee</span></th>
+            <th scope="row"><span>Grand Total</span></th>
             <th scope="row"><span>Estimated Shipping Fee</span></th>
             <th scope="row"><span>Username Buyer</span></th>
             <th scope="row"><span>Receiver Name</span></th>
@@ -120,9 +122,11 @@
             <td>{{ shopeeOrder.shopeeCoinsOffset }}</td>
             <td>{{ shopeeOrder.creditCardDiscountTotal }}</td>
             <td>{{ shopeeOrder.productsPricePaidByBuyer }}</td>
-            <td>{{ shopeeOrder.buyerPaidShippingFeeShippingRebateEstimate }}</td>
+            <td>{{ shopeeOrder.buyerPaidShippingFee }}</td>
+            <td>{{ shopeeOrder.shippingRebateEstimate }}</td>
             <td>{{ shopeeOrder.reverseShippingFee }}</td>
-            <td>{{ shopeeOrder.serviceFeeGrandTotal }}</td>
+            <td>{{ shopeeOrder.serviceFee }}</td>
+            <td>{{ shopeeOrder.grandTotal }}</td>
             <td>{{ shopeeOrder.estimatedShippingFee }}</td>
             <td>{{ shopeeOrder.usernameBuyer }}</td>
             <td>{{ shopeeOrder.receiverName }}</td>

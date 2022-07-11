@@ -53,9 +53,11 @@ entity ShopeeOrder {
     shopeeCoinsOffset Double
     creditCardDiscountTotal Double
     productsPricePaidByBuyer Double
-    buyerPaidShippingFeeShippingRebateEstimate String
+    buyerPaidShippingFee Double
+    ShippingRebateEstimate Double
     reverseShippingFee Double
-    serviceFeeGrandTotal Double
+    serviceFee Double
+    GrandTotal Double
     estimatedShippingFee Double
     usernameBuyer String
     receiverName String

@@ -113,13 +113,19 @@
             <column name="products_price_paid_by_buyer" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="buyer_paid_shipping_fee_shipping_rebate_estimate" type="varchar(255)">
+            <column name="buyer_paid_shipping_fee" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="shipping_rebate_estimate" type="double">
                 <constraints nullable="true" />
             </column>
             <column name="reverse_shipping_fee" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="service_fee_grand_total" type="double">
+            <column name="service_fee" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="grand_total" type="double">
                 <constraints nullable="true" />
             </column>
             <column name="estimated_shipping_fee" type="double">
@@ -226,9 +232,11 @@
             <column name="shopee_coins_offset" type="numeric"/>
             <column name="credit_card_discount_total" type="numeric"/>
             <column name="products_price_paid_by_buyer" type="numeric"/>
-            <column name="buyer_paid_shipping_fee_shipping_rebate_estimate" type="string"/>
+            <column name="buyer_paid_shipping_fee" type="numeric"/>
+            <column name="shipping_rebate_estimate" type="numeric"/>
             <column name="reverse_shipping_fee" type="numeric"/>
-            <column name="service_fee_grand_total" type="numeric"/>
+            <column name="service_fee" type="numeric"/>
+            <column name="grand_total" type="numeric"/>
             <column name="estimated_shipping_fee" type="numeric"/>
             <column name="username_buyer" type="string"/>
             <column name="receiver_name" type="string"/>

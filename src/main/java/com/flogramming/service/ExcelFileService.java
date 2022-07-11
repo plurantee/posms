@@ -5,7 +5,6 @@ import com.flogramming.domain.Shop;
 import com.flogramming.domain.ShopeeOrder;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
-import com.flogramming.repository.LazadaOrderRepository;
 import com.flogramming.util.OrdersUtil;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -107,14 +106,14 @@ public class ExcelFileService {
             lazadaUtil.sellerSku(row.get("sellerSku"));
             lazadaUtil.lazadaSku(row.get("lazadaSku"));
             lazadaUtil.wareHouse(row.get("wareHouse"));
-            lazadaUtil.createTime(convertDate(row.get("createTime")));
-            lazadaUtil.updateTime(convertDate(row.get("updateTime")));
-            lazadaUtil.rtaSla(convertDate(row.get("rtsSla")));
-            lazadaUtil.ttsSla(convertDate(row.get("ttsSla")));
+            lazadaUtil.createTime(convertLazadaDate(row.get("createTime")));
+            lazadaUtil.updateTime(convertLazadaDate(row.get("updateTime")));
+            lazadaUtil.rtaSla(convertLazadaDate(row.get("rtsSla")));
+            lazadaUtil.ttsSla(convertLazadaDate(row.get("ttsSla")));
             lazadaUtil.orderNumber(row.get("orderNumber"));
             lazadaUtil.invoiceRequired("Yes".equals(row.get("invoiceRequired")));
             lazadaUtil.invoiceNumber(row.get("invoiceNumber"));
-            lazadaUtil.deliveryDate(convertDate(row.get("deliveredDate")));
+            lazadaUtil.deliveryDate(convertLazadaDate(row.get("deliveredDate")));
             lazadaUtil.customerName(row.get("customerName"));
             lazadaUtil.customerEmail(row.get("customerEmail"));
             lazadaUtil.nationalRegistrationNumber(row.get("nationalRegistrationNumber"));
@@ -161,7 +160,7 @@ public class ExcelFileService {
             lazadaUtil.trackingUrl(row.get("trackingUrl"));
             lazadaUtil.shippingProviderFM(row.get("shippingProviderFM"));
             lazadaUtil.trackingCodeFM(row.get("trackingCodeFM"));
-            lazadaUtil.promisedShippingTime(convertDate(row.get("promisedShippingTime")));
+            lazadaUtil.promisedShippingTime(convertLazadaDate(row.get("promisedShippingTime")));
             lazadaUtil.premium(row.get("premium"));
             lazadaUtil.status(row.get("status"));
             lazadaUtil.buyerFailedDeliveryReturnInitiator(row.get("buyerFailedDeliveryReturnInitiator"));
@@ -190,7 +189,17 @@ public class ExcelFileService {
             switch (cell.getCellType()) {
                 case STRING:
                     columnNames.add(cell.getStringCellValue());
-                    System.out.println(cell.getStringCellValue());
+                    String original = cell.getStringCellValue();
+                    String[] words = original.split("[\\W_]+");
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < words.length; i++) {
+                        String word = words[i];
+                        word = word.isEmpty() ? word : Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+
+                        builder.append(word);
+                    }
+                    String camelCase = builder.toString();
+                    System.out.println("shopeeOrder.set" + camelCase + "(row.get(\"" + original + "\"));");
                     break;
             }
         }
@@ -240,6 +249,58 @@ public class ExcelFileService {
             }
             shopeeOrder.setShop(shop);
             shopeeOrder.setOrderId(row.get("Order ID"));
+            shopeeOrder.setOrderStatus(row.get("Order Status"));
+            shopeeOrder.setReturnRefundStatus(row.get("Return / Refund Status"));
+            shopeeOrder.setTrackingNumber(row.get("Tracking Number*"));
+            shopeeOrder.setShippingOption(row.get("Shipping Option"));
+            shopeeOrder.setShipmentMethod(row.get("Shipment Method"));
+            shopeeOrder.setEstimatedShipOutDate(convertShopeeDate(row.get("Estimated Ship Out Date")));
+            shopeeOrder.setShipTime(convertShopeeDate(row.get("Ship Time")));
+            shopeeOrder.setOrderCreationDate(convertShopeeDate(row.get("Order Creation Date")));
+            shopeeOrder.setOrderPaidTime(convertShopeeDate(row.get("Order Paid Time")));
+            shopeeOrder.setParentSkuReferenceNo(row.get("Parent SKU Reference No."));
+            shopeeOrder.setProductName(row.get("Product Name"));
+            shopeeOrder.setSkuReferenceNo(row.get("SKU Reference No."));
+            shopeeOrder.setVariationName(row.get("Variation Name"));
+            shopeeOrder.setOriginalPrice(valueOf(row.get("Original Price")));
+            shopeeOrder.setDealPrice(valueOf(row.get("Deal Price")));
+            shopeeOrder.setQuantity(valueOf(row.get("Quantity")));
+            shopeeOrder.setProductSubtotal(valueOf(row.get("Product Subtotal")));
+            shopeeOrder.setTotalDiscount(valueOf(row.get("Total Discount(PHP)")));
+            shopeeOrder.setPriceDiscountFromSeller(valueOf(row.get("Price Discount(from Seller)(PHP)")));
+            shopeeOrder.setShopeeRebate(valueOf(row.get("Shopee Rebate(PHP)")));
+            shopeeOrder.setSkuTotalWeight(row.get("SKU Total Weight"));
+            shopeeOrder.setNumberOfItemsInOrder(row.get("Number of Items in Order"));
+            shopeeOrder.setOrderTotalWeight(row.get("Order Total Weight"));
+            shopeeOrder.setSellerVoucher(valueOf(row.get("Seller Voucher(PHP)")));
+            shopeeOrder.setSellerAbsorbedCoinCashback(row.get("Seller Absorbed Coin Cashback"));
+            shopeeOrder.setShopeeVoucher(valueOf(row.get("Shopee Voucher(PHP)")));
+            shopeeOrder.setBundleDealsIndicatorYN(row.get("Bundle Deals Indicator(Y/N)"));
+            shopeeOrder.setShopeeBundleDiscount(valueOf(row.get("Shopee Bundle Discount(PHP)")));
+            shopeeOrder.setSellerBundleDiscount(valueOf(row.get("Seller Bundle Discount(PHP)")));
+            shopeeOrder.setShopeeCoinsOffset(valueOf(row.get("Shopee Coins Offset(PHP)")));
+            shopeeOrder.setCreditCardDiscountTotal(valueOf(row.get("Credit Card Discount Total(PHP)")));
+            shopeeOrder.setProductsPricePaidByBuyer(valueOf(row.get("Products' Price Paid by Buyer (PHP)")));
+            shopeeOrder.setBuyerPaidShippingFee(valueOf(row.get("Buyer Paid Shipping Fee")));
+            shopeeOrder.setShippingRebateEstimate(valueOf(row.get("Shipping Rebate Estimate")));
+            shopeeOrder.setReverseShippingFee(valueOf(row.get("Reverse Shipping Fee")));
+            shopeeOrder.setServiceFee(valueOf(row.get("Service Fee")));
+            shopeeOrder.setGrandTotal(valueOf(row.get("Grand Total")));
+            shopeeOrder.setEstimatedShippingFee(valueOf(row.get("Estimated Shipping Fee")));
+            shopeeOrder.setUsernameBuyer(row.get("Username (Buyer)"));
+            shopeeOrder.setReceiverName(row.get("Receiver Name"));
+            shopeeOrder.setPhoneNumber(row.get("Phone Number"));
+            shopeeOrder.setDeliveryAddress(row.get("Delivery Address"));
+            shopeeOrder.setTown(row.get("Town"));
+            shopeeOrder.setDistrict(row.get("District"));
+            shopeeOrder.setProvince(row.get("Province"));
+            shopeeOrder.setRegion(row.get("Region"));
+            shopeeOrder.setCountry(row.get("Country"));
+            shopeeOrder.setZipCode(row.get("Zip Code"));
+            shopeeOrder.setRemarkFromBuyer(row.get("Remark from buyer"));
+            shopeeOrder.setOrderCompleteTime(convertShopeeDate(row.get("Order Complete Time")));
+            shopeeOrder.setNote(row.get("Note"));
+
             clientShopeeOrderRepository.save(shopeeOrder);
         }
         return clientShopeeOrderRepository.findByShop(shop);
@@ -248,11 +309,21 @@ public class ExcelFileService {
     /**
      * Utils
      * */
-    public ZonedDateTime convertDate(String date) {
+    public ZonedDateTime convertLazadaDate(String date) {
         if (StringUtils.isEmpty(date)) {
             return null;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
+        LocalDateTime ldt = LocalDateTime.parse(date, formatter);
+        ZoneId zoneId = ZoneId.of("Asia/Manila");
+        return ldt.atZone(zoneId);
+    }
+
+    public ZonedDateTime convertShopeeDate(String date) {
+        if (StringUtils.isEmpty(date)) {
+            return null;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime ldt = LocalDateTime.parse(date, formatter);
         ZoneId zoneId = ZoneId.of("Asia/Manila");
         return ldt.atZone(zoneId);
