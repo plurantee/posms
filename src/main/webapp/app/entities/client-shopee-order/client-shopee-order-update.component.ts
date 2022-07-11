@@ -5,11 +5,8 @@ import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 
 import AlertService from '@/shared/alert/alert.service';
 
-import ShopService from '@/entities/shop/shop.service';
-import { IShop } from '@/shared/model/shop.model';
-
 import { IShopeeOrder, ShopeeOrder } from '@/shared/model/shopee-order.model';
-import ShopeeOrderService from './shopee-order.service';
+import ShopeeOrderService from './client-shopee-order.service';
 
 const validations: any = {
   shopeeOrder: {
@@ -69,15 +66,11 @@ const validations: any = {
 @Component({
   validations,
 })
-export default class ShopeeOrderUpdate extends Vue {
+export default class ClientShopeeOrderUpdate extends Vue {
   @Inject('shopeeOrderService') private shopeeOrderService: () => ShopeeOrderService;
   @Inject('alertService') private alertService: () => AlertService;
 
   public shopeeOrder: IShopeeOrder = new ShopeeOrder();
-
-  @Inject('shopService') private shopService: () => ShopService;
-
-  public shops: IShop[] = [];
   public isSaving = false;
   public currentLanguage = '';
 
@@ -86,7 +79,6 @@ export default class ShopeeOrderUpdate extends Vue {
       if (to.params.shopeeOrderId) {
         vm.retrieveShopeeOrder(to.params.shopeeOrderId);
       }
-      vm.initRelationships();
     });
   }
 
@@ -186,11 +178,5 @@ export default class ShopeeOrderUpdate extends Vue {
     this.$router.go(-1);
   }
 
-  public initRelationships(): void {
-    this.shopService()
-      .retrieve()
-      .then(res => {
-        this.shops = res.data;
-      });
-  }
+  public initRelationships(): void {}
 }

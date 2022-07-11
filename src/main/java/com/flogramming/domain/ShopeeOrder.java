@@ -1,5 +1,6 @@
 package com.flogramming.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import javax.persistence.*;
@@ -168,6 +169,10 @@ public class ShopeeOrder implements Serializable {
 
     @Column(name = "note")
     private String note;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "lazadaOrders", "shopeeOrders", "clientCode" }, allowSetters = true)
+    private Shop shop;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -832,6 +837,19 @@ public class ShopeeOrder implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Shop getShop() {
+        return this.shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public ShopeeOrder shop(Shop shop) {
+        this.setShop(shop);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

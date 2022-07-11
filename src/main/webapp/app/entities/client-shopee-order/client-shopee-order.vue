@@ -3,9 +3,27 @@
     <h2 id="page-heading" data-cy="ShopeeOrderHeading">
       <span id="shopee-order-heading">Shopee Orders</span>
       <div class="d-flex justify-content-end">
-        <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
-          <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
-        </button>
+        <div>
+          <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
+            <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
+          </button>
+          <b-form-file
+            v-model="file"
+            placeholder="Upload Shopee File"
+            v-on:change="uploadFile()"
+            drop-placeholder="Drop file here..."
+          ></b-form-file>
+          <button
+            @click="submitFile()"
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+            class="btn btn-primary jh-create-entity create-shopee-order"
+          >
+            <font-awesome-icon icon="plus"></font-awesome-icon>
+            <span> Upload Shopee Orders </span>
+          </button>
+        </div>
+
         <router-link :to="{ name: 'ShopeeOrderCreate' }" custom v-slot="{ navigate }">
           <button
             @click="navigate"
@@ -195,4 +213,4 @@
   </div>
 </template>
 
-<script lang="ts" src="./shopee-order.component.ts"></script>
+<script lang="ts" src="./client-shopee-order.component.ts"></script>

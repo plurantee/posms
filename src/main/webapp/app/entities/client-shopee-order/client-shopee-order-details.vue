@@ -331,4 +331,4 @@
   </div>
 </template>
 
-<script lang="ts" src="./shopee-order-details.component.ts"></script>
+<script lang="ts" src="./client-shopee-order-details.component.ts"></script>

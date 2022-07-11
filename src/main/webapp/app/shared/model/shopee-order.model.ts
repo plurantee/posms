@@ -1,3 +1,5 @@
+import { IShop } from '@/shared/model/shop.model';
+
 export interface IShopeeOrder {
   id?: number;
   orderId?: string | null;
@@ -50,6 +52,7 @@ export interface IShopeeOrder {
   remarkFromBuyer?: string | null;
   orderCompleteTime?: Date | null;
   note?: string | null;
+  shop?: IShop | null;
 }
 
 export class ShopeeOrder implements IShopeeOrder {
@@ -104,6 +107,7 @@ export class ShopeeOrder implements IShopeeOrder {
     public zipCode?: string | null,
     public remarkFromBuyer?: string | null,
     public orderCompleteTime?: Date | null,
-    public note?: string | null
+    public note?: string | null,
+    public shop?: IShop | null
   ) {}
 }

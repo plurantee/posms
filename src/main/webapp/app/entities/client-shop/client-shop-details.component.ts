@@ -1,14 +1,15 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 
 import { IShop } from '@/shared/model/shop.model';
-import ShopService from './client-shop.service';
 import AlertService from '@/shared/alert/alert.service';
 import ClientShopService from './client-shop.service';
 const ClientLazadaOrder = () => import('@/entities/client-lazada-order/client-lazada-order.vue');
+const ClientShopeeOrder = () => import('@/entities/client-shopee-order/client-shopee-order.vue');
 
 @Component({
   components: {
     'client-lazada-order': ClientLazadaOrder,
+    'client-shopee-order': ClientShopeeOrder,
   },
 })
 export default class ClientShopDetails extends Vue {

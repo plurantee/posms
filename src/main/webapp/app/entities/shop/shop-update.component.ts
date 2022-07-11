@@ -5,6 +5,9 @@ import AlertService from '@/shared/alert/alert.service';
 import LazadaOrderService from '@/entities/lazada-order/lazada-order.service';
 import { ILazadaOrder } from '@/shared/model/lazada-order.model';
 
+import ShopeeOrderService from '@/entities/shopee-order/shopee-order.service';
+import { IShopeeOrder } from '@/shared/model/shopee-order.model';
+
 import ClientService from '@/entities/client/client.service';
 import { IClient } from '@/shared/model/client.model';
 
@@ -32,6 +35,10 @@ export default class ShopUpdate extends Vue {
   @Inject('lazadaOrderService') private lazadaOrderService: () => LazadaOrderService;
 
   public lazadaOrders: ILazadaOrder[] = [];
+
+  @Inject('shopeeOrderService') private shopeeOrderService: () => ShopeeOrderService;
+
+  public shopeeOrders: IShopeeOrder[] = [];
 
   @Inject('clientService') private clientService: () => ClientService;
 
@@ -122,6 +129,11 @@ export default class ShopUpdate extends Vue {
       .retrieve()
       .then(res => {
         this.lazadaOrders = res.data;
+      });
+    this.shopeeOrderService()
+      .retrieve()
+      .then(res => {
+        this.shopeeOrders = res.data;
       });
     this.clientService()
       .retrieve()

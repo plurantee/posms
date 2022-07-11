@@ -211,6 +211,13 @@
   "name": "ShopeeOrder",
   "pagination": "no",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "shop",
+      "otherEntityRelationshipName": "shopeeOrder",
+      "relationshipName": "shop",
+      "relationshipType": "many-to-one"
+    }
+  ],
   "service": "no"
 }

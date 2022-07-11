@@ -2,7 +2,9 @@ package com.flogramming.service;
 
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.Shop;
+import com.flogramming.domain.ShopeeOrder;
 import com.flogramming.repository.ClientLazadaOrderRepository;
+import com.flogramming.repository.ClientShopeeOrderRepository;
 import com.flogramming.repository.LazadaOrderRepository;
 import com.flogramming.util.OrdersUtil;
 import java.io.IOException;
@@ -31,6 +33,12 @@ public class ExcelFileService {
     @Autowired
     private ClientLazadaOrderRepository lazadaOrderRepository;
 
+    @Autowired
+    private ClientShopeeOrderRepository clientShopeeOrderRepository;
+
+    /**
+     * Lazada
+     * */
     public List<LazadaOrder> processLazadaExcelFile(MultipartFile file, Shop shop) throws IOException {
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
@@ -69,15 +77,14 @@ public class ExcelFileService {
                     default:
                         excelHashMap.get(i).put(columnNames.get(j), " ");
                 }
-                excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getStringCellValue());
             }
 
             i++;
         }
-        return setFromExcelHashMap(excelHashMap, shop);
+        return setLazadaOrderFromExcelHashMap(excelHashMap, shop);
     }
 
-    public List<LazadaOrder> setFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap, Shop shop) {
+    public List<LazadaOrder> setLazadaOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap, Shop shop) {
         List<LazadaOrder> result = new ArrayList<>();
         // 04 Jul 2022 11:46
         excelHashMap.remove(0); // Column rows
@@ -168,20 +175,79 @@ public class ExcelFileService {
             lazadaOrderRepository.save(lazadaUtil.getLazadaOrder());
         }
         return lazadaOrderRepository.findByShop(shop);
-        /*
-            promisedShippingTime
-            premium
-            status
-            buyerFailedDeliveryReturnInitiator
-            buyerFailedDeliveryReason
-            buyerFailedDeliveryDetail
-            buyerFailedDeliveryUserName
-            bundleId
-            bundleDiscount
-            refundAmount
-        * */
     }
 
+    /**
+     * Shopee
+     * */
+    public List<ShopeeOrder> processShopeeExcelFile(MultipartFile file, Shop shop) throws IOException {
+        Workbook workbook = new XSSFWorkbook(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);
+        Map<Integer, HashMap<String, String>> excelHashMap = new HashMap<>();
+        List<String> columnNames = new ArrayList<>();
+        Row columnNamesRow = sheet.getRow(0);
+        for (Cell cell : columnNamesRow) {
+            switch (cell.getCellType()) {
+                case STRING:
+                    columnNames.add(cell.getStringCellValue());
+                    System.out.println(cell.getStringCellValue());
+                    break;
+            }
+        }
+        int i = 0;
+        for (Row row : sheet) {
+            excelHashMap.put(i, new HashMap<>());
+            for (int j = 0; j < columnNames.size(); j++) {
+                switch (row.getCell(j).getCellType()) {
+                    case STRING:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getRichStringCellValue().getString());
+                        break;
+                    case NUMERIC:
+                        if (DateUtil.isCellDateFormatted(row.getCell(j))) {
+                            excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getDateCellValue() + "");
+                        } else {
+                            excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getNumericCellValue() + "" + "");
+                        }
+                        break;
+                    case BOOLEAN:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getBooleanCellValue() + "" + "");
+                        break;
+                    case FORMULA:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getCellFormula() + "");
+                        break;
+                    default:
+                        excelHashMap.get(i).put(columnNames.get(j), " ");
+                }
+            }
+
+            i++;
+        }
+        return setShopeeOrderFromExcelHashMap(excelHashMap, shop);
+    }
+
+    public List<ShopeeOrder> setShopeeOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap, Shop shop) {
+        List<LazadaOrder> result = new ArrayList<>();
+        // 04 Jul 2022 11:46
+        excelHashMap.remove(0); // Column rows
+        for (HashMap<String, String> row : excelHashMap.values()) {
+            ShopeeOrder shopeeOrder = null;
+            var search = clientShopeeOrderRepository.findByOrderId(row.get("Order ID"));
+            if (search.isPresent()) {
+                shopeeOrder = search.get();
+                shopeeOrder.id(search.get().getId());
+            } else {
+                shopeeOrder = new ShopeeOrder();
+            }
+            shopeeOrder.setShop(shop);
+            shopeeOrder.setOrderId(row.get("Order ID"));
+            clientShopeeOrderRepository.save(shopeeOrder);
+        }
+        return clientShopeeOrderRepository.findByShop(shop);
+    }
+
+    /**
+     * Utils
+     * */
     public ZonedDateTime convertDate(String date) {
         if (StringUtils.isEmpty(date)) {
             return null;

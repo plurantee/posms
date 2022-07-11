@@ -53,6 +53,7 @@
     </div>
 
     <client-lazada-order v-if="shop && shopNav == 'lazada'" :shop="shop"></client-lazada-order>
+    <client-shopee-order v-if="shop && shopNav == 'shopee'" :shop="shop"></client-shopee-order>
   </div>
 </template>
 

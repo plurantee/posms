@@ -240,7 +240,7 @@ public class LazadaOrder implements Serializable {
     private Double refundAmount;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "lazadaOrders", "clientCode" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "lazadaOrders", "shopeeOrders", "clientCode" }, allowSetters = true)
     private Shop shop;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

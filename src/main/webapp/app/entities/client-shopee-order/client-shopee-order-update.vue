@@ -666,4 +666,4 @@
     </div>
   </div>
 </template>
-<script lang="ts" src="./shopee-order-update.component.ts"></script>
+<script lang="ts" src="./client-shopee-order-update.component.ts"></script>

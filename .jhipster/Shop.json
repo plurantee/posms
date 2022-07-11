@@ -32,6 +32,12 @@
       "relationshipType": "one-to-many"
     },
     {
+      "otherEntityName": "shopeeOrder",
+      "otherEntityRelationshipName": "shop",
+      "relationshipName": "shopeeOrder",
+      "relationshipType": "one-to-many"
+    },
+    {
       "otherEntityName": "client",
       "otherEntityRelationshipName": "shop",
       "relationshipName": "clientCode",

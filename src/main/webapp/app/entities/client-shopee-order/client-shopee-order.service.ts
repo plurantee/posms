@@ -1,11 +1,11 @@
+import { IShop } from '@/shared/model/shop.model';
 import axios from 'axios';
 
-import { IShop } from '@/shared/model/shop.model';
-import LazadaOrderService from '../lazada-order/lazada-order.service';
+import ShopeeOrderService from '../shopee-order/shopee-order.service';
 
-const baseApiUrl = 'api/lazada-orders';
+const baseApiUrl = 'api/shopee-orders';
 
-export default class ClientLazadaOrderService extends LazadaOrderService {
+export default class ClientShopeeOrderService extends ShopeeOrderService {
   public retrieveByShop(shop: IShop): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
@@ -18,7 +18,6 @@ export default class ClientLazadaOrderService extends LazadaOrderService {
         });
     });
   }
-
   public uploadLazadaExcel(file: FormData) {
     return new Promise<any>((resolve, reject) => {
       axios

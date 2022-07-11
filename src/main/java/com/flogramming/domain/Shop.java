@@ -36,6 +36,10 @@ public class Shop implements Serializable {
     @JsonIgnoreProperties(value = { "shop" }, allowSetters = true)
     private Set<LazadaOrder> lazadaOrders = new HashSet<>();
 
+    @OneToMany(mappedBy = "shop")
+    @JsonIgnoreProperties(value = { "shop" }, allowSetters = true)
+    private Set<ShopeeOrder> shopeeOrders = new HashSet<>();
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "userInfos", "shops" }, allowSetters = true)
     private Client clientCode;
@@ -122,6 +126,37 @@ public class Shop implements Serializable {
     public Shop removeLazadaOrder(LazadaOrder lazadaOrder) {
         this.lazadaOrders.remove(lazadaOrder);
         lazadaOrder.setShop(null);
+        return this;
+    }
+
+    public Set<ShopeeOrder> getShopeeOrders() {
+        return this.shopeeOrders;
+    }
+
+    public void setShopeeOrders(Set<ShopeeOrder> shopeeOrders) {
+        if (this.shopeeOrders != null) {
+            this.shopeeOrders.forEach(i -> i.setShop(null));
+        }
+        if (shopeeOrders != null) {
+            shopeeOrders.forEach(i -> i.setShop(this));
+        }
+        this.shopeeOrders = shopeeOrders;
+    }
+
+    public Shop shopeeOrders(Set<ShopeeOrder> shopeeOrders) {
+        this.setShopeeOrders(shopeeOrders);
+        return this;
+    }
+
+    public Shop addShopeeOrder(ShopeeOrder shopeeOrder) {
+        this.shopeeOrders.add(shopeeOrder);
+        shopeeOrder.setShop(this);
+        return this;
+    }
+
+    public Shop removeShopeeOrder(ShopeeOrder shopeeOrder) {
+        this.shopeeOrders.remove(shopeeOrder);
+        shopeeOrder.setShop(null);
         return this;
     }
 
