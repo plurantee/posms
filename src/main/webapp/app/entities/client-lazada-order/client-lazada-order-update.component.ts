@@ -7,7 +7,6 @@ import { IShop } from '@/shared/model/shop.model';
 import { ILazadaOrder, LazadaOrder } from '@/shared/model/lazada-order.model';
 import ClientLazadaOrderService from './client-lazada-order.service';
 import LazadaOrderUpdate from '../lazada-order/lazada-order-update.component';
-import ClientShopService from '@/entities/client-shop/client-shop.service';
 
 const validations: any = {
   lazadaOrder: {

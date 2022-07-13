@@ -17,5 +17,7 @@ public interface ClientLazadaOrderRepository extends LazadaOrderRepository {
     List<LazadaOrder> findByShop(Shop shop);
     List<LazadaOrder> findByClient(Client client);
 
-    Optional<LazadaOrder> findByOrderItemId(String orderItemId);
+    List<LazadaOrder> findByOrderItemId(String orderItemId);
+
+    long deleteByOrderItemId(String orderItemId);
 }

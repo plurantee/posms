@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.flogramming.web.rest.LazadaOrderResource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -23,12 +25,16 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ExcelFileService {
+
+    private final Logger log = LoggerFactory.getLogger(ExcelFileService.class);
 
     @Autowired
     private ClientLazadaOrderRepository lazadaOrderRepository;
@@ -92,16 +98,20 @@ public class ExcelFileService {
         // 04 Jul 2022 11:46
         excelHashMap.remove(0); // Column rows
         Client client = clientUserService.getCurrentUser().getClientCode();
+
+        // Clear database for order item ids that is in this excel
         for (HashMap<String, String> row : excelHashMap.values()) {
-            LazadaOrder lazadaOrder = null;
-            var search = lazadaOrderRepository.findByOrderItemId(row.get("orderItemId"));
-            if (search.isPresent()) {
-                lazadaOrder = search.get();
-                lazadaOrder.id(search.get().getId());
-            } else {
-                lazadaOrder = new LazadaOrder();
+            String orderItemId = row.get("orderItemId");
+            if (!StringUtils.isEmpty(orderItemId)) {
+                long numbersDeleted = lazadaOrderRepository.deleteByOrderItemId(orderItemId);
+                log.info("Clearing database for orderItemId (Lazada): "+orderItemId+". Numbers deleted: "+ numbersDeleted);
             }
+        }
+
+        for (HashMap<String, String> row : excelHashMap.values()) {
+            LazadaOrder lazadaOrder = new LazadaOrder();
             lazadaOrder.setClient(client);
+
             OrdersUtil lazadaUtil = new OrdersUtil(lazadaOrder);
             lazadaUtil.orderItemId(row.get("orderItemId"));
             lazadaUtil.orderType(row.get("orderType"));
@@ -175,8 +185,9 @@ public class ExcelFileService {
             lazadaUtil.bundleId(row.get("bundleId"));
             lazadaUtil.bundleDiscount(valueOf(row.get("bundleDiscount")));
             lazadaUtil.refundAmount(valueOf(row.get("refundAmount")));
-
-            lazadaOrderRepository.save(lazadaUtil.getLazadaOrder());
+            if (!StringUtils.isEmpty(lazadaUtil.lazadaOrder.getOrderItemId())) {
+                lazadaOrderRepository.save(lazadaUtil.getLazadaOrder());
+            }
         }
         return lazadaOrderRepository.findByClient(client);
     }
@@ -245,14 +256,15 @@ public class ExcelFileService {
         // 04 Jul 2022 11:46
         excelHashMap.remove(0); // Column rows
         for (HashMap<String, String> row : excelHashMap.values()) {
-            ShopeeOrder shopeeOrder = null;
-            var search = clientShopeeOrderRepository.findByOrderId(row.get("Order ID"));
-            if (search.isPresent()) {
-                shopeeOrder = search.get();
-                shopeeOrder.id(search.get().getId());
-            } else {
-                shopeeOrder = new ShopeeOrder();
+            String orderItemId = row.get("Order ID");
+            if (!StringUtils.isEmpty(orderItemId)) {
+                long numbersDeleted = clientShopeeOrderRepository.deleteByOrderId(orderItemId);
+                log.info("Clearing database for Order ID (Shopee): "+orderItemId+". Numbers deleted: "+ numbersDeleted);
             }
+        }
+        for (HashMap<String, String> row : excelHashMap.values()) {
+            ShopeeOrder shopeeOrder = new ShopeeOrder();
+
             shopeeOrder.setClient(client);
             shopeeOrder.setOrderId(row.get("Order ID"));
             shopeeOrder.setOrderStatus(row.get("Order Status"));
@@ -307,7 +319,10 @@ public class ExcelFileService {
             shopeeOrder.setOrderCompleteTime(convertShopeeDate(row.get("Order Complete Time")));
             shopeeOrder.setNote(row.get("Note"));
 
-            clientShopeeOrderRepository.save(shopeeOrder);
+            if (!StringUtils.isEmpty(shopeeOrder.getOrderId())) {
+                clientShopeeOrderRepository.save(shopeeOrder);
+            }
+
         }
         return clientShopeeOrderRepository.findByClient(client);
     }
@@ -339,8 +354,8 @@ public class ExcelFileService {
         double result;
         try {
             result = Double.parseDouble(strValue);
-        } catch (NumberFormatException e) {
-            result = 0.0;
+        } catch (Exception e) {
+            result = 0;
         }
         return result;
     }

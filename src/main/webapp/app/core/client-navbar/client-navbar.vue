@@ -27,10 +27,10 @@
                   <span>Home</span>
                 </span>
               </b-nav-item>
-              <b-nav-item v-if="authenticated" to="/client/shop" exact>
+              <b-nav-item v-if="authenticated" to="/client/order-tracker" exact>
                 <span>
-                  <b-icon icon="bag-check-fill"></b-icon>
-                  <span>Shops</span>
+                  <b-icon icon="receipt"></b-icon>
+                  <span>Order Tracking</span>
                 </span>
               </b-nav-item>
               <b-nav-item-dropdown

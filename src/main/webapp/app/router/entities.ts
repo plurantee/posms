@@ -41,11 +41,9 @@ const ShopeeOrderUpdate = () => import('@/entities/shopee-order/shopee-order-upd
 const ShopeeOrderDetails = () => import('@/entities/shopee-order/shopee-order-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
-const ClientShop = () => import('@/entities/client-shop/client-shop.vue');
+const ClientOrderTracker = () => import('@/entities/client-order-tracker/client-order-tracker.vue');
 // prettier-ignore
-const ClientShopUpdate = () => import('@/entities/client-shop/client-shop-update.vue');
-// prettier-ignore
-const ClientShopDetails = () => import('@/entities/client-shop/client-shop-details.vue');
+
 const ClientLazadaOrder = () => import('@/entities/client-lazada-order/client-lazada-order.vue');
 // prettier-ignore
 const ClientLazadaOrderUpdate = () => import('@/entities/client-lazada-order/client-lazada-order-update.vue');
@@ -201,27 +199,9 @@ export default {
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here
     {
-      path: 'client/shop',
-      name: 'ClientShop',
-      component: ClientShop,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'client/shop/new',
-      name: 'ClientShopCreate',
-      component: ClientShopUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'client/shop/:shopId/edit',
-      name: 'ClientShopEdit',
-      component: ClientShopUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'client/shop/:shopId/view',
-      name: 'ClientShopView',
-      component: ClientShopDetails,
+      path: '/client/order-tracker',
+      name: 'ClientOrderTracker',
+      component: ClientOrderTracker,
       meta: { authorities: [Authority.USER] },
     },
     {

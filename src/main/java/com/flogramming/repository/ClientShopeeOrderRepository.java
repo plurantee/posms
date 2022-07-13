@@ -16,4 +16,6 @@ public interface ClientShopeeOrderRepository extends ShopeeOrderRepository {
     List<ShopeeOrder> findByShop(Shop shop);
     List<ShopeeOrder> findByClient(Client client);
     Optional<ShopeeOrder> findByOrderId(String orderId);
+
+    long deleteByOrderId(String orderId);
 }

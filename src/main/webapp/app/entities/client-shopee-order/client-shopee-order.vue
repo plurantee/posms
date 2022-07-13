@@ -48,7 +48,8 @@
             <th scope="row"><span>ID</span></th>
             <th scope="row"><span>Order Id</span></th>
             <th scope="row"><span>Order Status</span></th>
-            <th scope="row"><span>Return Refund Status</span></th>
+            <th scope="row"><span>Sku Reference No</span></th>
+            <th scope="row"><span>Quantity</span></th>
             <th scope="row"><span>Tracking Number</span></th>
             <th scope="row"><span>Shipping Option</span></th>
             <th scope="row"><span>Shipment Method</span></th>
@@ -66,7 +67,8 @@
             </td>
             <td>{{ shopeeOrder.orderId }}</td>
             <td>{{ shopeeOrder.orderStatus }}</td>
-            <td>{{ shopeeOrder.returnRefundStatus }}</td>
+            <td>{{ shopeeOrder.skuReferenceNo }}</td>
+            <td>{{ shopeeOrder.quantity }}</td>
             <td>{{ shopeeOrder.trackingNumber }}</td>
             <td>{{ shopeeOrder.shippingOption }}</td>
             <td>{{ shopeeOrder.shipmentMethod }}</td>
