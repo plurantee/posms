@@ -1,5 +1,3 @@
-
-
 export interface IOrderTracker {
   id?: number;
   orderItemId?: string | null;
@@ -16,6 +14,6 @@ export class OrderTracker implements IOrderTracker {
     public orderType?: string | null,
     public skuReference?: string | null,
     public status?: string | null,
-    public site?: string | null,
+    public site?: string | null
   ) {}
 }

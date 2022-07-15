@@ -15,8 +15,7 @@ export default class ClientOrderTracker extends Vue {
   public orderTrackers: IOrderTracker[] = [];
   public isFetching = false;
   public searchText() {
-    this.search(this.barcode)
-    .then(
+    this.search(this.barcode).then(
       res => {
         this.orderTrackers = res.data;
         this.isFetching = false;
@@ -32,7 +31,7 @@ export default class ClientOrderTracker extends Vue {
   public search(query: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
-        .get(`${baseApiUrl}/`+query)
+        .get(`${baseApiUrl}/` + query)
         .then(res => {
           resolve(res);
         })

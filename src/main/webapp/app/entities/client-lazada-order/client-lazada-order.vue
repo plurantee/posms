@@ -3,28 +3,26 @@
     <h2 id="page-heading" data-cy="LazadaOrderHeading">
       <span id="lazada-order-heading">Lazada Orders </span>
       <div class="d-flex justify-content-end">
-        <router-link :to="{ name: 'LazadaOrderCreate' }" custom v-slot="{ navigate }">
-          <div>
-            <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
-              <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
-            </button>
-            <b-form-file
-              v-model="file"
-              placeholder="Upload Lazada File"
-              v-on:change="uploadFile()"
-              drop-placeholder="Drop file here..."
-            ></b-form-file>
-            <button
-              @click="submitFile()"
-              id="jh-create-entity"
-              data-cy="entityCreateButton"
-              class="btn btn-primary jh-create-entity create-lazada-order"
-            >
-              <font-awesome-icon icon="plus"></font-awesome-icon>
-              <span> Upload Lazada Orders </span>
-            </button>
-          </div>
-        </router-link>
+        <div>
+          <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
+            <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
+          </button>
+          <b-form-file
+            v-model="file"
+            placeholder="Upload Lazada File"
+            v-on:change="uploadFile()"
+            drop-placeholder="Drop file here..."
+          ></b-form-file>
+          <button
+            @click="submitFile()"
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+            class="btn btn-primary jh-create-entity create-lazada-order"
+          >
+            <font-awesome-icon icon="plus"></font-awesome-icon>
+            <span> Upload Lazada Orders </span>
+          </button>
+        </div>
       </div>
     </h2>
     <br />
