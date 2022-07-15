@@ -14,6 +14,8 @@ export default class ClientOrderTracker extends Vue {
   public barcode = '';
   public orderTrackers: IOrderTracker[] = [];
   public isFetching = false;
+  private file = null;
+
   public searchText() {
     this.search(this.barcode).then(
       res => {
@@ -40,6 +42,55 @@ export default class ClientOrderTracker extends Vue {
         });
 
       (<HTMLInputElement>this.$refs.barcode).focus();
+    });
+  }
+
+  public uploadFile(): void {
+    this.file = (<HTMLInputElement>this.$refs.file).files[0];
+  }
+
+  public submitFile(): void {
+    this.isFetching = true;
+    // eslint-disable-next-line prefer-const
+    let formData = new FormData();
+    formData.append('file', this.file);
+    this.uploadLazadaWaybill(formData)
+      .then(
+        res => {
+          return this.$root.$bvToast.toast('Downloading new Waybill Uploaded', {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        },
+        err => {
+          this.isFetching = false;
+          this.clientAlertService().showHttpError(this, err.response);
+        }
+      );
+  }
+
+  public uploadLazadaWaybill(file: FormData) {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .post(`${baseApiUrl}/upload`, file, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/pdf'
+          },
+          responseType: 'blob'
+        })
+        .then(res => {
+          const blob = new Blob([res.data], { type: 'application/pdf' });
+          const objectUrl = window.URL.createObjectURL(blob);
+          window.open(objectUrl);
+          resolve(res.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
     });
   }
 }

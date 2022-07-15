@@ -1,5 +1,27 @@
 <template>
   <div>
+    <div v-if="orderTrackers && orderTrackers.length > 0" class="form-group">
+      <label class="form-control-label" for="file">Upload to fill Waybill informations</label>
+      <div class="row col-md-12">
+        <b-form-file
+          v-model="file"
+          placeholder="Upload Lazada Waybill"
+          v-on:change="uploadFile()"
+          drop-placeholder="Drop file here..."
+          class="col-md-4"
+        ></b-form-file>
+        <button
+          @click="submitFile()"
+          id="jh-create-entity"
+          data-cy="entityCreateButton"
+          class="btn btn-primary jh-create-entity create-lazada-order"
+        >
+          <font-awesome-icon icon="plus"></font-awesome-icon>
+          <span> Upload Lazada Waybill </span>
+        </button>
+      </div>
+    </div>
+
     <form name="form" role="form" id="tracker-form" v-on:submit.prevent="searchText()">
       <div class="form-group">
         <label class="form-control-label" for="barcode">Barcode Number</label>
