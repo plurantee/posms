@@ -54,6 +54,7 @@ export default class ClientOrderTracker extends Vue {
     // eslint-disable-next-line prefer-const
     let formData = new FormData();
     formData.append('file', this.file);
+    formData.append('orders', JSON.stringify(this.orderTrackers));
     this.uploadLazadaWaybill(formData)
       .then(
         res => {

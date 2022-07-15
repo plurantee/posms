@@ -1,5 +1,6 @@
 package com.flogramming.web.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.Order;
 import com.flogramming.domain.OrderTracker;
@@ -10,6 +11,7 @@ import com.flogramming.repository.ClientShopeeOrderRepository;
 import com.flogramming.service.WaybillFileService;
 import liquibase.pro.packaged.T;
 import org.apache.commons.io.FileUtils;
+import org.h2.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -74,9 +76,10 @@ public class OrderTrackerResource {
     }
 
     @PostMapping(path = "/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<byte[]> modifyWaybill(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<byte[]> modifyWaybill(@RequestParam("file") MultipartFile file, @RequestParam("orders") String orders) throws IOException {
         byte[] result = waybillFileService.processWaybill(file);
-
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<OrderTracker> ordersArray = List.of(objectMapper.readValue(orders, OrderTracker[].class));
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.setContentDispositionFormData("Filled-"+file.getName(), "Filled-"+file.getName());
