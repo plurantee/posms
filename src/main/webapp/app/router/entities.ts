@@ -46,7 +46,6 @@ const ClientOrderTracker = () => import('@/entities/client-order-tracker/client-
 
 const ClientLazadaOrder = () => import('@/entities/client-lazada-order/client-lazada-order.vue');
 // prettier-ignore
-const ClientLazadaOrderUpdate = () => import('@/entities/client-lazada-order/client-lazada-order-update.vue');
 // prettier-ignore
 const ClientLazadaOrderDetails = () => import('@/entities/client-lazada-order/client-lazada-order-details.vue');
 export default {
