@@ -12,7 +12,7 @@ export default class ShopeeOrder extends Vue {
   @Inject('shopeeOrderService') private shopeeOrderService: () => ShopeeOrderService;
   @Inject('alertService') private alertService: () => AlertService;
 
-  private removeId: number = null;
+  protected removeId: number = null;
 
   public shopeeOrders: IShopeeOrder[] = [];
 

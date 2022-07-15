@@ -95,6 +95,7 @@ export default class ClientShopeeOrder extends ShopeeOrder {
   }
 
   public submitFile(): void {
+    this.isFetching = true;
     // eslint-disable-next-line prefer-const
     let formData = new FormData();
     formData.append('file', this.file);
@@ -118,5 +119,27 @@ export default class ClientShopeeOrder extends ShopeeOrder {
           this.clientAlertService().showHttpError(this, err.response);
         }
       );
+  }
+
+
+  public removeShopeeOrder(): void {
+    this.clientShopeeOrderService()
+      .delete(this.removeId)
+      .then(() => {
+        const message = 'A ShopeeOrder is deleted with identifier ' + this.removeId;
+        this.$bvToast.toast(message.toString(), {
+          toaster: 'b-toaster-top-center',
+          title: 'Info',
+          variant: 'danger',
+          solid: true,
+          autoHideDelay: 5000,
+        });
+        this.removeId = null;
+        this.retrieveAllShopeeOrdersByClient();
+        this.closeDialog();
+      })
+      .catch(error => {
+        this.clientAlertService().showHttpError(this, error.response);
+      });
   }
 }

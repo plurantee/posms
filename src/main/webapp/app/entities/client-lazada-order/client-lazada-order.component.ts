@@ -27,6 +27,9 @@ export default class ClientLazadaOrder extends LazadaOrder {
   @Inject('clientLazadaOrderService') private clientLazadaOrderService: () => ClientLazadaOrderService;
   @Inject('alertService') private clientAlertService: () => AlertService;
 
+  private clientRemoveId: number = null;
+  
+
   public lazadaOrders: ILazadaOrder[] = [];
 
   public isFetching = false;
@@ -89,6 +92,7 @@ export default class ClientLazadaOrder extends LazadaOrder {
   }
 
   public submitFile(): void {
+    this.isFetching = true;
     // eslint-disable-next-line prefer-const
     let formData = new FormData();
     formData.append('file', this.file);
@@ -116,5 +120,33 @@ export default class ClientLazadaOrder extends LazadaOrder {
 
   public closeDialog(): void {
     (<any>this.$refs.removeEntity).hide();
+  }
+
+  public prepareRemove(instance: ILazadaOrder): void {
+    this.removeId = instance.id;
+    if (<any>this.$refs.removeEntity) {
+      (<any>this.$refs.removeEntity).show();
+    }
+  }
+
+  public removeLazadaOrder(): void {
+    this.clientLazadaOrderService()
+      .delete(this.removeId)
+      .then(() => {
+        const message = 'A LazadaOrder is deleted with identifier ' + this.removeId;
+        this.$bvToast.toast(message.toString(), {
+          toaster: 'b-toaster-top-center',
+          title: 'Info',
+          variant: 'danger',
+          solid: true,
+          autoHideDelay: 5000,
+        });
+        this.removeId = null;
+        this.clear();
+        this.closeDialog();
+      })
+      .catch(error => {
+        this.clientAlertService().showHttpError(this, error.response);
+      });
   }
 }

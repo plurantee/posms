@@ -4,6 +4,7 @@
       <div class="form-group">
         <label class="form-control-label" for="barcode">Barcode Number</label>
         <input
+          ref="barcode"
           type="text"
           class="form-control"
           id="barcode"

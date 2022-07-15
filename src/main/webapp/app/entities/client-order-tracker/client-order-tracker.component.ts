@@ -38,6 +38,8 @@ export default class ClientOrderTracker extends Vue {
         .catch(err => {
           reject(err);
         });
+
+        this.$refs.barcode.focus();
     });
   }
 }
