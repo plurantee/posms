@@ -12,6 +12,15 @@
     {
       "fieldName": "clientCode",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "clientType",
+      "fieldType": "ClientType",
+      "fieldValues": "BASIC,PRO"
+    },
+    {
+      "fieldName": "validityDate",
+      "fieldType": "ZonedDateTime"
     }
   ],
   "fluentMethods": true,

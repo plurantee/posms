@@ -162,12 +162,6 @@
                     <span class="d-none d-md-inline">View</span>
                   </button>
                 </router-link>
-                <router-link :to="{ name: 'ShopeeOrderEdit', params: { shopeeOrderId: shopeeOrder.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
-                    <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
-                    <span class="d-none d-md-inline">Edit</span>
-                  </button>
-                </router-link>
                 <b-button
                   v-on:click="prepareRemove(shopeeOrder)"
                   variant="danger"

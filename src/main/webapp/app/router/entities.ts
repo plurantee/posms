@@ -156,18 +156,6 @@ export default {
       meta: { authorities: [Authority.USER] },
     },
     {
-      path: 'lazada-order/new',
-      name: 'LazadaOrderCreate',
-      component: LazadaOrderUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'lazada-order/:lazadaOrderId/edit',
-      name: 'LazadaOrderEdit',
-      component: LazadaOrderUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
       path: 'lazada-order/:lazadaOrderId/view',
       name: 'LazadaOrderView',
       component: LazadaOrderDetails,
@@ -177,18 +165,6 @@ export default {
       path: 'shopee-order',
       name: 'ShopeeOrder',
       component: ShopeeOrder,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'shopee-order/new',
-      name: 'ShopeeOrderCreate',
-      component: ShopeeOrderUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'shopee-order/:shopeeOrderId/edit',
-      name: 'ShopeeOrderEdit',
-      component: ShopeeOrderUpdate,
       meta: { authorities: [Authority.USER] },
     },
     {
@@ -204,18 +180,7 @@ export default {
       component: ClientOrderTracker,
       meta: { authorities: [Authority.USER] },
     },
-    {
-      path: 'client/lazada-order/new',
-      name: 'ClientLazadaOrderCreate',
-      component: ClientLazadaOrderUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'client/lazada-order/:lazadaOrderId/edit',
-      name: 'ClientLazadaOrderEdit',
-      component: ClientLazadaOrderUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
+
     {
       path: 'client/lazada-order/:lazadaOrderId/view',
       name: 'ClientLazadaOrderView',

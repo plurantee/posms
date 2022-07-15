@@ -104,6 +104,13 @@ export default class ClientShopeeOrder extends ShopeeOrder {
         res => {
           this.handleSyncList();
           this.isFetching = false;
+          return this.$root.$bvToast.toast(this.file.name + ' Uploaded', {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
         },
         err => {
           this.handleSyncList();

@@ -15,7 +15,8 @@ import org.springframework.stereotype.Repository;
 public interface ClientShopeeOrderRepository extends ShopeeOrderRepository {
     List<ShopeeOrder> findByShop(Shop shop);
     List<ShopeeOrder> findByClient(Client client);
-    Optional<ShopeeOrder> findByOrderId(String orderId);
+    List<ShopeeOrder> findByOrderId(String orderId);
+    List<ShopeeOrder> findByTrackingNumber(String trackingNumber);
 
     long deleteByOrderId(String orderId);
 }

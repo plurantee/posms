@@ -127,6 +127,12 @@ public class ClientResource {
                 if (client.getClientCode() != null) {
                     existingClient.setClientCode(client.getClientCode());
                 }
+                if (client.getClientType() != null) {
+                    existingClient.setClientType(client.getClientType());
+                }
+                if (client.getValidityDate() != null) {
+                    existingClient.setValidityDate(client.getValidityDate());
+                }
 
                 return existingClient;
             })

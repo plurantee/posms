@@ -32,6 +32,34 @@
               v-model="$v.client.clientCode.$model"
             />
           </div>
+          <div class="form-group">
+            <label class="form-control-label" for="client-clientType">Client Type</label>
+            <select
+              class="form-control"
+              name="clientType"
+              :class="{ valid: !$v.client.clientType.$invalid, invalid: $v.client.clientType.$invalid }"
+              v-model="$v.client.clientType.$model"
+              id="client-clientType"
+              data-cy="clientType"
+            >
+              <option v-for="clientType in clientTypeValues" :key="clientType" v-bind:value="clientType">{{ clientType }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="client-validityDate">Validity Date</label>
+            <div class="d-flex">
+              <input
+                id="client-validityDate"
+                data-cy="validityDate"
+                type="datetime-local"
+                class="form-control"
+                name="validityDate"
+                :class="{ valid: !$v.client.validityDate.$invalid, invalid: $v.client.validityDate.$invalid }"
+                :value="convertDateTimeFromServer($v.client.validityDate.$model)"
+                @change="updateZonedDateTimeField('validityDate', $event)"
+              />
+            </div>
+          </div>
         </div>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">

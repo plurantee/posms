@@ -1,5 +1,8 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 
+import dayjs from 'dayjs';
+import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
+
 import AlertService from '@/shared/alert/alert.service';
 
 import UserInfoService from '@/entities/user-info/user-info.service';
@@ -16,11 +19,14 @@ import { IShopeeOrder } from '@/shared/model/shopee-order.model';
 
 import { IClient, Client } from '@/shared/model/client.model';
 import ClientService from './client.service';
+import { ClientType } from '@/shared/model/enumerations/client-type.model';
 
 const validations: any = {
   client: {
     clientName: {},
     clientCode: {},
+    clientType: {},
+    validityDate: {},
   },
 };
 
@@ -48,6 +54,7 @@ export default class ClientUpdate extends Vue {
   @Inject('shopeeOrderService') private shopeeOrderService: () => ShopeeOrderService;
 
   public shopeeOrders: IShopeeOrder[] = [];
+  public clientTypeValues: string[] = Object.keys(ClientType);
   public isSaving = false;
   public currentLanguage = '';
 
@@ -113,10 +120,34 @@ export default class ClientUpdate extends Vue {
     }
   }
 
+  public convertDateTimeFromServer(date: Date): string {
+    if (date && dayjs(date).isValid()) {
+      return dayjs(date).format(DATE_TIME_LONG_FORMAT);
+    }
+    return null;
+  }
+
+  public updateInstantField(field, event) {
+    if (event.target.value) {
+      this.client[field] = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
+    } else {
+      this.client[field] = null;
+    }
+  }
+
+  public updateZonedDateTimeField(field, event) {
+    if (event.target.value) {
+      this.client[field] = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
+    } else {
+      this.client[field] = null;
+    }
+  }
+
   public retrieveClient(clientId): void {
     this.clientService()
       .find(clientId)
       .then(res => {
+        res.validityDate = new Date(res.validityDate);
         this.client = res;
       })
       .catch(error => {

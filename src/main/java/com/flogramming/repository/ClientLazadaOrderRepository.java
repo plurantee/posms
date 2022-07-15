@@ -20,4 +20,6 @@ public interface ClientLazadaOrderRepository extends LazadaOrderRepository {
     List<LazadaOrder> findByOrderItemId(String orderItemId);
 
     long deleteByOrderItemId(String orderItemId);
+
+    List<LazadaOrder> findByTrackingCode(String trackingCode);
 }

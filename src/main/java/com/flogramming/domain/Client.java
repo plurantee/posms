@@ -1,7 +1,9 @@
 package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.flogramming.domain.enumeration.ClientType;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -26,6 +28,13 @@ public class Client implements Serializable {
 
     @Column(name = "client_code")
     private String clientCode;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "client_type")
+    private ClientType clientType;
+
+    @Column(name = "validity_date")
+    private ZonedDateTime validityDate;
 
     @OneToMany(mappedBy = "clientCode")
     @JsonIgnoreProperties(value = { "user", "clientCode" }, allowSetters = true)
@@ -82,6 +91,32 @@ public class Client implements Serializable {
 
     public void setClientCode(String clientCode) {
         this.clientCode = clientCode;
+    }
+
+    public ClientType getClientType() {
+        return this.clientType;
+    }
+
+    public Client clientType(ClientType clientType) {
+        this.setClientType(clientType);
+        return this;
+    }
+
+    public void setClientType(ClientType clientType) {
+        this.clientType = clientType;
+    }
+
+    public ZonedDateTime getValidityDate() {
+        return this.validityDate;
+    }
+
+    public Client validityDate(ZonedDateTime validityDate) {
+        this.setValidityDate(validityDate);
+        return this;
+    }
+
+    public void setValidityDate(ZonedDateTime validityDate) {
+        this.validityDate = validityDate;
     }
 
     public Set<UserInfo> getUserInfos() {
@@ -234,6 +269,8 @@ public class Client implements Serializable {
             "id=" + getId() +
             ", clientName='" + getClientName() + "'" +
             ", clientCode='" + getClientCode() + "'" +
+            ", clientType='" + getClientType() + "'" +
+            ", validityDate='" + getValidityDate() + "'" +
             "}";
     }
 }

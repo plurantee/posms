@@ -2,6 +2,11 @@
 entity Client {
     clientName String
     clientCode String
+    clientType ClientType
+    validityDate ZonedDateTime
+}
+enum ClientType {
+    BASIC, PRO
 }
 entity Shop {
     shopCode String

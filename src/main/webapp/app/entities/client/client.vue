@@ -30,6 +30,8 @@
             <th scope="row"><span>ID</span></th>
             <th scope="row"><span>Client Name</span></th>
             <th scope="row"><span>Client Code</span></th>
+            <th scope="row"><span>Client Type</span></th>
+            <th scope="row"><span>Validity Date</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -40,6 +42,8 @@
             </td>
             <td>{{ client.clientName }}</td>
             <td>{{ client.clientCode }}</td>
+            <td>{{ client.clientType }}</td>
+            <td>{{ client.validityDate | formatDate }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'ClientView', params: { clientId: client.id } }" custom v-slot="{ navigate }">

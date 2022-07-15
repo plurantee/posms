@@ -16,6 +16,18 @@
           <dd>
             <span>{{ client.clientCode }}</span>
           </dd>
+          <dt>
+            <span>Client Type</span>
+          </dt>
+          <dd>
+            <span>{{ client.clientType }}</span>
+          </dd>
+          <dt>
+            <span>Validity Date</span>
+          </dt>
+          <dd>
+            <span>{{ client.validityDate | formatDate }}</span>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span> Back</span>

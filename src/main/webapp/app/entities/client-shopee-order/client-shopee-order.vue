@@ -23,18 +23,6 @@
             <span> Upload Shopee Orders </span>
           </button>
         </div>
-
-        <router-link :to="{ name: 'ShopeeOrderCreate' }" custom v-slot="{ navigate }">
-          <button
-            @click="navigate"
-            id="jh-create-entity"
-            data-cy="entityCreateButton"
-            class="btn btn-primary jh-create-entity create-shopee-order"
-          >
-            <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span> Create a new Shopee Order </span>
-          </button>
-        </router-link>
       </div>
     </h2>
     <br />
@@ -87,12 +75,6 @@
                   <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline">View</span>
-                  </button>
-                </router-link>
-                <router-link :to="{ name: 'ShopeeOrderEdit', params: { shopeeOrderId: shopeeOrder.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
-                    <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
-                    <span class="d-none d-md-inline">Edit</span>
                   </button>
                 </router-link>
                 <b-button
