@@ -39,7 +39,7 @@ export default class ClientOrderTracker extends Vue {
           reject(err);
         });
 
-        this.$refs.barcode.focus();
+      (<HTMLInputElement>this.$refs.barcode).focus();
     });
   }
 }
