@@ -1,6 +1,5 @@
 package com.flogramming.config;
 
-import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +12,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import tech.jhipster.config.JHipsterConstants;
 import tech.jhipster.config.h2.H2ConfigurationHelper;
 
+import java.sql.SQLException;
+
 @Configuration
-@EnableJpaRepositories({ "com.flogramming.repository" })
+@EnableJpaRepositories({"com.flogramming.repository"})
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableTransactionManagement
 public class DatabaseConfiguration {
@@ -45,10 +46,12 @@ public class DatabaseConfiguration {
         int port = Integer.parseInt(env.getProperty("server.port"));
         if (port < 10000) {
             port = 10000 + port;
-        } else {
+        }
+        else {
             if (port < 63536) {
                 port = port + 2000;
-            } else {
+            }
+            else {
                 port = port - 2000;
             }
         }

@@ -3,18 +3,23 @@ package com.flogramming.service;
 import com.flogramming.domain.Authority;
 import com.flogramming.domain.User;
 import com.flogramming.domain.UserInfo;
-import com.flogramming.repository.*;
+import com.flogramming.repository.AuthorityRepository;
+import com.flogramming.repository.ClientClientRepository;
+import com.flogramming.repository.ClientRepository;
+import com.flogramming.repository.ClientUserInfoRepository;
+import com.flogramming.repository.UserRepository;
 import com.flogramming.security.AuthoritiesConstants;
 import com.flogramming.web.rest.vm.ManagedUserVM;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.springframework.cache.CacheManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.security.RandomUtil;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Service class for managing users.

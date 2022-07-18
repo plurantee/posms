@@ -15,7 +15,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,9 +35,10 @@ public class WaybillFileService {
         //Setting the font to the Content stream
         contentStream.setFont(PDType1Font.COURIER_BOLD, 12);
 
-        contentStream.newLineAtOffset(page.getTrimBox().getWidth()-130, page.getTrimBox().getHeight()-15);
+        contentStream.newLineAtOffset(page.getTrimBox().getWidth() - 130, page.getTrimBox().getHeight() - 15);
 
-        Map<String, Long> ordersMap = orders.stream().collect(Collectors.groupingBy(e -> e.getSkuReference(), Collectors.counting()));
+        Map<String, Long> ordersMap = orders.stream().collect(Collectors.groupingBy(e -> e.getSkuReference(),
+            Collectors.counting()));
         for (Map.Entry<String, Long> entry : ordersMap.entrySet()) {
             contentStream.showText(entry.getValue() + "pcs " + entry.getKey());
             contentStream.newLine();

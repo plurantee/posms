@@ -3,25 +3,11 @@ package com.flogramming.service;
 import com.flogramming.domain.Client;
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.LazadaOrderPayments;
-import com.flogramming.domain.Shop;
 import com.flogramming.domain.ShopeeOrder;
 import com.flogramming.repository.ClientLazadaOrderPaymentsRepository;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
-import com.flogramming.repository.LazadaOrderPaymentsRepository;
 import com.flogramming.util.OrdersUtil;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.flogramming.web.rest.LazadaOrderResource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -36,6 +22,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ExcelFileService {
@@ -56,7 +53,7 @@ public class ExcelFileService {
 
     /**
      * Lazada
-     * */
+     */
     public Page<LazadaOrder> processLazadaExcelFile(MultipartFile file) throws IOException {
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
@@ -77,12 +74,14 @@ public class ExcelFileService {
             for (int j = 0; j < columnNames.size(); j++) {
                 switch (row.getCell(j).getCellType()) {
                     case STRING:
-                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getRichStringCellValue().getString());
+                        excelHashMap.get(i).put(columnNames.get(j),
+                            row.getCell(j).getRichStringCellValue().getString());
                         break;
                     case NUMERIC:
                         if (DateUtil.isCellDateFormatted(row.getCell(j))) {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getDateCellValue() + "");
-                        } else {
+                        }
+                        else {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getNumericCellValue() + "" + "");
                         }
                         break;
@@ -113,7 +112,7 @@ public class ExcelFileService {
             String orderItemId = row.get("orderItemId");
             if (!StringUtils.isEmpty(orderItemId)) {
                 long numbersDeleted = lazadaOrderRepository.deleteByOrderItemId(orderItemId);
-                log.info("Clearing database for orderItemId (Lazada): "+orderItemId+". Numbers deleted: "+ numbersDeleted);
+                log.info("Clearing database for orderItemId (Lazada): " + orderItemId + ". Numbers deleted: " + numbersDeleted);
             }
         }
 
@@ -203,7 +202,7 @@ public class ExcelFileService {
 
     /**
      * Shopee
-     * */
+     */
     public Page<ShopeeOrder> processShopeeExcelFile(MultipartFile file) throws IOException {
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
@@ -219,7 +218,8 @@ public class ExcelFileService {
                     StringBuilder builder = new StringBuilder();
                     for (int i = 0; i < words.length; i++) {
                         String word = words[i];
-                        word = word.isEmpty() ? word : Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+                        word = word.isEmpty() ? word :
+                            Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
 
                         builder.append(word);
                     }
@@ -234,12 +234,14 @@ public class ExcelFileService {
             for (int j = 0; j < columnNames.size(); j++) {
                 switch (row.getCell(j).getCellType()) {
                     case STRING:
-                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getRichStringCellValue().getString());
+                        excelHashMap.get(i).put(columnNames.get(j),
+                            row.getCell(j).getRichStringCellValue().getString());
                         break;
                     case NUMERIC:
                         if (DateUtil.isCellDateFormatted(row.getCell(j))) {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getDateCellValue() + "");
-                        } else {
+                        }
+                        else {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getNumericCellValue() + "" + "");
                         }
                         break;
@@ -268,7 +270,7 @@ public class ExcelFileService {
             String orderItemId = row.get("Order ID");
             if (!StringUtils.isEmpty(orderItemId)) {
                 long numbersDeleted = clientShopeeOrderRepository.deleteByOrderId(orderItemId);
-                log.info("Clearing database for Order ID (Shopee): "+orderItemId+". Numbers deleted: "+ numbersDeleted);
+                log.info("Clearing database for Order ID (Shopee): " + orderItemId + ". Numbers deleted: " + numbersDeleted);
             }
         }
         for (HashMap<String, String> row : excelHashMap.values()) {
@@ -339,7 +341,7 @@ public class ExcelFileService {
 
     /**
      * Lazada Payments
-     * */
+     */
     public List<LazadaOrderPayments> processLazadaPaymentsExcelFile(MultipartFile file) throws IOException {
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
@@ -355,7 +357,8 @@ public class ExcelFileService {
                     StringBuilder builder = new StringBuilder();
                     for (int i = 0; i < words.length; i++) {
                         String word = words[i];
-                        word = word.isEmpty() ? word : Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+                        word = word.isEmpty() ? word :
+                            Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
 
                         builder.append(word);
                     }
@@ -370,12 +373,14 @@ public class ExcelFileService {
             for (int j = 0; j < columnNames.size(); j++) {
                 switch (row.getCell(j).getCellType()) {
                     case STRING:
-                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getRichStringCellValue().getString());
+                        excelHashMap.get(i).put(columnNames.get(j),
+                            row.getCell(j).getRichStringCellValue().getString());
                         break;
                     case NUMERIC:
                         if (DateUtil.isCellDateFormatted(row.getCell(j))) {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getDateCellValue() + "");
-                        } else {
+                        }
+                        else {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getNumericCellValue() + "" + "");
                         }
                         break;
@@ -396,50 +401,52 @@ public class ExcelFileService {
     }
 
     private List<LazadaOrderPayments> setLazadaOrderPaymentsFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
-            List<LazadaOrderPayments> result = new ArrayList<>();
-            // 04 Jul 2022 11:46
-            excelHashMap.remove(0); // Column rows
-            for (HashMap<String, String> row : excelHashMap.values()) {
-                LazadaOrderPayments lazadaOrderPayment = new LazadaOrderPayments();
-                lazadaOrderPayment.setTransactionDate(convertLazadaPaymentDate(row.get("Transaction Date")));
-                lazadaOrderPayment.setTransactionType(row.get("Transaction Type"));
-                lazadaOrderPayment.setFeeName(row.get("Fee Name"));
-                lazadaOrderPayment.setTransactionNumber(row.get("Transaction Number"));
-                lazadaOrderPayment.setDetails(row.get("Details"));
-                lazadaOrderPayment.setSellerSku(row.get("Seller SKU"));
-                lazadaOrderPayment.setLazadaSku(row.get("Lazada SKU"));
-                lazadaOrderPayment.setAmount(valueOf(row.get("Amount")));
-                lazadaOrderPayment.setVatInAmount(valueOf(row.get("VAT in Amount")));
-                lazadaOrderPayment.setWhtAmount(valueOf(row.get("WHT Amount")));
-                lazadaOrderPayment.setWhtIncludedInAmount("Yes".equalsIgnoreCase(row.get("WHT included in Amount")));
-                lazadaOrderPayment.setStatement(row.get("Statement"));
-                lazadaOrderPayment.setPaidStatus(row.get("Paid Status"));
-                lazadaOrderPayment.setOrderNo(row.get("Order No."));
-                lazadaOrderPayment.setOrderItemNo(row.get("Order Item No."));
-                lazadaOrderPayment.setOrderItemStatus(row.get("Order Item Status"));
-                lazadaOrderPayment.setShippingProvider(row.get("Shipping Provider"));
-                lazadaOrderPayment.setShippingSpeed(row.get("Shipping Speed"));
-                lazadaOrderPayment.setShipmentType(row.get("Shipment Type"));
-                lazadaOrderPayment.setReference(row.get("Reference"));
-                lazadaOrderPayment.setComment(row.get("Comment"));
-                lazadaOrderPayment.setPaymentRefId(row.get("PaymentRefId"));
+        List<LazadaOrderPayments> result = new ArrayList<>();
+        // 04 Jul 2022 11:46
+        excelHashMap.remove(0); // Column rows
+        for (HashMap<String, String> row : excelHashMap.values()) {
+            LazadaOrderPayments lazadaOrderPayment = new LazadaOrderPayments();
+            lazadaOrderPayment.setTransactionDate(convertLazadaPaymentDate(row.get("Transaction Date")));
+            lazadaOrderPayment.setTransactionType(row.get("Transaction Type"));
+            lazadaOrderPayment.setFeeName(row.get("Fee Name"));
+            lazadaOrderPayment.setTransactionNumber(row.get("Transaction Number"));
+            lazadaOrderPayment.setDetails(row.get("Details"));
+            lazadaOrderPayment.setSellerSku(row.get("Seller SKU"));
+            lazadaOrderPayment.setLazadaSku(row.get("Lazada SKU"));
+            lazadaOrderPayment.setAmount(valueOf(row.get("Amount")));
+            lazadaOrderPayment.setVatInAmount(valueOf(row.get("VAT in Amount")));
+            lazadaOrderPayment.setWhtAmount(valueOf(row.get("WHT Amount")));
+            lazadaOrderPayment.setWhtIncludedInAmount("Yes".equalsIgnoreCase(row.get("WHT included in Amount")));
+            lazadaOrderPayment.setStatement(row.get("Statement"));
+            lazadaOrderPayment.setPaidStatus(row.get("Paid Status"));
+            lazadaOrderPayment.setOrderNo(row.get("Order No."));
+            lazadaOrderPayment.setOrderItemNo(row.get("Order Item No."));
+            lazadaOrderPayment.setOrderItemStatus(row.get("Order Item Status"));
+            lazadaOrderPayment.setShippingProvider(row.get("Shipping Provider"));
+            lazadaOrderPayment.setShippingSpeed(row.get("Shipping Speed"));
+            lazadaOrderPayment.setShipmentType(row.get("Shipment Type"));
+            lazadaOrderPayment.setReference(row.get("Reference"));
+            lazadaOrderPayment.setComment(row.get("Comment"));
+            lazadaOrderPayment.setPaymentRefId(row.get("PaymentRefId"));
 
-                List<LazadaOrder> lazadaOrder = lazadaOrderRepository.findByOrderItemId(lazadaOrderPayment.getOrderItemNo());
-                if (lazadaOrder.isEmpty()) {
-                    lazadaOrderPayment.setLazadaOrder(null);
-                } else {
-                    lazadaOrderPayment.setLazadaOrder(lazadaOrder.stream().findFirst().get());
-                }
-                result.add(lazadaOrderPayment);
-
+            List<LazadaOrder> lazadaOrder =
+                lazadaOrderRepository.findByOrderItemId(lazadaOrderPayment.getOrderItemNo());
+            if (lazadaOrder.isEmpty()) {
+                lazadaOrderPayment.setLazadaOrder(null);
             }
-            clientLazadaOrderPaymentsRepository.saveAll(result);
-            return result;
+            else {
+                lazadaOrderPayment.setLazadaOrder(lazadaOrder.stream().findFirst().get());
+            }
+            result.add(lazadaOrderPayment);
+
         }
+        clientLazadaOrderPaymentsRepository.saveAll(result);
+        return result;
+    }
 
     /**
      * Utils
-     * */
+     */
     public ZonedDateTime convertLazadaDate(String date) {
         if (StringUtils.isEmpty(date)) {
             return null;
@@ -474,7 +481,8 @@ public class ExcelFileService {
         double result;
         try {
             result = Double.parseDouble(strValue);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             result = 0;
         }
         return result;

@@ -1,9 +1,17 @@
 package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import javax.persistence.*;
 
 /**
  * A LazadaOrderPayments.
@@ -87,7 +95,7 @@ public class LazadaOrderPayments implements Serializable {
     private String paymentRefId;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "payments", "client", "shop" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"payments", "client", "shop"}, allowSetters = true)
     private LazadaOrder lazadaOrder;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -96,17 +104,21 @@ public class LazadaOrderPayments implements Serializable {
         return this.id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public LazadaOrderPayments id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public ZonedDateTime getTransactionDate() {
         return this.transactionDate;
+    }
+
+    public void setTransactionDate(ZonedDateTime transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
     public LazadaOrderPayments transactionDate(ZonedDateTime transactionDate) {
@@ -114,12 +126,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setTransactionDate(ZonedDateTime transactionDate) {
-        this.transactionDate = transactionDate;
-    }
-
     public String getTransactionType() {
         return this.transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
     public LazadaOrderPayments transactionType(String transactionType) {
@@ -127,12 +139,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
-    }
-
     public String getFeeName() {
         return this.feeName;
+    }
+
+    public void setFeeName(String feeName) {
+        this.feeName = feeName;
     }
 
     public LazadaOrderPayments feeName(String feeName) {
@@ -140,12 +152,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setFeeName(String feeName) {
-        this.feeName = feeName;
-    }
-
     public String getTransactionNumber() {
         return this.transactionNumber;
+    }
+
+    public void setTransactionNumber(String transactionNumber) {
+        this.transactionNumber = transactionNumber;
     }
 
     public LazadaOrderPayments transactionNumber(String transactionNumber) {
@@ -153,12 +165,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setTransactionNumber(String transactionNumber) {
-        this.transactionNumber = transactionNumber;
-    }
-
     public String getDetails() {
         return this.details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public LazadaOrderPayments details(String details) {
@@ -166,12 +178,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
     public String getSellerSku() {
         return this.sellerSku;
+    }
+
+    public void setSellerSku(String sellerSku) {
+        this.sellerSku = sellerSku;
     }
 
     public LazadaOrderPayments sellerSku(String sellerSku) {
@@ -179,12 +191,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setSellerSku(String sellerSku) {
-        this.sellerSku = sellerSku;
-    }
-
     public String getLazadaSku() {
         return this.lazadaSku;
+    }
+
+    public void setLazadaSku(String lazadaSku) {
+        this.lazadaSku = lazadaSku;
     }
 
     public LazadaOrderPayments lazadaSku(String lazadaSku) {
@@ -192,12 +204,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setLazadaSku(String lazadaSku) {
-        this.lazadaSku = lazadaSku;
-    }
-
     public Double getAmount() {
         return this.amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     public LazadaOrderPayments amount(Double amount) {
@@ -205,12 +217,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
     public Double getVatInAmount() {
         return this.vatInAmount;
+    }
+
+    public void setVatInAmount(Double vatInAmount) {
+        this.vatInAmount = vatInAmount;
     }
 
     public LazadaOrderPayments vatInAmount(Double vatInAmount) {
@@ -218,12 +230,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setVatInAmount(Double vatInAmount) {
-        this.vatInAmount = vatInAmount;
-    }
-
     public Double getWhtAmount() {
         return this.whtAmount;
+    }
+
+    public void setWhtAmount(Double whtAmount) {
+        this.whtAmount = whtAmount;
     }
 
     public LazadaOrderPayments whtAmount(Double whtAmount) {
@@ -231,12 +243,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setWhtAmount(Double whtAmount) {
-        this.whtAmount = whtAmount;
-    }
-
     public Boolean getWhtIncludedInAmount() {
         return this.whtIncludedInAmount;
+    }
+
+    public void setWhtIncludedInAmount(Boolean whtIncludedInAmount) {
+        this.whtIncludedInAmount = whtIncludedInAmount;
     }
 
     public LazadaOrderPayments whtIncludedInAmount(Boolean whtIncludedInAmount) {
@@ -244,12 +256,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setWhtIncludedInAmount(Boolean whtIncludedInAmount) {
-        this.whtIncludedInAmount = whtIncludedInAmount;
-    }
-
     public String getStatement() {
         return this.statement;
+    }
+
+    public void setStatement(String statement) {
+        this.statement = statement;
     }
 
     public LazadaOrderPayments statement(String statement) {
@@ -257,12 +269,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setStatement(String statement) {
-        this.statement = statement;
-    }
-
     public String getPaidStatus() {
         return this.paidStatus;
+    }
+
+    public void setPaidStatus(String paidStatus) {
+        this.paidStatus = paidStatus;
     }
 
     public LazadaOrderPayments paidStatus(String paidStatus) {
@@ -270,12 +282,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setPaidStatus(String paidStatus) {
-        this.paidStatus = paidStatus;
-    }
-
     public String getOrderNo() {
         return this.orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
     public LazadaOrderPayments orderNo(String orderNo) {
@@ -283,12 +295,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-    }
-
     public String getOrderItemNo() {
         return this.orderItemNo;
+    }
+
+    public void setOrderItemNo(String orderItemNo) {
+        this.orderItemNo = orderItemNo;
     }
 
     public LazadaOrderPayments orderItemNo(String orderItemNo) {
@@ -296,12 +308,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setOrderItemNo(String orderItemNo) {
-        this.orderItemNo = orderItemNo;
-    }
-
     public String getOrderItemStatus() {
         return this.orderItemStatus;
+    }
+
+    public void setOrderItemStatus(String orderItemStatus) {
+        this.orderItemStatus = orderItemStatus;
     }
 
     public LazadaOrderPayments orderItemStatus(String orderItemStatus) {
@@ -309,12 +321,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setOrderItemStatus(String orderItemStatus) {
-        this.orderItemStatus = orderItemStatus;
-    }
-
     public String getShippingProvider() {
         return this.shippingProvider;
+    }
+
+    public void setShippingProvider(String shippingProvider) {
+        this.shippingProvider = shippingProvider;
     }
 
     public LazadaOrderPayments shippingProvider(String shippingProvider) {
@@ -322,12 +334,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setShippingProvider(String shippingProvider) {
-        this.shippingProvider = shippingProvider;
-    }
-
     public String getShippingSpeed() {
         return this.shippingSpeed;
+    }
+
+    public void setShippingSpeed(String shippingSpeed) {
+        this.shippingSpeed = shippingSpeed;
     }
 
     public LazadaOrderPayments shippingSpeed(String shippingSpeed) {
@@ -335,12 +347,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setShippingSpeed(String shippingSpeed) {
-        this.shippingSpeed = shippingSpeed;
-    }
-
     public String getShipmentType() {
         return this.shipmentType;
+    }
+
+    public void setShipmentType(String shipmentType) {
+        this.shipmentType = shipmentType;
     }
 
     public LazadaOrderPayments shipmentType(String shipmentType) {
@@ -348,12 +360,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setShipmentType(String shipmentType) {
-        this.shipmentType = shipmentType;
-    }
-
     public String getReference() {
         return this.reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public LazadaOrderPayments reference(String reference) {
@@ -361,12 +373,12 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
     public String getComment() {
         return this.comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public LazadaOrderPayments comment(String comment) {
@@ -374,21 +386,17 @@ public class LazadaOrderPayments implements Serializable {
         return this;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public String getPaymentRefId() {
         return this.paymentRefId;
+    }
+
+    public void setPaymentRefId(String paymentRefId) {
+        this.paymentRefId = paymentRefId;
     }
 
     public LazadaOrderPayments paymentRefId(String paymentRefId) {
         this.setPaymentRefId(paymentRefId);
         return this;
-    }
-
-    public void setPaymentRefId(String paymentRefId) {
-        this.paymentRefId = paymentRefId;
     }
 
     public LazadaOrder getLazadaOrder() {

@@ -2,11 +2,8 @@ package com.flogramming.service;
 
 import com.flogramming.config.Constants;
 import com.flogramming.domain.Authority;
-import com.flogramming.domain.Client;
 import com.flogramming.domain.User;
-import com.flogramming.domain.UserInfo;
 import com.flogramming.repository.AuthorityRepository;
-import com.flogramming.repository.ClientRepository;
 import com.flogramming.repository.UserInfoRepository;
 import com.flogramming.repository.UserRepository;
 import com.flogramming.security.AuthoritiesConstants;
@@ -14,10 +11,6 @@ import com.flogramming.security.SecurityUtils;
 import com.flogramming.service.dto.AdminUserDTO;
 import com.flogramming.service.dto.UserDTO;
 import com.flogramming.web.rest.vm.ManagedUserVM;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -28,6 +21,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.security.RandomUtil;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing users.
@@ -165,7 +168,8 @@ public class UserService {
         user.setImageUrl(userDTO.getImageUrl());
         if (userDTO.getLangKey() == null) {
             user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
-        } else {
+        }
+        else {
             user.setLangKey(userDTO.getLangKey());
         }
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
@@ -308,7 +312,8 @@ public class UserService {
     @Scheduled(cron = "0 0 1 * * ?")
     public void removeNotActivatedUsers() {
         userRepository
-            .findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS))
+            .findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant.now().minus(3,
+                ChronoUnit.DAYS))
             .forEach(user -> {
                 log.debug("Deleting not activated user {}", user.getLogin());
                 userRepository.delete(user);
@@ -318,6 +323,7 @@ public class UserService {
 
     /**
      * Gets a list of all the authorities.
+     *
      * @return a list of all the authorities.
      */
     @Transactional(readOnly = true)

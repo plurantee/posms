@@ -1,7 +1,5 @@
 package com.flogramming.repository;
 
-import com.flogramming.domain.LazadaOrderPayments;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,4 +7,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ClientLazadaOrderPaymentsRepository extends LazadaOrderPaymentsRepository {}
+public interface ClientLazadaOrderPaymentsRepository extends LazadaOrderPaymentsRepository {
+}

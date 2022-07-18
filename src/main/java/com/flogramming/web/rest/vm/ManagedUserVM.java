@@ -1,6 +1,7 @@
 package com.flogramming.web.rest.vm;
 
 import com.flogramming.service.dto.AdminUserDTO;
+
 import javax.validation.constraints.Size;
 
 /**
@@ -17,16 +18,16 @@ public class ManagedUserVM extends AdminUserDTO {
 
     private String clientCode;
 
+    public ManagedUserVM() {
+        // Empty constructor needed for Jackson.
+    }
+
     public String getClientCode() {
         return clientCode;
     }
 
     public void setClientCode(String clientCode) {
         this.clientCode = clientCode;
-    }
-
-    public ManagedUserVM() {
-        // Empty constructor needed for Jackson.
     }
 
     public String getPassword() {

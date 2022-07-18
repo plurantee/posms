@@ -1,9 +1,17 @@
 package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import javax.persistence.*;
 
 /**
  * A ShopeeOrder.
@@ -177,11 +185,11 @@ public class ShopeeOrder implements Serializable {
     private String note;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "userInfos", "shops", "lazadaOrders", "shopeeOrders" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"userInfos", "shops", "lazadaOrders", "shopeeOrders"}, allowSetters = true)
     private Client client;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "lazadaOrders", "shopeeOrders", "clientCode" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"lazadaOrders", "shopeeOrders", "clientCode"}, allowSetters = true)
     private Shop shop;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -190,17 +198,21 @@ public class ShopeeOrder implements Serializable {
         return this.id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public ShopeeOrder id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getOrderId() {
         return this.orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public ShopeeOrder orderId(String orderId) {
@@ -208,12 +220,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
     public String getOrderStatus() {
         return this.orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public ShopeeOrder orderStatus(String orderStatus) {
@@ -221,12 +233,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
     public String getReturnRefundStatus() {
         return this.returnRefundStatus;
+    }
+
+    public void setReturnRefundStatus(String returnRefundStatus) {
+        this.returnRefundStatus = returnRefundStatus;
     }
 
     public ShopeeOrder returnRefundStatus(String returnRefundStatus) {
@@ -234,12 +246,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setReturnRefundStatus(String returnRefundStatus) {
-        this.returnRefundStatus = returnRefundStatus;
-    }
-
     public String getTrackingNumber() {
         return this.trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
     }
 
     public ShopeeOrder trackingNumber(String trackingNumber) {
@@ -247,12 +259,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setTrackingNumber(String trackingNumber) {
-        this.trackingNumber = trackingNumber;
-    }
-
     public String getShippingOption() {
         return this.shippingOption;
+    }
+
+    public void setShippingOption(String shippingOption) {
+        this.shippingOption = shippingOption;
     }
 
     public ShopeeOrder shippingOption(String shippingOption) {
@@ -260,12 +272,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setShippingOption(String shippingOption) {
-        this.shippingOption = shippingOption;
-    }
-
     public String getShipmentMethod() {
         return this.shipmentMethod;
+    }
+
+    public void setShipmentMethod(String shipmentMethod) {
+        this.shipmentMethod = shipmentMethod;
     }
 
     public ShopeeOrder shipmentMethod(String shipmentMethod) {
@@ -273,12 +285,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setShipmentMethod(String shipmentMethod) {
-        this.shipmentMethod = shipmentMethod;
-    }
-
     public ZonedDateTime getEstimatedShipOutDate() {
         return this.estimatedShipOutDate;
+    }
+
+    public void setEstimatedShipOutDate(ZonedDateTime estimatedShipOutDate) {
+        this.estimatedShipOutDate = estimatedShipOutDate;
     }
 
     public ShopeeOrder estimatedShipOutDate(ZonedDateTime estimatedShipOutDate) {
@@ -286,12 +298,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setEstimatedShipOutDate(ZonedDateTime estimatedShipOutDate) {
-        this.estimatedShipOutDate = estimatedShipOutDate;
-    }
-
     public ZonedDateTime getShipTime() {
         return this.shipTime;
+    }
+
+    public void setShipTime(ZonedDateTime shipTime) {
+        this.shipTime = shipTime;
     }
 
     public ShopeeOrder shipTime(ZonedDateTime shipTime) {
@@ -299,12 +311,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setShipTime(ZonedDateTime shipTime) {
-        this.shipTime = shipTime;
-    }
-
     public ZonedDateTime getOrderCreationDate() {
         return this.orderCreationDate;
+    }
+
+    public void setOrderCreationDate(ZonedDateTime orderCreationDate) {
+        this.orderCreationDate = orderCreationDate;
     }
 
     public ShopeeOrder orderCreationDate(ZonedDateTime orderCreationDate) {
@@ -312,12 +324,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setOrderCreationDate(ZonedDateTime orderCreationDate) {
-        this.orderCreationDate = orderCreationDate;
-    }
-
     public ZonedDateTime getOrderPaidTime() {
         return this.orderPaidTime;
+    }
+
+    public void setOrderPaidTime(ZonedDateTime orderPaidTime) {
+        this.orderPaidTime = orderPaidTime;
     }
 
     public ShopeeOrder orderPaidTime(ZonedDateTime orderPaidTime) {
@@ -325,12 +337,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setOrderPaidTime(ZonedDateTime orderPaidTime) {
-        this.orderPaidTime = orderPaidTime;
-    }
-
     public String getParentSkuReferenceNo() {
         return this.parentSkuReferenceNo;
+    }
+
+    public void setParentSkuReferenceNo(String parentSkuReferenceNo) {
+        this.parentSkuReferenceNo = parentSkuReferenceNo;
     }
 
     public ShopeeOrder parentSkuReferenceNo(String parentSkuReferenceNo) {
@@ -338,12 +350,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setParentSkuReferenceNo(String parentSkuReferenceNo) {
-        this.parentSkuReferenceNo = parentSkuReferenceNo;
-    }
-
     public String getProductName() {
         return this.productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public ShopeeOrder productName(String productName) {
@@ -351,12 +363,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
     public String getSkuReferenceNo() {
         return this.skuReferenceNo;
+    }
+
+    public void setSkuReferenceNo(String skuReferenceNo) {
+        this.skuReferenceNo = skuReferenceNo;
     }
 
     public ShopeeOrder skuReferenceNo(String skuReferenceNo) {
@@ -364,12 +376,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setSkuReferenceNo(String skuReferenceNo) {
-        this.skuReferenceNo = skuReferenceNo;
-    }
-
     public String getVariationName() {
         return this.variationName;
+    }
+
+    public void setVariationName(String variationName) {
+        this.variationName = variationName;
     }
 
     public ShopeeOrder variationName(String variationName) {
@@ -377,12 +389,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setVariationName(String variationName) {
-        this.variationName = variationName;
-    }
-
     public Double getOriginalPrice() {
         return this.originalPrice;
+    }
+
+    public void setOriginalPrice(Double originalPrice) {
+        this.originalPrice = originalPrice;
     }
 
     public ShopeeOrder originalPrice(Double originalPrice) {
@@ -390,12 +402,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setOriginalPrice(Double originalPrice) {
-        this.originalPrice = originalPrice;
-    }
-
     public Double getDealPrice() {
         return this.dealPrice;
+    }
+
+    public void setDealPrice(Double dealPrice) {
+        this.dealPrice = dealPrice;
     }
 
     public ShopeeOrder dealPrice(Double dealPrice) {
@@ -403,12 +415,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setDealPrice(Double dealPrice) {
-        this.dealPrice = dealPrice;
-    }
-
     public Double getQuantity() {
         return this.quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
     public ShopeeOrder quantity(Double quantity) {
@@ -416,12 +428,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setQuantity(Double quantity) {
-        this.quantity = quantity;
-    }
-
     public Double getProductSubtotal() {
         return this.productSubtotal;
+    }
+
+    public void setProductSubtotal(Double productSubtotal) {
+        this.productSubtotal = productSubtotal;
     }
 
     public ShopeeOrder productSubtotal(Double productSubtotal) {
@@ -429,12 +441,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setProductSubtotal(Double productSubtotal) {
-        this.productSubtotal = productSubtotal;
-    }
-
     public Double getTotalDiscount() {
         return this.totalDiscount;
+    }
+
+    public void setTotalDiscount(Double totalDiscount) {
+        this.totalDiscount = totalDiscount;
     }
 
     public ShopeeOrder totalDiscount(Double totalDiscount) {
@@ -442,12 +454,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setTotalDiscount(Double totalDiscount) {
-        this.totalDiscount = totalDiscount;
-    }
-
     public Double getPriceDiscountFromSeller() {
         return this.priceDiscountFromSeller;
+    }
+
+    public void setPriceDiscountFromSeller(Double priceDiscountFromSeller) {
+        this.priceDiscountFromSeller = priceDiscountFromSeller;
     }
 
     public ShopeeOrder priceDiscountFromSeller(Double priceDiscountFromSeller) {
@@ -455,12 +467,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setPriceDiscountFromSeller(Double priceDiscountFromSeller) {
-        this.priceDiscountFromSeller = priceDiscountFromSeller;
-    }
-
     public Double getShopeeRebate() {
         return this.shopeeRebate;
+    }
+
+    public void setShopeeRebate(Double shopeeRebate) {
+        this.shopeeRebate = shopeeRebate;
     }
 
     public ShopeeOrder shopeeRebate(Double shopeeRebate) {
@@ -468,12 +480,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setShopeeRebate(Double shopeeRebate) {
-        this.shopeeRebate = shopeeRebate;
-    }
-
     public String getSkuTotalWeight() {
         return this.skuTotalWeight;
+    }
+
+    public void setSkuTotalWeight(String skuTotalWeight) {
+        this.skuTotalWeight = skuTotalWeight;
     }
 
     public ShopeeOrder skuTotalWeight(String skuTotalWeight) {
@@ -481,12 +493,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setSkuTotalWeight(String skuTotalWeight) {
-        this.skuTotalWeight = skuTotalWeight;
-    }
-
     public String getNumberOfItemsInOrder() {
         return this.numberOfItemsInOrder;
+    }
+
+    public void setNumberOfItemsInOrder(String numberOfItemsInOrder) {
+        this.numberOfItemsInOrder = numberOfItemsInOrder;
     }
 
     public ShopeeOrder numberOfItemsInOrder(String numberOfItemsInOrder) {
@@ -494,12 +506,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setNumberOfItemsInOrder(String numberOfItemsInOrder) {
-        this.numberOfItemsInOrder = numberOfItemsInOrder;
-    }
-
     public String getOrderTotalWeight() {
         return this.orderTotalWeight;
+    }
+
+    public void setOrderTotalWeight(String orderTotalWeight) {
+        this.orderTotalWeight = orderTotalWeight;
     }
 
     public ShopeeOrder orderTotalWeight(String orderTotalWeight) {
@@ -507,12 +519,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setOrderTotalWeight(String orderTotalWeight) {
-        this.orderTotalWeight = orderTotalWeight;
-    }
-
     public Double getSellerVoucher() {
         return this.sellerVoucher;
+    }
+
+    public void setSellerVoucher(Double sellerVoucher) {
+        this.sellerVoucher = sellerVoucher;
     }
 
     public ShopeeOrder sellerVoucher(Double sellerVoucher) {
@@ -520,12 +532,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setSellerVoucher(Double sellerVoucher) {
-        this.sellerVoucher = sellerVoucher;
-    }
-
     public String getSellerAbsorbedCoinCashback() {
         return this.sellerAbsorbedCoinCashback;
+    }
+
+    public void setSellerAbsorbedCoinCashback(String sellerAbsorbedCoinCashback) {
+        this.sellerAbsorbedCoinCashback = sellerAbsorbedCoinCashback;
     }
 
     public ShopeeOrder sellerAbsorbedCoinCashback(String sellerAbsorbedCoinCashback) {
@@ -533,12 +545,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setSellerAbsorbedCoinCashback(String sellerAbsorbedCoinCashback) {
-        this.sellerAbsorbedCoinCashback = sellerAbsorbedCoinCashback;
-    }
-
     public Double getShopeeVoucher() {
         return this.shopeeVoucher;
+    }
+
+    public void setShopeeVoucher(Double shopeeVoucher) {
+        this.shopeeVoucher = shopeeVoucher;
     }
 
     public ShopeeOrder shopeeVoucher(Double shopeeVoucher) {
@@ -546,12 +558,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setShopeeVoucher(Double shopeeVoucher) {
-        this.shopeeVoucher = shopeeVoucher;
-    }
-
     public String getBundleDealsIndicatorYN() {
         return this.bundleDealsIndicatorYN;
+    }
+
+    public void setBundleDealsIndicatorYN(String bundleDealsIndicatorYN) {
+        this.bundleDealsIndicatorYN = bundleDealsIndicatorYN;
     }
 
     public ShopeeOrder bundleDealsIndicatorYN(String bundleDealsIndicatorYN) {
@@ -559,12 +571,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setBundleDealsIndicatorYN(String bundleDealsIndicatorYN) {
-        this.bundleDealsIndicatorYN = bundleDealsIndicatorYN;
-    }
-
     public Double getShopeeBundleDiscount() {
         return this.shopeeBundleDiscount;
+    }
+
+    public void setShopeeBundleDiscount(Double shopeeBundleDiscount) {
+        this.shopeeBundleDiscount = shopeeBundleDiscount;
     }
 
     public ShopeeOrder shopeeBundleDiscount(Double shopeeBundleDiscount) {
@@ -572,12 +584,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setShopeeBundleDiscount(Double shopeeBundleDiscount) {
-        this.shopeeBundleDiscount = shopeeBundleDiscount;
-    }
-
     public Double getSellerBundleDiscount() {
         return this.sellerBundleDiscount;
+    }
+
+    public void setSellerBundleDiscount(Double sellerBundleDiscount) {
+        this.sellerBundleDiscount = sellerBundleDiscount;
     }
 
     public ShopeeOrder sellerBundleDiscount(Double sellerBundleDiscount) {
@@ -585,12 +597,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setSellerBundleDiscount(Double sellerBundleDiscount) {
-        this.sellerBundleDiscount = sellerBundleDiscount;
-    }
-
     public Double getShopeeCoinsOffset() {
         return this.shopeeCoinsOffset;
+    }
+
+    public void setShopeeCoinsOffset(Double shopeeCoinsOffset) {
+        this.shopeeCoinsOffset = shopeeCoinsOffset;
     }
 
     public ShopeeOrder shopeeCoinsOffset(Double shopeeCoinsOffset) {
@@ -598,12 +610,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setShopeeCoinsOffset(Double shopeeCoinsOffset) {
-        this.shopeeCoinsOffset = shopeeCoinsOffset;
-    }
-
     public Double getCreditCardDiscountTotal() {
         return this.creditCardDiscountTotal;
+    }
+
+    public void setCreditCardDiscountTotal(Double creditCardDiscountTotal) {
+        this.creditCardDiscountTotal = creditCardDiscountTotal;
     }
 
     public ShopeeOrder creditCardDiscountTotal(Double creditCardDiscountTotal) {
@@ -611,12 +623,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setCreditCardDiscountTotal(Double creditCardDiscountTotal) {
-        this.creditCardDiscountTotal = creditCardDiscountTotal;
-    }
-
     public Double getProductsPricePaidByBuyer() {
         return this.productsPricePaidByBuyer;
+    }
+
+    public void setProductsPricePaidByBuyer(Double productsPricePaidByBuyer) {
+        this.productsPricePaidByBuyer = productsPricePaidByBuyer;
     }
 
     public ShopeeOrder productsPricePaidByBuyer(Double productsPricePaidByBuyer) {
@@ -624,12 +636,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setProductsPricePaidByBuyer(Double productsPricePaidByBuyer) {
-        this.productsPricePaidByBuyer = productsPricePaidByBuyer;
-    }
-
     public Double getBuyerPaidShippingFee() {
         return this.buyerPaidShippingFee;
+    }
+
+    public void setBuyerPaidShippingFee(Double buyerPaidShippingFee) {
+        this.buyerPaidShippingFee = buyerPaidShippingFee;
     }
 
     public ShopeeOrder buyerPaidShippingFee(Double buyerPaidShippingFee) {
@@ -637,12 +649,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setBuyerPaidShippingFee(Double buyerPaidShippingFee) {
-        this.buyerPaidShippingFee = buyerPaidShippingFee;
-    }
-
     public Double getShippingRebateEstimate() {
         return this.shippingRebateEstimate;
+    }
+
+    public void setShippingRebateEstimate(Double shippingRebateEstimate) {
+        this.shippingRebateEstimate = shippingRebateEstimate;
     }
 
     public ShopeeOrder shippingRebateEstimate(Double shippingRebateEstimate) {
@@ -650,12 +662,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setShippingRebateEstimate(Double shippingRebateEstimate) {
-        this.shippingRebateEstimate = shippingRebateEstimate;
-    }
-
     public Double getReverseShippingFee() {
         return this.reverseShippingFee;
+    }
+
+    public void setReverseShippingFee(Double reverseShippingFee) {
+        this.reverseShippingFee = reverseShippingFee;
     }
 
     public ShopeeOrder reverseShippingFee(Double reverseShippingFee) {
@@ -663,12 +675,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setReverseShippingFee(Double reverseShippingFee) {
-        this.reverseShippingFee = reverseShippingFee;
-    }
-
     public Double getServiceFee() {
         return this.serviceFee;
+    }
+
+    public void setServiceFee(Double serviceFee) {
+        this.serviceFee = serviceFee;
     }
 
     public ShopeeOrder serviceFee(Double serviceFee) {
@@ -676,12 +688,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setServiceFee(Double serviceFee) {
-        this.serviceFee = serviceFee;
-    }
-
     public Double getGrandTotal() {
         return this.grandTotal;
+    }
+
+    public void setGrandTotal(Double grandTotal) {
+        this.grandTotal = grandTotal;
     }
 
     public ShopeeOrder grandTotal(Double grandTotal) {
@@ -689,12 +701,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setGrandTotal(Double grandTotal) {
-        this.grandTotal = grandTotal;
-    }
-
     public Double getEstimatedShippingFee() {
         return this.estimatedShippingFee;
+    }
+
+    public void setEstimatedShippingFee(Double estimatedShippingFee) {
+        this.estimatedShippingFee = estimatedShippingFee;
     }
 
     public ShopeeOrder estimatedShippingFee(Double estimatedShippingFee) {
@@ -702,12 +714,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setEstimatedShippingFee(Double estimatedShippingFee) {
-        this.estimatedShippingFee = estimatedShippingFee;
-    }
-
     public String getUsernameBuyer() {
         return this.usernameBuyer;
+    }
+
+    public void setUsernameBuyer(String usernameBuyer) {
+        this.usernameBuyer = usernameBuyer;
     }
 
     public ShopeeOrder usernameBuyer(String usernameBuyer) {
@@ -715,12 +727,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setUsernameBuyer(String usernameBuyer) {
-        this.usernameBuyer = usernameBuyer;
-    }
-
     public String getReceiverName() {
         return this.receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
     public ShopeeOrder receiverName(String receiverName) {
@@ -728,12 +740,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
-
     public String getPhoneNumber() {
         return this.phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public ShopeeOrder phoneNumber(String phoneNumber) {
@@ -741,12 +753,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getDeliveryAddress() {
         return this.deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
     public ShopeeOrder deliveryAddress(String deliveryAddress) {
@@ -754,12 +766,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setDeliveryAddress(String deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
-    }
-
     public String getTown() {
         return this.town;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
     }
 
     public ShopeeOrder town(String town) {
@@ -767,12 +779,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setTown(String town) {
-        this.town = town;
-    }
-
     public String getDistrict() {
         return this.district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public ShopeeOrder district(String district) {
@@ -780,12 +792,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
     public String getProvince() {
         return this.province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public ShopeeOrder province(String province) {
@@ -793,12 +805,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
     public String getRegion() {
         return this.region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public ShopeeOrder region(String region) {
@@ -806,12 +818,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
     public String getCountry() {
         return this.country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public ShopeeOrder country(String country) {
@@ -819,12 +831,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public String getZipCode() {
         return this.zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public ShopeeOrder zipCode(String zipCode) {
@@ -832,12 +844,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
     public String getRemarkFromBuyer() {
         return this.remarkFromBuyer;
+    }
+
+    public void setRemarkFromBuyer(String remarkFromBuyer) {
+        this.remarkFromBuyer = remarkFromBuyer;
     }
 
     public ShopeeOrder remarkFromBuyer(String remarkFromBuyer) {
@@ -845,12 +857,12 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setRemarkFromBuyer(String remarkFromBuyer) {
-        this.remarkFromBuyer = remarkFromBuyer;
-    }
-
     public ZonedDateTime getOrderCompleteTime() {
         return this.orderCompleteTime;
+    }
+
+    public void setOrderCompleteTime(ZonedDateTime orderCompleteTime) {
+        this.orderCompleteTime = orderCompleteTime;
     }
 
     public ShopeeOrder orderCompleteTime(ZonedDateTime orderCompleteTime) {
@@ -858,21 +870,17 @@ public class ShopeeOrder implements Serializable {
         return this;
     }
 
-    public void setOrderCompleteTime(ZonedDateTime orderCompleteTime) {
-        this.orderCompleteTime = orderCompleteTime;
-    }
-
     public String getNote() {
         return this.note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public ShopeeOrder note(String note) {
         this.setNote(note);
         return this;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 
     public Client getClient() {

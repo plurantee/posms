@@ -2,10 +2,21 @@ package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.flogramming.domain.enumeration.ShopType;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
 
 /**
  * A Shop.
@@ -33,15 +44,15 @@ public class Shop implements Serializable {
     private ShopType shopType;
 
     @OneToMany(mappedBy = "shop")
-    @JsonIgnoreProperties(value = { "payments", "client", "shop" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"payments", "client", "shop"}, allowSetters = true)
     private Set<LazadaOrder> lazadaOrders = new HashSet<>();
 
     @OneToMany(mappedBy = "shop")
-    @JsonIgnoreProperties(value = { "client", "shop" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"client", "shop"}, allowSetters = true)
     private Set<ShopeeOrder> shopeeOrders = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "userInfos", "shops", "lazadaOrders", "shopeeOrders" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"userInfos", "shops", "lazadaOrders", "shopeeOrders"}, allowSetters = true)
     private Client clientCode;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -50,17 +61,21 @@ public class Shop implements Serializable {
         return this.id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Shop id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getShopCode() {
         return this.shopCode;
+    }
+
+    public void setShopCode(String shopCode) {
+        this.shopCode = shopCode;
     }
 
     public Shop shopCode(String shopCode) {
@@ -68,12 +83,12 @@ public class Shop implements Serializable {
         return this;
     }
 
-    public void setShopCode(String shopCode) {
-        this.shopCode = shopCode;
-    }
-
     public String getShopName() {
         return this.shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
     public Shop shopName(String shopName) {
@@ -81,21 +96,17 @@ public class Shop implements Serializable {
         return this;
     }
 
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
-    }
-
     public ShopType getShopType() {
         return this.shopType;
+    }
+
+    public void setShopType(ShopType shopType) {
+        this.shopType = shopType;
     }
 
     public Shop shopType(ShopType shopType) {
         this.setShopType(shopType);
         return this;
-    }
-
-    public void setShopType(ShopType shopType) {
-        this.shopType = shopType;
     }
 
     public Set<LazadaOrder> getLazadaOrders() {

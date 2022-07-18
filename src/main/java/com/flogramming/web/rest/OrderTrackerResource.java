@@ -2,16 +2,11 @@ package com.flogramming.web.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flogramming.domain.LazadaOrder;
-import com.flogramming.domain.Order;
 import com.flogramming.domain.OrderTracker;
 import com.flogramming.domain.ShopeeOrder;
-import com.flogramming.domain.enumeration.OrderCategory;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
 import com.flogramming.service.WaybillFileService;
-import liquibase.pro.packaged.T;
-import org.apache.commons.io.FileUtils;
-import org.h2.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,11 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,15 +68,17 @@ public class OrderTrackerResource {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping(path = "/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<byte[]> modifyWaybill(@RequestParam("file") MultipartFile file, @RequestParam("orders") String orders) throws IOException {
+    @PostMapping(path = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces =
+        MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> modifyWaybill(@RequestParam("file") MultipartFile file,
+                                                @RequestParam("orders") String orders) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<OrderTracker> ordersArray = List.of(objectMapper.readValue(orders, OrderTracker[].class));
         byte[] result = waybillFileService.processWaybill(file, ordersArray);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("Filled-"+file.getName(), "Filled-"+file.getName());
+        headers.setContentDispositionFormData("Filled-" + file.getName(), "Filled-" + file.getName());
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         ResponseEntity<byte[]> response = new ResponseEntity<>(result, headers, HttpStatus.OK);
         return response;

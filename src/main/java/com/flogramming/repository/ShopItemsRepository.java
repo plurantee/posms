@@ -1,7 +1,7 @@
 package com.flogramming.repository;
 
 import com.flogramming.domain.ShopItems;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ShopItemsRepository extends JpaRepository<ShopItems, Long> {}
+public interface ShopItemsRepository extends JpaRepository<ShopItems, Long> {
+}

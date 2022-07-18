@@ -3,10 +3,14 @@ package com.flogramming.service.dto;
 import com.flogramming.config.Constants;
 import com.flogramming.domain.Authority;
 import com.flogramming.domain.User;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.validation.constraints.*;
 
 /**
  * A DTO representing a user, with his authorities.

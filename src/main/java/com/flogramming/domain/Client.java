@@ -2,11 +2,21 @@ package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.flogramming.domain.enumeration.ClientType;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
 
 /**
  * A Client.
@@ -37,19 +47,19 @@ public class Client implements Serializable {
     private ZonedDateTime validityDate;
 
     @OneToMany(mappedBy = "clientCode")
-    @JsonIgnoreProperties(value = { "user", "clientCode" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"user", "clientCode"}, allowSetters = true)
     private Set<UserInfo> userInfos = new HashSet<>();
 
     @OneToMany(mappedBy = "clientCode")
-    @JsonIgnoreProperties(value = { "lazadaOrders", "shopeeOrders", "clientCode" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"lazadaOrders", "shopeeOrders", "clientCode"}, allowSetters = true)
     private Set<Shop> shops = new HashSet<>();
 
     @OneToMany(mappedBy = "client")
-    @JsonIgnoreProperties(value = { "payments", "client", "shop" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"payments", "client", "shop"}, allowSetters = true)
     private Set<LazadaOrder> lazadaOrders = new HashSet<>();
 
     @OneToMany(mappedBy = "client")
-    @JsonIgnoreProperties(value = { "client", "shop" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"client", "shop"}, allowSetters = true)
     private Set<ShopeeOrder> shopeeOrders = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -58,17 +68,21 @@ public class Client implements Serializable {
         return this.id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Client id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getClientName() {
         return this.clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     public Client clientName(String clientName) {
@@ -76,12 +90,12 @@ public class Client implements Serializable {
         return this;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
     public String getClientCode() {
         return this.clientCode;
+    }
+
+    public void setClientCode(String clientCode) {
+        this.clientCode = clientCode;
     }
 
     public Client clientCode(String clientCode) {
@@ -89,12 +103,12 @@ public class Client implements Serializable {
         return this;
     }
 
-    public void setClientCode(String clientCode) {
-        this.clientCode = clientCode;
-    }
-
     public ClientType getClientType() {
         return this.clientType;
+    }
+
+    public void setClientType(ClientType clientType) {
+        this.clientType = clientType;
     }
 
     public Client clientType(ClientType clientType) {
@@ -102,21 +116,17 @@ public class Client implements Serializable {
         return this;
     }
 
-    public void setClientType(ClientType clientType) {
-        this.clientType = clientType;
-    }
-
     public ZonedDateTime getValidityDate() {
         return this.validityDate;
+    }
+
+    public void setValidityDate(ZonedDateTime validityDate) {
+        this.validityDate = validityDate;
     }
 
     public Client validityDate(ZonedDateTime validityDate) {
         this.setValidityDate(validityDate);
         return this;
-    }
-
-    public void setValidityDate(ZonedDateTime validityDate) {
-        this.validityDate = validityDate;
     }
 
     public Set<UserInfo> getUserInfos() {

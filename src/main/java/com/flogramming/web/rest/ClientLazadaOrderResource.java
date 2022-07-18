@@ -3,14 +3,10 @@ package com.flogramming.web.rest;
 import com.flogramming.domain.Client;
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.Shop;
-import com.flogramming.repository.ClientClientRepository;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ShopRepository;
 import com.flogramming.service.ClientUserService;
 import com.flogramming.service.ExcelFileService;
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -19,10 +15,19 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.PaginationUtil;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link LazadaOrder}.
@@ -32,9 +37,8 @@ import tech.jhipster.web.util.PaginationUtil;
 @Transactional
 public class ClientLazadaOrderResource {
 
-    private final Logger log = LoggerFactory.getLogger(ClientLazadaOrderResource.class);
-
     private static final String ENTITY_NAME = "lazadaOrder";
+    private final Logger log = LoggerFactory.getLogger(ClientLazadaOrderResource.class);
     private final ShopRepository shopRepository;
     private final ExcelFileService excelFileService;
     private final ClientLazadaOrderRepository lazadaOrderRepository;
@@ -52,10 +56,11 @@ public class ClientLazadaOrderResource {
         this.clientUserService = clientUserService;
     }
 
-    @PostMapping(path = "/lazada-orders/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping(path = "/lazada-orders/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(@RequestParam("file") MultipartFile file) throws IOException {
         Page<LazadaOrder> page = excelFileService.processLazadaExcelFile(file);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers =
+            PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -74,7 +79,8 @@ public class ClientLazadaOrderResource {
         log.debug("REST request to get all LazadaOrders");
         Client client = clientUserService.getCurrentUser().getClientCode();
         Page<LazadaOrder> page = lazadaOrderRepository.findByClient(client, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers =
+            PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 }

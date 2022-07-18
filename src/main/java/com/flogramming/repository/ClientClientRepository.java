@@ -1,9 +1,10 @@
 package com.flogramming.repository;
 
 import com.flogramming.domain.Client;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 /**
  * Spring Data SQL repository for the Client entity.
