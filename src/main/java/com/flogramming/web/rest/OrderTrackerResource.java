@@ -77,10 +77,10 @@ public class OrderTrackerResource {
 
     @PostMapping(path = "/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> modifyWaybill(@RequestParam("file") MultipartFile file, @RequestParam("orders") String orders) throws IOException {
-        byte[] result = waybillFileService.processWaybill(file);
+
         ObjectMapper objectMapper = new ObjectMapper();
         List<OrderTracker> ordersArray = List.of(objectMapper.readValue(orders, OrderTracker[].class));
-
+        byte[] result = waybillFileService.processWaybill(file, ordersArray);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.setContentDispositionFormData("Filled-"+file.getName(), "Filled-"+file.getName());
