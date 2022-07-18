@@ -27,9 +27,17 @@
       <table class="table table-striped" aria-describedby="userInfos">
         <thead>
           <tr>
-            <th scope="row"><span>ID</span></th>
-            <th scope="row"><span>User</span></th>
-            <th scope="row"><span>Client Code</span></th>
+            <th scope="row" v-on:click="changeOrder('id')">
+              <span>ID</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('user.id')">
+              <span>User</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'user.id'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('clientCode.id')">
+              <span>Client Code</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'clientCode.id'"></jhi-sort-indicator>
+            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -98,6 +106,14 @@
         </button>
       </div>
     </b-modal>
+    <div v-show="userInfos && userInfos.length > 0">
+      <div class="row justify-content-center">
+        <jhi-item-count :page="page" :total="queryCount" :itemsPerPage="itemsPerPage"></jhi-item-count>
+      </div>
+      <div class="row justify-content-center">
+        <b-pagination size="md" :total-rows="totalItems" v-model="page" :per-page="itemsPerPage" :change="loadPage(page)"></b-pagination>
+      </div>
+    </div>
   </div>
 </template>
 

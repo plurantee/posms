@@ -217,7 +217,7 @@
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
   "name": "ShopeeOrder",
-  "pagination": "no",
+  "pagination": "pagination",
   "readOnly": false,
   "relationships": [
     {

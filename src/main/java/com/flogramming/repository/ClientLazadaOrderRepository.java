@@ -5,6 +5,9 @@ import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.Shop;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +18,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClientLazadaOrderRepository extends LazadaOrderRepository {
     List<LazadaOrder> findByShop(Shop shop);
-    List<LazadaOrder> findByClient(Client client);
+    Page<LazadaOrder> findByClient(Client client, Pageable pageable);
 
     List<LazadaOrder> findByOrderItemId(String orderItemId);
+
+    List<LazadaOrder> findByOrderNumber(String orderNumber);
 
     long deleteByOrderItemId(String orderItemId);
 

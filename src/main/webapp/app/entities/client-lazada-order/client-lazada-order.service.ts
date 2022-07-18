@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { IShop } from '@/shared/model/shop.model';
 import LazadaOrderService from '../lazada-order/lazada-order.service';
+import buildPaginationQueryOpts from '@/shared/sort/sorts';
 
 const baseApiUrl = 'api/lazada-orders';
 
@@ -19,10 +20,10 @@ export default class ClientLazadaOrderService extends LazadaOrderService {
     });
   }
 
-  public retrieveByClient(): Promise<any> {
+  public retrieveByClient(paginationQuery?: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
-        .get(`${baseApiUrl}/client`)
+        .get(`${baseApiUrl}/client?${buildPaginationQueryOpts(paginationQuery)}`)
         .then(res => {
           resolve(res);
         })

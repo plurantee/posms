@@ -13,11 +13,16 @@ import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.web.util.PaginationUtil;
 
 /**
  * REST controller for managing {@link LazadaOrder}.
@@ -49,8 +54,9 @@ public class ClientLazadaOrderResource {
 
     @PostMapping(path = "/lazada-orders/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(@RequestParam("file") MultipartFile file) throws IOException {
-        List<LazadaOrder> lazadaOrders = excelFileService.processLazadaExcelFile(file);
-        return ResponseEntity.ok(lazadaOrders);
+        Page<LazadaOrder> page = excelFileService.processLazadaExcelFile(file);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     @GetMapping("/lazada-orders/shop/{id}")
@@ -64,9 +70,11 @@ public class ClientLazadaOrderResource {
     }
 
     @GetMapping("/lazada-orders/client")
-    public List<LazadaOrder> getAllLazadaOrdersByClient() {
+    public ResponseEntity<List<LazadaOrder>> getAllLazadaOrdersByClient(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get all LazadaOrders");
         Client client = clientUserService.getCurrentUser().getClientCode();
-        return lazadaOrderRepository.findByClient(client);
+        Page<LazadaOrder> page = lazadaOrderRepository.findByClient(client, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 }

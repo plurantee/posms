@@ -27,30 +27,101 @@
       <table class="table table-striped" aria-describedby="lazadaOrderPayments">
         <thead>
           <tr>
-            <th scope="row"><span>ID</span></th>
-            <th scope="row"><span>Transaction Date</span></th>
-            <th scope="row"><span>Transaction Type</span></th>
-            <th scope="row"><span>Fee Name</span></th>
-            <th scope="row"><span>Transaction Number</span></th>
-            <th scope="row"><span>Details</span></th>
-            <th scope="row"><span>Seller Sku</span></th>
-            <th scope="row"><span>Lazada Sku</span></th>
-            <th scope="row"><span>Amount</span></th>
-            <th scope="row"><span>Vat In Amount</span></th>
-            <th scope="row"><span>Wht Amount</span></th>
-            <th scope="row"><span>Wht Included In Amount</span></th>
-            <th scope="row"><span>Statement</span></th>
-            <th scope="row"><span>Paid Status</span></th>
-            <th scope="row"><span>Order No</span></th>
-            <th scope="row"><span>Order Item No</span></th>
-            <th scope="row"><span>Order Item Status</span></th>
-            <th scope="row"><span>Shipping Provider</span></th>
-            <th scope="row"><span>Shipping Speed</span></th>
-            <th scope="row"><span>Shipment Type</span></th>
-            <th scope="row"><span>Reference</span></th>
-            <th scope="row"><span>Comment</span></th>
-            <th scope="row"><span>Payment Ref Id</span></th>
-            <th scope="row"><span>Lazada Order</span></th>
+            <th scope="row" v-on:click="changeOrder('id')">
+              <span>ID</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('transactionDate')">
+              <span>Transaction Date</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'transactionDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('transactionType')">
+              <span>Transaction Type</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'transactionType'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('feeName')">
+              <span>Fee Name</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'feeName'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('transactionNumber')">
+              <span>Transaction Number</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'transactionNumber'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('details')">
+              <span>Details</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'details'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('sellerSku')">
+              <span>Seller Sku</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'sellerSku'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lazadaSku')">
+              <span>Lazada Sku</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lazadaSku'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('amount')">
+              <span>Amount</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'amount'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('vatInAmount')">
+              <span>Vat In Amount</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'vatInAmount'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('whtAmount')">
+              <span>Wht Amount</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'whtAmount'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('whtIncludedInAmount')">
+              <span>Wht Included In Amount</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'whtIncludedInAmount'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('statement')">
+              <span>Statement</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'statement'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('paidStatus')">
+              <span>Paid Status</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'paidStatus'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('orderNo')">
+              <span>Order No</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'orderNo'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('orderItemNo')">
+              <span>Order Item No</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'orderItemNo'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('orderItemStatus')">
+              <span>Order Item Status</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'orderItemStatus'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shippingProvider')">
+              <span>Shipping Provider</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shippingProvider'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shippingSpeed')">
+              <span>Shipping Speed</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shippingSpeed'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shipmentType')">
+              <span>Shipment Type</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shipmentType'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('reference')">
+              <span>Reference</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'reference'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('comment')">
+              <span>Comment</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'comment'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('paymentRefId')">
+              <span>Payment Ref Id</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'paymentRefId'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lazadaOrder.id')">
+              <span>Lazada Order</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lazadaOrder.id'"></jhi-sort-indicator>
+            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -150,6 +221,14 @@
         </button>
       </div>
     </b-modal>
+    <div v-show="lazadaOrderPayments && lazadaOrderPayments.length > 0">
+      <div class="row justify-content-center">
+        <jhi-item-count :page="page" :total="queryCount" :itemsPerPage="itemsPerPage"></jhi-item-count>
+      </div>
+      <div class="row justify-content-center">
+        <b-pagination size="md" :total-rows="totalItems" v-model="page" :per-page="itemsPerPage" :change="loadPage(page)"></b-pagination>
+      </div>
+    </div>
   </div>
 </template>
 

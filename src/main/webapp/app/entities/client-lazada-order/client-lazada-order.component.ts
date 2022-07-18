@@ -50,11 +50,18 @@ export default class ClientLazadaOrder extends LazadaOrder {
 
   public retrieveAllLazadaOrdersByClient(): void {
     this.isFetching = true;
+    const paginationQuery = {
+      page: this.page - 1,
+      size: this.itemsPerPage,
+      sort: this.sort(),
+    };
     this.clientLazadaOrderService()
-      .retrieveByClient()
+      .retrieveByClient(paginationQuery)
       .then(
         res => {
           this.lazadaOrders = res.data;
+          this.totalItems = Number(res.headers['x-total-count']);
+          this.queryCount = this.totalItems;
           this.isFetching = false;
         },
         err => {
@@ -148,5 +155,16 @@ export default class ClientLazadaOrder extends LazadaOrder {
       .catch(error => {
         this.clientAlertService().showHttpError(this, error.response);
       });
+  }
+
+  public loadPage(page: number): void {
+    if (page !== this.previousPage) {
+      this.previousPage = page;
+      this.transition();
+    }
+  }
+
+  public transition(): void {
+    this.retrieveAllLazadaOrdersByClient();
   }
 }

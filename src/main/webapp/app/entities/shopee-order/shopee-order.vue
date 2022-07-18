@@ -27,61 +27,239 @@
       <table class="table table-striped" aria-describedby="shopeeOrders">
         <thead>
           <tr>
-            <th scope="row"><span>ID</span></th>
-            <th scope="row"><span>Order Id</span></th>
-            <th scope="row"><span>Order Status</span></th>
-            <th scope="row"><span>Return Refund Status</span></th>
-            <th scope="row"><span>Tracking Number</span></th>
-            <th scope="row"><span>Shipping Option</span></th>
-            <th scope="row"><span>Shipment Method</span></th>
-            <th scope="row"><span>Estimated Ship Out Date</span></th>
-            <th scope="row"><span>Ship Time</span></th>
-            <th scope="row"><span>Order Creation Date</span></th>
-            <th scope="row"><span>Order Paid Time</span></th>
-            <th scope="row"><span>Parent Sku Reference No</span></th>
-            <th scope="row"><span>Product Name</span></th>
-            <th scope="row"><span>Sku Reference No</span></th>
-            <th scope="row"><span>Variation Name</span></th>
-            <th scope="row"><span>Original Price</span></th>
-            <th scope="row"><span>Deal Price</span></th>
-            <th scope="row"><span>Quantity</span></th>
-            <th scope="row"><span>Product Subtotal</span></th>
-            <th scope="row"><span>Total Discount</span></th>
-            <th scope="row"><span>Price Discount From Seller</span></th>
-            <th scope="row"><span>Shopee Rebate</span></th>
-            <th scope="row"><span>Sku Total Weight</span></th>
-            <th scope="row"><span>Number Of Items In Order</span></th>
-            <th scope="row"><span>Order Total Weight</span></th>
-            <th scope="row"><span>Seller Voucher</span></th>
-            <th scope="row"><span>Seller Absorbed Coin Cashback</span></th>
-            <th scope="row"><span>Shopee Voucher</span></th>
-            <th scope="row"><span>Bundle Deals Indicator YN</span></th>
-            <th scope="row"><span>Shopee Bundle Discount</span></th>
-            <th scope="row"><span>Seller Bundle Discount</span></th>
-            <th scope="row"><span>Shopee Coins Offset</span></th>
-            <th scope="row"><span>Credit Card Discount Total</span></th>
-            <th scope="row"><span>Products Price Paid By Buyer</span></th>
-            <th scope="row"><span>Buyer Paid Shipping Fee</span></th>
-            <th scope="row"><span>Shipping Rebate Estimate</span></th>
-            <th scope="row"><span>Reverse Shipping Fee</span></th>
-            <th scope="row"><span>Service Fee</span></th>
-            <th scope="row"><span>Grand Total</span></th>
-            <th scope="row"><span>Estimated Shipping Fee</span></th>
-            <th scope="row"><span>Username Buyer</span></th>
-            <th scope="row"><span>Receiver Name</span></th>
-            <th scope="row"><span>Phone Number</span></th>
-            <th scope="row"><span>Delivery Address</span></th>
-            <th scope="row"><span>Town</span></th>
-            <th scope="row"><span>District</span></th>
-            <th scope="row"><span>Province</span></th>
-            <th scope="row"><span>Region</span></th>
-            <th scope="row"><span>Country</span></th>
-            <th scope="row"><span>Zip Code</span></th>
-            <th scope="row"><span>Remark From Buyer</span></th>
-            <th scope="row"><span>Order Complete Time</span></th>
-            <th scope="row"><span>Note</span></th>
-            <th scope="row"><span>Client</span></th>
-            <th scope="row"><span>Shop</span></th>
+            <th scope="row" v-on:click="changeOrder('id')">
+              <span>ID</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('orderId')">
+              <span>Order Id</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'orderId'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('orderStatus')">
+              <span>Order Status</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'orderStatus'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('returnRefundStatus')">
+              <span>Return Refund Status</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'returnRefundStatus'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('trackingNumber')">
+              <span>Tracking Number</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'trackingNumber'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shippingOption')">
+              <span>Shipping Option</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shippingOption'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shipmentMethod')">
+              <span>Shipment Method</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shipmentMethod'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('estimatedShipOutDate')">
+              <span>Estimated Ship Out Date</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'estimatedShipOutDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shipTime')">
+              <span>Ship Time</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shipTime'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('orderCreationDate')">
+              <span>Order Creation Date</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'orderCreationDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('orderPaidTime')">
+              <span>Order Paid Time</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'orderPaidTime'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('parentSkuReferenceNo')">
+              <span>Parent Sku Reference No</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'parentSkuReferenceNo'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('productName')">
+              <span>Product Name</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'productName'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('skuReferenceNo')">
+              <span>Sku Reference No</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'skuReferenceNo'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('variationName')">
+              <span>Variation Name</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'variationName'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('originalPrice')">
+              <span>Original Price</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'originalPrice'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('dealPrice')">
+              <span>Deal Price</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'dealPrice'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('quantity')">
+              <span>Quantity</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'quantity'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('productSubtotal')">
+              <span>Product Subtotal</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'productSubtotal'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('totalDiscount')">
+              <span>Total Discount</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'totalDiscount'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('priceDiscountFromSeller')">
+              <span>Price Discount From Seller</span>
+              <jhi-sort-indicator
+                :current-order="propOrder"
+                :reverse="reverse"
+                :field-name="'priceDiscountFromSeller'"
+              ></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shopeeRebate')">
+              <span>Shopee Rebate</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shopeeRebate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('skuTotalWeight')">
+              <span>Sku Total Weight</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'skuTotalWeight'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('numberOfItemsInOrder')">
+              <span>Number Of Items In Order</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'numberOfItemsInOrder'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('orderTotalWeight')">
+              <span>Order Total Weight</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'orderTotalWeight'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('sellerVoucher')">
+              <span>Seller Voucher</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'sellerVoucher'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('sellerAbsorbedCoinCashback')">
+              <span>Seller Absorbed Coin Cashback</span>
+              <jhi-sort-indicator
+                :current-order="propOrder"
+                :reverse="reverse"
+                :field-name="'sellerAbsorbedCoinCashback'"
+              ></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shopeeVoucher')">
+              <span>Shopee Voucher</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shopeeVoucher'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('bundleDealsIndicatorYN')">
+              <span>Bundle Deals Indicator YN</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'bundleDealsIndicatorYN'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shopeeBundleDiscount')">
+              <span>Shopee Bundle Discount</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shopeeBundleDiscount'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('sellerBundleDiscount')">
+              <span>Seller Bundle Discount</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'sellerBundleDiscount'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shopeeCoinsOffset')">
+              <span>Shopee Coins Offset</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shopeeCoinsOffset'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('creditCardDiscountTotal')">
+              <span>Credit Card Discount Total</span>
+              <jhi-sort-indicator
+                :current-order="propOrder"
+                :reverse="reverse"
+                :field-name="'creditCardDiscountTotal'"
+              ></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('productsPricePaidByBuyer')">
+              <span>Products Price Paid By Buyer</span>
+              <jhi-sort-indicator
+                :current-order="propOrder"
+                :reverse="reverse"
+                :field-name="'productsPricePaidByBuyer'"
+              ></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('buyerPaidShippingFee')">
+              <span>Buyer Paid Shipping Fee</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'buyerPaidShippingFee'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shippingRebateEstimate')">
+              <span>Shipping Rebate Estimate</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shippingRebateEstimate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('reverseShippingFee')">
+              <span>Reverse Shipping Fee</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'reverseShippingFee'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('serviceFee')">
+              <span>Service Fee</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'serviceFee'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('grandTotal')">
+              <span>Grand Total</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'grandTotal'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('estimatedShippingFee')">
+              <span>Estimated Shipping Fee</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'estimatedShippingFee'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('usernameBuyer')">
+              <span>Username Buyer</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'usernameBuyer'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('receiverName')">
+              <span>Receiver Name</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'receiverName'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('phoneNumber')">
+              <span>Phone Number</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'phoneNumber'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('deliveryAddress')">
+              <span>Delivery Address</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'deliveryAddress'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('town')">
+              <span>Town</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'town'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('district')">
+              <span>District</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'district'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('province')">
+              <span>Province</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'province'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('region')">
+              <span>Region</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'region'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('country')">
+              <span>Country</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'country'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('zipCode')">
+              <span>Zip Code</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'zipCode'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('remarkFromBuyer')">
+              <span>Remark From Buyer</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'remarkFromBuyer'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('orderCompleteTime')">
+              <span>Order Complete Time</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'orderCompleteTime'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('note')">
+              <span>Note</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'note'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('client.id')">
+              <span>Client</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'client.id'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shop.id')">
+              <span>Shop</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shop.id'"></jhi-sort-indicator>
+            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -204,6 +382,14 @@
         </button>
       </div>
     </b-modal>
+    <div v-show="shopeeOrders && shopeeOrders.length > 0">
+      <div class="row justify-content-center">
+        <jhi-item-count :page="page" :total="queryCount" :itemsPerPage="itemsPerPage"></jhi-item-count>
+      </div>
+      <div class="row justify-content-center">
+        <b-pagination size="md" :total-rows="totalItems" v-model="page" :per-page="itemsPerPage" :change="loadPage(page)"></b-pagination>
+      </div>
+    </div>
   </div>
 </template>
 

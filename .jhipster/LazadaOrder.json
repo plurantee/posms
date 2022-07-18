@@ -301,7 +301,7 @@
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
   "name": "LazadaOrder",
-  "pagination": "no",
+  "pagination": "pagination",
   "readOnly": false,
   "relationships": [
     {

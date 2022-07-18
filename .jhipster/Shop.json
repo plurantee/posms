@@ -22,7 +22,7 @@
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
   "name": "Shop",
-  "pagination": "no",
+  "pagination": "pagination",
   "readOnly": false,
   "relationships": [
     {

@@ -60,7 +60,7 @@ public class OrderTrackerResource {
             });
             return ResponseEntity.ok(result);
         }
-        List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByOrderItemId(queryId);
+        List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByOrderNumber(queryId);
         if (lazadaOrders.isEmpty()) {
             lazadaOrders = clientLazadaOrderRepository.findByTrackingCode(queryId);
         }

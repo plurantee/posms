@@ -8,7 +8,7 @@
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
   "name": "UserInfo",
-  "pagination": "no",
+  "pagination": "pagination",
   "readOnly": false,
   "relationships": [
     {

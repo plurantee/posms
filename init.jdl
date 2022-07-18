@@ -211,3 +211,5 @@ relationship OneToMany {
 relationship OneToMany {
     Shop{shopeeOrder} to ShopeeOrder{shop}
 }
+
+paginate * with pagination

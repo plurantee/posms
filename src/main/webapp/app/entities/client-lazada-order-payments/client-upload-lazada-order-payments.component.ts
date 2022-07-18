@@ -1,6 +1,6 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
-import { ILazadaOrderPayments } from '@/shared/model/lazada-order-payments.model';
+import { ILazadaOrderPayments, LazadaOrderPayments } from '@/shared/model/lazada-order-payments.model';
 
 import AlertService from '@/shared/alert/alert.service';
 import LazadaOrderPaymentsService from '../lazada-order-payments/lazada-order-payments.service';
@@ -14,8 +14,10 @@ const baseApiUrl = 'api/order/payments';
 })
 export default class ClientLazadaOrderPayments extends Vue {
 
-  public isFetching = false;
+  @Inject('alertService') private alertService: () => AlertService;
 
+  public isFetching = false;
+  public lazadaOrderPayments: ILazadaOrderPayments[] = [];
   private file = null;
   public uploadFile(): void {
     this.file = (<HTMLInputElement>this.$refs.file).files[0];
@@ -26,6 +28,21 @@ export default class ClientLazadaOrderPayments extends Vue {
     // eslint-disable-next-line prefer-const
     let formData = new FormData();
     formData.append('file', this.file);
+    this.uploadLazadaExcel(formData).then(
+      res => {
+        this.lazadaOrderPayments = res;
+        return this.$root.$bvToast.toast(this.file.name + ' Uploaded', {
+          toaster: 'b-toaster-top-center',
+          title: 'Info',
+          variant: 'info',
+          solid: true,
+          autoHideDelay: 5000,
+        });
+      },
+      err => {
+        this.alertService().showHttpError(this, err.response);
+      }
+    );
   }
 
   public uploadLazadaExcel(file: FormData) {

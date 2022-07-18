@@ -22,11 +22,25 @@
       <table class="table table-striped" aria-describedby="shops">
         <thead>
           <tr>
-            <th scope="row"><span>ID</span></th>
-            <th scope="row"><span>Shop Code</span></th>
-            <th scope="row"><span>Shop Name</span></th>
-            <th scope="row"><span>Shop Type</span></th>
-            <th scope="row"><span>Client Code</span></th>
+            <th scope="row" v-on:click="changeOrder('id')">
+              <span>ID</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shopCode')">
+              <span>Shop Code</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shopCode'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shopName')">
+              <span>Shop Name</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shopName'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('shopType')">
+              <span>Shop Type</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shopType'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('clientCode.id')">
+              <span>Client Code</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'clientCode.id'"></jhi-sort-indicator>
+            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -93,6 +107,14 @@
         </button>
       </div>
     </b-modal>
+    <div v-show="shops && shops.length > 0">
+      <div class="row justify-content-center">
+        <jhi-item-count :page="page" :total="queryCount" :itemsPerPage="itemsPerPage"></jhi-item-count>
+      </div>
+      <div class="row justify-content-center">
+        <b-pagination size="md" :total-rows="totalItems" v-model="page" :per-page="itemsPerPage" :change="loadPage(page)"></b-pagination>
+      </div>
+    </div>
   </div>
 </template>
 

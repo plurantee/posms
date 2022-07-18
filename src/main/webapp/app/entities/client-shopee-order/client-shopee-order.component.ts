@@ -57,6 +57,8 @@ export default class ClientShopeeOrder extends ShopeeOrder {
       .then(
         res => {
           this.shopeeOrders = res.data;
+          this.totalItems = Number(res.headers['x-total-count']);
+          this.queryCount = this.totalItems;
           this.isFetching = false;
         },
         err => {
@@ -121,7 +123,16 @@ export default class ClientShopeeOrder extends ShopeeOrder {
       );
   }
 
+  public loadPage(page: number): void {
+    if (page !== this.previousPage) {
+      this.previousPage = page;
+      this.transition();
+    }
+  }
 
+  public transition(): void {
+    this.retrieveAllShopeeOrdersByClient();
+  }
   public removeShopeeOrder(): void {
     this.clientShopeeOrderService()
       .delete(this.removeId)

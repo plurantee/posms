@@ -97,7 +97,7 @@
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
   "name": "LazadaOrderPayments",
-  "pagination": "no",
+  "pagination": "pagination",
   "readOnly": false,
   "relationships": [
     {

@@ -27,9 +27,17 @@
       <table class="table table-striped" aria-describedby="shopItems">
         <thead>
           <tr>
-            <th scope="row"><span>ID</span></th>
-            <th scope="row"><span>Stock</span></th>
-            <th scope="row"><span>Price</span></th>
+            <th scope="row" v-on:click="changeOrder('id')">
+              <span>ID</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('stock')">
+              <span>Stock</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'stock'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('price')">
+              <span>Price</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'price'"></jhi-sort-indicator>
+            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -90,6 +98,14 @@
         </button>
       </div>
     </b-modal>
+    <div v-show="shopItems && shopItems.length > 0">
+      <div class="row justify-content-center">
+        <jhi-item-count :page="page" :total="queryCount" :itemsPerPage="itemsPerPage"></jhi-item-count>
+      </div>
+      <div class="row justify-content-center">
+        <b-pagination size="md" :total-rows="totalItems" v-model="page" :per-page="itemsPerPage" :change="loadPage(page)"></b-pagination>
+      </div>
+    </div>
   </div>
 </template>
 
