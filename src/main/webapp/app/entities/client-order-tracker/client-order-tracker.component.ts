@@ -55,22 +55,21 @@ export default class ClientOrderTracker extends Vue {
     let formData = new FormData();
     formData.append('file', this.file);
     formData.append('orders', JSON.stringify(this.orderTrackers));
-    this.uploadLazadaWaybill(formData)
-      .then(
-        res => {
-          return this.$root.$bvToast.toast('Downloading new Waybill Uploaded', {
-            toaster: 'b-toaster-top-center',
-            title: 'Info',
-            variant: 'info',
-            solid: true,
-            autoHideDelay: 5000,
-          });
-        },
-        err => {
-          this.isFetching = false;
-          this.clientAlertService().showHttpError(this, err.response);
-        }
-      );
+    this.uploadLazadaWaybill(formData).then(
+      res => {
+        return this.$root.$bvToast.toast('Downloading new Waybill Uploaded', {
+          toaster: 'b-toaster-top-center',
+          title: 'Info',
+          variant: 'info',
+          solid: true,
+          autoHideDelay: 5000,
+        });
+      },
+      err => {
+        this.isFetching = false;
+        this.clientAlertService().showHttpError(this, err.response);
+      }
+    );
   }
 
   public uploadLazadaWaybill(file: FormData) {
@@ -79,9 +78,9 @@ export default class ClientOrderTracker extends Vue {
         .post(`${baseApiUrl}/upload`, file, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            'Accept': 'application/pdf'
+            Accept: 'application/pdf',
           },
-          responseType: 'blob'
+          responseType: 'blob',
         })
         .then(res => {
           const blob = new Blob([res.data], { type: 'application/pdf' });

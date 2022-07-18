@@ -28,7 +28,6 @@ export default class ClientLazadaOrder extends LazadaOrder {
   @Inject('alertService') private clientAlertService: () => AlertService;
 
   private clientRemoveId: number = null;
-  
 
   public lazadaOrders: ILazadaOrder[] = [];
 

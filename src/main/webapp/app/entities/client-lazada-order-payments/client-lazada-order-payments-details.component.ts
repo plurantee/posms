@@ -7,8 +7,7 @@ import lazadaOrderPaymentsDetailsVue from '../lazada-order-payments/lazada-order
 import LazadaOrderPaymentsDetails from '../lazada-order-payments/lazada-order-payments-details.component';
 
 @Component
-export default class ClientLazadaOrderPaymentsDetails extends LazadaOrderPaymentsDetails{
-
+export default class ClientLazadaOrderPaymentsDetails extends LazadaOrderPaymentsDetails {
   public lazadaOrderPayments: ILazadaOrderPayments = {};
 
   beforeRouteEnter(to, from, next) {

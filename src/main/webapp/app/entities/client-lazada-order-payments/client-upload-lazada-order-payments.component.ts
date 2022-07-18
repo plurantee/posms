@@ -13,7 +13,6 @@ const baseApiUrl = 'api/order/payments';
   mixins: [Vue2Filters.mixin],
 })
 export default class ClientLazadaOrderPayments extends Vue {
-
   @Inject('alertService') private alertService: () => AlertService;
 
   public isFetching = false;
