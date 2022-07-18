@@ -155,6 +155,36 @@ entity LazadaOrder {
     refundAmount Double
 }
 
+
+entity LazadaOrderPayments {
+    transactionDate ZonedDateTime
+    transactionType String
+    feeName String
+    transactionNumber String
+    details String
+    sellerSku String
+    lazadaSku String
+    amount Double
+    vatInAmount Double
+    whtAmount Double
+    whtIncludedInAmount Boolean
+    statement String
+    paidStatus String
+    orderNo String
+    orderItemNo String 
+    orderItemStatus String
+    shippingProvider String
+    shippingSpeed String
+    shipmentType String
+    reference String
+    comment String
+    paymentRefId String
+}
+relationship OneToMany {
+    LazadaOrder{payments} to LazadaOrderPayments{lazadaOrder}
+}
+
+
 relationship OneToOne {
     UserInfo{user} to User
 }

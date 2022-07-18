@@ -305,6 +305,12 @@
   "readOnly": false,
   "relationships": [
     {
+      "otherEntityName": "lazadaOrderPayments",
+      "otherEntityRelationshipName": "lazadaOrder",
+      "relationshipName": "payments",
+      "relationshipType": "one-to-many"
+    },
+    {
       "otherEntityName": "client",
       "otherEntityRelationshipName": "lazadaOrder",
       "relationshipName": "client",

@@ -1,0 +1,111 @@
+{
+  "applications": "*",
+  "changelogDate": "20220718032051",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "lazada_order_payments",
+  "fields": [
+    {
+      "fieldName": "transactionDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "transactionType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "feeName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "transactionNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "details",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sellerSku",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lazadaSku",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "vatInAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "whtAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "whtIncludedInAmount",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "statement",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "paidStatus",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "orderNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "orderItemNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "orderItemStatus",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingProvider",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shippingSpeed",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shipmentType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "reference",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "comment",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "paymentRefId",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "LazadaOrderPayments",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "lazadaOrder",
+      "otherEntityRelationshipName": "payments",
+      "relationshipName": "lazadaOrder",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

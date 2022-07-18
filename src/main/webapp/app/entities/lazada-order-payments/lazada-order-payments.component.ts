@@ -1,38 +1,38 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
-import { IShopeeOrder } from '@/shared/model/shopee-order.model';
+import { ILazadaOrderPayments } from '@/shared/model/lazada-order-payments.model';
 
-import ShopeeOrderService from './shopee-order.service';
+import LazadaOrderPaymentsService from './lazada-order-payments.service';
 import AlertService from '@/shared/alert/alert.service';
 
 @Component({
   mixins: [Vue2Filters.mixin],
 })
-export default class ShopeeOrder extends Vue {
-  @Inject('shopeeOrderService') private shopeeOrderService: () => ShopeeOrderService;
+export default class LazadaOrderPayments extends Vue {
+  @Inject('lazadaOrderPaymentsService') private lazadaOrderPaymentsService: () => LazadaOrderPaymentsService;
   @Inject('alertService') private alertService: () => AlertService;
 
   private removeId: number = null;
 
-  public shopeeOrders: IShopeeOrder[] = [];
+  public lazadaOrderPayments: ILazadaOrderPayments[] = [];
 
   public isFetching = false;
 
   public mounted(): void {
-    this.retrieveAllShopeeOrders();
+    this.retrieveAllLazadaOrderPaymentss();
   }
 
   public clear(): void {
-    this.retrieveAllShopeeOrders();
+    this.retrieveAllLazadaOrderPaymentss();
   }
 
-  public retrieveAllShopeeOrders(): void {
+  public retrieveAllLazadaOrderPaymentss(): void {
     this.isFetching = true;
-    this.shopeeOrderService()
+    this.lazadaOrderPaymentsService()
       .retrieve()
       .then(
         res => {
-          this.shopeeOrders = res.data;
+          this.lazadaOrderPayments = res.data;
           this.isFetching = false;
         },
         err => {
@@ -46,18 +46,18 @@ export default class ShopeeOrder extends Vue {
     this.clear();
   }
 
-  public prepareRemove(instance: IShopeeOrder): void {
+  public prepareRemove(instance: ILazadaOrderPayments): void {
     this.removeId = instance.id;
     if (<any>this.$refs.removeEntity) {
       (<any>this.$refs.removeEntity).show();
     }
   }
 
-  public removeShopeeOrder(): void {
-    this.shopeeOrderService()
+  public removeLazadaOrderPayments(): void {
+    this.lazadaOrderPaymentsService()
       .delete(this.removeId)
       .then(() => {
-        const message = 'A ShopeeOrder is deleted with identifier ' + this.removeId;
+        const message = 'A LazadaOrderPayments is deleted with identifier ' + this.removeId;
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
           title: 'Info',
@@ -66,7 +66,7 @@ export default class ShopeeOrder extends Vue {
           autoHideDelay: 5000,
         });
         this.removeId = null;
-        this.retrieveAllShopeeOrders();
+        this.retrieveAllLazadaOrderPaymentss();
         this.closeDialog();
       })
       .catch(error => {

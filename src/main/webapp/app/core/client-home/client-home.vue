@@ -8,10 +8,13 @@
       <b-nav tabs>
         <b-nav-item @click="switchNav('lazada')" :active="shopNav == 'lazada'">Lazada</b-nav-item>
         <b-nav-item @click="switchNav('shopee')" :active="shopNav == 'shopee'">Shopee</b-nav-item>
+
+        <b-nav-item @click="switchNav('lazada-payments')" :active="shopNav == 'lazada-payments'">Lazada Payments</b-nav-item>
       </b-nav>
 
       <client-lazada-order v-if="shopNav == 'lazada'"></client-lazada-order>
       <client-shopee-order v-if="shopNav == 'shopee'"></client-shopee-order>
+      <client-lazada-payments v-if="shopNav == 'lazada-payments'"></client-lazada-payments>
     </div>
     <div class="alert alert-warning" v-if="!authenticated">
       <span>If you want to </span>

@@ -12,7 +12,7 @@ export default class LazadaOrder extends Vue {
   @Inject('lazadaOrderService') private lazadaOrderService: () => LazadaOrderService;
   @Inject('alertService') private alertService: () => AlertService;
 
-  protected removeId: number = null;
+  private removeId: number = null;
 
   public lazadaOrders: ILazadaOrder[] = [];
 

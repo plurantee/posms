@@ -33,7 +33,7 @@ public class Shop implements Serializable {
     private ShopType shopType;
 
     @OneToMany(mappedBy = "shop")
-    @JsonIgnoreProperties(value = { "client", "shop" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "payments", "client", "shop" }, allowSetters = true)
     private Set<LazadaOrder> lazadaOrders = new HashSet<>();
 
     @OneToMany(mappedBy = "shop")

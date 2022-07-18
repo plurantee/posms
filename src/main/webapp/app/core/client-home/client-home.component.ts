@@ -7,10 +7,12 @@ import ClientShopeeOrderService from '@/entities/client-shopee-order/client-shop
 
 const ClientLazadaOrder = () => import('@/entities/client-lazada-order/client-lazada-order.vue');
 const ClientShopeeOrder = () => import('@/entities/client-shopee-order/client-shopee-order.vue');
+const ClientUploadLazadaOrderPayment = () => import('@/entities/client-lazada-order-payments/client-upload-lazada-order-payments.vue');
 @Component({
   components: {
     'client-lazada-order': ClientLazadaOrder,
     'client-shopee-order': ClientShopeeOrder,
+    'client-lazada-payments': ClientUploadLazadaOrderPayment,
   },
 })
 export default class ClientHome extends Home {

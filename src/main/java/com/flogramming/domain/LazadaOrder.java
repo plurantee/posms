@@ -3,6 +3,8 @@ package com.flogramming.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -238,6 +240,10 @@ public class LazadaOrder implements Serializable {
 
     @Column(name = "refund_amount")
     private Double refundAmount;
+
+    @OneToMany(mappedBy = "lazadaOrder")
+    @JsonIgnoreProperties(value = { "lazadaOrder" }, allowSetters = true)
+    private Set<LazadaOrderPayments> payments = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "userInfos", "shops", "lazadaOrders", "shopeeOrders" }, allowSetters = true)
@@ -1209,6 +1215,37 @@ public class LazadaOrder implements Serializable {
 
     public void setRefundAmount(Double refundAmount) {
         this.refundAmount = refundAmount;
+    }
+
+    public Set<LazadaOrderPayments> getPayments() {
+        return this.payments;
+    }
+
+    public void setPayments(Set<LazadaOrderPayments> lazadaOrderPayments) {
+        if (this.payments != null) {
+            this.payments.forEach(i -> i.setLazadaOrder(null));
+        }
+        if (lazadaOrderPayments != null) {
+            lazadaOrderPayments.forEach(i -> i.setLazadaOrder(this));
+        }
+        this.payments = lazadaOrderPayments;
+    }
+
+    public LazadaOrder payments(Set<LazadaOrderPayments> lazadaOrderPayments) {
+        this.setPayments(lazadaOrderPayments);
+        return this;
+    }
+
+    public LazadaOrder addPayments(LazadaOrderPayments lazadaOrderPayments) {
+        this.payments.add(lazadaOrderPayments);
+        lazadaOrderPayments.setLazadaOrder(this);
+        return this;
+    }
+
+    public LazadaOrder removePayments(LazadaOrderPayments lazadaOrderPayments) {
+        this.payments.remove(lazadaOrderPayments);
+        lazadaOrderPayments.setLazadaOrder(null);
+        return this;
     }
 
     public Client getClient() {

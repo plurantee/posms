@@ -2,6 +2,7 @@ package com.flogramming.service;
 
 import com.flogramming.domain.Client;
 import com.flogramming.domain.LazadaOrder;
+import com.flogramming.domain.LazadaOrderPayments;
 import com.flogramming.domain.Shop;
 import com.flogramming.domain.ShopeeOrder;
 import com.flogramming.repository.ClientLazadaOrderRepository;
@@ -325,6 +326,142 @@ public class ExcelFileService {
 
         }
         return clientShopeeOrderRepository.findByClient(client);
+    }
+
+
+    /**
+     * Lazada Payments
+     * */
+    public List<LazadaOrderPayments> processLazadaPaymentsExcelFile(MultipartFile file) throws IOException {
+        Workbook workbook = new XSSFWorkbook(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);
+        Map<Integer, HashMap<String, String>> excelHashMap = new HashMap<>();
+        List<String> columnNames = new ArrayList<>();
+        Row columnNamesRow = sheet.getRow(0);
+        for (Cell cell : columnNamesRow) {
+            switch (cell.getCellType()) {
+                case STRING:
+                    columnNames.add(cell.getStringCellValue());
+                    String original = cell.getStringCellValue();
+                    String[] words = original.split("[\\W_]+");
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < words.length; i++) {
+                        String word = words[i];
+                        word = word.isEmpty() ? word : Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+
+                        builder.append(word);
+                    }
+                    String camelCase = builder.toString();
+                    System.out.println("lazadaOrderPayment.set" + camelCase + "(row.get(\"" + original + "\"));");
+                    break;
+            }
+        }
+        int i = 0;
+        for (Row row : sheet) {
+            excelHashMap.put(i, new HashMap<>());
+            for (int j = 0; j < columnNames.size(); j++) {
+                switch (row.getCell(j).getCellType()) {
+                    case STRING:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getRichStringCellValue().getString());
+                        break;
+                    case NUMERIC:
+                        if (DateUtil.isCellDateFormatted(row.getCell(j))) {
+                            excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getDateCellValue() + "");
+                        } else {
+                            excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getNumericCellValue() + "" + "");
+                        }
+                        break;
+                    case BOOLEAN:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getBooleanCellValue() + "" + "");
+                        break;
+                    case FORMULA:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getCellFormula() + "");
+                        break;
+                    default:
+                        excelHashMap.get(i).put(columnNames.get(j), " ");
+                }
+            }
+
+            i++;
+        }
+        return setLazadaOrderPaymentsFromExcelHashMap(excelHashMap);
+    }
+
+    private List<LazadaOrderPayments> setLazadaOrderPaymentsFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
+            List<LazadaOrder> result = new ArrayList<>();
+            Client client = clientUserService.getCurrentUser().getClientCode();
+            // 04 Jul 2022 11:46
+            excelHashMap.remove(0); // Column rows
+            for (HashMap<String, String> row : excelHashMap.values()) {
+                String orderItemId = row.get("Order ID");
+                if (!StringUtils.isEmpty(orderItemId)) {
+                    long numbersDeleted = clientShopeeOrderRepository.deleteByOrderId(orderItemId);
+                    log.info("Clearing database for Order ID (Shopee): "+orderItemId+". Numbers deleted: "+ numbersDeleted);
+                }
+            }
+            for (HashMap<String, String> row : excelHashMap.values()) {
+                ShopeeOrder shopeeOrder = new ShopeeOrder();
+
+                shopeeOrder.setClient(client);
+                shopeeOrder.setOrderId(row.get("Order ID"));
+                shopeeOrder.setOrderStatus(row.get("Order Status"));
+                shopeeOrder.setReturnRefundStatus(row.get("Return / Refund Status"));
+                shopeeOrder.setTrackingNumber(row.get("Tracking Number*"));
+                shopeeOrder.setShippingOption(row.get("Shipping Option"));
+                shopeeOrder.setShipmentMethod(row.get("Shipment Method"));
+                shopeeOrder.setEstimatedShipOutDate(convertShopeeDate(row.get("Estimated Ship Out Date")));
+                shopeeOrder.setShipTime(convertShopeeDate(row.get("Ship Time")));
+                shopeeOrder.setOrderCreationDate(convertShopeeDate(row.get("Order Creation Date")));
+                shopeeOrder.setOrderPaidTime(convertShopeeDate(row.get("Order Paid Time")));
+                shopeeOrder.setParentSkuReferenceNo(row.get("Parent SKU Reference No."));
+                shopeeOrder.setProductName(row.get("Product Name"));
+                shopeeOrder.setSkuReferenceNo(row.get("SKU Reference No."));
+                shopeeOrder.setVariationName(row.get("Variation Name"));
+                shopeeOrder.setOriginalPrice(valueOf(row.get("Original Price")));
+                shopeeOrder.setDealPrice(valueOf(row.get("Deal Price")));
+                shopeeOrder.setQuantity(valueOf(row.get("Quantity")));
+                shopeeOrder.setProductSubtotal(valueOf(row.get("Product Subtotal")));
+                shopeeOrder.setTotalDiscount(valueOf(row.get("Total Discount(PHP)")));
+                shopeeOrder.setPriceDiscountFromSeller(valueOf(row.get("Price Discount(from Seller)(PHP)")));
+                shopeeOrder.setShopeeRebate(valueOf(row.get("Shopee Rebate(PHP)")));
+                shopeeOrder.setSkuTotalWeight(row.get("SKU Total Weight"));
+                shopeeOrder.setNumberOfItemsInOrder(row.get("Number of Items in Order"));
+                shopeeOrder.setOrderTotalWeight(row.get("Order Total Weight"));
+                shopeeOrder.setSellerVoucher(valueOf(row.get("Seller Voucher(PHP)")));
+                shopeeOrder.setSellerAbsorbedCoinCashback(row.get("Seller Absorbed Coin Cashback"));
+                shopeeOrder.setShopeeVoucher(valueOf(row.get("Shopee Voucher(PHP)")));
+                shopeeOrder.setBundleDealsIndicatorYN(row.get("Bundle Deals Indicator(Y/N)"));
+                shopeeOrder.setShopeeBundleDiscount(valueOf(row.get("Shopee Bundle Discount(PHP)")));
+                shopeeOrder.setSellerBundleDiscount(valueOf(row.get("Seller Bundle Discount(PHP)")));
+                shopeeOrder.setShopeeCoinsOffset(valueOf(row.get("Shopee Coins Offset(PHP)")));
+                shopeeOrder.setCreditCardDiscountTotal(valueOf(row.get("Credit Card Discount Total(PHP)")));
+                shopeeOrder.setProductsPricePaidByBuyer(valueOf(row.get("Products' Price Paid by Buyer (PHP)")));
+                shopeeOrder.setBuyerPaidShippingFee(valueOf(row.get("Buyer Paid Shipping Fee")));
+                shopeeOrder.setShippingRebateEstimate(valueOf(row.get("Shipping Rebate Estimate")));
+                shopeeOrder.setReverseShippingFee(valueOf(row.get("Reverse Shipping Fee")));
+                shopeeOrder.setServiceFee(valueOf(row.get("Service Fee")));
+                shopeeOrder.setGrandTotal(valueOf(row.get("Grand Total")));
+                shopeeOrder.setEstimatedShippingFee(valueOf(row.get("Estimated Shipping Fee")));
+                shopeeOrder.setUsernameBuyer(row.get("Username (Buyer)"));
+                shopeeOrder.setReceiverName(row.get("Receiver Name"));
+                shopeeOrder.setPhoneNumber(row.get("Phone Number"));
+                shopeeOrder.setDeliveryAddress(row.get("Delivery Address"));
+                shopeeOrder.setTown(row.get("Town"));
+                shopeeOrder.setDistrict(row.get("District"));
+                shopeeOrder.setProvince(row.get("Province"));
+                shopeeOrder.setRegion(row.get("Region"));
+                shopeeOrder.setCountry(row.get("Country"));
+                shopeeOrder.setZipCode(row.get("Zip Code"));
+                shopeeOrder.setRemarkFromBuyer(row.get("Remark from buyer"));
+                shopeeOrder.setOrderCompleteTime(convertShopeeDate(row.get("Order Complete Time")));
+                shopeeOrder.setNote(row.get("Note"));
+
+                if (!StringUtils.isEmpty(shopeeOrder.getOrderId())) {
+                    clientShopeeOrderRepository.save(shopeeOrder);
+                }
+
+            }
+        return null;
     }
 
     /**

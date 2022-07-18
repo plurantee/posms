@@ -39,6 +39,12 @@ const ShopeeOrder = () => import('@/entities/shopee-order/shopee-order.vue');
 const ShopeeOrderUpdate = () => import('@/entities/shopee-order/shopee-order-update.vue');
 // prettier-ignore
 const ShopeeOrderDetails = () => import('@/entities/shopee-order/shopee-order-details.vue');
+// prettier-ignore
+const LazadaOrderPayments = () => import('@/entities/lazada-order-payments/lazada-order-payments.vue');
+// prettier-ignore
+const LazadaOrderPaymentsUpdate = () => import('@/entities/lazada-order-payments/lazada-order-payments-update.vue');
+// prettier-ignore
+const LazadaOrderPaymentsDetails = () => import('@/entities/lazada-order-payments/lazada-order-payments-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 const ClientOrderTracker = () => import('@/entities/client-order-tracker/client-order-tracker.vue');
@@ -170,6 +176,30 @@ export default {
       path: 'shopee-order/:shopeeOrderId/view',
       name: 'ShopeeOrderView',
       component: ShopeeOrderDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'lazada-order-payments',
+      name: 'LazadaOrderPayments',
+      component: LazadaOrderPayments,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'lazada-order-payments/new',
+      name: 'LazadaOrderPaymentsCreate',
+      component: LazadaOrderPaymentsUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'lazada-order-payments/:lazadaOrderPaymentsId/edit',
+      name: 'LazadaOrderPaymentsEdit',
+      component: LazadaOrderPaymentsUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'lazada-order-payments/:lazadaOrderPaymentsId/view',
+      name: 'LazadaOrderPaymentsView',
+      component: LazadaOrderPaymentsDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

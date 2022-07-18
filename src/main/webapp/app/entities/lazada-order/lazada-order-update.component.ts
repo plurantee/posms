@@ -5,6 +5,9 @@ import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 
 import AlertService from '@/shared/alert/alert.service';
 
+import LazadaOrderPaymentsService from '@/entities/lazada-order-payments/lazada-order-payments.service';
+import { ILazadaOrderPayments } from '@/shared/model/lazada-order-payments.model';
+
 import ClientService from '@/entities/client/client.service';
 import { IClient } from '@/shared/model/client.model';
 
@@ -100,6 +103,10 @@ export default class LazadaOrderUpdate extends Vue {
   @Inject('alertService') private alertService: () => AlertService;
 
   public lazadaOrder: ILazadaOrder = new LazadaOrder();
+
+  @Inject('lazadaOrderPaymentsService') private lazadaOrderPaymentsService: () => LazadaOrderPaymentsService;
+
+  public lazadaOrderPayments: ILazadaOrderPayments[] = [];
 
   @Inject('clientService') private clientService: () => ClientService;
 
@@ -218,6 +225,11 @@ export default class LazadaOrderUpdate extends Vue {
   }
 
   public initRelationships(): void {
+    this.lazadaOrderPaymentsService()
+      .retrieve()
+      .then(res => {
+        this.lazadaOrderPayments = res.data;
+      });
     this.clientService()
       .retrieve()
       .then(res => {
