@@ -35,7 +35,7 @@
           <tr>
             <th scope="row"><span>ID</span></th>
             <th scope="row"><span>Order Item Id</span></th>
-            <th scope="row"><span>Order Type</span></th>
+            <th scope="row"><span>Order Number</span></th>
             <th scope="row"><span>Guarantee</span></th>
             <th scope="row"><span>Delivery Type</span></th>
             <th scope="row"><span>Lazada Id</span></th>
@@ -54,7 +54,9 @@
               }}</router-link>
             </td>
             <td>{{ lazadaOrder.orderItemId }}</td>
-            <td>{{ lazadaOrder.orderType }}</td>
+            <td>
+              {{ lazadaOrder.orderNumber }}
+            </td>
             <td>{{ lazadaOrder.guarantee }}</td>
             <td>{{ lazadaOrder.deliveryType }}</td>
             <td>{{ lazadaOrder.lazadaId }}</td>

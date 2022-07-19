@@ -20,7 +20,17 @@ const ClientOrderTracker = () => import('@/entities/client-order-tracker/client-
 export default class ClientHome extends Home {
   @Inject('clientLazadaOrderService') private clientLazadaOrderService = () => new ClientLazadaOrderService();
   @Inject('loginService') private clientShopeeOrderService = () => new ClientShopeeOrderService();
-  public shopNav = 'lazada';
+  public shopNav: string | string[] = 'lazada';
+  public initNav = null;
+  public barcodeNumber = null;
+  public mounted(): void {
+    if (this.$route.query?.path) {
+      this.shopNav = this.$route.query.path;
+    }
+    if (this.$route.query?.barcodeNumber) {
+      this.barcodeNumber = this.$route.query.barcodeNumber;
+    }
+  }
 
   public switchNav(value: string) {
     this.shopNav = value;

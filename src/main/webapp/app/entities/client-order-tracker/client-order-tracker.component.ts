@@ -11,10 +11,21 @@ const baseApiUrl = 'api/order-tracker';
 })
 export default class ClientOrderTracker extends Vue {
   @Inject('alertService') private clientAlertService: () => AlertService;
-  public barcode = '';
+  public barcode: string | string[] = '';
   public orderTrackers: IOrderTracker[] = [];
   public isFetching = false;
   public file = null;
+  public mounted(): void {
+    
+    this.clear();
+  }
+
+  public clear(): void {
+    if (this.$route.query?.barcodeNumber) {
+      this.barcode= this.$route.query.barcodeNumber;
+      this.searchText();
+    }
+  }
 
   public searchText() {
     this.search(this.barcode).then(
@@ -30,7 +41,7 @@ export default class ClientOrderTracker extends Vue {
     );
   }
 
-  public search(query: string): Promise<any> {
+  public search(query: string | string[]): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
         .get(`${baseApiUrl}/` + query)
