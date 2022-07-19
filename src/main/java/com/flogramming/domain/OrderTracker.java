@@ -7,6 +7,7 @@ public class OrderTracker {
     private String skuReference;
     private String status;
     private String site;
+    private String barcodeNumber;
 
     public long getId() {
         return id;
@@ -54,5 +55,13 @@ public class OrderTracker {
 
     public void setSite(String site) {
         this.site = site;
+    }
+
+    public String getBarcodeNumber() {
+        return barcodeNumber;
+    }
+
+    public void setBarcodeNumber(String barcodeNumber) {
+        this.barcodeNumber = barcodeNumber;
     }
 }

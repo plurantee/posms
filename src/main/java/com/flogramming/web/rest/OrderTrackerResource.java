@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.OrderTracker;
 import com.flogramming.domain.ShopeeOrder;
+import com.flogramming.domain.UploadWaybillResponse;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
 import com.flogramming.service.WaybillFileService;
@@ -71,7 +72,7 @@ public class OrderTrackerResource {
     @PostMapping(path = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces =
         MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> modifyWaybill(@RequestParam("file") MultipartFile file,
-                                                @RequestParam("orders") String orders) throws IOException {
+                                                               @RequestParam("orders") String orders) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<OrderTracker> ordersArray = List.of(objectMapper.readValue(orders, OrderTracker[].class));
@@ -82,6 +83,14 @@ public class OrderTrackerResource {
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         ResponseEntity<byte[]> response = new ResponseEntity<>(result, headers, HttpStatus.OK);
         return response;
+    }
+
+    @PostMapping(path = "/init-upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<List<OrderTracker>> initupload(@RequestParam("file") MultipartFile file) throws IOException {
+
+        List<OrderTracker> result = waybillFileService.viewWaybill(file);
+
+        return ResponseEntity.ok(result);
     }
 
     public OrderTracker mapLazadaToOrderTracker(LazadaOrder lazadaOrder) {

@@ -14,7 +14,7 @@ export default class ClientOrderTracker extends Vue {
   public barcode = '';
   public orderTrackers: IOrderTracker[] = [];
   public isFetching = false;
-  private file = null;
+  public file = null;
 
   public searchText() {
     this.search(this.barcode).then(
@@ -45,8 +45,25 @@ export default class ClientOrderTracker extends Vue {
     });
   }
 
-  public uploadFile(): void {
-    this.file = (<HTMLInputElement>this.$refs.file).files[0];
+  public uploadFile( event ): void {
+    this.file = event.target.files[0];
+    this.isFetching = true;
+    // eslint-disable-next-line prefer-const
+    let formData = new FormData();
+    formData.append('file', this.file);
+    this.initUploadLazadaWaybill(formData).then(
+      res => {
+        this.orderTrackers = res.data;
+        this.barcode = this.orderTrackers[0].barcodeNumber;
+        this.isFetching = false;
+      },
+      err => {
+        this.isFetching = false;
+        this.clientAlertService().showHttpError(this, err.response);
+      }
+    );
+
+
   }
 
   public submitFile(): void {
@@ -70,6 +87,23 @@ export default class ClientOrderTracker extends Vue {
         this.clientAlertService().showHttpError(this, err.response);
       }
     );
+  }
+
+  public initUploadLazadaWaybill(file: FormData) {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .post(`${baseApiUrl}/init-upload`, file, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   }
 
   public uploadLazadaWaybill(file: FormData) {

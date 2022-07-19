@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div v-if="orderTrackers && orderTrackers.length > 0" class="form-group">
+    <div class="form-group">
       <label class="form-control-label" for="file">Upload to fill Waybill informations</label>
       <div class="row col-md-12">
         <b-form-file
+          ref="file"
           v-model="file"
           placeholder="Upload Lazada Waybill"
-          v-on:change="uploadFile()"
+          v-on:change="uploadFile($event)"
           drop-placeholder="Drop file here..."
           class="col-md-4"
         ></b-form-file>
