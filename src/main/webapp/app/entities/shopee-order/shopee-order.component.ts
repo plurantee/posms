@@ -9,10 +9,10 @@ import AlertService from '@/shared/alert/alert.service';
   mixins: [Vue2Filters.mixin],
 })
 export default class ShopeeOrder extends Vue {
-  @Inject('shopeeOrderService') private shopeeOrderService: () => ShopeeOrderService;
-  @Inject('alertService') private alertService: () => AlertService;
+  @Inject('shopeeOrderService') protected shopeeOrderService: () => ShopeeOrderService;
+  @Inject('alertService') protected alertService: () => AlertService;
 
-  private removeId: number = null;
+  protected removeId: number = null;
   public itemsPerPage = 20;
   public queryCount: number = null;
   public page = 1;
