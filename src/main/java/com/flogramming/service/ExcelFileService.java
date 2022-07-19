@@ -1,9 +1,11 @@
 package com.flogramming.service;
 
 import com.flogramming.domain.Client;
+import com.flogramming.domain.Inventory;
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.LazadaOrderPayments;
 import com.flogramming.domain.ShopeeOrder;
+import com.flogramming.repository.ClientInventoryRepository;
 import com.flogramming.repository.ClientLazadaOrderPaymentsRepository;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
@@ -47,6 +49,9 @@ public class ExcelFileService {
 
     @Autowired
     private ClientUserService clientUserService;
+
+    @Autowired
+    private ClientInventoryRepository clientInventoryRepository;
 
     @Autowired
     private ClientLazadaOrderPaymentsRepository clientLazadaOrderPaymentsRepository;
@@ -193,6 +198,21 @@ public class ExcelFileService {
             lazadaUtil.bundleId(row.get("bundleId"));
             lazadaUtil.bundleDiscount(valueOf(row.get("bundleDiscount")));
             lazadaUtil.refundAmount(valueOf(row.get("refundAmount")));
+            String sellerSku = lazadaUtil.getLazadaOrder().getSellerSku();
+            Inventory inventory = clientInventoryRepository.findBySku(sellerSku);
+            if (inventory == null) {
+                inventory = new Inventory();
+                inventory.setCost(0.0);
+                inventory.setPrice(0.0);
+                inventory.setSku(sellerSku);
+                inventory.setStocks(10);
+                inventory.setThreshold(3);
+                inventory.setClient(client);
+                clientInventoryRepository.save(inventory);
+            }
+            inventory.setStocks(inventory.getStocks() - 1);
+            clientInventoryRepository.save(inventory);
+            lazadaUtil.getLazadaOrder().setInventory(inventory);
             if (!StringUtils.isEmpty(lazadaUtil.lazadaOrder.getOrderItemId())) {
                 lazadaOrderRepository.save(lazadaUtil.getLazadaOrder());
             }
@@ -329,7 +349,21 @@ public class ExcelFileService {
             shopeeOrder.setRemarkFromBuyer(row.get("Remark from buyer"));
             shopeeOrder.setOrderCompleteTime(convertShopeeDate(row.get("Order Complete Time")));
             shopeeOrder.setNote(row.get("Note"));
-
+            String sellerSku = shopeeOrder.getSkuReferenceNo();
+            Inventory inventory = clientInventoryRepository.findBySku(sellerSku);
+            if (inventory == null) {
+                inventory = new Inventory();
+                inventory.setCost(0.0);
+                inventory.setPrice(0.0);
+                inventory.setSku(sellerSku);
+                inventory.setStocks(10);
+                inventory.setThreshold(3);
+                inventory.setClient(client);
+                clientInventoryRepository.save(inventory);
+            }
+            inventory.setStocks(inventory.getStocks() - 1);
+            clientInventoryRepository.save(inventory);
+            shopeeOrder.setInventory(inventory);
             if (!StringUtils.isEmpty(shopeeOrder.getOrderId())) {
                 clientShopeeOrderRepository.save(shopeeOrder);
             }

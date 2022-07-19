@@ -24,6 +24,7 @@ export interface ILazadaOrderPayments {
   reference?: string | null;
   comment?: string | null;
   paymentRefId?: string | null;
+  internalStatus?: string | null;
   lazadaOrder?: ILazadaOrder | null;
 }
 
@@ -52,6 +53,7 @@ export class LazadaOrderPayments implements ILazadaOrderPayments {
     public reference?: string | null,
     public comment?: string | null,
     public paymentRefId?: string | null,
+    public internalStatus?: string | null,
     public lazadaOrder?: ILazadaOrder | null
   ) {
     this.whtIncludedInAmount = this.whtIncludedInAmount ?? false;

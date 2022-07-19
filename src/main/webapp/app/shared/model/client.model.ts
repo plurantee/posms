@@ -1,3 +1,4 @@
+import { IInventory } from '@/shared/model/inventory.model';
 import { IUserInfo } from '@/shared/model/user-info.model';
 import { IShop } from '@/shared/model/shop.model';
 import { ILazadaOrder } from '@/shared/model/lazada-order.model';
@@ -10,6 +11,7 @@ export interface IClient {
   clientCode?: string | null;
   clientType?: ClientType | null;
   validityDate?: Date | null;
+  inventories?: IInventory[] | null;
   userInfos?: IUserInfo[] | null;
   shops?: IShop[] | null;
   lazadaOrders?: ILazadaOrder[] | null;
@@ -23,6 +25,7 @@ export class Client implements IClient {
     public clientCode?: string | null,
     public clientType?: ClientType | null,
     public validityDate?: Date | null,
+    public inventories?: IInventory[] | null,
     public userInfos?: IUserInfo[] | null,
     public shops?: IShop[] | null,
     public lazadaOrders?: ILazadaOrder[] | null,

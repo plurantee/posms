@@ -54,6 +54,7 @@ public class OrdersUtil {
         return lazadaOrder;
     }
 
+
     public LazadaOrder lazadaSku(String lazadaSku) {
         lazadaOrder.setLazadaSku(lazadaSku);
         return lazadaOrder;

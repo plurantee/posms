@@ -19,7 +19,7 @@
     "enableHibernateCache": false,
     "enableSwaggerCodegen": false,
     "enableTranslation": false,
-    "entities": ["Client", "UserInfo", "Shop", "ShopItems", "LazadaOrder", "ShopeeOrder", "LazadaOrderPayments"],
+    "entities": ["Client", "UserInfo", "Shop", "ShopItems", "LazadaOrder", "ShopeeOrder", "LazadaOrderPayments", "Inventory"],
     "entitySuffix": "",
     "herokuAppName": "flo-posms",
     "herokuDeployType": "git",

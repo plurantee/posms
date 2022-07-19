@@ -1,4 +1,5 @@
 import { ILazadaOrderPayments } from '@/shared/model/lazada-order-payments.model';
+import { IInventory } from '@/shared/model/inventory.model';
 import { IClient } from '@/shared/model/client.model';
 import { IShop } from '@/shared/model/shop.model';
 
@@ -78,6 +79,7 @@ export interface ILazadaOrder {
   bundleDiscount?: number | null;
   refundAmount?: number | null;
   payments?: ILazadaOrderPayments[] | null;
+  inventory?: IInventory | null;
   client?: IClient | null;
   shop?: IShop | null;
 }
@@ -159,6 +161,7 @@ export class LazadaOrder implements ILazadaOrder {
     public bundleDiscount?: number | null,
     public refundAmount?: number | null,
     public payments?: ILazadaOrderPayments[] | null,
+    public inventory?: IInventory | null,
     public client?: IClient | null,
     public shop?: IShop | null
   ) {

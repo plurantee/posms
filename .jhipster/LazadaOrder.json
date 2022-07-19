@@ -311,6 +311,12 @@
       "relationshipType": "one-to-many"
     },
     {
+      "otherEntityName": "inventory",
+      "otherEntityRelationshipName": "lazadaOrders",
+      "relationshipName": "inventory",
+      "relationshipType": "many-to-one"
+    },
+    {
       "otherEntityName": "client",
       "otherEntityRelationshipName": "lazadaOrder",
       "relationshipName": "client",

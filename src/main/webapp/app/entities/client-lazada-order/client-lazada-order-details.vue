@@ -38,7 +38,14 @@
             <span>Seller Sku</span>
           </dt>
           <dd>
-            <span>{{ lazadaOrder.sellerSku }}</span>
+            <div v-if="lazadaOrder.inventory">
+              <router-link :to="{ name: 'InventoryView', params: { inventoryId: lazadaOrder.inventory.id } }">{{
+                lazadaOrder.inventory.id
+              }}</router-link>
+            </div>
+            <div v-else>
+              <span>{{ lazadaOrder.sellerSku }}</span>
+            </div>
           </dd>
           <dt>
             <span>Lazada Sku</span>

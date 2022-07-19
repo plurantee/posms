@@ -3,33 +3,25 @@ package com.flogramming.web.rest;
 import com.flogramming.domain.UserInfo;
 import com.flogramming.repository.UserInfoRepository;
 import com.flogramming.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.flogramming.domain.UserInfo}.
@@ -39,11 +31,14 @@ import java.util.Optional;
 @Transactional
 public class UserInfoResource {
 
-    private static final String ENTITY_NAME = "userInfo";
     private final Logger log = LoggerFactory.getLogger(UserInfoResource.class);
-    private final UserInfoRepository userInfoRepository;
+
+    private static final String ENTITY_NAME = "userInfo";
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+
+    private final UserInfoRepository userInfoRepository;
 
     public UserInfoResource(UserInfoRepository userInfoRepository) {
         this.userInfoRepository = userInfoRepository;
@@ -53,8 +48,7 @@ public class UserInfoResource {
      * {@code POST  /user-infos} : Create a new userInfo.
      *
      * @param userInfo the userInfo to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new userInfo, or with
-     * status {@code 400 (Bad Request)} if the userInfo has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new userInfo, or with status {@code 400 (Bad Request)} if the userInfo has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/user-infos")
@@ -66,15 +60,14 @@ public class UserInfoResource {
         UserInfo result = userInfoRepository.save(userInfo);
         return ResponseEntity
             .created(new URI("/api/user-infos/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
-                result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
      * {@code PUT  /user-infos/:id} : Updates an existing userInfo.
      *
-     * @param id       the id of the userInfo to save.
+     * @param id the id of the userInfo to save.
      * @param userInfo the userInfo to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated userInfo,
      * or with status {@code 400 (Bad Request)} if the userInfo is not valid,
@@ -101,16 +94,14 @@ public class UserInfoResource {
         UserInfo result = userInfoRepository.save(userInfo);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
-                userInfo.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, userInfo.getId().toString()))
             .body(result);
     }
 
     /**
-     * {@code PATCH  /user-infos/:id} : Partial updates given fields of an existing userInfo, field will ignore if it
-     * is null
+     * {@code PATCH  /user-infos/:id} : Partial updates given fields of an existing userInfo, field will ignore if it is null
      *
-     * @param id       the id of the userInfo to save.
+     * @param id the id of the userInfo to save.
      * @param userInfo the userInfo to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated userInfo,
      * or with status {@code 400 (Bad Request)} if the userInfo is not valid,
@@ -118,7 +109,7 @@ public class UserInfoResource {
      * or with status {@code 500 (Internal Server Error)} if the userInfo couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/user-infos/{id}", consumes = {"application/json", "application/merge-patch+json"})
+    @PatchMapping(value = "/user-infos/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<UserInfo> partialUpdateUserInfo(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody UserInfo userInfo
@@ -158,8 +149,7 @@ public class UserInfoResource {
     public ResponseEntity<List<UserInfo>> getAllUserInfos(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of UserInfos");
         Page<UserInfo> page = userInfoRepository.findAll(pageable);
-        HttpHeaders headers =
-            PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -167,8 +157,7 @@ public class UserInfoResource {
      * {@code GET  /user-infos/:id} : get the "id" userInfo.
      *
      * @param id the id of the userInfo to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the userInfo, or with status
-     * {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the userInfo, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/user-infos/{id}")
     public ResponseEntity<UserInfo> getUserInfo(@PathVariable Long id) {

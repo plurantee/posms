@@ -1,7 +1,7 @@
 package com.flogramming.repository;
 
 import com.flogramming.domain.Client;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Long> {
-}
+public interface ClientRepository extends JpaRepository<Client, Long> {}

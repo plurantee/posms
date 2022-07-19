@@ -55,7 +55,16 @@
             </td>
             <td>{{ shopeeOrder.orderId }}</td>
             <td>{{ shopeeOrder.orderStatus }}</td>
-            <td>{{ shopeeOrder.skuReferenceNo }}</td>
+            <td>
+              <div v-if="shopeeOrder.inventory">
+                <router-link :to="{ name: 'ClientInventoryView', params: { inventoryId: shopeeOrder.inventory.id } }">{{
+                  shopeeOrder.inventory.sku
+                }}</router-link>
+              </div>
+              <div v-else>
+                {{ shopeeOrder.skuReferenceNo }}
+              </div>
+            </td>
             <td>{{ shopeeOrder.quantity }}</td>
             <td>{{ shopeeOrder.trackingNumber }}</td>
             <td>{{ shopeeOrder.shippingOption }}</td>

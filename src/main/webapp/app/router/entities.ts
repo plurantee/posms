@@ -45,6 +45,12 @@ const LazadaOrderPayments = () => import('@/entities/lazada-order-payments/lazad
 const LazadaOrderPaymentsUpdate = () => import('@/entities/lazada-order-payments/lazada-order-payments-update.vue');
 // prettier-ignore
 const LazadaOrderPaymentsDetails = () => import('@/entities/lazada-order-payments/lazada-order-payments-details.vue');
+// prettier-ignore
+const Inventory = () => import('@/entities/inventory/inventory.vue');
+// prettier-ignore
+const InventoryUpdate = () => import('@/entities/inventory/inventory-update.vue');
+// prettier-ignore
+const InventoryDetails = () => import('@/entities/inventory/inventory-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 const ClientOrderTracker = () => import('@/entities/client-order-tracker/client-order-tracker.vue');
@@ -54,6 +60,13 @@ const ClientLazadaOrder = () => import('@/entities/client-lazada-order/client-la
 // prettier-ignore
 // prettier-ignore
 const ClientLazadaOrderDetails = () => import('@/entities/client-lazada-order/client-lazada-order-details.vue');
+
+// prettier-ignore
+const ClientInventory = () => import('@/entities/client-inventory/inventory.vue');
+// prettier-ignore
+const ClientInventoryUpdate = () => import('@/entities/client-inventory/inventory-update.vue');
+// prettier-ignore
+const ClientInventoryDetails = () => import('@/entities/client-inventory/inventory-details.vue');
 export default {
   path: '/',
   component: Entities,
@@ -202,6 +215,30 @@ export default {
       component: LazadaOrderPaymentsDetails,
       meta: { authorities: [Authority.USER] },
     },
+    {
+      path: 'inventory',
+      name: 'Inventory',
+      component: Inventory,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'inventory/new',
+      name: 'InventoryCreate',
+      component: InventoryUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'inventory/:inventoryId/edit',
+      name: 'InventoryEdit',
+      component: InventoryUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'inventory/:inventoryId/view',
+      name: 'InventoryView',
+      component: InventoryDetails,
+      meta: { authorities: [Authority.USER] },
+    },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here
     {
       path: '/client/order-tracker',
@@ -214,6 +251,30 @@ export default {
       path: 'client/lazada-order/:lazadaOrderId/view',
       name: 'ClientLazadaOrderView',
       component: ClientLazadaOrderDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/inventory',
+      name: 'ClientInventory',
+      component: ClientInventory,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/inventory/new',
+      name: 'ClientInventoryCreate',
+      component: ClientInventoryUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/inventory/:inventoryId/edit',
+      name: 'ClientInventoryEdit',
+      component: ClientInventoryUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/inventory/:inventoryId/view',
+      name: 'ClientInventoryView',
+      component: ClientInventoryDetails,
       meta: { authorities: [Authority.USER] },
     },
   ],

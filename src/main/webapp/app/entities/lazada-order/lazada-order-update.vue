@@ -920,6 +920,21 @@
             />
           </div>
           <div class="form-group">
+            <label class="form-control-label" for="lazada-order-inventory">Inventory</label>
+            <select class="form-control" id="lazada-order-inventory" data-cy="inventory" name="inventory" v-model="lazadaOrder.inventory">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="
+                  lazadaOrder.inventory && inventoryOption.id === lazadaOrder.inventory.id ? lazadaOrder.inventory : inventoryOption
+                "
+                v-for="inventoryOption in inventories"
+                :key="inventoryOption.id"
+              >
+                {{ inventoryOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
             <label class="form-control-label" for="lazada-order-client">Client</label>
             <select class="form-control" id="lazada-order-client" data-cy="client" name="client" v-model="lazadaOrder.client">
               <option v-bind:value="null"></option>

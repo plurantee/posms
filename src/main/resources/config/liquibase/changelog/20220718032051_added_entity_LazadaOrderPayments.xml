@@ -80,6 +80,9 @@
             <column name="payment_ref_id" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="internal_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="lazada_order_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -127,6 +130,7 @@
             <column name="reference" type="string"/>
             <column name="comment" type="string"/>
             <column name="payment_ref_id" type="string"/>
+            <column name="internal_status" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

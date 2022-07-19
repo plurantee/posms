@@ -3,33 +3,25 @@ package com.flogramming.web.rest;
 import com.flogramming.domain.LazadaOrderPayments;
 import com.flogramming.repository.LazadaOrderPaymentsRepository;
 import com.flogramming.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.flogramming.domain.LazadaOrderPayments}.
@@ -39,11 +31,14 @@ import java.util.Optional;
 @Transactional
 public class LazadaOrderPaymentsResource {
 
-    private static final String ENTITY_NAME = "lazadaOrderPayments";
     private final Logger log = LoggerFactory.getLogger(LazadaOrderPaymentsResource.class);
-    private final LazadaOrderPaymentsRepository lazadaOrderPaymentsRepository;
+
+    private static final String ENTITY_NAME = "lazadaOrderPayments";
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+
+    private final LazadaOrderPaymentsRepository lazadaOrderPaymentsRepository;
 
     public LazadaOrderPaymentsResource(LazadaOrderPaymentsRepository lazadaOrderPaymentsRepository) {
         this.lazadaOrderPaymentsRepository = lazadaOrderPaymentsRepository;
@@ -53,8 +48,7 @@ public class LazadaOrderPaymentsResource {
      * {@code POST  /lazada-order-payments} : Create a new lazadaOrderPayments.
      *
      * @param lazadaOrderPayments the lazadaOrderPayments to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new
-     * lazadaOrderPayments, or with status {@code 400 (Bad Request)} if the lazadaOrderPayments has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new lazadaOrderPayments, or with status {@code 400 (Bad Request)} if the lazadaOrderPayments has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/lazada-order-payments")
@@ -62,21 +56,19 @@ public class LazadaOrderPaymentsResource {
         throws URISyntaxException {
         log.debug("REST request to save LazadaOrderPayments : {}", lazadaOrderPayments);
         if (lazadaOrderPayments.getId() != null) {
-            throw new BadRequestAlertException("A new lazadaOrderPayments cannot already have an ID", ENTITY_NAME,
-                "idexists");
+            throw new BadRequestAlertException("A new lazadaOrderPayments cannot already have an ID", ENTITY_NAME, "idexists");
         }
         LazadaOrderPayments result = lazadaOrderPaymentsRepository.save(lazadaOrderPayments);
         return ResponseEntity
             .created(new URI("/api/lazada-order-payments/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
-                result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
      * {@code PUT  /lazada-order-payments/:id} : Updates an existing lazadaOrderPayments.
      *
-     * @param id                  the id of the lazadaOrderPayments to save.
+     * @param id the id of the lazadaOrderPayments to save.
      * @param lazadaOrderPayments the lazadaOrderPayments to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated lazadaOrderPayments,
      * or with status {@code 400 (Bad Request)} if the lazadaOrderPayments is not valid,
@@ -103,16 +95,14 @@ public class LazadaOrderPaymentsResource {
         LazadaOrderPayments result = lazadaOrderPaymentsRepository.save(lazadaOrderPayments);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
-                lazadaOrderPayments.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, lazadaOrderPayments.getId().toString()))
             .body(result);
     }
 
     /**
-     * {@code PATCH  /lazada-order-payments/:id} : Partial updates given fields of an existing lazadaOrderPayments,
-     * field will ignore if it is null
+     * {@code PATCH  /lazada-order-payments/:id} : Partial updates given fields of an existing lazadaOrderPayments, field will ignore if it is null
      *
-     * @param id                  the id of the lazadaOrderPayments to save.
+     * @param id the id of the lazadaOrderPayments to save.
      * @param lazadaOrderPayments the lazadaOrderPayments to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated lazadaOrderPayments,
      * or with status {@code 400 (Bad Request)} if the lazadaOrderPayments is not valid,
@@ -120,8 +110,7 @@ public class LazadaOrderPaymentsResource {
      * or with status {@code 500 (Internal Server Error)} if the lazadaOrderPayments couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/lazada-order-payments/{id}", consumes = {"application/json", "application/merge-patch" +
-        "+json"})
+    @PatchMapping(value = "/lazada-order-payments/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<LazadaOrderPayments> partialUpdateLazadaOrderPayments(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody LazadaOrderPayments lazadaOrderPayments
@@ -207,6 +196,9 @@ public class LazadaOrderPaymentsResource {
                 if (lazadaOrderPayments.getPaymentRefId() != null) {
                     existingLazadaOrderPayments.setPaymentRefId(lazadaOrderPayments.getPaymentRefId());
                 }
+                if (lazadaOrderPayments.getInternalStatus() != null) {
+                    existingLazadaOrderPayments.setInternalStatus(lazadaOrderPayments.getInternalStatus());
+                }
 
                 return existingLazadaOrderPayments;
             })
@@ -214,8 +206,7 @@ public class LazadaOrderPaymentsResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME,
-                lazadaOrderPayments.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, lazadaOrderPayments.getId().toString())
         );
     }
 
@@ -231,8 +222,7 @@ public class LazadaOrderPaymentsResource {
     ) {
         log.debug("REST request to get a page of LazadaOrderPayments");
         Page<LazadaOrderPayments> page = lazadaOrderPaymentsRepository.findAll(pageable);
-        HttpHeaders headers =
-            PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -240,8 +230,7 @@ public class LazadaOrderPaymentsResource {
      * {@code GET  /lazada-order-payments/:id} : get the "id" lazadaOrderPayments.
      *
      * @param id the id of the lazadaOrderPayments to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the lazadaOrderPayments, or with
-     * status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the lazadaOrderPayments, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/lazada-order-payments/{id}")
     public ResponseEntity<LazadaOrderPayments> getLazadaOrderPayments(@PathVariable Long id) {

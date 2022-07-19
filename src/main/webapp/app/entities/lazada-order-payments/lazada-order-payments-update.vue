@@ -290,6 +290,18 @@
             />
           </div>
           <div class="form-group">
+            <label class="form-control-label" for="lazada-order-payments-internalStatus">Internal Status</label>
+            <input
+              type="text"
+              class="form-control"
+              name="internalStatus"
+              id="lazada-order-payments-internalStatus"
+              data-cy="internalStatus"
+              :class="{ valid: !$v.lazadaOrderPayments.internalStatus.$invalid, invalid: $v.lazadaOrderPayments.internalStatus.$invalid }"
+              v-model="$v.lazadaOrderPayments.internalStatus.$model"
+            />
+          </div>
+          <div class="form-group">
             <label class="form-control-label" for="lazada-order-payments-lazadaOrder">Lazada Order</label>
             <select
               class="form-control"

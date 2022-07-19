@@ -171,7 +171,7 @@ entity LazadaOrderPayments {
     statement String
     paidStatus String
     orderNo String
-    orderItemNo String 
+    orderItemNo String
     orderItemStatus String
     shippingProvider String
     shippingSpeed String
@@ -179,6 +179,24 @@ entity LazadaOrderPayments {
     reference String
     comment String
     paymentRefId String
+    internalStatus String
+}
+
+entity Inventory {
+    sku String
+    stocks Integer
+    cost Double
+    price Double
+    threshold Integer
+}
+relationship OneToMany {
+    Inventory{lazadaOrders} to LazadaOrder{inventory}
+}
+relationship OneToMany {
+    Client{inventories} to Inventory{client}
+}
+relationship OneToMany {
+    Inventory{shopeeOrders} to ShopeeOrder{inventory}
 }
 relationship OneToMany {
     LazadaOrder{payments} to LazadaOrderPayments{lazadaOrder}

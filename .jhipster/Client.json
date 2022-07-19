@@ -30,6 +30,12 @@
   "readOnly": false,
   "relationships": [
     {
+      "otherEntityName": "inventory",
+      "otherEntityRelationshipName": "client",
+      "relationshipName": "inventories",
+      "relationshipType": "one-to-many"
+    },
+    {
       "otherEntityName": "userInfo",
       "otherEntityRelationshipName": "clientCode",
       "relationshipName": "userInfo",

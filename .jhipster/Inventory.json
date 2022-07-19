@@ -1,0 +1,55 @@
+{
+  "applications": "*",
+  "changelogDate": "20220719100244",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "inventory",
+  "fields": [
+    {
+      "fieldName": "sku",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stocks",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "cost",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "threshold",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Inventory",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "lazadaOrder",
+      "otherEntityRelationshipName": "inventory",
+      "relationshipName": "lazadaOrders",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "shopeeOrder",
+      "otherEntityRelationshipName": "inventory",
+      "relationshipName": "shopeeOrders",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "inventories",
+      "relationshipName": "client",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

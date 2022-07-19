@@ -35,6 +35,7 @@ const validations: any = {
     reference: {},
     comment: {},
     paymentRefId: {},
+    internalStatus: {},
   },
 };
 

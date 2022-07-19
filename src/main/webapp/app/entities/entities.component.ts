@@ -8,6 +8,8 @@ import ShopItemsService from './shop-items/shop-items.service';
 import LazadaOrderService from './lazada-order/lazada-order.service';
 import ShopeeOrderService from './shopee-order/shopee-order.service';
 import LazadaOrderPaymentsService from './lazada-order-payments/lazada-order-payments.service';
+import InventoryService from './inventory/inventory.service';
+import ClientInventoryService from './client-inventory/inventory.service';
 // jhipster-needle-add-entity-service-to-entities-component-import - JHipster will import entities services here
 import ClientLazadaOrderService from './client-lazada-order/client-lazada-order.service';
 import ClientShopeeOrderService from './client-shopee-order/client-shopee-order.service';
@@ -22,6 +24,8 @@ export default class Entities extends Vue {
   @Provide('lazadaOrderService') private lazadaOrderService = () => new LazadaOrderService();
   @Provide('shopeeOrderService') private shopeeOrderService = () => new ShopeeOrderService();
   @Provide('lazadaOrderPaymentsService') private lazadaOrderPaymentsService = () => new LazadaOrderPaymentsService();
+  @Provide('inventoryService') private inventoryService = () => new InventoryService();
+  @Provide('clientInventoryService') private clientInventoryService = () => new ClientInventoryService();
   // jhipster-needle-add-entity-service-to-entities-component - JHipster will import entities services here
 
   @Provide('clientLazadaOrderService') private clientLazadaOrderService = () => new ClientLazadaOrderService();

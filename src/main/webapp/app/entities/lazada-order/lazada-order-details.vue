@@ -443,6 +443,16 @@
             <span>{{ lazadaOrder.refundAmount }}</span>
           </dd>
           <dt>
+            <span>Inventory</span>
+          </dt>
+          <dd>
+            <div v-if="lazadaOrder.inventory">
+              <router-link :to="{ name: 'InventoryView', params: { inventoryId: lazadaOrder.inventory.id } }">{{
+                lazadaOrder.inventory.id
+              }}</router-link>
+            </div>
+          </dd>
+          <dt>
             <span>Client</span>
           </dt>
           <dd>

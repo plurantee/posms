@@ -1,13 +1,7 @@
 package com.flogramming.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  * A ShopItems.
@@ -36,21 +30,17 @@ public class ShopItems implements Serializable {
         return this.id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public ShopItems id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public Integer getStock() {
-        return this.stock;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setStock(Integer stock) {
-        this.stock = stock;
+    public Integer getStock() {
+        return this.stock;
     }
 
     public ShopItems stock(Integer stock) {
@@ -58,17 +48,21 @@ public class ShopItems implements Serializable {
         return this;
     }
 
-    public Double getPrice() {
-        return this.price;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public Double getPrice() {
+        return this.price;
     }
 
     public ShopItems price(Double price) {
         this.setPrice(price);
         return this;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

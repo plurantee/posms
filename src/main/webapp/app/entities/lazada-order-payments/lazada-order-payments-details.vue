@@ -139,6 +139,12 @@
             <span>{{ lazadaOrderPayments.paymentRefId }}</span>
           </dd>
           <dt>
+            <span>Internal Status</span>
+          </dt>
+          <dd>
+            <span>{{ lazadaOrderPayments.internalStatus }}</span>
+          </dd>
+          <dt>
             <span>Lazada Order</span>
           </dt>
           <dd>

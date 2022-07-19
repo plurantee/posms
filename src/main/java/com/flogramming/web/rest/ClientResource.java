@@ -3,33 +3,25 @@ package com.flogramming.web.rest;
 import com.flogramming.domain.Client;
 import com.flogramming.repository.ClientRepository;
 import com.flogramming.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.flogramming.domain.Client}.
@@ -39,11 +31,14 @@ import java.util.Optional;
 @Transactional
 public class ClientResource {
 
-    private static final String ENTITY_NAME = "client";
     private final Logger log = LoggerFactory.getLogger(ClientResource.class);
-    private final ClientRepository clientRepository;
+
+    private static final String ENTITY_NAME = "client";
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+
+    private final ClientRepository clientRepository;
 
     public ClientResource(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
@@ -53,8 +48,7 @@ public class ClientResource {
      * {@code POST  /clients} : Create a new client.
      *
      * @param client the client to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new client, or with
-     * status {@code 400 (Bad Request)} if the client has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new client, or with status {@code 400 (Bad Request)} if the client has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/clients")
@@ -66,15 +60,14 @@ public class ClientResource {
         Client result = clientRepository.save(client);
         return ResponseEntity
             .created(new URI("/api/clients/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
-                result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
      * {@code PUT  /clients/:id} : Updates an existing client.
      *
-     * @param id     the id of the client to save.
+     * @param id the id of the client to save.
      * @param client the client to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated client,
      * or with status {@code 400 (Bad Request)} if the client is not valid,
@@ -82,8 +75,7 @@ public class ClientResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/clients/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable(value = "id", required = false) final Long id,
-                                               @RequestBody Client client)
+    public ResponseEntity<Client> updateClient(@PathVariable(value = "id", required = false) final Long id, @RequestBody Client client)
         throws URISyntaxException {
         log.debug("REST request to update Client : {}, {}", id, client);
         if (client.getId() == null) {
@@ -107,7 +99,7 @@ public class ClientResource {
     /**
      * {@code PATCH  /clients/:id} : Partial updates given fields of an existing client, field will ignore if it is null
      *
-     * @param id     the id of the client to save.
+     * @param id the id of the client to save.
      * @param client the client to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated client,
      * or with status {@code 400 (Bad Request)} if the client is not valid,
@@ -115,7 +107,7 @@ public class ClientResource {
      * or with status {@code 500 (Internal Server Error)} if the client couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/clients/{id}", consumes = {"application/json", "application/merge-patch+json"})
+    @PatchMapping(value = "/clients/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Client> partialUpdateClient(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Client client
@@ -168,8 +160,7 @@ public class ClientResource {
     public ResponseEntity<List<Client>> getAllClients(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Clients");
         Page<Client> page = clientRepository.findAll(pageable);
-        HttpHeaders headers =
-            PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -177,8 +168,7 @@ public class ClientResource {
      * {@code GET  /clients/:id} : get the "id" client.
      *
      * @param id the id of the client to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the client, or with status
-     * {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the client, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/clients/{id}")
     public ResponseEntity<Client> getClient(@PathVariable Long id) {

@@ -118,6 +118,10 @@
               <span>Payment Ref Id</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'paymentRefId'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('internalStatus')">
+              <span>Internal Status</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'internalStatus'"></jhi-sort-indicator>
+            </th>
             <th scope="row" v-on:click="changeOrder('lazadaOrder.id')">
               <span>Lazada Order</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lazadaOrder.id'"></jhi-sort-indicator>
@@ -154,6 +158,7 @@
             <td>{{ lazadaOrderPayments.reference }}</td>
             <td>{{ lazadaOrderPayments.comment }}</td>
             <td>{{ lazadaOrderPayments.paymentRefId }}</td>
+            <td>{{ lazadaOrderPayments.internalStatus }}</td>
             <td>
               <div v-if="lazadaOrderPayments.lazadaOrder">
                 <router-link :to="{ name: 'LazadaOrderView', params: { lazadaOrderId: lazadaOrderPayments.lazadaOrder.id } }">{{

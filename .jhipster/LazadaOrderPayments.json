@@ -92,6 +92,10 @@
     {
       "fieldName": "paymentRefId",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "internalStatus",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

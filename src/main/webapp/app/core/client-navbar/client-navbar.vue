@@ -33,6 +33,12 @@
                   <span>Search / Track Order</span>
                 </span>
               </b-nav-item>
+              <b-nav-item v-if="authenticated" to="/client/inventory" exact>
+                <span>
+                  <b-icon icon="house"></b-icon>
+                  <span>Inventory Management</span>
+                </span>
+              </b-nav-item>
               <b-nav-item-dropdown
                 right
                 id="user-menu"

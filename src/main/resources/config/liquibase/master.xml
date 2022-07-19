@@ -22,12 +22,14 @@
     <include file="config/liquibase/changelog/20220711143034_added_entity_LazadaOrder.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220711143035_added_entity_ShopeeOrder.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220718032051_added_entity_LazadaOrderPayments.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220719100244_added_entity_Inventory.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20220711143031_added_entity_constraints_UserInfo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220711143032_added_entity_constraints_Shop.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220711143034_added_entity_constraints_LazadaOrder.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220711143035_added_entity_constraints_ShopeeOrder.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220718032051_added_entity_constraints_LazadaOrderPayments.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220719100244_added_entity_constraints_Inventory.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

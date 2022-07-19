@@ -1,3 +1,4 @@
+import { IInventory } from '@/shared/model/inventory.model';
 import { IClient } from '@/shared/model/client.model';
 import { IShop } from '@/shared/model/shop.model';
 
@@ -55,6 +56,7 @@ export interface IShopeeOrder {
   remarkFromBuyer?: string | null;
   orderCompleteTime?: Date | null;
   note?: string | null;
+  inventory?: IInventory | null;
   client?: IClient | null;
   shop?: IShop | null;
 }
@@ -114,6 +116,7 @@ export class ShopeeOrder implements IShopeeOrder {
     public remarkFromBuyer?: string | null,
     public orderCompleteTime?: Date | null,
     public note?: string | null,
+    public inventory?: IInventory | null,
     public client?: IClient | null,
     public shop?: IShop | null
   ) {}

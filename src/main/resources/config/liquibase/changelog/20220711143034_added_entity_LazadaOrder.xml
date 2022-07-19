@@ -233,6 +233,9 @@
             <column name="refund_amount" type="double">
                 <constraints nullable="true" />
             </column>
+            <column name="inventory_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="client_id" type="bigint">
                 <constraints nullable="true" />
             </column>

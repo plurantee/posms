@@ -2,21 +2,11 @@ package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.flogramming.domain.enumeration.ClientType;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
 
 /**
  * A Client.
@@ -46,20 +36,24 @@ public class Client implements Serializable {
     @Column(name = "validity_date")
     private ZonedDateTime validityDate;
 
+    @OneToMany(mappedBy = "client")
+    @JsonIgnoreProperties(value = { "lazadaOrders", "shopeeOrders", "client" }, allowSetters = true)
+    private Set<Inventory> inventories = new HashSet<>();
+
     @OneToMany(mappedBy = "clientCode")
-    @JsonIgnoreProperties(value = {"user", "clientCode"}, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "clientCode" }, allowSetters = true)
     private Set<UserInfo> userInfos = new HashSet<>();
 
     @OneToMany(mappedBy = "clientCode")
-    @JsonIgnoreProperties(value = {"lazadaOrders", "shopeeOrders", "clientCode"}, allowSetters = true)
+    @JsonIgnoreProperties(value = { "lazadaOrders", "shopeeOrders", "clientCode" }, allowSetters = true)
     private Set<Shop> shops = new HashSet<>();
 
     @OneToMany(mappedBy = "client")
-    @JsonIgnoreProperties(value = {"payments", "client", "shop"}, allowSetters = true)
+    @JsonIgnoreProperties(value = { "payments", "inventory", "client", "shop" }, allowSetters = true)
     private Set<LazadaOrder> lazadaOrders = new HashSet<>();
 
     @OneToMany(mappedBy = "client")
-    @JsonIgnoreProperties(value = {"client", "shop"}, allowSetters = true)
+    @JsonIgnoreProperties(value = { "inventory", "client", "shop" }, allowSetters = true)
     private Set<ShopeeOrder> shopeeOrders = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -68,21 +62,17 @@ public class Client implements Serializable {
         return this.id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Client id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public String getClientName() {
-        return this.clientName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    public String getClientName() {
+        return this.clientName;
     }
 
     public Client clientName(String clientName) {
@@ -90,12 +80,12 @@ public class Client implements Serializable {
         return this;
     }
 
-    public String getClientCode() {
-        return this.clientCode;
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
-    public void setClientCode(String clientCode) {
-        this.clientCode = clientCode;
+    public String getClientCode() {
+        return this.clientCode;
     }
 
     public Client clientCode(String clientCode) {
@@ -103,12 +93,12 @@ public class Client implements Serializable {
         return this;
     }
 
-    public ClientType getClientType() {
-        return this.clientType;
+    public void setClientCode(String clientCode) {
+        this.clientCode = clientCode;
     }
 
-    public void setClientType(ClientType clientType) {
-        this.clientType = clientType;
+    public ClientType getClientType() {
+        return this.clientType;
     }
 
     public Client clientType(ClientType clientType) {
@@ -116,16 +106,51 @@ public class Client implements Serializable {
         return this;
     }
 
+    public void setClientType(ClientType clientType) {
+        this.clientType = clientType;
+    }
+
     public ZonedDateTime getValidityDate() {
         return this.validityDate;
+    }
+
+    public Client validityDate(ZonedDateTime validityDate) {
+        this.setValidityDate(validityDate);
+        return this;
     }
 
     public void setValidityDate(ZonedDateTime validityDate) {
         this.validityDate = validityDate;
     }
 
-    public Client validityDate(ZonedDateTime validityDate) {
-        this.setValidityDate(validityDate);
+    public Set<Inventory> getInventories() {
+        return this.inventories;
+    }
+
+    public void setInventories(Set<Inventory> inventories) {
+        if (this.inventories != null) {
+            this.inventories.forEach(i -> i.setClient(null));
+        }
+        if (inventories != null) {
+            inventories.forEach(i -> i.setClient(this));
+        }
+        this.inventories = inventories;
+    }
+
+    public Client inventories(Set<Inventory> inventories) {
+        this.setInventories(inventories);
+        return this;
+    }
+
+    public Client addInventories(Inventory inventory) {
+        this.inventories.add(inventory);
+        inventory.setClient(this);
+        return this;
+    }
+
+    public Client removeInventories(Inventory inventory) {
+        this.inventories.remove(inventory);
+        inventory.setClient(null);
         return this;
     }
 

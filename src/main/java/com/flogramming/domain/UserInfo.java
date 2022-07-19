@@ -1,18 +1,8 @@
 package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  * A UserInfo.
@@ -34,7 +24,7 @@ public class UserInfo implements Serializable {
     private User user;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = {"userInfos", "shops", "lazadaOrders", "shopeeOrders"}, allowSetters = true)
+    @JsonIgnoreProperties(value = { "inventories", "userInfos", "shops", "lazadaOrders", "shopeeOrders" }, allowSetters = true)
     private Client clientCode;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -43,13 +33,13 @@ public class UserInfo implements Serializable {
         return this.id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public UserInfo id(Long id) {
         this.setId(id);
         return this;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getUser() {

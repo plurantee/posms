@@ -221,6 +221,12 @@
   "readOnly": false,
   "relationships": [
     {
+      "otherEntityName": "inventory",
+      "otherEntityRelationshipName": "shopeeOrders",
+      "relationshipName": "inventory",
+      "relationshipType": "many-to-one"
+    },
+    {
       "otherEntityName": "client",
       "otherEntityRelationshipName": "shopeeOrder",
       "relationshipName": "client",

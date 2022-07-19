@@ -5,6 +5,9 @@ import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 
 import AlertService from '@/shared/alert/alert.service';
 
+import InventoryService from '@/entities/inventory/inventory.service';
+import { IInventory } from '@/shared/model/inventory.model';
+
 import ClientService from '@/entities/client/client.service';
 import { IClient } from '@/shared/model/client.model';
 
@@ -79,6 +82,10 @@ export default class ShopeeOrderUpdate extends Vue {
   @Inject('alertService') private alertService: () => AlertService;
 
   public shopeeOrder: IShopeeOrder = new ShopeeOrder();
+
+  @Inject('inventoryService') private inventoryService: () => InventoryService;
+
+  public inventories: IInventory[] = [];
 
   @Inject('clientService') private clientService: () => ClientService;
 
@@ -196,6 +203,11 @@ export default class ShopeeOrderUpdate extends Vue {
   }
 
   public initRelationships(): void {
+    this.inventoryService()
+      .retrieve()
+      .then(res => {
+        this.inventories = res.data;
+      });
     this.clientService()
       .retrieve()
       .then(res => {

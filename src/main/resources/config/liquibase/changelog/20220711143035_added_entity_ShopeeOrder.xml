@@ -170,6 +170,9 @@
             <column name="note" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="inventory_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="client_id" type="bigint">
                 <constraints nullable="true" />
             </column>

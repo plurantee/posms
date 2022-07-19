@@ -8,6 +8,9 @@ import AlertService from '@/shared/alert/alert.service';
 import LazadaOrderPaymentsService from '@/entities/lazada-order-payments/lazada-order-payments.service';
 import { ILazadaOrderPayments } from '@/shared/model/lazada-order-payments.model';
 
+import InventoryService from '@/entities/inventory/inventory.service';
+import { IInventory } from '@/shared/model/inventory.model';
+
 import ClientService from '@/entities/client/client.service';
 import { IClient } from '@/shared/model/client.model';
 
@@ -107,6 +110,10 @@ export default class LazadaOrderUpdate extends Vue {
   @Inject('lazadaOrderPaymentsService') private lazadaOrderPaymentsService: () => LazadaOrderPaymentsService;
 
   public lazadaOrderPayments: ILazadaOrderPayments[] = [];
+
+  @Inject('inventoryService') private inventoryService: () => InventoryService;
+
+  public inventories: IInventory[] = [];
 
   @Inject('clientService') private clientService: () => ClientService;
 
@@ -229,6 +236,11 @@ export default class LazadaOrderUpdate extends Vue {
       .retrieve()
       .then(res => {
         this.lazadaOrderPayments = res.data;
+      });
+    this.inventoryService()
+      .retrieve()
+      .then(res => {
+        this.inventories = res.data;
       });
     this.clientService()
       .retrieve()

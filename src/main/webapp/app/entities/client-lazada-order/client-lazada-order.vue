@@ -40,7 +40,7 @@
             <th scope="row"><span>Delivery Type</span></th>
             <th scope="row"><span>Lazada Id</span></th>
             <th scope="row"><span>Seller Sku</span></th>
-            <th scope="row"><span>Ware House</span></th>
+            <th scope="row"><span>Tracking Number</span></th>
             <th scope="row"><span>Create Time</span></th>
             <th scope="row"><span>Update Time</span></th>
             <th scope="row"></th>
@@ -49,15 +49,26 @@
         <tbody>
           <tr v-for="lazadaOrder in lazadaOrders" :key="lazadaOrder.id" data-cy="entityTable">
             <td>
-              <router-link :to="{ name: 'LazadaOrderView', params: { lazadaOrderId: lazadaOrder.id } }">{{ lazadaOrder.id }}</router-link>
+              <router-link :to="{ name: 'ClientLazadaOrderView', params: { lazadaOrderId: lazadaOrder.id } }">{{
+                lazadaOrder.id
+              }}</router-link>
             </td>
             <td>{{ lazadaOrder.orderItemId }}</td>
             <td>{{ lazadaOrder.orderType }}</td>
             <td>{{ lazadaOrder.guarantee }}</td>
             <td>{{ lazadaOrder.deliveryType }}</td>
             <td>{{ lazadaOrder.lazadaId }}</td>
-            <td>{{ lazadaOrder.sellerSku }}</td>
-            <td>{{ lazadaOrder.wareHouse }}</td>
+            <td>
+              <div v-if="lazadaOrder.inventory">
+                <router-link :to="{ name: 'ClientInventoryView', params: { inventoryId: lazadaOrder.inventory.id } }">{{
+                  lazadaOrder.inventory.sku
+                }}</router-link>
+              </div>
+              <div v-else>
+                {{ lazadaOrder.sellerSku }}
+              </div>
+            </td>
+            <td>{{ lazadaOrder.trackingCode }}</td>
             <td>{{ lazadaOrder.createTime }}</td>
             <td>{{ lazadaOrder.updateTime }}</td>
 

@@ -252,6 +252,10 @@
             <th scope="row" v-on:click="changeOrder('note')">
               <span>Note</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'note'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('inventory.id')">
+              <span>Inventory</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'inventory.id'"></jhi-sort-indicator>
+            </th>
             <th scope="row" v-on:click="changeOrder('client.id')">
               <span>Client</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'client.id'"></jhi-sort-indicator>
@@ -320,6 +324,13 @@
             <td>{{ shopeeOrder.remarkFromBuyer }}</td>
             <td>{{ shopeeOrder.orderCompleteTime | formatDate }}</td>
             <td>{{ shopeeOrder.note }}</td>
+            <td>
+              <div v-if="shopeeOrder.inventory">
+                <router-link :to="{ name: 'InventoryView', params: { inventoryId: shopeeOrder.inventory.id } }">{{
+                  shopeeOrder.inventory.id
+                }}</router-link>
+              </div>
+            </td>
             <td>
               <div v-if="shopeeOrder.client">
                 <router-link :to="{ name: 'ClientView', params: { clientId: shopeeOrder.client.id } }">{{

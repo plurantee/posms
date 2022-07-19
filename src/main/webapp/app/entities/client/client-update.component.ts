@@ -5,6 +5,9 @@ import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 
 import AlertService from '@/shared/alert/alert.service';
 
+import InventoryService from '@/entities/inventory/inventory.service';
+import { IInventory } from '@/shared/model/inventory.model';
+
 import UserInfoService from '@/entities/user-info/user-info.service';
 import { IUserInfo } from '@/shared/model/user-info.model';
 
@@ -38,6 +41,10 @@ export default class ClientUpdate extends Vue {
   @Inject('alertService') private alertService: () => AlertService;
 
   public client: IClient = new Client();
+
+  @Inject('inventoryService') private inventoryService: () => InventoryService;
+
+  public inventories: IInventory[] = [];
 
   @Inject('userInfoService') private userInfoService: () => UserInfoService;
 
@@ -160,6 +167,11 @@ export default class ClientUpdate extends Vue {
   }
 
   public initRelationships(): void {
+    this.inventoryService()
+      .retrieve()
+      .then(res => {
+        this.inventories = res.data;
+      });
     this.userInfoService()
       .retrieve()
       .then(res => {
