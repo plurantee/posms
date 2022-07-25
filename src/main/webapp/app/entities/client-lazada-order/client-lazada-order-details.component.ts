@@ -5,13 +5,19 @@ import ClientLazadaOrderService from './client-lazada-order.service';
 import AlertService from '@/shared/alert/alert.service';
 import LazadaOrderDetails from '../lazada-order/lazada-order-details.component';
 
-@Component
+const ClientUploadLazadaOrderPayment = () => import('@/entities/client-lazada-order-payments/client-upload-lazada-order-payments.vue');
+
+@Component({
+  components: {
+    'client-lazada-payments': ClientUploadLazadaOrderPayment,
+  },
+})
 export default class ClientLazadaOrderDetails extends LazadaOrderDetails {
   @Inject('clientLazadaOrderService') private clientLazadaOrderService: () => ClientLazadaOrderService;
   @Inject('alertService') private clientAlertService: () => AlertService;
 
   public lazadaOrder: ILazadaOrder = {};
-
+  public nav: string | string[] = 'order-details';
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (to.params.lazadaOrderId) {
@@ -29,6 +35,10 @@ export default class ClientLazadaOrderDetails extends LazadaOrderDetails {
       .catch(error => {
         this.clientAlertService().showHttpError(this, error.response);
       });
+  }
+
+  public switchNav(value: string) {
+    this.nav = value;
   }
 
   public previousState() {

@@ -4,6 +4,14 @@ import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.OrderTracker;
 import com.flogramming.domain.UploadWaybillResponse;
 import com.flogramming.repository.ClientLazadaOrderRepository;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.pdfbox.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -16,15 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @Service
 public class WaybillFileService {
 
@@ -36,7 +35,6 @@ public class WaybillFileService {
     public byte[] processWaybill(MultipartFile file, List<OrderTracker> orders) throws IOException {
         PDDocument pdDocument = PDDocument.load(file.getInputStream());
 
-
         PDPage page = pdDocument.getPage(0);
         PDPageContentStream contentStream = new PDPageContentStream(pdDocument, page, true, true);
         //Begin the Content stream
@@ -47,8 +45,7 @@ public class WaybillFileService {
 
         contentStream.newLineAtOffset(page.getTrimBox().getWidth() - 130, page.getTrimBox().getHeight() - 15);
 
-        Map<String, Long> ordersMap = orders.stream().collect(Collectors.groupingBy(e -> e.getSkuReference(),
-            Collectors.counting()));
+        Map<String, Long> ordersMap = orders.stream().collect(Collectors.groupingBy(e -> e.getSkuReference(), Collectors.counting()));
         for (Map.Entry<String, Long> entry : ordersMap.entrySet()) {
             contentStream.showText(entry.getValue() + "pcs " + entry.getKey());
             contentStream.newLine();
@@ -75,7 +72,6 @@ public class WaybillFileService {
         orderTracker.setOrderType(lazadaOrder.getOrderType());
         orderTracker.setBarcodeNumber(lazadaOrder.getTrackingCode());
         return orderTracker;
-
     }
 
     public List<OrderTracker> viewWaybill(MultipartFile file) throws IOException {
@@ -88,7 +84,7 @@ public class WaybillFileService {
         String trackingNumber = "";
         try {
             trackingNumber = pageTexts.stream().filter(e -> e.toLowerCase().contains("tracking number")).findFirst().get();
-            trackingNumber = trackingNumber.replaceAll("(?i)tracking number", "");
+            trackingNumber = trackingNumber.replaceAll("(?i)tracking number", "").replaceAll("[\\n\\r\\t]+", "");
         } catch (Exception e) {
             throw new RuntimeException("No Tracking Number found");
         }

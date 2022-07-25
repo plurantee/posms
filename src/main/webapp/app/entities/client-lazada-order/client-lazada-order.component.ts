@@ -35,6 +35,8 @@ export default class ClientLazadaOrder extends LazadaOrder {
 
   private file = null;
 
+  public filter = 'all';
+
   public mounted(): void {
     this.clear();
   }
@@ -54,8 +56,9 @@ export default class ClientLazadaOrder extends LazadaOrder {
       size: this.itemsPerPage,
       sort: this.sort(),
     };
+
     this.clientLazadaOrderService()
-      .retrieveByClient(paginationQuery)
+      .retrieveByClient(this.filter, paginationQuery)
       .then(
         res => {
           this.lazadaOrders = res.data;

@@ -1,30 +1,41 @@
 <template>
   <div>
-    <h2 id="page-heading" data-cy="ShopeeOrderHeading">
-      <span id="shopee-order-heading">Shopee Orders</span>
-      <div class="d-flex justify-content-end">
-        <div>
-          <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
-            <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
-          </button>
-          <b-form-file
-            v-model="file"
-            placeholder="Upload Shopee File"
-            v-on:change="uploadFile()"
-            drop-placeholder="Drop file here..."
-          ></b-form-file>
-          <button
-            @click="submitFile()"
-            id="jh-create-entity"
-            data-cy="entityCreateButton"
-            class="btn btn-primary jh-create-entity create-shopee-order"
-          >
-            <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span> Upload Shopee Orders </span>
-          </button>
-        </div>
+    <div class="form-group">
+      <label class="form-control-label" for="file">Shopee Orders</label>
+
+      <div class="row col-md-12">
+        <b-form-file
+          v-model="file"
+          placeholder="Upload Shopee File"
+          v-on:change="uploadFile()"
+          drop-placeholder="Drop file here..."
+          class="col-md-4"
+        ></b-form-file>
+        <button
+          @click="submitFile()"
+          id="jh-create-entity"
+          data-cy="entityCreateButton"
+          class="btn btn-primary jh-create-entity create-lazada-order"
+        >
+          <font-awesome-icon icon="plus"></font-awesome-icon>
+          <span> Upload Shopee Orders </span>
+        </button>
       </div>
-    </h2>
+    </div>
+    <div class="form-group">
+      <label class="form-control-label" for="file">Filter</label>
+      <select
+        class="form-control col-md-2"
+        id="filter"
+        v-model="filter"
+        v-on:change="retrieveAllShopeeOrdersByClient()"
+        data-cy="filter"
+        name="filter"
+      >
+        <option value="all">All</option>
+        <option value="unpaid">Unpaid</option>
+      </select>
+    </div>
     <br />
     <div class="alert alert-warning" v-if="!isFetching && shopeeOrders && shopeeOrders.length === 0">
       <span>No shopeeOrders found</span>

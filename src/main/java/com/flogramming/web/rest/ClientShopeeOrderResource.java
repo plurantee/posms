@@ -7,6 +7,9 @@ import com.flogramming.repository.ClientShopeeOrderRepository;
 import com.flogramming.repository.ShopRepository;
 import com.flogramming.service.ClientUserService;
 import com.flogramming.service.ExcelFileService;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,10 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.PaginationUtil;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-
 /**
  * REST controller for managing {@link ShopeeOrder}.
  */
@@ -44,6 +43,7 @@ public class ClientShopeeOrderResource {
     private final ShopRepository shopRepository;
     private final ExcelFileService excelFileService;
     private final ClientUserService clientUserService;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
@@ -59,11 +59,10 @@ public class ClientShopeeOrderResource {
         this.clientUserService = clientUserService;
     }
 
-    @PostMapping(path = "/shopee-orders/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(path = "/shopee-orders/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<List<ShopeeOrder>> uploadShopeeOrders(@RequestParam("file") MultipartFile file) throws IOException {
         Page<ShopeeOrder> page = excelFileService.processShopeeExcelFile(file);
-        HttpHeaders headers =
-            PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -75,13 +74,14 @@ public class ClientShopeeOrderResource {
     }
 
     @GetMapping("/shopee-orders/client")
-    public ResponseEntity<List<ShopeeOrder>> getAllLazadaOrdersByClient(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<ShopeeOrder>> getAllLazadaOrdersByClient(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @org.springdoc.api.annotations.ParameterObject String filter
+    ) {
         log.debug("REST request to get all LazadaOrders");
         Client client = clientUserService.getCurrentUser().getClientCode();
         Page<ShopeeOrder> page = shopeeOrderRepository.findByClient(client, pageable);
-        HttpHeaders headers =
-            PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-
     }
 }

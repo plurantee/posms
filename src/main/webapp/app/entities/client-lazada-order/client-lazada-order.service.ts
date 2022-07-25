@@ -20,10 +20,10 @@ export default class ClientLazadaOrderService extends LazadaOrderService {
     });
   }
 
-  public retrieveByClient(paginationQuery?: any): Promise<any> {
+  public retrieveByClient(filter?: string, paginationQuery?: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
-        .get(`${baseApiUrl}/client?${buildPaginationQueryOpts(paginationQuery)}`)
+        .get(`${baseApiUrl}/client?${buildPaginationQueryOpts(paginationQuery)}&filter=${filter}`)
         .then(res => {
           resolve(res);
         })

@@ -34,6 +34,8 @@ export default class ClientShopeeOrder extends ShopeeOrder {
 
   private file = null;
 
+  public filter = 'all';
+
   public mounted(): void {
     this.clear();
   }
@@ -52,8 +54,15 @@ export default class ClientShopeeOrder extends ShopeeOrder {
 
   public retrieveAllShopeeOrdersByClient(): void {
     this.isFetching = true;
+
+    const paginationQuery = {
+      page: this.page - 1,
+      size: this.itemsPerPage,
+      sort: this.sort(),
+    };
+
     this.clientShopeeOrderService()
-      .retrieveByClient()
+      .retrieveByClient(this.filter, paginationQuery)
       .then(
         res => {
           this.shopeeOrders = res.data;

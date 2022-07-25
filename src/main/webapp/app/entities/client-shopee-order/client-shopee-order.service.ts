@@ -2,6 +2,7 @@ import { IShop } from '@/shared/model/shop.model';
 import axios from 'axios';
 
 import ShopeeOrderService from '../shopee-order/shopee-order.service';
+import buildPaginationQueryOpts from '@/shared/sort/sorts';
 
 const baseApiUrl = 'api/shopee-orders';
 
@@ -19,10 +20,10 @@ export default class ClientShopeeOrderService extends ShopeeOrderService {
     });
   }
 
-  public retrieveByClient(): Promise<any> {
+  public retrieveByClient(filter?: string, paginationQuery?: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
-        .get(`${baseApiUrl}/client`)
+        .get(`${baseApiUrl}/client?${buildPaginationQueryOpts(paginationQuery)}&filter=${filter}`)
         .then(res => {
           resolve(res);
         })

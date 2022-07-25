@@ -11,6 +11,12 @@ const baseApiUrl = 'api/order/payments';
 
 @Component({
   mixins: [Vue2Filters.mixin],
+  props: {
+    orderId: {
+      required: false,
+      type: Object as () => string,
+    },
+  },
 })
 export default class ClientLazadaOrderPayments extends Vue {
   @Inject('alertService') private alertService: () => AlertService;
@@ -18,6 +24,37 @@ export default class ClientLazadaOrderPayments extends Vue {
   public isFetching = false;
   public lazadaOrderPayments: ILazadaOrderPayments[] = [];
   private file = null;
+  private hasNoOrderId = true;
+  public totalPayments = 0;
+
+  public mounted(): void {
+    this.clear();
+  }
+
+  public clear(): void {
+    if (this.$props?.orderId) {
+      this.hasNoOrderId = false;
+      this.getPayments(this.$props.orderId).then(
+        res => {
+          this.lazadaOrderPayments = res;
+          this.lazadaOrderPayments.forEach(element => {
+            this.totalPayments = this.totalPayments + element.amount;
+          });
+          return this.$root.$bvToast.toast(this.file.name + ' Uploaded', {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        },
+        err => {
+          this.alertService().showHttpError(this, err.response);
+        }
+      );
+    }
+  }
+
   public uploadFile(): void {
     this.file = (<HTMLInputElement>this.$refs.file).files[0];
   }
@@ -52,6 +89,19 @@ export default class ClientLazadaOrderPayments extends Vue {
             'Content-Type': 'multipart/form-data',
           },
         })
+        .then(res => {
+          resolve(res.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  public getPayments(orderId: string) {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .get(`api/lazada-order-payments/by-order-id/` + orderId)
         .then(res => {
           resolve(res.data);
         })

@@ -1,13 +1,15 @@
 <template>
   <div>
-    <h2 id="page-heading" data-cy="LazadaOrderPaymentsHeading">
-      <span id="lazada-order-payments-heading">Upload Lazada Payments</span>
-      <div class="d-flex justify-content-end">
+    <div class="form-group" v-if="hasNoOrderId">
+      <label class="form-control-label" for="file">Upload Lazada Payments</label>
+
+      <div class="row col-md-12">
         <b-form-file
           v-model="file"
           placeholder="Upload Lazada File"
           v-on:change="uploadFile()"
           drop-placeholder="Drop file here..."
+          class="col-md-4"
         ></b-form-file>
         <button
           @click="submitFile()"
@@ -16,10 +18,11 @@
           class="btn btn-primary jh-create-entity create-lazada-order"
         >
           <font-awesome-icon icon="plus"></font-awesome-icon>
-          <span> Upload Lazada Orders </span>
+          <span> Upload Lazada Payments </span>
         </button>
       </div>
-    </h2>
+    </div>
+    <div class="total-payments" v-else>Total Payments: {{ totalPayments }}</div>
     <div class="alert alert-warning" v-if="!isFetching && lazadaOrderPayments && lazadaOrderPayments.length === 0">
       <span>No lazadaOrderPayments found</span>
     </div>
@@ -32,7 +35,6 @@
             <th scope="row"><span>Transaction Type</span></th>
             <th scope="row"><span>Fee Name</span></th>
             <th scope="row"><span>Transaction Number</span></th>
-            <th scope="row"><span>Details</span></th>
             <th scope="row"><span>Seller Sku</span></th>
             <th scope="row"><span>Lazada Sku</span></th>
             <th scope="row"><span>Amount</span></th>
@@ -42,15 +44,6 @@
             <th scope="row"><span>Statement</span></th>
             <th scope="row"><span>Paid Status</span></th>
             <th scope="row"><span>Order No</span></th>
-            <th scope="row"><span>Order Item No</span></th>
-            <th scope="row"><span>Order Item Status</span></th>
-            <th scope="row"><span>Shipping Provider</span></th>
-            <th scope="row"><span>Shipping Speed</span></th>
-            <th scope="row"><span>Shipment Type</span></th>
-            <th scope="row"><span>Reference</span></th>
-            <th scope="row"><span>Comment</span></th>
-            <th scope="row"><span>Payment Ref Id</span></th>
-            <th scope="row"><span>Lazada Order</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -65,7 +58,6 @@
             <td>{{ lazadaOrderPayments.transactionType }}</td>
             <td>{{ lazadaOrderPayments.feeName }}</td>
             <td>{{ lazadaOrderPayments.transactionNumber }}</td>
-            <td>{{ lazadaOrderPayments.details }}</td>
             <td>{{ lazadaOrderPayments.sellerSku }}</td>
             <td>{{ lazadaOrderPayments.lazadaSku }}</td>
             <td>{{ lazadaOrderPayments.amount }}</td>
@@ -75,14 +67,7 @@
             <td>{{ lazadaOrderPayments.statement }}</td>
             <td>{{ lazadaOrderPayments.paidStatus }}</td>
             <td>{{ lazadaOrderPayments.orderNo }}</td>
-            <td>{{ lazadaOrderPayments.orderItemNo }}</td>
-            <td>{{ lazadaOrderPayments.orderItemStatus }}</td>
-            <td>{{ lazadaOrderPayments.shippingProvider }}</td>
-            <td>{{ lazadaOrderPayments.shippingSpeed }}</td>
-            <td>{{ lazadaOrderPayments.shipmentType }}</td>
-            <td>{{ lazadaOrderPayments.reference }}</td>
-            <td>{{ lazadaOrderPayments.comment }}</td>
-            <td>{{ lazadaOrderPayments.paymentRefId }}</td>
+
             <td>
               <div v-if="lazadaOrderPayments.lazadaOrder">
                 <router-link :to="{ name: 'LazadaOrderView', params: { lazadaOrderId: lazadaOrderPayments.lazadaOrder.id } }">{{
@@ -154,3 +139,10 @@
 </template>
 
 <script lang="ts" src="./client-upload-lazada-order-payments.component.ts"></script>
+<style scoped>
+.total-payments {
+  font-weight: 700;
+  font-size: large;
+  color: red;
+}
+</style>
