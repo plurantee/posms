@@ -6,6 +6,7 @@ import AlertService from '@/shared/alert/alert.service';
 import LazadaOrderPaymentsService from '../lazada-order-payments/lazada-order-payments.service';
 
 import axios from 'axios';
+import { IShopeeOrderPayments } from '@/shared/model/shopee-order-payments.model';
 
 const baseApiUrl = 'api/order/payments';
 
@@ -18,15 +19,21 @@ const baseApiUrl = 'api/order/payments';
     },
   },
 })
-export default class ClientLazadaOrderPayments extends Vue {
+export default class ClientShopeeOrderPayments extends Vue {
   @Inject('alertService') private alertService: () => AlertService;
-
   public isFetching = false;
-  public lazadaOrderPayments: ILazadaOrderPayments[] = [];
+  public shopeeOrderPayments: IShopeeOrderPayments[] = [];
   private file = null;
   private hasNoOrderId = true;
   public totalPayments = 0;
-
+  private removeId: number = null;
+  public itemsPerPage = 20;
+  public queryCount: number = null;
+  public page = 1;
+  public previousPage = 1;
+  public propOrder = 'id';
+  public reverse = false;
+  public totalItems = 0;
   public mounted(): void {
     this.clear();
   }
@@ -34,24 +41,6 @@ export default class ClientLazadaOrderPayments extends Vue {
   public clear(): void {
     if (this.$props?.orderId) {
       this.hasNoOrderId = false;
-      this.getPayments(this.$props.orderId).then(
-        res => {
-          this.lazadaOrderPayments = res;
-          this.lazadaOrderPayments.forEach(element => {
-            this.totalPayments = this.totalPayments + element.amount;
-          });
-          return this.$root.$bvToast.toast(this.file.name + ' Uploaded', {
-            toaster: 'b-toaster-top-center',
-            title: 'Info',
-            variant: 'info',
-            solid: true,
-            autoHideDelay: 5000,
-          });
-        },
-        err => {
-          this.alertService().showHttpError(this, err.response);
-        }
-      );
     }
   }
 
@@ -64,9 +53,9 @@ export default class ClientLazadaOrderPayments extends Vue {
     // eslint-disable-next-line prefer-const
     let formData = new FormData();
     formData.append('file', this.file);
-    this.uploadLazadaExcel(formData).then(
+    this.uploadShopeeExcel(formData).then(
       res => {
-        this.lazadaOrderPayments = res;
+        this.shopeeOrderPayments = res;
         return this.$root.$bvToast.toast(this.file.name + ' Uploaded', {
           toaster: 'b-toaster-top-center',
           title: 'Info',
@@ -81,10 +70,10 @@ export default class ClientLazadaOrderPayments extends Vue {
     );
   }
 
-  public uploadLazadaExcel(file: FormData) {
+  public uploadShopeeExcel(file: FormData) {
     return new Promise<any>((resolve, reject) => {
       axios
-        .post(`${baseApiUrl}/lazada/upload`, file, {
+        .post(`${baseApiUrl}/shopee/upload`, file, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -101,7 +90,7 @@ export default class ClientLazadaOrderPayments extends Vue {
   public getPayments(orderId: string) {
     return new Promise<any>((resolve, reject) => {
       axios
-        .get(`api/lazada-order-payments/by-order-id/` + orderId)
+        .get(`api/shopee-order-payments/by-order-id/` + orderId)
         .then(res => {
           resolve(res.data);
         })
@@ -109,5 +98,34 @@ export default class ClientLazadaOrderPayments extends Vue {
           reject(err);
         });
     });
+  }
+
+  public sort(): Array<any> {
+    const result = [this.propOrder + ',' + (this.reverse ? 'desc' : 'asc')];
+    if (this.propOrder !== 'id') {
+      result.push('id');
+    }
+    return result;
+  }
+
+  public loadPage(page: number): void {
+    if (page !== this.previousPage) {
+      this.previousPage = page;
+      this.transition();
+    }
+  }
+
+  public transition(): void {
+    //this.retrieveAllShopeeOrderPaymentss();
+  }
+
+  public changeOrder(propOrder): void {
+    this.propOrder = propOrder;
+    this.reverse = !this.reverse;
+    this.transition();
+  }
+
+  public closeDialog(): void {
+    (<any>this.$refs.removeEntity).hide();
   }
 }

@@ -1,15 +1,15 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
-import { ILazadaOrder } from '@/shared/model/lazada-order.model';
+import { IShopeeOrderPayments } from '@/shared/model/shopee-order-payments.model';
 
-import LazadaOrderService from './lazada-order.service';
+import ShopeeOrderPaymentsService from './shopee-order-payments.service';
 import AlertService from '@/shared/alert/alert.service';
 
 @Component({
   mixins: [Vue2Filters.mixin],
 })
-export default class LazadaOrder extends Vue {
-  @Inject('lazadaOrderService') private lazadaOrderService: () => LazadaOrderService;
+export default class ShopeeOrderPayments extends Vue {
+  @Inject('shopeeOrderPaymentsService') private shopeeOrderPaymentsService: () => ShopeeOrderPaymentsService;
   @Inject('alertService') private alertService: () => AlertService;
 
   private removeId: number = null;
@@ -21,31 +21,31 @@ export default class LazadaOrder extends Vue {
   public reverse = false;
   public totalItems = 0;
 
-  public lazadaOrders: ILazadaOrder[] = [];
+  public shopeeOrderPayments: IShopeeOrderPayments[] = [];
 
   public isFetching = false;
 
   public mounted(): void {
-    this.retrieveAllLazadaOrders();
+    this.retrieveAllShopeeOrderPaymentss();
   }
 
   public clear(): void {
     this.page = 1;
-    this.retrieveAllLazadaOrders();
+    this.retrieveAllShopeeOrderPaymentss();
   }
 
-  public retrieveAllLazadaOrders(): void {
+  public retrieveAllShopeeOrderPaymentss(): void {
     this.isFetching = true;
     const paginationQuery = {
       page: this.page - 1,
       size: this.itemsPerPage,
       sort: this.sort(),
     };
-    this.lazadaOrderService()
+    this.shopeeOrderPaymentsService()
       .retrieve(paginationQuery)
       .then(
         res => {
-          this.lazadaOrders = res.data;
+          this.shopeeOrderPayments = res.data;
           this.totalItems = Number(res.headers['x-total-count']);
           this.queryCount = this.totalItems;
           this.isFetching = false;
@@ -61,18 +61,18 @@ export default class LazadaOrder extends Vue {
     this.clear();
   }
 
-  public prepareRemove(instance: ILazadaOrder): void {
+  public prepareRemove(instance: IShopeeOrderPayments): void {
     this.removeId = instance.id;
     if (<any>this.$refs.removeEntity) {
       (<any>this.$refs.removeEntity).show();
     }
   }
 
-  public removeLazadaOrder(): void {
-    this.lazadaOrderService()
+  public removeShopeeOrderPayments(): void {
+    this.shopeeOrderPaymentsService()
       .delete(this.removeId)
       .then(() => {
-        const message = 'A LazadaOrder is deleted with identifier ' + this.removeId;
+        const message = 'A ShopeeOrderPayments is deleted with identifier ' + this.removeId;
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
           title: 'Info',
@@ -81,7 +81,7 @@ export default class LazadaOrder extends Vue {
           autoHideDelay: 5000,
         });
         this.removeId = null;
-        this.retrieveAllLazadaOrders();
+        this.retrieveAllShopeeOrderPaymentss();
         this.closeDialog();
       })
       .catch(error => {
@@ -105,7 +105,7 @@ export default class LazadaOrder extends Vue {
   }
 
   public transition(): void {
-    this.retrieveAllLazadaOrders();
+    this.retrieveAllShopeeOrderPaymentss();
   }
 
   public changeOrder(propOrder): void {

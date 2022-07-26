@@ -464,7 +464,7 @@
       </div>
     </div>
     <div v-if="nav == 'order-payments'">
-      <client-lazada-payments :orderId="lazadaOrder.orderItemId"></client-lazada-payments>
+      <client-payments :orderId="lazadaOrder.orderItemId"></client-payments>
     </div>
   </div>
 </template>

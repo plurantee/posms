@@ -7,25 +7,25 @@ import ClientShopeeOrderService from '@/entities/client-shopee-order/client-shop
 
 const ClientLazadaOrder = () => import('@/entities/client-lazada-order/client-lazada-order.vue');
 const ClientShopeeOrder = () => import('@/entities/client-shopee-order/client-shopee-order.vue');
-const ClientUploadLazadaOrderPayment = () => import('@/entities/client-lazada-order-payments/client-upload-lazada-order-payments.vue');
+const ClientBaseOrderPayments = () => import('@/entities/client-upload-payments/client-base-upload-order-payments.vue');
 const ClientOrderTracker = () => import('@/entities/client-order-tracker/client-order-tracker.vue');
 @Component({
   components: {
     'client-lazada-order': ClientLazadaOrder,
     'client-shopee-order': ClientShopeeOrder,
-    'client-lazada-payments': ClientUploadLazadaOrderPayment,
+    'client-payments': ClientBaseOrderPayments,
     'client-order-tracker': ClientOrderTracker,
   },
 })
 export default class ClientHome extends Home {
   @Inject('clientLazadaOrderService') private clientLazadaOrderService = () => new ClientLazadaOrderService();
   @Inject('loginService') private clientShopeeOrderService = () => new ClientShopeeOrderService();
-  public shopNav: string | string[] = 'lazada';
+  public nav: string | string[] = 'lazada';
   public initNav = null;
   public barcodeNumber = null;
   public mounted(): void {
     if (this.$route.query?.path) {
-      this.shopNav = this.$route.query.path;
+      this.nav = this.$route.query.path;
     }
     if (this.$route.query?.barcodeNumber) {
       this.barcodeNumber = this.$route.query.barcodeNumber;
@@ -33,6 +33,6 @@ export default class ClientHome extends Home {
   }
 
   public switchNav(value: string) {
-    this.shopNav = value;
+    this.nav = value;
   }
 }

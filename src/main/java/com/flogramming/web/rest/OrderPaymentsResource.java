@@ -1,10 +1,13 @@
 package com.flogramming.web.rest;
 
 import com.flogramming.domain.LazadaOrderPayments;
+import com.flogramming.domain.ShopeeOrderPayments;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
 import com.flogramming.service.ExcelFileService;
 import com.flogramming.service.WaybillFileService;
+import java.io.IOException;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/order/payments")
@@ -35,10 +35,15 @@ public class OrderPaymentsResource {
     @Autowired
     private WaybillFileService waybillFileService;
 
-    @PostMapping(path = "/lazada/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(path = "/lazada/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<List> processLazadaOrder(@RequestParam("file") MultipartFile file) throws IOException {
         List<LazadaOrderPayments> lazadaOrderPayments = excelFileService.processLazadaPaymentsExcelFile(file);
         return ResponseEntity.ok(lazadaOrderPayments);
     }
-}
 
+    @PostMapping(path = "/shopee/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<List> processShopeeOrder(@RequestParam("file") MultipartFile file) throws IOException {
+        List<ShopeeOrderPayments> shopeeOrderPayments = excelFileService.processShopeePaymentsExcelFile(file);
+        return ResponseEntity.ok(shopeeOrderPayments);
+    }
+}

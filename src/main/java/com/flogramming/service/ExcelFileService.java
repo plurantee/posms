@@ -1,16 +1,20 @@
 package com.flogramming.service;
 
-import com.flogramming.domain.Client;
-import com.flogramming.domain.Inventory;
-import com.flogramming.domain.LazadaOrder;
-import com.flogramming.domain.LazadaOrderPayments;
-import com.flogramming.domain.ShopeeOrder;
-import com.flogramming.repository.ClientInventoryRepository;
-import com.flogramming.repository.ClientLazadaOrderPaymentsRepository;
-import com.flogramming.repository.ClientLazadaOrderRepository;
-import com.flogramming.repository.ClientShopeeOrderRepository;
+import com.flogramming.domain.*;
+import com.flogramming.repository.*;
 import com.flogramming.util.OrdersUtil;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -24,17 +28,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class ExcelFileService {
@@ -56,6 +49,9 @@ public class ExcelFileService {
     @Autowired
     private ClientLazadaOrderPaymentsRepository clientLazadaOrderPaymentsRepository;
 
+    @Autowired
+    private ClientShopeeOrderPaymentsRepository clientShopeeOrderPaymentsRepository;
+
     /**
      * Lazada
      */
@@ -69,7 +65,6 @@ public class ExcelFileService {
             switch (cell.getCellType()) {
                 case STRING:
                     columnNames.add(cell.getStringCellValue());
-                    System.out.println(cell.getStringCellValue());
                     break;
             }
         }
@@ -79,14 +74,12 @@ public class ExcelFileService {
             for (int j = 0; j < columnNames.size(); j++) {
                 switch (row.getCell(j).getCellType()) {
                     case STRING:
-                        excelHashMap.get(i).put(columnNames.get(j),
-                            row.getCell(j).getRichStringCellValue().getString());
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getRichStringCellValue().getString());
                         break;
                     case NUMERIC:
                         if (DateUtil.isCellDateFormatted(row.getCell(j))) {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getDateCellValue() + "");
-                        }
-                        else {
+                        } else {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getNumericCellValue() + "" + "");
                         }
                         break;
@@ -238,13 +231,11 @@ public class ExcelFileService {
                     StringBuilder builder = new StringBuilder();
                     for (int i = 0; i < words.length; i++) {
                         String word = words[i];
-                        word = word.isEmpty() ? word :
-                            Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+                        word = word.isEmpty() ? word : Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
 
                         builder.append(word);
                     }
                     String camelCase = builder.toString();
-                    System.out.println("shopeeOrder.set" + camelCase + "(row.get(\"" + original + "\"));");
                     break;
             }
         }
@@ -254,14 +245,12 @@ public class ExcelFileService {
             for (int j = 0; j < columnNames.size(); j++) {
                 switch (row.getCell(j).getCellType()) {
                     case STRING:
-                        excelHashMap.get(i).put(columnNames.get(j),
-                            row.getCell(j).getRichStringCellValue().getString());
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getRichStringCellValue().getString());
                         break;
                     case NUMERIC:
                         if (DateUtil.isCellDateFormatted(row.getCell(j))) {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getDateCellValue() + "");
-                        }
-                        else {
+                        } else {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getNumericCellValue() + "" + "");
                         }
                         break;
@@ -367,11 +356,9 @@ public class ExcelFileService {
             if (!StringUtils.isEmpty(shopeeOrder.getOrderId())) {
                 clientShopeeOrderRepository.save(shopeeOrder);
             }
-
         }
         return clientShopeeOrderRepository.findByClient(client, Pageable.ofSize(10));
     }
-
 
     /**
      * Lazada Payments
@@ -391,8 +378,7 @@ public class ExcelFileService {
                     StringBuilder builder = new StringBuilder();
                     for (int i = 0; i < words.length; i++) {
                         String word = words[i];
-                        word = word.isEmpty() ? word :
-                            Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+                        word = word.isEmpty() ? word : Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
 
                         builder.append(word);
                     }
@@ -407,14 +393,12 @@ public class ExcelFileService {
             for (int j = 0; j < columnNames.size(); j++) {
                 switch (row.getCell(j).getCellType()) {
                     case STRING:
-                        excelHashMap.get(i).put(columnNames.get(j),
-                            row.getCell(j).getRichStringCellValue().getString());
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getRichStringCellValue().getString());
                         break;
                     case NUMERIC:
                         if (DateUtil.isCellDateFormatted(row.getCell(j))) {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getDateCellValue() + "");
-                        }
-                        else {
+                        } else {
                             excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getNumericCellValue() + "" + "");
                         }
                         break;
@@ -439,6 +423,10 @@ public class ExcelFileService {
         // 04 Jul 2022 11:46
         excelHashMap.remove(0); // Column rows
         for (HashMap<String, String> row : excelHashMap.values()) {
+            List<LazadaOrder> lazadaOrder = lazadaOrderRepository.findByOrderItemId(row.get("Order Item No."));
+            if (lazadaOrder.isEmpty()) {
+                continue;
+            }
             LazadaOrderPayments lazadaOrderPayment = new LazadaOrderPayments();
             lazadaOrderPayment.setTransactionDate(convertLazadaPaymentDate(row.get("Transaction Date")));
             lazadaOrderPayment.setTransactionType(row.get("Transaction Type"));
@@ -463,18 +451,113 @@ public class ExcelFileService {
             lazadaOrderPayment.setComment(row.get("Comment"));
             lazadaOrderPayment.setPaymentRefId(row.get("PaymentRefId"));
 
-            List<LazadaOrder> lazadaOrder =
-                lazadaOrderRepository.findByOrderItemId(lazadaOrderPayment.getOrderItemNo());
-            if (lazadaOrder.isEmpty()) {
-                lazadaOrderPayment.setLazadaOrder(null);
-            }
-            else {
-                lazadaOrderPayment.setLazadaOrder(lazadaOrder.stream().findFirst().get());
-            }
+            lazadaOrderPayment.setLazadaOrder(lazadaOrder.stream().findFirst().get());
             result.add(lazadaOrderPayment);
-
         }
         clientLazadaOrderPaymentsRepository.saveAll(result);
+        return result;
+    }
+
+    /**
+     * Lazada Payments
+     */
+    public List<ShopeeOrderPayments> processShopeePaymentsExcelFile(MultipartFile file) throws IOException {
+        Workbook workbook = new HSSFWorkbook(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);
+        Map<Integer, HashMap<String, String>> excelHashMap = new HashMap<>();
+        List<String> columnNames = new ArrayList<>();
+        Row columnNamesRow = sheet.getRow(5);
+        for (Cell cell : columnNamesRow) {
+            switch (cell.getCellType()) {
+                case STRING:
+                    columnNames.add(cell.getStringCellValue());
+                    String original = cell.getStringCellValue();
+                    String[] words = original.split("[\\W_]+");
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < words.length; i++) {
+                        String word = words[i];
+                        word = word.isEmpty() ? word : Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+
+                        builder.append(word);
+                    }
+                    String camelCase = builder.toString();
+                    System.out.println("shopeeOrderPayments.set" + camelCase + "(row.get(\"" + original + "\"));");
+                    break;
+            }
+        }
+        int i = 0;
+        for (Row row : sheet) {
+            excelHashMap.put(i, new HashMap<>());
+            for (int j = 0; j < columnNames.size(); j++) {
+                switch (row.getCell(j).getCellType()) {
+                    case STRING:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getRichStringCellValue().getString());
+                        break;
+                    case NUMERIC:
+                        if (DateUtil.isCellDateFormatted(row.getCell(j))) {
+                            excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getDateCellValue() + "");
+                        } else {
+                            excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getNumericCellValue() + "" + "");
+                        }
+                        break;
+                    case BOOLEAN:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getBooleanCellValue() + "" + "");
+                        break;
+                    case FORMULA:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getCellFormula() + "");
+                        break;
+                    default:
+                        excelHashMap.get(i).put(columnNames.get(j), " ");
+                }
+            }
+
+            i++;
+        }
+        return setShopeeOrderPaymentsFromExcelHashMap(excelHashMap);
+    }
+
+    private List<ShopeeOrderPayments> setShopeeOrderPaymentsFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
+        List<ShopeeOrderPayments> result = new ArrayList<>();
+        // 04 Jul 2022 11:46
+        excelHashMap.remove(0); // Column rows
+        for (HashMap<String, String> row : excelHashMap.values()) {
+            System.out.println(row.get("Order ID"));
+            List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByOrderId(row.get("Order ID"));
+            if (shopeeOrders.isEmpty()) {
+                continue;
+            }
+            ShopeeOrderPayments shopeeOrderPayments = new ShopeeOrderPayments();
+            shopeeOrderPayments.setOrderId(row.get("Order ID"));
+            shopeeOrderPayments.setRefundId(row.get("Refund ID"));
+            shopeeOrderPayments.setUsernameBuyer(row.get("Username (Buyer)"));
+            shopeeOrderPayments.setOrderCreationDate(convertShopeePaymentDate(row.get("Order Creation Date")));
+            shopeeOrderPayments.setBuyerPaymentMethod(row.get("Buyer Payment Method"));
+            shopeeOrderPayments.setPayoutCompletedDate(convertShopeePaymentDate(row.get("Payout Completed Date")));
+            shopeeOrderPayments.setOriginalProductPrice(valueOf(row.get("Original Product Price")));
+            shopeeOrderPayments.setSellerProductPromotion(valueOf(row.get("Seller Product Promotion")));
+            shopeeOrderPayments.setRefundAmountToBuyer(valueOf(row.get("Refund Amount to Buyer (₱)")));
+            shopeeOrderPayments.setProductDiscountRebateFromShopee(valueOf(row.get("Product Discount Rebate from Shopee")));
+            shopeeOrderPayments.setSellerVoucherDiscount(valueOf(row.get("Seller Voucher Discount")));
+            shopeeOrderPayments.setSellerAbsorbedCoinCashback(valueOf(row.get("Seller Absorbed Coin Cashback")));
+            shopeeOrderPayments.setBuyerPaidShippingFee(valueOf(row.get("Buyer Paid Shipping Fee")));
+            shopeeOrderPayments.setShippingFeeRebateFromShopee(valueOf(row.get("Shipping Fee Rebate From Shopee")));
+            shopeeOrderPayments.setThirdPartyLogisticsDefinedShippingFee(valueOf(row.get("3rd Party Logistics - Defined Shipping Fee")));
+            shopeeOrderPayments.setReverseShippingFee(valueOf(row.get("Reverse Shipping Fee")));
+            shopeeOrderPayments.setCommissionFee(valueOf(row.get("Commission fee")));
+            shopeeOrderPayments.setServiceFee(valueOf(row.get("Service Fee")));
+            shopeeOrderPayments.setTransactionFee(valueOf(row.get("Transaction Fee")));
+            shopeeOrderPayments.setTotalReleasedAmount(valueOf(row.get("Total Released Amount (₱)")));
+            shopeeOrderPayments.setSellerVoucherCode(row.get("Seller Voucher Code"));
+            shopeeOrderPayments.setLostCompensation(valueOf(row.get("Lost Compensation")));
+            shopeeOrderPayments.setTotalActualWeightPerOrder(valueOf(row.get("Total actual weight per order")));
+            shopeeOrderPayments.setShippingFeePromotionBySeller(valueOf(row.get("Shipping Fee Promotion by Seller")));
+            shopeeOrderPayments.setShippingProvider(row.get("Shipping Provider"));
+            shopeeOrderPayments.setCourierName(row.get("Courier Name"));
+
+            shopeeOrderPayments.setShopeeOrder(shopeeOrders.stream().findFirst().get());
+            result.add(shopeeOrderPayments);
+        }
+        clientShopeeOrderPaymentsRepository.saveAll(result);
         return result;
     }
 
@@ -511,12 +594,21 @@ public class ExcelFileService {
         return ldt.atZone(zoneId);
     }
 
+    public ZonedDateTime convertShopeePaymentDate(String date) {
+        if (StringUtils.isEmpty(date)) {
+            return null;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate ldt = LocalDate.parse(date, formatter);
+        ZoneId zoneId = ZoneId.of("Asia/Manila");
+        return ldt.atStartOfDay(zoneId);
+    }
+
     private Double valueOf(String strValue) {
         double result;
         try {
             result = Double.parseDouble(strValue);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             result = 0;
         }
         return result;

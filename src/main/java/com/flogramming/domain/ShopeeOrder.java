@@ -3,6 +3,8 @@ package com.flogramming.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -175,6 +177,10 @@ public class ShopeeOrder implements Serializable {
 
     @Column(name = "note")
     private String note;
+
+    @OneToMany(mappedBy = "shopeeOrder")
+    @JsonIgnoreProperties(value = { "shopeeOrder" }, allowSetters = true)
+    private Set<ShopeeOrderPayments> payments = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "lazadaOrders", "shopeeOrders", "client" }, allowSetters = true)
@@ -877,6 +883,37 @@ public class ShopeeOrder implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Set<ShopeeOrderPayments> getPayments() {
+        return this.payments;
+    }
+
+    public void setPayments(Set<ShopeeOrderPayments> shopeeOrderPayments) {
+        if (this.payments != null) {
+            this.payments.forEach(i -> i.setShopeeOrder(null));
+        }
+        if (shopeeOrderPayments != null) {
+            shopeeOrderPayments.forEach(i -> i.setShopeeOrder(this));
+        }
+        this.payments = shopeeOrderPayments;
+    }
+
+    public ShopeeOrder payments(Set<ShopeeOrderPayments> shopeeOrderPayments) {
+        this.setPayments(shopeeOrderPayments);
+        return this;
+    }
+
+    public ShopeeOrder addPayments(ShopeeOrderPayments shopeeOrderPayments) {
+        this.payments.add(shopeeOrderPayments);
+        shopeeOrderPayments.setShopeeOrder(this);
+        return this;
+    }
+
+    public ShopeeOrder removePayments(ShopeeOrderPayments shopeeOrderPayments) {
+        this.payments.remove(shopeeOrderPayments);
+        shopeeOrderPayments.setShopeeOrder(null);
+        return this;
     }
 
     public Inventory getInventory() {

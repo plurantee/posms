@@ -5,11 +5,11 @@ import ClientLazadaOrderService from './client-lazada-order.service';
 import AlertService from '@/shared/alert/alert.service';
 import LazadaOrderDetails from '../lazada-order/lazada-order-details.component';
 
-const ClientUploadLazadaOrderPayment = () => import('@/entities/client-lazada-order-payments/client-upload-lazada-order-payments.vue');
+const ClientUploadOrderPayment = () => import('@/entities/client-upload-payments/client-upload-lazada-order-payments.vue');
 
 @Component({
   components: {
-    'client-lazada-payments': ClientUploadLazadaOrderPayment,
+    'client-payments': ClientUploadOrderPayment,
   },
 })
 export default class ClientLazadaOrderDetails extends LazadaOrderDetails {

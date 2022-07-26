@@ -1,0 +1,127 @@
+{
+  "applications": "*",
+  "changelogDate": "20220726081120",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "shopee_order_payments",
+  "fields": [
+    {
+      "fieldName": "orderId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "refundId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "usernameBuyer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "orderCreationDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "buyerPaymentMethod",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "payoutCompletedDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "originalProductPrice",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sellerProductPromotion",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "refundAmountToBuyer",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "productDiscountRebateFromShopee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sellerVoucherDiscount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sellerAbsorbedCoinCashback",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "buyerPaidShippingFee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "shippingFeeRebateFromShopee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "thirdPartyLogisticsDefinedShippingFee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "reverseShippingFee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "commissionFee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "serviceFee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "transactionFee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "totalReleasedAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sellerVoucherCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lostCompensation",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "totalActualWeightPerOrder",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "shippingFeePromotionBySeller",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "shippingProvider",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "courierName",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ShopeeOrderPayments",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "shopeeOrder",
+      "otherEntityRelationshipName": "payments",
+      "relationshipName": "shopeeOrder",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

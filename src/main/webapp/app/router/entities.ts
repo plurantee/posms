@@ -51,6 +51,12 @@ const Inventory = () => import('@/entities/inventory/inventory.vue');
 const InventoryUpdate = () => import('@/entities/inventory/inventory-update.vue');
 // prettier-ignore
 const InventoryDetails = () => import('@/entities/inventory/inventory-details.vue');
+// prettier-ignore
+const ShopeeOrderPayments = () => import('@/entities/shopee-order-payments/shopee-order-payments.vue');
+// prettier-ignore
+const ShopeeOrderPaymentsUpdate = () => import('@/entities/shopee-order-payments/shopee-order-payments-update.vue');
+// prettier-ignore
+const ShopeeOrderPaymentsDetails = () => import('@/entities/shopee-order-payments/shopee-order-payments-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 const ClientOrderTracker = () => import('@/entities/client-order-tracker/client-order-tracker.vue');
@@ -237,6 +243,30 @@ export default {
       path: 'inventory/:inventoryId/view',
       name: 'InventoryView',
       component: InventoryDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shopee-order-payments',
+      name: 'ShopeeOrderPayments',
+      component: ShopeeOrderPayments,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shopee-order-payments/new',
+      name: 'ShopeeOrderPaymentsCreate',
+      component: ShopeeOrderPaymentsUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shopee-order-payments/:shopeeOrderPaymentsId/edit',
+      name: 'ShopeeOrderPaymentsEdit',
+      component: ShopeeOrderPaymentsUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'shopee-order-payments/:shopeeOrderPaymentsId/view',
+      name: 'ShopeeOrderPaymentsView',
+      component: ShopeeOrderPaymentsDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

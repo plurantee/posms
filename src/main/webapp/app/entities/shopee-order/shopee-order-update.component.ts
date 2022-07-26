@@ -5,6 +5,9 @@ import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 
 import AlertService from '@/shared/alert/alert.service';
 
+import ShopeeOrderPaymentsService from '@/entities/shopee-order-payments/shopee-order-payments.service';
+import { IShopeeOrderPayments } from '@/shared/model/shopee-order-payments.model';
+
 import InventoryService from '@/entities/inventory/inventory.service';
 import { IInventory } from '@/shared/model/inventory.model';
 
@@ -82,6 +85,10 @@ export default class ShopeeOrderUpdate extends Vue {
   @Inject('alertService') private alertService: () => AlertService;
 
   public shopeeOrder: IShopeeOrder = new ShopeeOrder();
+
+  @Inject('shopeeOrderPaymentsService') private shopeeOrderPaymentsService: () => ShopeeOrderPaymentsService;
+
+  public shopeeOrderPayments: IShopeeOrderPayments[] = [];
 
   @Inject('inventoryService') private inventoryService: () => InventoryService;
 
@@ -203,6 +210,11 @@ export default class ShopeeOrderUpdate extends Vue {
   }
 
   public initRelationships(): void {
+    this.shopeeOrderPaymentsService()
+      .retrieve()
+      .then(res => {
+        this.shopeeOrderPayments = res.data;
+      });
     this.inventoryService()
       .retrieve()
       .then(res => {

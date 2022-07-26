@@ -32,6 +32,10 @@
       <font-awesome-icon icon="asterisk" />
       <span>Inventory</span>
     </b-dropdown-item>
+    <b-dropdown-item to="/shopee-order-payments">
+      <font-awesome-icon icon="asterisk" />
+      <span>Shopee Order Payments</span>
+    </b-dropdown-item>
     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
   </div>
 </template>

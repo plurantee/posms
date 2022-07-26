@@ -1,14 +1,10 @@
 package com.flogramming.web.rest;
 
 import com.flogramming.domain.LazadaOrderPayments;
+import com.flogramming.domain.ShopeeOrderPayments;
 import com.flogramming.repository.ClientLazadaOrderPaymentsRepository;
-import com.flogramming.repository.LazadaOrderPaymentsRepository;
-import com.flogramming.web.rest.errors.BadRequestAlertException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.flogramming.repository.ClientShopeeOrderPaymentsRepository;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,9 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link LazadaOrderPayments}.
@@ -29,9 +23,9 @@ import tech.jhipster.web.util.ResponseUtil;
 @RestController
 @RequestMapping("/api")
 @Transactional
-public class ClientLazadaOrderPaymentsResource {
+public class ClientOrderPaymentsResource {
 
-    private final Logger log = LoggerFactory.getLogger(ClientLazadaOrderPaymentsResource.class);
+    private final Logger log = LoggerFactory.getLogger(ClientOrderPaymentsResource.class);
 
     private static final String ENTITY_NAME = "lazadaOrderPayments";
 
@@ -39,9 +33,14 @@ public class ClientLazadaOrderPaymentsResource {
     private String applicationName;
 
     private final ClientLazadaOrderPaymentsRepository lazadaOrderPaymentsRepository;
+    private final ClientShopeeOrderPaymentsRepository shopeeOrderPaymentsRepository;
 
-    public ClientLazadaOrderPaymentsResource(ClientLazadaOrderPaymentsRepository lazadaOrderPaymentsRepository) {
+    public ClientOrderPaymentsResource(
+        ClientLazadaOrderPaymentsRepository lazadaOrderPaymentsRepository,
+        ClientShopeeOrderPaymentsRepository shopeeOrderPaymentsRepository
+    ) {
         this.lazadaOrderPaymentsRepository = lazadaOrderPaymentsRepository;
+        this.shopeeOrderPaymentsRepository = shopeeOrderPaymentsRepository;
     }
 
     @GetMapping("/lazada-order-payments/by-order-id/{orderId}")
@@ -51,6 +50,17 @@ public class ClientLazadaOrderPaymentsResource {
     ) {
         log.debug("REST request to get a page of LazadaOrderPayments");
         Page<LazadaOrderPayments> page = lazadaOrderPaymentsRepository.findByOrderItemNo(orderId, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/shopee-order-payments/by-order-id/{orderId}")
+    public ResponseEntity<List<ShopeeOrderPayments>> getAllShopeeOrderPayments(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @PathVariable String orderId
+    ) {
+        log.debug("REST request to get a page of LazadaOrderPayments");
+        Page<ShopeeOrderPayments> page = shopeeOrderPaymentsRepository.findByOrderId(orderId, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
