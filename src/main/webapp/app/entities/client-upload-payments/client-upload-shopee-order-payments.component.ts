@@ -41,6 +41,25 @@ export default class ClientShopeeOrderPayments extends Vue {
   public clear(): void {
     if (this.$props?.orderId) {
       this.hasNoOrderId = false;
+
+      this.getPayments(this.$props.orderId).then(
+        res => {
+          this.shopeeOrderPayments = res;
+          this.shopeeOrderPayments.forEach(element => {
+            this.totalPayments = this.totalPayments + element.totalReleasedAmount;
+          });
+          return this.$root.$bvToast.toast(this.file.name + ' Uploaded', {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        },
+        err => {
+          this.alertService().showHttpError(this, err.response);
+        }
+      );
     }
   }
 

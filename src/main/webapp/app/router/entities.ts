@@ -64,6 +64,7 @@ const ClientOrderTracker = () => import('@/entities/client-order-tracker/client-
 
 const ClientLazadaOrder = () => import('@/entities/client-lazada-order/client-lazada-order.vue');
 // prettier-ignore
+const ClientShopeeOrderDetails = () => import('@/entities/client-shopee-order/client-shopee-order-details.vue');
 // prettier-ignore
 const ClientLazadaOrderDetails = () => import('@/entities/client-lazada-order/client-lazada-order-details.vue');
 
@@ -276,7 +277,12 @@ export default {
       component: ClientOrderTracker,
       meta: { authorities: [Authority.USER] },
     },
-
+    {
+      path: 'client/shopee-order/:shopeeOrderId/view',
+      name: 'ClientShopeeOrderView',
+      component: ClientShopeeOrderDetails,
+      meta: { authorities: [Authority.USER] },
+    },
     {
       path: 'client/lazada-order/:lazadaOrderId/view',
       name: 'ClientLazadaOrderView',

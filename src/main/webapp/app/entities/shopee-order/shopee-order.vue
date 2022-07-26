@@ -270,7 +270,9 @@
         <tbody>
           <tr v-for="shopeeOrder in shopeeOrders" :key="shopeeOrder.id" data-cy="entityTable">
             <td>
-              <router-link :to="{ name: 'ShopeeOrderView', params: { shopeeOrderId: shopeeOrder.id } }">{{ shopeeOrder.id }}</router-link>
+              <router-link :to="{ name: 'ClientShopeeOrderView', params: { shopeeOrderId: shopeeOrder.id } }">{{
+                shopeeOrder.id
+              }}</router-link>
             </td>
             <td>{{ shopeeOrder.orderId }}</td>
             <td>{{ shopeeOrder.orderStatus }}</td>
@@ -345,7 +347,11 @@
             </td>
             <td class="text-right">
               <div class="btn-group">
-                <router-link :to="{ name: 'ShopeeOrderView', params: { shopeeOrderId: shopeeOrder.id } }" custom v-slot="{ navigate }">
+                <router-link
+                  :to="{ name: 'ClientShopeeOrderView', params: { shopeeOrderId: shopeeOrder.id } }"
+                  custom
+                  v-slot="{ navigate }"
+                >
                   <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline">View</span>

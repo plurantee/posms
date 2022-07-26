@@ -6,8 +6,8 @@ import AlertService from '@/shared/alert/alert.service';
 
 @Component
 export default class LazadaOrderPaymentsDetails extends Vue {
-  @Inject('lazadaOrderPaymentsService') private lazadaOrderPaymentsService: () => LazadaOrderPaymentsService;
-  @Inject('alertService') private alertService: () => AlertService;
+  @Inject('lazadaOrderPaymentsService') protected lazadaOrderPaymentsService: () => LazadaOrderPaymentsService;
+  @Inject('alertService') protected alertService: () => AlertService;
 
   public lazadaOrderPayments: ILazadaOrderPayments = {};
 
