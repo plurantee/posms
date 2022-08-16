@@ -3,6 +3,7 @@ package com.flogramming.web.rest;
 import com.flogramming.domain.Client;
 import com.flogramming.domain.Shop;
 import com.flogramming.domain.ShopeeOrder;
+import com.flogramming.repository.ClientShopeeOrderPaymentsRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
 import com.flogramming.repository.ShopRepository;
 import com.flogramming.service.ClientUserService;
@@ -10,10 +11,13 @@ import com.flogramming.service.ExcelFileService;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -44,6 +48,8 @@ public class ClientShopeeOrderResource {
     private final ExcelFileService excelFileService;
     private final ClientUserService clientUserService;
 
+    private final ClientShopeeOrderPaymentsRepository clientShopeeOrderPaymentsRepository;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
@@ -51,12 +57,13 @@ public class ClientShopeeOrderResource {
         ClientShopeeOrderRepository shopeeOrderRepository,
         ShopRepository shopRepository,
         ExcelFileService excelFileService,
-        ClientUserService clientUserService
-    ) {
+        ClientUserService clientUserService,
+        ClientShopeeOrderPaymentsRepository clientShopeeOrderPaymentsRepository) {
         this.shopeeOrderRepository = shopeeOrderRepository;
         this.shopRepository = shopRepository;
         this.excelFileService = excelFileService;
         this.clientUserService = clientUserService;
+        this.clientShopeeOrderPaymentsRepository = clientShopeeOrderPaymentsRepository;
     }
 
     @PostMapping(path = "/shopee-orders/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
@@ -81,6 +88,11 @@ public class ClientShopeeOrderResource {
         log.debug("REST request to get all LazadaOrders");
         Client client = clientUserService.getCurrentUser().getClientCode();
         Page<ShopeeOrder> page = shopeeOrderRepository.findByClient(client, pageable);
+        if ("all".equals(filter)) {
+
+        } else if ("unpaid".equals(filter)) {
+            page = new PageImpl<>(page.stream().filter(e -> e.getPayments().size() == 0).collect(Collectors.toList()));
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

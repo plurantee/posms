@@ -19,6 +19,9 @@ public interface ClientShopeeOrderRepository extends ShopeeOrderRepository {
 
     Page<ShopeeOrder> findByClient(Client client, Pageable pageable);
 
+    List<ShopeeOrder> findByClient(Client client);
+
+
     List<ShopeeOrder> findByOrderId(String orderId);
 
     List<ShopeeOrder> findByTrackingNumber(String trackingNumber);

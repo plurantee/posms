@@ -6,7 +6,7 @@
         <b-form-file
           ref="file"
           v-model="file"
-          placeholder="Upload Lazada Waybill"
+          placeholder="Upload Waybill"
           v-on:change="uploadFile($event)"
           drop-placeholder="Drop file here..."
           class="col-md-4"
@@ -18,7 +18,7 @@
           class="btn btn-primary jh-create-entity create-lazada-order"
         >
           <font-awesome-icon icon="plus"></font-awesome-icon>
-          <span> Upload Lazada Waybill </span>
+          <span> Upload Waybill </span>
         </button>
       </div>
     </div>

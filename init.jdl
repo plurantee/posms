@@ -231,7 +231,7 @@ relationship OneToMany {
     LazadaOrder{payments} to LazadaOrderPayments{lazadaOrder}
 }
 
-relationship OneToMany {
+relationship ManyToMany {
     ShopeeOrder{payments} to ShopeeOrderPayments{shopeeOrder}
 }
 

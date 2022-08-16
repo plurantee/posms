@@ -2,6 +2,7 @@ package com.flogramming.service;
 
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.OrderTracker;
+import com.flogramming.domain.ShopeeOrder;
 import com.flogramming.domain.UploadWaybillResponse;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import java.io.ByteArrayInputStream;
@@ -11,7 +12,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import com.flogramming.repository.ClientShopeeOrderRepository;
+import io.undertow.predicate.Predicates;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -23,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.testcontainers.shaded.com.google.common.collect.Iterables;
 
 @Service
 public class WaybillFileService {
@@ -31,6 +38,9 @@ public class WaybillFileService {
 
     @Autowired
     private ClientLazadaOrderRepository clientLazadaOrderRepository;
+
+    @Autowired
+    private ClientShopeeOrderRepository clientShopeeOrderRepository;
 
     public byte[] processWaybill(MultipartFile file, List<OrderTracker> orders) throws IOException {
         PDDocument pdDocument = PDDocument.load(file.getInputStream());
@@ -74,6 +84,19 @@ public class WaybillFileService {
         return orderTracker;
     }
 
+    public OrderTracker mapShopeeToOrderTracker(ShopeeOrder shopeeOrder) {
+        OrderTracker orderTracker = new OrderTracker();
+        orderTracker.setSite("SHOPEE");
+
+        orderTracker.setId(shopeeOrder.getId());
+        orderTracker.setOrderItemId(shopeeOrder.getOrderId());
+        orderTracker.setSkuReference(shopeeOrder.getSkuReferenceNo());
+        orderTracker.setStatus(shopeeOrder.getOrderStatus());
+        orderTracker.setBarcodeNumber(shopeeOrder.getTrackingNumber());
+        return orderTracker;
+
+    }
+
     public List<OrderTracker> viewWaybill(MultipartFile file) throws IOException {
         PDDocument pdDocument = PDDocument.load(file.getInputStream());
 
@@ -82,18 +105,40 @@ public class WaybillFileService {
         // Get tracking number
         List<String> pageTexts = List.of(pageText.split("\n"));
         String trackingNumber = "";
+        boolean isLazada = true;
         try {
-            trackingNumber = pageTexts.stream().filter(e -> e.toLowerCase().contains("tracking number")).findFirst().get();
+            trackingNumber = pageTexts.stream().filter(e -> e.toLowerCase().contains("tracking number")).findFirst().orElse("");
             trackingNumber = trackingNumber.replaceAll("(?i)tracking number", "").replaceAll("[\\n\\r\\t]+", "");
+
+            // Must be shopee waybill
+            if (StringUtils.isBlank(trackingNumber)) {
+                isLazada = false;
+                var pattern = Pattern.compile("^(?!63)[0-9]{12,}$");
+                List<String> possibleOrderTrackers = pageTexts.stream().filter(e -> pattern.matcher(e).matches()).collect(Collectors.toList());
+
+                trackingNumber = possibleOrderTrackers.stream().findFirst().orElse("");
+
+            }
+            if (StringUtils.isBlank(trackingNumber)) {
+                throw new RuntimeException();
+            }
         } catch (Exception e) {
             throw new RuntimeException("No Tracking Number found");
         }
-
-        List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByTrackingCode(trackingNumber);
         List<OrderTracker> orderTrackers = new ArrayList<>();
-        lazadaOrders.forEach(order -> {
-            orderTrackers.add(mapLazadaToOrderTracker(order));
-        });
+        if (isLazada) {
+            List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByTrackingCode(trackingNumber);
+
+            lazadaOrders.forEach(order -> {
+                orderTrackers.add(mapLazadaToOrderTracker(order));
+            });
+        } else {
+            List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByTrackingNumber(trackingNumber);
+            shopeeOrders.forEach(order -> {
+                orderTrackers.add(mapShopeeToOrderTracker(order));
+            });
+        }
+
         return orderTrackers;
     }
 }
