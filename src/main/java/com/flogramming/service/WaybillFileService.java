@@ -3,20 +3,8 @@ package com.flogramming.service;
 import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.OrderTracker;
 import com.flogramming.domain.ShopeeOrder;
-import com.flogramming.domain.UploadWaybillResponse;
 import com.flogramming.repository.ClientLazadaOrderRepository;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import com.flogramming.repository.ClientShopeeOrderRepository;
-import io.undertow.predicate.Predicates;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -29,7 +17,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.testcontainers.shaded.com.google.common.collect.Iterables;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class WaybillFileService {
