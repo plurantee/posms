@@ -654,6 +654,26 @@
             />
           </div>
           <div class="form-group">
+            <label for="shopee-order-payments">Payments</label>
+            <select
+              class="form-control"
+              id="shopee-order-payments"
+              data-cy="payments"
+              multiple
+              name="payments"
+              v-if="shopeeOrder.payments !== undefined"
+              v-model="shopeeOrder.payments"
+            >
+              <option
+                v-bind:value="getSelected(shopeeOrder.payments, shopeeOrderPaymentsOption)"
+                v-for="shopeeOrderPaymentsOption in shopeeOrderPayments"
+                :key="shopeeOrderPaymentsOption.id"
+              >
+                {{ shopeeOrderPaymentsOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
             <label class="form-control-label" for="shopee-order-inventory">Inventory</label>
             <select class="form-control" id="shopee-order-inventory" data-cy="inventory" name="inventory" v-model="shopeeOrder.inventory">
               <option v-bind:value="null"></option>

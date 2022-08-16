@@ -6,12 +6,5 @@
     <!--
         Added the constraints for entity ShopeeOrderPayments.
     -->
-    <changeSet id="20220726081120-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="shopee_order_id"
-                                 baseTableName="shopee_order_payments"
-                                 constraintName="fk_shopee_order_payments__shopee_order_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="shopee_order"/>
-    </changeSet>
 </databaseChangeLog>

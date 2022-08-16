@@ -3,6 +3,9 @@ package com.flogramming.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -98,9 +101,9 @@ public class ShopeeOrderPayments implements Serializable {
     @Column(name = "courier_name")
     private String courierName;
 
-    @ManyToOne
+    @ManyToMany(mappedBy = "payments")
     @JsonIgnoreProperties(value = { "payments", "inventory", "client", "shop" }, allowSetters = true)
-    private ShopeeOrder shopeeOrder;
+    private Set<ShopeeOrder> shopeeOrders = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -455,16 +458,34 @@ public class ShopeeOrderPayments implements Serializable {
         this.courierName = courierName;
     }
 
-    public ShopeeOrder getShopeeOrder() {
-        return this.shopeeOrder;
+    public Set<ShopeeOrder> getShopeeOrders() {
+        return this.shopeeOrders;
     }
 
-    public void setShopeeOrder(ShopeeOrder shopeeOrder) {
-        this.shopeeOrder = shopeeOrder;
+    public void setShopeeOrders(Set<ShopeeOrder> shopeeOrders) {
+        if (this.shopeeOrders != null) {
+            this.shopeeOrders.forEach(i -> i.removePayments(this));
+        }
+        if (shopeeOrders != null) {
+            shopeeOrders.forEach(i -> i.addPayments(this));
+        }
+        this.shopeeOrders = shopeeOrders;
     }
 
-    public ShopeeOrderPayments shopeeOrder(ShopeeOrder shopeeOrder) {
-        this.setShopeeOrder(shopeeOrder);
+    public ShopeeOrderPayments shopeeOrders(Set<ShopeeOrder> shopeeOrders) {
+        this.setShopeeOrders(shopeeOrders);
+        return this;
+    }
+
+    public ShopeeOrderPayments addShopeeOrder(ShopeeOrder shopeeOrder) {
+        this.shopeeOrders.add(shopeeOrder);
+        shopeeOrder.getPayments().add(this);
+        return this;
+    }
+
+    public ShopeeOrderPayments removeShopeeOrder(ShopeeOrder shopeeOrder) {
+        this.shopeeOrders.remove(shopeeOrder);
+        shopeeOrder.getPayments().remove(this);
         return this;
     }
 
@@ -519,5 +540,12 @@ public class ShopeeOrderPayments implements Serializable {
             ", shippingProvider='" + getShippingProvider() + "'" +
             ", courierName='" + getCourierName() + "'" +
             "}";
+    }
+
+    public void addShopeeOrderFromList(List<ShopeeOrder> shopeeOrders) {
+        if (this.shopeeOrders == null || this.shopeeOrders.isEmpty()) {
+            this.shopeeOrders = new HashSet<>();
+        }
+        shopeeOrders.forEach(shopeeOrder -> addShopeeOrder(shopeeOrder));
     }
 }

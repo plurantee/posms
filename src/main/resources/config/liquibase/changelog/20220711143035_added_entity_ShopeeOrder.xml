@@ -188,6 +188,20 @@
         <dropDefaultValue tableName="shopee_order" columnName="order_complete_time" columnDataType="${datetimeType}"/>
     </changeSet>
 
+    <changeSet id="20220711143035-1-relations" author="jhipster">
+
+        <createTable tableName="rel_shopee_order__payments">
+            <column name="payments_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shopee_order_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="shopee_order_id, payments_id" tableName="rel_shopee_order__payments"/>
+    </changeSet>
+
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--
@@ -200,7 +214,7 @@
     -->
     <changeSet id="20220711143035-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/shopee_order.csv"
+                  file="config/liquibase/data/shopee_order.csv"
                   separator=";"
                   tableName="shopee_order"
                   usePreparedStatements="true">

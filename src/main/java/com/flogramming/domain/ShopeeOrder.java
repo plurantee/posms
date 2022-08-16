@@ -178,8 +178,13 @@ public class ShopeeOrder implements Serializable {
     @Column(name = "note")
     private String note;
 
-    @OneToMany(mappedBy = "shopeeOrder")
-    @JsonIgnoreProperties(value = { "shopeeOrder" }, allowSetters = true)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "rel_shopee_order__payments",
+        joinColumns = @JoinColumn(name = "shopee_order_id"),
+        inverseJoinColumns = @JoinColumn(name = "payments_id")
+    )
+    @JsonIgnoreProperties(value = { "shopeeOrders" }, allowSetters = true)
     private Set<ShopeeOrderPayments> payments = new HashSet<>();
 
     @ManyToOne
@@ -890,12 +895,6 @@ public class ShopeeOrder implements Serializable {
     }
 
     public void setPayments(Set<ShopeeOrderPayments> shopeeOrderPayments) {
-        if (this.payments != null) {
-            this.payments.forEach(i -> i.setShopeeOrder(null));
-        }
-        if (shopeeOrderPayments != null) {
-            shopeeOrderPayments.forEach(i -> i.setShopeeOrder(this));
-        }
         this.payments = shopeeOrderPayments;
     }
 
@@ -906,13 +905,13 @@ public class ShopeeOrder implements Serializable {
 
     public ShopeeOrder addPayments(ShopeeOrderPayments shopeeOrderPayments) {
         this.payments.add(shopeeOrderPayments);
-        shopeeOrderPayments.setShopeeOrder(this);
+        shopeeOrderPayments.getShopeeOrders().add(this);
         return this;
     }
 
     public ShopeeOrder removePayments(ShopeeOrderPayments shopeeOrderPayments) {
         this.payments.remove(shopeeOrderPayments);
-        shopeeOrderPayments.setShopeeOrder(null);
+        shopeeOrderPayments.getShopeeOrders().remove(this);
         return this;
     }
 

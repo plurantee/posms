@@ -158,10 +158,6 @@
               <span>Courier Name</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'courierName'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('shopeeOrder.id')">
-              <span>Shopee Order</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'shopeeOrder.id'"></jhi-sort-indicator>
-            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -198,13 +194,6 @@
             <td>{{ shopeeOrderPayments.shippingFeePromotionBySeller }}</td>
             <td>{{ shopeeOrderPayments.shippingProvider }}</td>
             <td>{{ shopeeOrderPayments.courierName }}</td>
-            <td>
-              <div v-if="shopeeOrderPayments.shopeeOrder">
-                <router-link :to="{ name: 'ShopeeOrderView', params: { shopeeOrderId: shopeeOrderPayments.shopeeOrder.id } }">{{
-                  shopeeOrderPayments.shopeeOrder.id
-                }}</router-link>
-              </div>
-            </td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link

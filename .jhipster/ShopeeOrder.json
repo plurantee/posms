@@ -223,8 +223,9 @@
     {
       "otherEntityName": "shopeeOrderPayments",
       "otherEntityRelationshipName": "shopeeOrder",
+      "ownerSide": true,
       "relationshipName": "payments",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-many"
     },
     {
       "otherEntityName": "inventory",

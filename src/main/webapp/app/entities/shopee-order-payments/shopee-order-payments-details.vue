@@ -162,16 +162,6 @@
           <dd>
             <span>{{ shopeeOrderPayments.courierName }}</span>
           </dd>
-          <dt>
-            <span>Shopee Order</span>
-          </dt>
-          <dd>
-            <div v-if="shopeeOrderPayments.shopeeOrder">
-              <router-link :to="{ name: 'ShopeeOrderView', params: { shopeeOrderId: shopeeOrderPayments.shopeeOrder.id } }">{{
-                shopeeOrderPayments.shopeeOrder.id
-              }}</router-link>
-            </div>
-          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span> Back</span>

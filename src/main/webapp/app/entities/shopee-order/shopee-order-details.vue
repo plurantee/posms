@@ -317,6 +317,17 @@
             <span>{{ shopeeOrder.note }}</span>
           </dd>
           <dt>
+            <span>Payments</span>
+          </dt>
+          <dd>
+            <span v-for="(payments, i) in shopeeOrder.payments" :key="payments.id"
+              >{{ i > 0 ? ', ' : '' }}
+              <router-link :to="{ name: 'ShopeeOrderPaymentsView', params: { shopeeOrderPaymentsId: payments.id } }">{{
+                payments.id
+              }}</router-link>
+            </span>
+          </dd>
+          <dt>
             <span>Inventory</span>
           </dt>
           <dd>

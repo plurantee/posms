@@ -14,7 +14,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ClientShopeeOrderRepository extends ShopeeOrderRepository {
+public interface ClientShopeeOrderRepository extends ShopeeOrderRepository, ShopeeOrderRepositoryWithBagRelationships {
     List<ShopeeOrder> findByShop(Shop shop);
 
     Page<ShopeeOrder> findByClient(Client client, Pageable pageable);

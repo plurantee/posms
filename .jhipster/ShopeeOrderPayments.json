@@ -119,8 +119,9 @@
     {
       "otherEntityName": "shopeeOrder",
       "otherEntityRelationshipName": "payments",
+      "ownerSide": false,
       "relationshipName": "shopeeOrder",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "no"

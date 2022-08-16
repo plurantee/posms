@@ -8,6 +8,18 @@
     -->
     <changeSet id="20220711143035-2" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="shopee_order_id"
+                                 baseTableName="rel_shopee_order__payments"
+                                 constraintName="fk_rel_shopee_order__payments__shopee_order_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shopee_order"/>
+
+        <addForeignKeyConstraint baseColumnNames="payments_id"
+                                 baseTableName="rel_shopee_order__payments"
+                                 constraintName="fk_rel_shopee_order__payments__payments_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shopee_order_payments"/>
+
         <addForeignKeyConstraint baseColumnNames="inventory_id"
                                  baseTableName="shopee_order"
                                  constraintName="fk_shopee_order__inventory_id"

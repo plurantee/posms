@@ -28,7 +28,7 @@ export interface IShopeeOrderPayments {
   shippingFeePromotionBySeller?: number | null;
   shippingProvider?: string | null;
   courierName?: string | null;
-  shopeeOrder?: IShopeeOrder | null;
+  shopeeOrders?: IShopeeOrder[] | null;
 }
 
 export class ShopeeOrderPayments implements IShopeeOrderPayments {
@@ -60,6 +60,6 @@ export class ShopeeOrderPayments implements IShopeeOrderPayments {
     public shippingFeePromotionBySeller?: number | null,
     public shippingProvider?: string | null,
     public courierName?: string | null,
-    public shopeeOrder?: IShopeeOrder | null
+    public shopeeOrders?: IShopeeOrder[] | null
   ) {}
 }

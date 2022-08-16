@@ -87,12 +87,13 @@ public class ClientShopeeOrderResource {
     ) {
         log.debug("REST request to get all LazadaOrders");
         Client client = clientUserService.getCurrentUser().getClientCode();
-        Page<ShopeeOrder> page = shopeeOrderRepository.findByClient(client, pageable);
+        List<ShopeeOrder> orders = shopeeOrderRepository.findByClient(client);
         if ("all".equals(filter)) {
 
         } else if ("unpaid".equals(filter)) {
-            page = new PageImpl<>(page.stream().filter(e -> e.getPayments().size() == 0).collect(Collectors.toList()));
+            orders = orders.stream().filter(e -> e.getPayments().size() == 0).collect(Collectors.toList());
         }
+        Page<ShopeeOrder> page = new PageImpl(orders, pageable, orders.size());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

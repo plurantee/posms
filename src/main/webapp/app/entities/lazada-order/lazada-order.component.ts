@@ -9,10 +9,10 @@ import AlertService from '@/shared/alert/alert.service';
   mixins: [Vue2Filters.mixin],
 })
 export default class LazadaOrder extends Vue {
-  @Inject('lazadaOrderService') protected lazadaOrderService: () => LazadaOrderService;
-  @Inject('alertService') protected alertService: () => AlertService;
+  @Inject('lazadaOrderService') private lazadaOrderService: () => LazadaOrderService;
+  @Inject('alertService') private alertService: () => AlertService;
 
-  protected removeId: number = null;
+  private removeId: number = null;
   public itemsPerPage = 20;
   public queryCount: number = null;
   public page = 1;

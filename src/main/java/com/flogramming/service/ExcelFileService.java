@@ -554,8 +554,7 @@ public class ExcelFileService {
             shopeeOrderPayments.setShippingProvider(row.get("Shipping Provider"));
             shopeeOrderPayments.setCourierName(row.get("Courier Name"));
 
-            shopeeOrderPayments.setShopeeOrder(shopeeOrders.stream().findFirst().get());
-
+            shopeeOrderPayments.addShopeeOrderFromList(shopeeOrders);
 
             result.add(shopeeOrderPayments);
         }

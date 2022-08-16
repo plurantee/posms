@@ -300,12 +300,21 @@ public class ShopeeOrderResource {
      * {@code GET  /shopee-orders} : get all the shopeeOrders.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of shopeeOrders in body.
      */
     @GetMapping("/shopee-orders")
-    public ResponseEntity<List<ShopeeOrder>> getAllShopeeOrders(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<ShopeeOrder>> getAllShopeeOrders(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false, defaultValue = "true") boolean eagerload
+    ) {
         log.debug("REST request to get a page of ShopeeOrders");
-        Page<ShopeeOrder> page = shopeeOrderRepository.findAll(pageable);
+        Page<ShopeeOrder> page;
+        if (eagerload) {
+            page = shopeeOrderRepository.findAllWithEagerRelationships(pageable);
+        } else {
+            page = shopeeOrderRepository.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -319,7 +328,7 @@ public class ShopeeOrderResource {
     @GetMapping("/shopee-orders/{id}")
     public ResponseEntity<ShopeeOrder> getShopeeOrder(@PathVariable Long id) {
         log.debug("REST request to get ShopeeOrder : {}", id);
-        Optional<ShopeeOrder> shopeeOrder = shopeeOrderRepository.findById(id);
+        Optional<ShopeeOrder> shopeeOrder = shopeeOrderRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(shopeeOrder);
     }
 

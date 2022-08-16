@@ -393,29 +393,6 @@
               v-model="$v.shopeeOrderPayments.courierName.$model"
             />
           </div>
-          <div class="form-group">
-            <label class="form-control-label" for="shopee-order-payments-shopeeOrder">Shopee Order</label>
-            <select
-              class="form-control"
-              id="shopee-order-payments-shopeeOrder"
-              data-cy="shopeeOrder"
-              name="shopeeOrder"
-              v-model="shopeeOrderPayments.shopeeOrder"
-            >
-              <option v-bind:value="null"></option>
-              <option
-                v-bind:value="
-                  shopeeOrderPayments.shopeeOrder && shopeeOrderOption.id === shopeeOrderPayments.shopeeOrder.id
-                    ? shopeeOrderPayments.shopeeOrder
-                    : shopeeOrderOption
-                "
-                v-for="shopeeOrderOption in shopeeOrders"
-                :key="shopeeOrderOption.id"
-              >
-                {{ shopeeOrderOption.id }}
-              </option>
-            </select>
-          </div>
         </div>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">
