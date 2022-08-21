@@ -443,6 +443,18 @@
             <span>{{ lazadaOrder.refundAmount }}</span>
           </dd>
           <dt>
+            <span>Date Uploaded</span>
+          </dt>
+          <dd>
+            <span>{{ lazadaOrder.dateUploaded | formatDate }}</span>
+          </dd>
+          <dt>
+            <span>Date Released Or Cancelled</span>
+          </dt>
+          <dd>
+            <span>{{ lazadaOrder.dateReleasedOrCancelled | formatDate }}</span>
+          </dd>
+          <dt>
             <span>Inventory</span>
           </dt>
           <dd>

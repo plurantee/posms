@@ -74,6 +74,8 @@ const validations: any = {
     remarkFromBuyer: {},
     orderCompleteTime: {},
     note: {},
+    dateUploaded: {},
+    dateReleasedOrCancelled: {},
   },
 };
 
@@ -199,6 +201,8 @@ export default class ShopeeOrderUpdate extends Vue {
         res.orderCreationDate = new Date(res.orderCreationDate);
         res.orderPaidTime = new Date(res.orderPaidTime);
         res.orderCompleteTime = new Date(res.orderCompleteTime);
+        res.dateUploaded = new Date(res.dateUploaded);
+        res.dateReleasedOrCancelled = new Date(res.dateReleasedOrCancelled);
         this.shopeeOrder = res;
       })
       .catch(error => {

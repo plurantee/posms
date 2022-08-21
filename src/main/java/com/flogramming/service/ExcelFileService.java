@@ -99,6 +99,7 @@ public class ExcelFileService {
 
     public Page<LazadaOrder> setLazadaOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
         List<LazadaOrder> result = new ArrayList<>();
+        ZonedDateTime dateUploaded = ZonedDateTime.now();
         // 04 Jul 2022 11:46
         excelHashMap.remove(0); // Column rows
         Client client = clientUserService.getCurrentUser().getClientCode();
@@ -115,81 +116,80 @@ public class ExcelFileService {
         for (HashMap<String, String> row : excelHashMap.values()) {
             LazadaOrder lazadaOrder = new LazadaOrder();
             lazadaOrder.setClient(client);
-
-            OrdersUtil lazadaUtil = new OrdersUtil(lazadaOrder);
-            lazadaUtil.orderItemId(row.get("orderItemId"));
-            lazadaUtil.orderType(row.get("orderType"));
-            lazadaUtil.guarantee(row.get("Guarantee"));
-            lazadaUtil.deliveryType(row.get("deliveryType"));
-            lazadaUtil.lazadaId(row.get("lazadaId"));
-            lazadaUtil.sellerSku(row.get("sellerSku"));
-            lazadaUtil.lazadaSku(row.get("lazadaSku"));
-            lazadaUtil.wareHouse(row.get("wareHouse"));
-            lazadaUtil.createTime(convertLazadaDate(row.get("createTime")));
-            lazadaUtil.updateTime(convertLazadaDate(row.get("updateTime")));
-            lazadaUtil.rtaSla(convertLazadaDate(row.get("rtsSla")));
-            lazadaUtil.ttsSla(convertLazadaDate(row.get("ttsSla")));
-            lazadaUtil.orderNumber(row.get("orderNumber"));
-            lazadaUtil.invoiceRequired("Yes".equals(row.get("invoiceRequired")));
-            lazadaUtil.invoiceNumber(row.get("invoiceNumber"));
-            lazadaUtil.deliveryDate(convertLazadaDate(row.get("deliveredDate")));
-            lazadaUtil.customerName(row.get("customerName"));
-            lazadaUtil.customerEmail(row.get("customerEmail"));
-            lazadaUtil.nationalRegistrationNumber(row.get("nationalRegistrationNumber"));
-            lazadaUtil.shippingName(row.get("shippingName"));
-            lazadaUtil.shippingAddress(row.get("shippingAddress"));
-            lazadaUtil.shippingAddress2(row.get("shippingAddress2"));
-            lazadaUtil.shippingAddress3(row.get("shippingAddress3"));
-            lazadaUtil.shippingAddress4(row.get("shippingAddress4"));
-            lazadaUtil.shippingAddress5(row.get("shippingAddress5"));
-            lazadaUtil.shippingPhone(row.get("shippingPhone"));
-            lazadaUtil.shippingPhone2(row.get("shippingPhone2"));
-            lazadaUtil.shippingCity(row.get("shippingCity"));
-            lazadaUtil.shippingPostCode(row.get("shippingPostCode"));
-            lazadaUtil.shippingCountry(row.get("shippingCountry"));
-            lazadaUtil.shippingRegion(row.get("shippingRegion"));
-            lazadaUtil.billingName(row.get("billingName"));
-            lazadaUtil.billingAddr(row.get("billingAddr"));
-            lazadaUtil.billingAddr2(row.get("billingAddr2"));
-            lazadaUtil.billingAddr3(row.get("billingAddr3"));
-            lazadaUtil.billingAddr4(row.get("billingAddr4"));
-            lazadaUtil.billingAddr5(row.get("billingAddr5"));
-            lazadaUtil.billingPhone(row.get("billingPhone"));
-            lazadaUtil.billingPhone2(row.get("billingPhone2"));
-            lazadaUtil.billingCity(row.get("billingCity"));
-            lazadaUtil.billingPostCode(row.get("billingPostCode"));
-            lazadaUtil.billingCountry(row.get("billingCountry"));
-            lazadaUtil.taxCode(row.get("taxCode"));
-            lazadaUtil.branchNumber(row.get("branchNumber"));
-            lazadaUtil.taxInvoiceRequested(row.get("taxInvoiceRequested"));
-            lazadaUtil.payMethod(row.get("payMethod"));
-            lazadaUtil.paidPrice(valueOf(row.get("paidPrice")));
-            lazadaUtil.unitPrice(valueOf(row.get("unitPrice")));
-            lazadaUtil.sellerDiscountTotal(valueOf(row.get("sellerDiscountTotal")));
-            lazadaUtil.shippingFee(valueOf(row.get("shippingFee")));
-            lazadaUtil.walletCredit(valueOf(row.get("walletCredit")));
-            lazadaUtil.itemName(row.get("itemName"));
-            lazadaUtil.variation(row.get("variation"));
-            lazadaUtil.cdShippingProvider(row.get("cdShippingProvider"));
-            lazadaUtil.shippingProvider(row.get("shippingProvider"));
-            lazadaUtil.shipmentTypeName(row.get("shipmentTypeName"));
-            lazadaUtil.shippingProviderType(row.get("shippingProviderType"));
-            lazadaUtil.cdTrackingCode(row.get("cdTrackingCode"));
-            lazadaUtil.trackingCode(row.get("trackingCode"));
-            lazadaUtil.trackingUrl(row.get("trackingUrl"));
-            lazadaUtil.shippingProviderFM(row.get("shippingProviderFM"));
-            lazadaUtil.trackingCodeFM(row.get("trackingCodeFM"));
-            lazadaUtil.promisedShippingTime(convertLazadaDate(row.get("promisedShippingTime")));
-            lazadaUtil.premium(row.get("premium"));
-            lazadaUtil.status(row.get("status"));
-            lazadaUtil.buyerFailedDeliveryReturnInitiator(row.get("buyerFailedDeliveryReturnInitiator"));
-            lazadaUtil.buyerFailedDeliveryReason(row.get("buyerFailedDeliveryReason"));
-            lazadaUtil.buyerFailedDeliveryDetail(row.get("buyerFailedDeliveryDetail"));
-            lazadaUtil.buyerFailedDeliveryUserName(row.get("buyerFailedDeliveryUserName"));
-            lazadaUtil.bundleId(row.get("bundleId"));
-            lazadaUtil.bundleDiscount(valueOf(row.get("bundleDiscount")));
-            lazadaUtil.refundAmount(valueOf(row.get("refundAmount")));
-            String sellerSku = lazadaUtil.getLazadaOrder().getSellerSku();
+            lazadaOrder.dateUploaded(dateUploaded);
+            lazadaOrder.orderItemId(row.get("orderItemId"));
+            lazadaOrder.orderType(row.get("orderType"));
+            lazadaOrder.guarantee(row.get("Guarantee"));
+            lazadaOrder.deliveryType(row.get("deliveryType"));
+            lazadaOrder.lazadaId(row.get("lazadaId"));
+            lazadaOrder.sellerSku(row.get("sellerSku"));
+            lazadaOrder.lazadaSku(row.get("lazadaSku"));
+            lazadaOrder.wareHouse(row.get("wareHouse"));
+            lazadaOrder.createTime(convertLazadaDate(row.get("createTime")));
+            lazadaOrder.updateTime(convertLazadaDate(row.get("updateTime")));
+            lazadaOrder.rtaSla(convertLazadaDate(row.get("rtsSla")));
+            lazadaOrder.ttsSla(convertLazadaDate(row.get("ttsSla")));
+            lazadaOrder.orderNumber(row.get("orderNumber"));
+            lazadaOrder.invoiceRequired("Yes".equals(row.get("invoiceRequired")));
+            lazadaOrder.invoiceNumber(row.get("invoiceNumber"));
+            lazadaOrder.deliveryDate(convertLazadaDate(row.get("deliveredDate")));
+            lazadaOrder.customerName(row.get("customerName"));
+            lazadaOrder.customerEmail(row.get("customerEmail"));
+            lazadaOrder.nationalRegistrationNumber(row.get("nationalRegistrationNumber"));
+            lazadaOrder.shippingName(row.get("shippingName"));
+            lazadaOrder.shippingAddress(row.get("shippingAddress"));
+            lazadaOrder.shippingAddress2(row.get("shippingAddress2"));
+            lazadaOrder.shippingAddress3(row.get("shippingAddress3"));
+            lazadaOrder.shippingAddress4(row.get("shippingAddress4"));
+            lazadaOrder.shippingAddress5(row.get("shippingAddress5"));
+            lazadaOrder.shippingPhone(row.get("shippingPhone"));
+            lazadaOrder.shippingPhone2(row.get("shippingPhone2"));
+            lazadaOrder.shippingCity(row.get("shippingCity"));
+            lazadaOrder.shippingPostCode(row.get("shippingPostCode"));
+            lazadaOrder.shippingCountry(row.get("shippingCountry"));
+            lazadaOrder.shippingRegion(row.get("shippingRegion"));
+            lazadaOrder.billingName(row.get("billingName"));
+            lazadaOrder.billingAddr(row.get("billingAddr"));
+            lazadaOrder.billingAddr2(row.get("billingAddr2"));
+            lazadaOrder.billingAddr3(row.get("billingAddr3"));
+            lazadaOrder.billingAddr4(row.get("billingAddr4"));
+            lazadaOrder.billingAddr5(row.get("billingAddr5"));
+            lazadaOrder.billingPhone(row.get("billingPhone"));
+            lazadaOrder.billingPhone2(row.get("billingPhone2"));
+            lazadaOrder.billingCity(row.get("billingCity"));
+            lazadaOrder.billingPostCode(row.get("billingPostCode"));
+            lazadaOrder.billingCountry(row.get("billingCountry"));
+            lazadaOrder.taxCode(row.get("taxCode"));
+            lazadaOrder.branchNumber(row.get("branchNumber"));
+            lazadaOrder.taxInvoiceRequested(row.get("taxInvoiceRequested"));
+            lazadaOrder.payMethod(row.get("payMethod"));
+            lazadaOrder.paidPrice(valueOf(row.get("paidPrice")));
+            lazadaOrder.unitPrice(valueOf(row.get("unitPrice")));
+            lazadaOrder.sellerDiscountTotal(valueOf(row.get("sellerDiscountTotal")));
+            lazadaOrder.shippingFee(valueOf(row.get("shippingFee")));
+            lazadaOrder.walletCredit(valueOf(row.get("walletCredit")));
+            lazadaOrder.itemName(row.get("itemName"));
+            lazadaOrder.variation(row.get("variation"));
+            lazadaOrder.cdShippingProvider(row.get("cdShippingProvider"));
+            lazadaOrder.shippingProvider(row.get("shippingProvider"));
+            lazadaOrder.shipmentTypeName(row.get("shipmentTypeName"));
+            lazadaOrder.shippingProviderType(row.get("shippingProviderType"));
+            lazadaOrder.cdTrackingCode(row.get("cdTrackingCode"));
+            lazadaOrder.trackingCode(row.get("trackingCode"));
+            lazadaOrder.trackingUrl(row.get("trackingUrl"));
+            lazadaOrder.shippingProviderFM(row.get("shippingProviderFM"));
+            lazadaOrder.trackingCodeFM(row.get("trackingCodeFM"));
+            lazadaOrder.promisedShippingTime(convertLazadaDate(row.get("promisedShippingTime")));
+            lazadaOrder.premium(row.get("premium"));
+            lazadaOrder.status(row.get("status"));
+            lazadaOrder.buyerFailedDeliveryReturnInitiator(row.get("buyerFailedDeliveryReturnInitiator"));
+            lazadaOrder.buyerFailedDeliveryReason(row.get("buyerFailedDeliveryReason"));
+            lazadaOrder.buyerFailedDeliveryDetail(row.get("buyerFailedDeliveryDetail"));
+            lazadaOrder.buyerFailedDeliveryUserName(row.get("buyerFailedDeliveryUserName"));
+            lazadaOrder.bundleId(row.get("bundleId"));
+            lazadaOrder.bundleDiscount(valueOf(row.get("bundleDiscount")));
+            lazadaOrder.refundAmount(valueOf(row.get("refundAmount")));
+            String sellerSku = lazadaOrder.getSellerSku();
             Inventory inventory = clientInventoryRepository.findBySkuAndClient(sellerSku, client);
             if (inventory == null) {
                 inventory = new Inventory();
@@ -203,9 +203,9 @@ public class ExcelFileService {
             }
             inventory.setStocks(inventory.getStocks() - 1);
             clientInventoryRepository.save(inventory);
-            lazadaUtil.getLazadaOrder().setInventory(inventory);
-            if (!StringUtils.isEmpty(lazadaUtil.lazadaOrder.getOrderItemId())) {
-                lazadaOrderRepository.save(lazadaUtil.getLazadaOrder());
+            lazadaOrder.setInventory(inventory);
+            if (!StringUtils.isEmpty(lazadaOrder.getOrderItemId())) {
+                lazadaOrderRepository.save(lazadaOrder);
             }
         }
         return lazadaOrderRepository.findByClient(client, Pageable.ofSize(10));
@@ -271,6 +271,7 @@ public class ExcelFileService {
     public Page<ShopeeOrder> setShopeeOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
         List<LazadaOrder> result = new ArrayList<>();
         Client client = clientUserService.getCurrentUser().getClientCode();
+        ZonedDateTime dateUploaded = ZonedDateTime.now();
         // 04 Jul 2022 11:46
         excelHashMap.remove(0); // Column rows
         for (HashMap<String, String> row : excelHashMap.values()) {
@@ -336,6 +337,7 @@ public class ExcelFileService {
             shopeeOrder.setRemarkFromBuyer(row.get("Remark from buyer"));
             shopeeOrder.setOrderCompleteTime(convertShopeeDate(row.get("Order Complete Time")));
             shopeeOrder.setNote(row.get("Note"));
+            shopeeOrder.setDateUploaded(dateUploaded);
             String sellerSku = shopeeOrder.getSkuReferenceNo();
             Inventory inventory = clientInventoryRepository.findBySkuAndClient(sellerSku, client);
             if (inventory == null) {

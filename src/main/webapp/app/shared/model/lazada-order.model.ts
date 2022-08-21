@@ -78,6 +78,8 @@ export interface ILazadaOrder {
   bundleId?: string | null;
   bundleDiscount?: number | null;
   refundAmount?: number | null;
+  dateUploaded?: Date | null;
+  dateReleasedOrCancelled?: Date | null;
   payments?: ILazadaOrderPayments[] | null;
   inventory?: IInventory | null;
   client?: IClient | null;
@@ -160,6 +162,8 @@ export class LazadaOrder implements ILazadaOrder {
     public bundleId?: string | null,
     public bundleDiscount?: number | null,
     public refundAmount?: number | null,
+    public dateUploaded?: Date | null,
+    public dateReleasedOrCancelled?: Date | null,
     public payments?: ILazadaOrderPayments[] | null,
     public inventory?: IInventory | null,
     public client?: IClient | null,

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,9 @@ public class OrderTrackerResource {
             return ResponseEntity.ok(result);
         }
         List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByOrderNumber(queryId);
+        if (lazadaOrders.isEmpty()) {
+            lazadaOrders = clientLazadaOrderRepository.findByOrderItemId(queryId);
+        }
         if (lazadaOrders.isEmpty()) {
             lazadaOrders = clientLazadaOrderRepository.findByTrackingCode(queryId);
         }
@@ -119,6 +123,7 @@ public class OrderTrackerResource {
                 .forEach(shopeeOrder -> {
                     shopeeOrder.setOrderStatus(release.getProcess());
                     clientShopeeOrderRepository.save(shopeeOrder);
+                    shopeeOrder.setDateReleasedOrCancelled(ZonedDateTime.now());
                     result.add(OrderTrackerUtil.mapShopeeToOrderTracker(shopeeOrder));
                 });
 
@@ -132,6 +137,7 @@ public class OrderTrackerResource {
             clientLazadaOrderRepository.findByOrderItemId(orderTracker.getOrderItemId())
                 .forEach(lazadaOrder -> {
                     lazadaOrder.setStatus(release.getProcess());
+                    lazadaOrder.dateReleasedOrCancelled(ZonedDateTime.now());
                     clientLazadaOrderRepository.save(lazadaOrder);
                     result.add(OrderTrackerUtil.mapLazadaToOrderTracker(lazadaOrder));
                 });

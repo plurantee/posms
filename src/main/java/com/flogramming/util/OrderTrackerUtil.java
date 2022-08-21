@@ -15,6 +15,9 @@ public class OrderTrackerUtil {
         orderTracker.setStatus(lazadaOrder.getStatus());
         orderTracker.setOrderType(lazadaOrder.getOrderType());
         orderTracker.setCourier(lazadaOrder.getShippingProvider());
+        orderTracker.setDateUploaded(lazadaOrder.getDateUploaded());
+        orderTracker.setDateReleasedOrCancelled(lazadaOrder.getDateReleasedOrCancelled());
+        orderTracker.setBarcodeNumber(lazadaOrder.getTrackingCode());
         return orderTracker;
 
     }
@@ -28,6 +31,9 @@ public class OrderTrackerUtil {
         orderTracker.setSkuReference(shopeeOrder.getSkuReferenceNo());
         orderTracker.setStatus(shopeeOrder.getOrderStatus());
         orderTracker.setCourier(shopeeOrder.getShippingOption());
+        orderTracker.setDateUploaded(shopeeOrder.getDateUploaded());
+        orderTracker.setDateReleasedOrCancelled(shopeeOrder.getDateReleasedOrCancelled());
+        orderTracker.setBarcodeNumber(shopeeOrder.getTrackingNumber());
         return orderTracker;
 
     }

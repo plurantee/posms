@@ -77,6 +77,8 @@ entity ShopeeOrder {
     remarkFromBuyer String
     orderCompleteTime ZonedDateTime
     note String
+    dateUploaded ZonedDateTime
+    dateReleasedOrCancelled ZonedDateTime
 }
 
 entity LazadaOrder {
@@ -153,6 +155,8 @@ entity LazadaOrder {
     bundleId String
     bundleDiscount Double
     refundAmount Double
+    dateUploaded ZonedDateTime
+    dateReleasedOrCancelled ZonedDateTime
 }
 
 

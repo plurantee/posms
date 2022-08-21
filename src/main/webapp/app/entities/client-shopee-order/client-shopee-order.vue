@@ -54,7 +54,9 @@
             <th scope="row"><span>Shipment Method</span></th>
             <th scope="row"><span>Estimated Ship Out Date</span></th>
             <th scope="row"><span>Ship Time</span></th>
-            <th scope="row"><span>Order Creation Date</span></th>
+            <th scope="row"><span>Date Order Created</span></th>
+            <th scope="row"><span>Date Uploaded</span></th>
+            <th scope="row"><span>Date Released/Cancelled</span></th>
             <th scope="row"><span>Order Paid Time</span></th>
             <th scope="row"></th>
           </tr>
@@ -85,6 +87,8 @@
             <td>{{ shopeeOrder.estimatedShipOutDate | formatDate }}</td>
             <td>{{ shopeeOrder.shipTime | formatDate }}</td>
             <td>{{ shopeeOrder.orderCreationDate | formatDate }}</td>
+            <td>{{ shopeeOrder.dateUploaded | formatDate }}</td>
+            <td>{{ shopeeOrder.dateReleasedOrCancelled | formatDate }}</td>
             <td>{{ shopeeOrder.orderPaidTime | formatDate }}</td>
             <td>
               <div v-if="shopeeOrder.shop">

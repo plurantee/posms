@@ -95,6 +95,8 @@ const validations: any = {
     bundleId: {},
     bundleDiscount: {},
     refundAmount: {},
+    dateUploaded: {},
+    dateReleasedOrCancelled: {},
   },
 };
 
@@ -220,6 +222,8 @@ export default class LazadaOrderUpdate extends Vue {
         res.ttsSla = new Date(res.ttsSla);
         res.deliveryDate = new Date(res.deliveryDate);
         res.promisedShippingTime = new Date(res.promisedShippingTime);
+        res.dateUploaded = new Date(res.dateUploaded);
+        res.dateReleasedOrCancelled = new Date(res.dateReleasedOrCancelled);
         this.lazadaOrder = res;
       })
       .catch(error => {

@@ -57,6 +57,8 @@ export interface IShopeeOrder {
   remarkFromBuyer?: string | null;
   orderCompleteTime?: Date | null;
   note?: string | null;
+  dateUploaded?: Date | null;
+  dateReleasedOrCancelled?: Date | null;
   payments?: IShopeeOrderPayments[] | null;
   inventory?: IInventory | null;
   client?: IClient | null;
@@ -118,6 +120,8 @@ export class ShopeeOrder implements IShopeeOrder {
     public remarkFromBuyer?: string | null,
     public orderCompleteTime?: Date | null,
     public note?: string | null,
+    public dateUploaded?: Date | null,
+    public dateReleasedOrCancelled?: Date | null,
     public payments?: IShopeeOrderPayments[] | null,
     public inventory?: IInventory | null,
     public client?: IClient | null,

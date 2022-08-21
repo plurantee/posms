@@ -233,6 +233,12 @@
             <column name="refund_amount" type="double">
                 <constraints nullable="true" />
             </column>
+            <column name="date_uploaded" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="date_released_or_cancelled" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
             <column name="inventory_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -250,6 +256,8 @@
         <dropDefaultValue tableName="lazada_order" columnName="tts_sla" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="lazada_order" columnName="delivery_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="lazada_order" columnName="promised_shipping_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="lazada_order" columnName="date_uploaded" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="lazada_order" columnName="date_released_or_cancelled" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -342,6 +350,8 @@
             <column name="bundle_id" type="string"/>
             <column name="bundle_discount" type="numeric"/>
             <column name="refund_amount" type="numeric"/>
+            <column name="date_uploaded" type="date"/>
+            <column name="date_released_or_cancelled" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

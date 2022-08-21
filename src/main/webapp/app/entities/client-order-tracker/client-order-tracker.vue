@@ -64,6 +64,8 @@
             <th scope="row"><span>Status</span></th>
             <th scope="row"><span>Site</span></th>
             <th scope="row"><span>Courier</span></th>
+            <th scope="row"><span>Date Uploaded</span></th>
+            <th scope="row"><span>Date Released Or Cancelled</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -87,6 +89,8 @@
             <td>{{ orderTracker.status }}</td>
             <td>{{ orderTracker.site }}</td>
             <td>{{ orderTracker.courier }}</td>
+            <td>{{ orderTracker.dateUploaded | formatDate }}</td>
+            <td>{{ orderTracker.dateReleasedOrCancelled | formatDate }}</td>
 
             <td class="text-right">
               <div class="btn-group">

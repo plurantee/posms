@@ -6,7 +6,7 @@
       </template>
       <b-navbar-brand class="logo">
         <span class="logo-img"></span>
-        <span class="navbar-title">POS System</span> <span class="navbar-version">{{ version }}</span>
+        <span class="navbar-title">FJ Online</span> <span class="navbar-version">{{ version }}</span>
       </b-navbar-brand>
     </b-navbar-toggle>
     <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header shadow>
@@ -14,7 +14,7 @@
         <b-button class="no-bg" variant="primary" block @click="hide">
           <b-navbar-brand class="logo">
             <span class="logo-img"></span>
-            <span class="navbar-title">POS System</span>
+            <span class="navbar-title">FJ Online</span>
             <b-icon icon="box-arrow-left"></b-icon>
           </b-navbar-brand>
         </b-button>

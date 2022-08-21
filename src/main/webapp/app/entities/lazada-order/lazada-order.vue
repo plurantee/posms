@@ -342,6 +342,18 @@
               <span>Refund Amount</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'refundAmount'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('dateUploaded')">
+              <span>Date Uploaded</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'dateUploaded'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('dateReleasedOrCancelled')">
+              <span>Date Released Or Cancelled</span>
+              <jhi-sort-indicator
+                :current-order="propOrder"
+                :reverse="reverse"
+                :field-name="'dateReleasedOrCancelled'"
+              ></jhi-sort-indicator>
+            </th>
             <th scope="row" v-on:click="changeOrder('inventory.id')">
               <span>Inventory</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'inventory.id'"></jhi-sort-indicator>
@@ -435,6 +447,8 @@
             <td>{{ lazadaOrder.bundleId }}</td>
             <td>{{ lazadaOrder.bundleDiscount }}</td>
             <td>{{ lazadaOrder.refundAmount }}</td>
+            <td>{{ lazadaOrder.dateUploaded | formatDate }}</td>
+            <td>{{ lazadaOrder.dateReleasedOrCancelled | formatDate }}</td>
             <td>
               <div v-if="lazadaOrder.inventory">
                 <router-link :to="{ name: 'InventoryView', params: { inventoryId: lazadaOrder.inventory.id } }">{{

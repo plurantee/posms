@@ -296,6 +296,14 @@
     {
       "fieldName": "refundAmount",
       "fieldType": "Double"
+    },
+    {
+      "fieldName": "dateUploaded",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "dateReleasedOrCancelled",
+      "fieldType": "ZonedDateTime"
     }
   ],
   "fluentMethods": true,

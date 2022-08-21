@@ -920,6 +920,39 @@
             />
           </div>
           <div class="form-group">
+            <label class="form-control-label" for="lazada-order-dateUploaded">Date Uploaded</label>
+            <div class="d-flex">
+              <input
+                id="lazada-order-dateUploaded"
+                data-cy="dateUploaded"
+                type="datetime-local"
+                class="form-control"
+                name="dateUploaded"
+                :class="{ valid: !$v.lazadaOrder.dateUploaded.$invalid, invalid: $v.lazadaOrder.dateUploaded.$invalid }"
+                :value="convertDateTimeFromServer($v.lazadaOrder.dateUploaded.$model)"
+                @change="updateZonedDateTimeField('dateUploaded', $event)"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="lazada-order-dateReleasedOrCancelled">Date Released Or Cancelled</label>
+            <div class="d-flex">
+              <input
+                id="lazada-order-dateReleasedOrCancelled"
+                data-cy="dateReleasedOrCancelled"
+                type="datetime-local"
+                class="form-control"
+                name="dateReleasedOrCancelled"
+                :class="{
+                  valid: !$v.lazadaOrder.dateReleasedOrCancelled.$invalid,
+                  invalid: $v.lazadaOrder.dateReleasedOrCancelled.$invalid,
+                }"
+                :value="convertDateTimeFromServer($v.lazadaOrder.dateReleasedOrCancelled.$model)"
+                @change="updateZonedDateTimeField('dateReleasedOrCancelled', $event)"
+              />
+            </div>
+          </div>
+          <div class="form-group">
             <label class="form-control-label" for="lazada-order-inventory">Inventory</label>
             <select class="form-control" id="lazada-order-inventory" data-cy="inventory" name="inventory" v-model="lazadaOrder.inventory">
               <option v-bind:value="null"></option>

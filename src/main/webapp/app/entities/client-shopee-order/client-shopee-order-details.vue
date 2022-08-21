@@ -322,6 +322,18 @@
               <span>{{ shopeeOrder.note }}</span>
             </dd>
             <dt>
+              <span>Date Uploaded</span>
+            </dt>
+            <dd>
+              <span>{{ shopeeOrder.dateUploaded | formatDate }}</span>
+            </dd>
+            <dt>
+              <span>Date Released Or Cancelled</span>
+            </dt>
+            <dd>
+              <span>{{ shopeeOrder.dateReleasedOrCancelled | formatDate }}</span>
+            </dd>
+            <dt>
               <span>Shop</span>
             </dt>
             <dd>

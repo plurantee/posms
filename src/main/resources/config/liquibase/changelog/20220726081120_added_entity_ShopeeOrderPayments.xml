@@ -110,7 +110,7 @@
     -->
     <changeSet id="20220726081120-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/data/shopee_order_payments.csv"
+                  file="config/liquibase/fake-data/shopee_order_payments.csv"
                   separator=";"
                   tableName="shopee_order_payments"
                   usePreparedStatements="true">

@@ -2,11 +2,10 @@ package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.flogramming.domain.enumeration.ShopType;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
 
 /**
  * A Shop.

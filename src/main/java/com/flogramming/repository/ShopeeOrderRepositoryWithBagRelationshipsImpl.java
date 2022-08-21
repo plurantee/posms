@@ -1,15 +1,14 @@
 package com.flogramming.repository;
 
 import com.flogramming.domain.ShopeeOrder;
-import org.hibernate.annotations.QueryHints;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.hibernate.annotations.QueryHints;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 /**
  * Utility repository to load bag relationships based on https://vladmihalcea.com/hibernate-multiplebagfetchexception/

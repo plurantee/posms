@@ -170,6 +170,12 @@
             <column name="note" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="date_uploaded" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="date_released_or_cancelled" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
             <column name="inventory_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -186,6 +192,8 @@
         <dropDefaultValue tableName="shopee_order" columnName="order_creation_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="shopee_order" columnName="order_paid_time" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="shopee_order" columnName="order_complete_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="shopee_order" columnName="date_uploaded" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="shopee_order" columnName="date_released_or_cancelled" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <changeSet id="20220711143035-1-relations" author="jhipster">
@@ -214,7 +222,7 @@
     -->
     <changeSet id="20220711143035-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/data/shopee_order.csv"
+                  file="config/liquibase/fake-data/shopee_order.csv"
                   separator=";"
                   tableName="shopee_order"
                   usePreparedStatements="true">
@@ -271,6 +279,8 @@
             <column name="remark_from_buyer" type="string"/>
             <column name="order_complete_time" type="date"/>
             <column name="note" type="string"/>
+            <column name="date_uploaded" type="date"/>
+            <column name="date_released_or_cancelled" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

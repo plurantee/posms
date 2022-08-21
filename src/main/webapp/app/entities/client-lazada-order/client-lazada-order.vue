@@ -53,7 +53,8 @@
             <th scope="row"><span>Seller Sku</span></th>
             <th scope="row"><span>Tracking Number</span></th>
             <th scope="row"><span>Create Time</span></th>
-            <th scope="row"><span>Update Time</span></th>
+            <th scope="row"><span>Date Uploaded</span></th>
+            <th scope="row"><span>Date Released/Cancelled</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -82,8 +83,9 @@
               </div>
             </td>
             <td>{{ lazadaOrder.trackingCode }}</td>
-            <td>{{ lazadaOrder.createTime }}</td>
-            <td>{{ lazadaOrder.updateTime }}</td>
+            <td>{{ lazadaOrder.createTime | formatDate }}</td>
+            <td>{{ lazadaOrder.dateUploaded | formatDate }}</td>
+            <td>{{ lazadaOrder.dateReleasedOrCancelled | formatDate }}</td>
 
             <td class="text-right">
               <div class="btn-group">

@@ -1,12 +1,11 @@
 package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
 
 /**
  * A LazadaOrder.
@@ -241,6 +240,12 @@ public class LazadaOrder implements Serializable {
 
     @Column(name = "refund_amount")
     private Double refundAmount;
+
+    @Column(name = "date_uploaded")
+    private ZonedDateTime dateUploaded;
+
+    @Column(name = "date_released_or_cancelled")
+    private ZonedDateTime dateReleasedOrCancelled;
 
     @OneToMany(mappedBy = "lazadaOrder")
     @JsonIgnoreProperties(value = { "lazadaOrder" }, allowSetters = true)
@@ -1222,6 +1227,32 @@ public class LazadaOrder implements Serializable {
         this.refundAmount = refundAmount;
     }
 
+    public ZonedDateTime getDateUploaded() {
+        return this.dateUploaded;
+    }
+
+    public LazadaOrder dateUploaded(ZonedDateTime dateUploaded) {
+        this.setDateUploaded(dateUploaded);
+        return this;
+    }
+
+    public void setDateUploaded(ZonedDateTime dateUploaded) {
+        this.dateUploaded = dateUploaded;
+    }
+
+    public ZonedDateTime getDateReleasedOrCancelled() {
+        return this.dateReleasedOrCancelled;
+    }
+
+    public LazadaOrder dateReleasedOrCancelled(ZonedDateTime dateReleasedOrCancelled) {
+        this.setDateReleasedOrCancelled(dateReleasedOrCancelled);
+        return this;
+    }
+
+    public void setDateReleasedOrCancelled(ZonedDateTime dateReleasedOrCancelled) {
+        this.dateReleasedOrCancelled = dateReleasedOrCancelled;
+    }
+
     public Set<LazadaOrderPayments> getPayments() {
         return this.payments;
     }
@@ -1389,6 +1420,8 @@ public class LazadaOrder implements Serializable {
             ", bundleId='" + getBundleId() + "'" +
             ", bundleDiscount=" + getBundleDiscount() +
             ", refundAmount=" + getRefundAmount() +
+            ", dateUploaded='" + getDateUploaded() + "'" +
+            ", dateReleasedOrCancelled='" + getDateReleasedOrCancelled() + "'" +
             "}";
     }
 }

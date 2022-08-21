@@ -7,6 +7,8 @@ export interface IOrderTracker {
   site?: string | null;
   barcodeNumber?: string | null;
   courier?: string | null;
+  dateUploaded?: Date | null;
+  dateReleasedOrCancelled?: Date | null;
 }
 
 export class OrderTracker implements IOrderTracker {
@@ -18,6 +20,8 @@ export class OrderTracker implements IOrderTracker {
     public status?: string | null,
     public site?: string | null,
     public barcodeNumber?: string | null,
-    public courier?: string | null
+    public courier?: string | null,
+    public dateUploaded?: Date | null,
+    public dateReleasedOrCancelled?: Date | null
   ) {}
 }

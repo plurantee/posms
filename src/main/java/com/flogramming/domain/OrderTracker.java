@@ -1,5 +1,7 @@
 package com.flogramming.domain;
 
+import java.time.ZonedDateTime;
+
 public class OrderTracker {
     private long id;
     private String orderItemId;
@@ -10,6 +12,10 @@ public class OrderTracker {
     private String barcodeNumber;
 
     private String courier;
+
+    private ZonedDateTime dateUploaded;
+
+    private ZonedDateTime dateReleasedOrCancelled;
 
     public long getId() {
         return id;
@@ -73,5 +79,21 @@ public class OrderTracker {
 
     public void setCourier(String courier) {
         this.courier = courier;
+    }
+
+    public ZonedDateTime getDateUploaded() {
+        return dateUploaded;
+    }
+
+    public void setDateUploaded(ZonedDateTime dateUploaded) {
+        this.dateUploaded = dateUploaded;
+    }
+
+    public ZonedDateTime getDateReleasedOrCancelled() {
+        return dateReleasedOrCancelled;
+    }
+
+    public void setDateReleasedOrCancelled(ZonedDateTime dateReleasedOrCancelled) {
+        this.dateReleasedOrCancelled = dateReleasedOrCancelled;
     }
 }

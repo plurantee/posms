@@ -654,6 +654,39 @@
             />
           </div>
           <div class="form-group">
+            <label class="form-control-label" for="shopee-order-dateUploaded">Date Uploaded</label>
+            <div class="d-flex">
+              <input
+                id="shopee-order-dateUploaded"
+                data-cy="dateUploaded"
+                type="datetime-local"
+                class="form-control"
+                name="dateUploaded"
+                :class="{ valid: !$v.shopeeOrder.dateUploaded.$invalid, invalid: $v.shopeeOrder.dateUploaded.$invalid }"
+                :value="convertDateTimeFromServer($v.shopeeOrder.dateUploaded.$model)"
+                @change="updateZonedDateTimeField('dateUploaded', $event)"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="shopee-order-dateReleasedOrCancelled">Date Released Or Cancelled</label>
+            <div class="d-flex">
+              <input
+                id="shopee-order-dateReleasedOrCancelled"
+                data-cy="dateReleasedOrCancelled"
+                type="datetime-local"
+                class="form-control"
+                name="dateReleasedOrCancelled"
+                :class="{
+                  valid: !$v.shopeeOrder.dateReleasedOrCancelled.$invalid,
+                  invalid: $v.shopeeOrder.dateReleasedOrCancelled.$invalid,
+                }"
+                :value="convertDateTimeFromServer($v.shopeeOrder.dateReleasedOrCancelled.$model)"
+                @change="updateZonedDateTimeField('dateReleasedOrCancelled', $event)"
+              />
+            </div>
+          </div>
+          <div class="form-group">
             <label for="shopee-order-payments">Payments</label>
             <select
               class="form-control"

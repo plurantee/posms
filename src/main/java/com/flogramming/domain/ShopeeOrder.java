@@ -1,12 +1,11 @@
 package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
 
 /**
  * A ShopeeOrder.
@@ -179,7 +178,13 @@ public class ShopeeOrder implements Serializable {
     @Column(name = "note")
     private String note;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Column(name = "date_uploaded")
+    private ZonedDateTime dateUploaded;
+
+    @Column(name = "date_released_or_cancelled")
+    private ZonedDateTime dateReleasedOrCancelled;
+
+    @ManyToMany
     @JoinTable(
         name = "rel_shopee_order__payments",
         joinColumns = @JoinColumn(name = "shopee_order_id"),
@@ -891,6 +896,32 @@ public class ShopeeOrder implements Serializable {
         this.note = note;
     }
 
+    public ZonedDateTime getDateUploaded() {
+        return this.dateUploaded;
+    }
+
+    public ShopeeOrder dateUploaded(ZonedDateTime dateUploaded) {
+        this.setDateUploaded(dateUploaded);
+        return this;
+    }
+
+    public void setDateUploaded(ZonedDateTime dateUploaded) {
+        this.dateUploaded = dateUploaded;
+    }
+
+    public ZonedDateTime getDateReleasedOrCancelled() {
+        return this.dateReleasedOrCancelled;
+    }
+
+    public ShopeeOrder dateReleasedOrCancelled(ZonedDateTime dateReleasedOrCancelled) {
+        this.setDateReleasedOrCancelled(dateReleasedOrCancelled);
+        return this;
+    }
+
+    public void setDateReleasedOrCancelled(ZonedDateTime dateReleasedOrCancelled) {
+        this.dateReleasedOrCancelled = dateReleasedOrCancelled;
+    }
+
     public Set<ShopeeOrderPayments> getPayments() {
         return this.payments;
     }
@@ -1031,6 +1062,8 @@ public class ShopeeOrder implements Serializable {
             ", remarkFromBuyer='" + getRemarkFromBuyer() + "'" +
             ", orderCompleteTime='" + getOrderCompleteTime() + "'" +
             ", note='" + getNote() + "'" +
+            ", dateUploaded='" + getDateUploaded() + "'" +
+            ", dateReleasedOrCancelled='" + getDateReleasedOrCancelled() + "'" +
             "}";
     }
 }

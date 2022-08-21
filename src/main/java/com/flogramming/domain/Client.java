@@ -2,12 +2,11 @@ package com.flogramming.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.flogramming.domain.enumeration.ClientType;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
 
 /**
  * A Client.
