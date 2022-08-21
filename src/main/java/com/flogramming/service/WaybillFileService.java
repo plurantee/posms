@@ -5,6 +5,7 @@ import com.flogramming.domain.OrderTracker;
 import com.flogramming.domain.ShopeeOrder;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
+import com.flogramming.util.OrderTrackerUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -68,32 +69,6 @@ public class WaybillFileService {
         return IOUtils.toByteArray(inputStream);
     }
 
-    public OrderTracker mapLazadaToOrderTracker(LazadaOrder lazadaOrder) {
-        OrderTracker orderTracker = new OrderTracker();
-        orderTracker.setSite("LAZADA");
-
-        orderTracker.setId(lazadaOrder.getId());
-        orderTracker.setOrderItemId(lazadaOrder.getOrderItemId());
-        orderTracker.setSkuReference(lazadaOrder.getSellerSku());
-        orderTracker.setStatus(lazadaOrder.getStatus());
-        orderTracker.setOrderType(lazadaOrder.getOrderType());
-        orderTracker.setBarcodeNumber(lazadaOrder.getTrackingCode());
-        return orderTracker;
-    }
-
-    public OrderTracker mapShopeeToOrderTracker(ShopeeOrder shopeeOrder) {
-        OrderTracker orderTracker = new OrderTracker();
-        orderTracker.setSite("SHOPEE");
-
-        orderTracker.setId(shopeeOrder.getId());
-        orderTracker.setOrderItemId(shopeeOrder.getOrderId());
-        orderTracker.setSkuReference(shopeeOrder.getSkuReferenceNo());
-        orderTracker.setStatus(shopeeOrder.getOrderStatus());
-        orderTracker.setBarcodeNumber(shopeeOrder.getTrackingNumber());
-        return orderTracker;
-
-    }
-
     public List<OrderTracker> viewWaybill(MultipartFile file) throws IOException {
         PDDocument pdDocument = PDDocument.load(file.getInputStream());
 
@@ -127,12 +102,12 @@ public class WaybillFileService {
             List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByTrackingCode(trackingNumber);
 
             lazadaOrders.forEach(order -> {
-                orderTrackers.add(mapLazadaToOrderTracker(order));
+                orderTrackers.add(OrderTrackerUtil.mapLazadaToOrderTracker(order));
             });
         } else {
             List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByTrackingNumber(trackingNumber);
             shopeeOrders.forEach(order -> {
-                orderTrackers.add(mapShopeeToOrderTracker(order));
+                orderTrackers.add(OrderTrackerUtil.mapShopeeToOrderTracker(order));
             });
         }
 

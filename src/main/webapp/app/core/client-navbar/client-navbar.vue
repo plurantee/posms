@@ -30,7 +30,7 @@
               <b-nav-item v-if="authenticated" to="/client/order-tracker" exact>
                 <span>
                   <b-icon icon="receipt"></b-icon>
-                  <span>Search / Track Order</span>
+                  <span>Order Tracker and Management</span>
                 </span>
               </b-nav-item>
               <b-nav-item v-if="authenticated" to="/client/inventory" exact>

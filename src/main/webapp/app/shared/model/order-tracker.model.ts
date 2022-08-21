@@ -6,6 +6,7 @@ export interface IOrderTracker {
   status?: string | null;
   site?: string | null;
   barcodeNumber?: string | null;
+  courier?: string | null;
 }
 
 export class OrderTracker implements IOrderTracker {
@@ -16,6 +17,7 @@ export class OrderTracker implements IOrderTracker {
     public skuReference?: string | null,
     public status?: string | null,
     public site?: string | null,
-    public barcodeNumber?: string | null
+    public barcodeNumber?: string | null,
+    public courier?: string | null
   ) {}
 }

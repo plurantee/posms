@@ -45,6 +45,15 @@
       <span>No Orders found</span>
     </div>
     <div class="table-responsive" v-if="orderTrackers && orderTrackers.length > 0">
+      <div class="modify-orders">
+        <button @click="releaseOrders()" class="btn btn-success jh-create-entity create-lazada-order">
+          <span> Release Orders </span>
+        </button>
+        <button @click="cancelOrders()" class="btn btn-warning jh-create-entity create-lazada-order">
+          <span> Cancel Orders </span>
+        </button>
+      </div>
+
       <table class="table table-striped" aria-describedby="orderTracker">
         <thead>
           <tr>
@@ -53,6 +62,8 @@
             <th scope="row"><span>Order Type</span></th>
             <th scope="row"><span>SKU Reference</span></th>
             <th scope="row"><span>Status</span></th>
+            <th scope="row"><span>Site</span></th>
+            <th scope="row"><span>Courier</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -74,6 +85,8 @@
             <td>{{ orderTracker.orderType }}</td>
             <td>{{ orderTracker.skuReference }}</td>
             <td>{{ orderTracker.status }}</td>
+            <td>{{ orderTracker.site }}</td>
+            <td>{{ orderTracker.courier }}</td>
 
             <td class="text-right">
               <div class="btn-group">
@@ -109,3 +122,9 @@
 </template>
 
 <script lang="ts" src="./client-order-tracker.component.ts"></script>
+
+<style scoped>
+.modify-orders {
+  margin: 5px;
+}
+</style>

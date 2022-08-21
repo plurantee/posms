@@ -138,4 +138,46 @@ export default class ClientOrderTracker extends Vue {
         });
     });
   }
+
+  public releaseOrders() {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .put(`${baseApiUrl}/release`, this.orderTrackers)
+        .then(res => {
+          resolve(res.data);
+          this.orderTrackers = res.data;
+          return this.$root.$bvToast.toast('Orders Released', {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  public cancelOrders() {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .put(`${baseApiUrl}/cancel`, this.orderTrackers)
+        .then(res => {
+          resolve(res.data);
+          this.orderTrackers = res.data;
+          return this.$root.$bvToast.toast('Orders Cancelled', {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
 }

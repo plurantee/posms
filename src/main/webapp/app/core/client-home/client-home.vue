@@ -10,7 +10,7 @@
         <b-nav-item @click="switchNav('shopee')" :active="nav == 'shopee'">Shopee</b-nav-item>
 
         <b-nav-item @click="switchNav('payments')" :active="nav == 'payments'">Payments</b-nav-item>
-        <b-nav-item @click="switchNav('order-tracker')" :active="nav == 'order-tracker'">Order Tracker</b-nav-item>
+        <b-nav-item @click="switchNav('order-tracker')" :active="nav == 'order-tracker'">Order Tracker and Management</b-nav-item>
       </b-nav>
 
       <client-lazada-order v-if="nav == 'lazada'"></client-lazada-order>

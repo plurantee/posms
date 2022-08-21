@@ -7,6 +7,7 @@ import com.flogramming.domain.ShopeeOrder;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
 import com.flogramming.service.WaybillFileService;
+import com.flogramming.util.OrderTrackerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -44,7 +45,7 @@ public class OrderTrackerResource {
 
         if (!shopeeOrders.isEmpty()) {
             shopeeOrders.forEach(order -> {
-                result.add(mapShopeeToOrderTracker(order));
+                result.add(OrderTrackerUtil.mapShopeeToOrderTracker(order));
             });
             return ResponseEntity.ok(result);
         }
@@ -55,7 +56,7 @@ public class OrderTrackerResource {
 
         if (!lazadaOrders.isEmpty()) {
             lazadaOrders.forEach(order -> {
-                result.add(mapLazadaToOrderTracker(order));
+                result.add(OrderTrackerUtil.mapLazadaToOrderTracker(order));
             });
             return ResponseEntity.ok(result);
         }
@@ -87,28 +88,71 @@ public class OrderTrackerResource {
         return ResponseEntity.ok(result);
     }
 
-    public OrderTracker mapLazadaToOrderTracker(LazadaOrder lazadaOrder) {
-        OrderTracker orderTracker = new OrderTracker();
-        orderTracker.setSite("LAZADA");
+    @PutMapping(path = "/release")
+    public ResponseEntity<List<OrderTracker>> release(@RequestBody List<OrderTracker> orderTrackers) throws IOException {
+        List<OrderTracker> result = new ArrayList<>();
+        if ("LAZADA".equals(orderTrackers.get(0).getSite())) {
+            result = modifyLazadaOrders(orderTrackers, ProcessType.RELEASE);
+        } else if ("SHOPEE".equals(orderTrackers.get(0).getSite())) {
+            result = modifyShopeeOrders(orderTrackers, ProcessType.RELEASE);
+        }
 
-        orderTracker.setId(lazadaOrder.getId());
-        orderTracker.setOrderItemId(lazadaOrder.getOrderItemId());
-        orderTracker.setSkuReference(lazadaOrder.getSellerSku());
-        orderTracker.setStatus(lazadaOrder.getStatus());
-        orderTracker.setOrderType(lazadaOrder.getOrderType());
-        return orderTracker;
-
+        return ResponseEntity.ok(result);
     }
 
-    public OrderTracker mapShopeeToOrderTracker(ShopeeOrder shopeeOrder) {
-        OrderTracker orderTracker = new OrderTracker();
-        orderTracker.setSite("SHOPEE");
+    @PutMapping(path = "/cancel")
+    public ResponseEntity<List<OrderTracker>> cancel(@RequestBody List<OrderTracker> orderTrackers) throws IOException {
+        List<OrderTracker> result = new ArrayList<>();
+        if ("LAZADA".equals(orderTrackers.get(0).getSite())) {
+            result = modifyLazadaOrders(orderTrackers, ProcessType.CANCEL);
+        } else if ("SHOPEE".equals(orderTrackers.get(0).getSite())) {
+            result = modifyShopeeOrders(orderTrackers, ProcessType.CANCEL);
+        }
 
-        orderTracker.setId(shopeeOrder.getId());
-        orderTracker.setOrderItemId(shopeeOrder.getOrderId());
-        orderTracker.setSkuReference(shopeeOrder.getSkuReferenceNo());
-        orderTracker.setStatus(shopeeOrder.getOrderStatus());
-        return orderTracker;
+        return ResponseEntity.ok(result);
+    }
 
+    private List<OrderTracker> modifyShopeeOrders(List<OrderTracker> orderTrackers, ProcessType release) {
+        List<OrderTracker> result = new ArrayList<>();
+        orderTrackers.forEach( orderTracker -> {
+            clientShopeeOrderRepository.findByOrderId(orderTracker.getOrderItemId())
+                .forEach(shopeeOrder -> {
+                    shopeeOrder.setOrderStatus(release.getProcess());
+                    clientShopeeOrderRepository.save(shopeeOrder);
+                    result.add(OrderTrackerUtil.mapShopeeToOrderTracker(shopeeOrder));
+                });
+
+        });
+        return result;
+    }
+
+    private List<OrderTracker> modifyLazadaOrders(List<OrderTracker> orderTrackers, ProcessType release) {
+        List<OrderTracker> result = new ArrayList<>();
+        orderTrackers.forEach( orderTracker -> {
+            clientLazadaOrderRepository.findByOrderItemId(orderTracker.getOrderItemId())
+                .forEach(lazadaOrder -> {
+                    lazadaOrder.setStatus(release.getProcess());
+                    clientLazadaOrderRepository.save(lazadaOrder);
+                    result.add(OrderTrackerUtil.mapLazadaToOrderTracker(lazadaOrder));
+                });
+
+        });
+        return result;
+    }
+
+
+}
+
+enum ProcessType {
+    RELEASE("released"),
+    CANCEL("cancelled");
+
+    public final String process;
+    ProcessType(String process) {
+        this.process = process;
+    }
+
+    public String getProcess() {
+        return process;
     }
 }
