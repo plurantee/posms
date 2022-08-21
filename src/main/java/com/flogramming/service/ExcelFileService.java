@@ -2,7 +2,6 @@ package com.flogramming.service;
 
 import com.flogramming.domain.*;
 import com.flogramming.repository.*;
-import com.flogramming.util.OrdersUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -49,11 +48,14 @@ public class ExcelFileService {
     @Autowired
     private ClientShopeeOrderPaymentsRepository clientShopeeOrderPaymentsRepository;
 
+    @Autowired
+    private ShopRepository shopRepository;
+
 
     /**
      * Lazada
      */
-    public Page<LazadaOrder> processLazadaExcelFile(MultipartFile file) throws IOException {
+    public Page<LazadaOrder> processLazadaExcelFile(MultipartFile file, Long shopId) throws IOException {
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
         Map<Integer, HashMap<String, String>> excelHashMap = new HashMap<>();
@@ -94,10 +96,14 @@ public class ExcelFileService {
 
             i++;
         }
-        return setLazadaOrderFromExcelHashMap(excelHashMap);
+        return setLazadaOrderFromExcelHashMap(excelHashMap, shopId);
     }
 
-    public Page<LazadaOrder> setLazadaOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
+    public Page<LazadaOrder> setLazadaOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap, Long shopId) {
+        Shop shop = null;
+        if (shopId != null) {
+            shop = shopRepository.findById(shopId).get();
+        }
         List<LazadaOrder> result = new ArrayList<>();
         ZonedDateTime dateUploaded = ZonedDateTime.now();
         // 04 Jul 2022 11:46
@@ -115,6 +121,7 @@ public class ExcelFileService {
 
         for (HashMap<String, String> row : excelHashMap.values()) {
             LazadaOrder lazadaOrder = new LazadaOrder();
+            lazadaOrder.setShop(shop);
             lazadaOrder.setClient(client);
             lazadaOrder.dateUploaded(dateUploaded);
             lazadaOrder.orderItemId(row.get("orderItemId"));
@@ -214,7 +221,7 @@ public class ExcelFileService {
     /**
      * Shopee
      */
-    public Page<ShopeeOrder> processShopeeExcelFile(MultipartFile file) throws IOException {
+    public Page<ShopeeOrder> processShopeeExcelFile(MultipartFile file, Long shopId) throws IOException {
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
         Map<Integer, HashMap<String, String>> excelHashMap = new HashMap<>();
@@ -265,10 +272,14 @@ public class ExcelFileService {
 
             i++;
         }
-        return setShopeeOrderFromExcelHashMap(excelHashMap);
+        return setShopeeOrderFromExcelHashMap(excelHashMap, shopId);
     }
 
-    public Page<ShopeeOrder> setShopeeOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
+    public Page<ShopeeOrder> setShopeeOrderFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap, Long shopId) {
+        Shop shop = null;
+        if (shopId != null) {
+            shop = shopRepository.findById(shopId).get();
+        }
         List<LazadaOrder> result = new ArrayList<>();
         Client client = clientUserService.getCurrentUser().getClientCode();
         ZonedDateTime dateUploaded = ZonedDateTime.now();
@@ -283,7 +294,7 @@ public class ExcelFileService {
         }
         for (HashMap<String, String> row : excelHashMap.values()) {
             ShopeeOrder shopeeOrder = new ShopeeOrder();
-
+            shopeeOrder.setShop(shop);
             shopeeOrder.setClient(client);
             shopeeOrder.setOrderId(row.get("Order ID"));
             shopeeOrder.setOrderStatus(row.get("Order Status"));

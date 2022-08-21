@@ -6,6 +6,7 @@ import ClientLazadaOrderService from './client-lazada-order.service';
 import AlertService from '@/shared/alert/alert.service';
 import { IShop } from '@/shared/model/shop.model';
 import LazadaOrder from '../lazada-order/lazada-order.component';
+import ClientShopService from '../client-shop/shop.service';
 
 @Component({
   watch: {
@@ -25,6 +26,7 @@ import LazadaOrder from '../lazada-order/lazada-order.component';
 })
 export default class ClientLazadaOrder extends LazadaOrder {
   @Inject('clientLazadaOrderService') private clientLazadaOrderService: () => ClientLazadaOrderService;
+  @Inject('clientShopService') private clientShopService: () => ClientShopService;
   @Inject('alertService') private clientAlertService: () => AlertService;
 
   private clientRemoveId: number = null;
@@ -35,15 +37,21 @@ export default class ClientLazadaOrder extends LazadaOrder {
 
   private file = null;
 
+  public shops = null;
+
+  public shop = null;
+
   public filter = 'all';
 
   public mounted(): void {
     this.clear();
   }
 
+
   public clear(): void {
-    if (this.$props?.shop) {
-      this.retrieveAllLazadaOrdersByShop(this.$props.shop);
+    this.initRelationships();
+    if (this.shop) {
+      this.retrieveAllLazadaOrdersByShop(this.shop);
     } else {
       this.retrieveAllLazadaOrdersByClient();
     }
@@ -73,7 +81,7 @@ export default class ClientLazadaOrder extends LazadaOrder {
       );
   }
 
-  public retrieveAllLazadaOrdersByShop(shop: IShop): void {
+  public retrieveAllLazadaOrdersByShop(shop): void {
     this.isFetching = true;
     this.clientLazadaOrderService()
       .retrieveByShop(shop)
@@ -105,6 +113,10 @@ export default class ClientLazadaOrder extends LazadaOrder {
     // eslint-disable-next-line prefer-const
     let formData = new FormData();
     formData.append('file', this.file);
+    if (this.shop) {
+      formData.append('shopId', this.shop);
+    }
+
     this.clientLazadaOrderService()
       .uploadLazadaExcel(formData)
       .then(
@@ -168,5 +180,13 @@ export default class ClientLazadaOrder extends LazadaOrder {
 
   public transition(): void {
     this.retrieveAllLazadaOrdersByClient();
+  }
+
+  public initRelationships(): void {
+    this.clientShopService()
+      .retrieve()
+      .then(res => {
+        this.shops = res.data;
+      });
   }
 }

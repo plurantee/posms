@@ -52,8 +52,8 @@ public class ClientLazadaOrderResource {
     }
 
     @PostMapping(path = "/lazada-orders/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(@RequestParam("file") MultipartFile file) throws IOException {
-        Page<LazadaOrder> page = excelFileService.processLazadaExcelFile(file);
+    public ResponseEntity<List<LazadaOrder>> uploadLazadaOrders(@RequestParam("file") MultipartFile file, @RequestParam(value="shopId", required = false) Long shopId) throws IOException {
+        Page<LazadaOrder> page = excelFileService.processLazadaExcelFile(file, shopId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

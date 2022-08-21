@@ -4,6 +4,17 @@
       <label class="form-control-label" for="file">Shopee Orders</label>
 
       <div class="row col-md-12">
+        <div class="form-group">
+          <label class="form-control-label" for="shop-clientCode">Shop</label>
+          <select class="form-control" id="shop" data-cy="shop" name="shop" v-model="shop">
+            <option v-bind:value="null"></option>
+            <option v-for="shopOption in shops" :key="shopOption.id" v-bind:value="shopOption.id">
+              {{ shopOption.shopName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row col-md-12">
         <b-form-file
           v-model="file"
           placeholder="Upload Shopee File"
@@ -58,6 +69,7 @@
             <th scope="row"><span>Date Uploaded</span></th>
             <th scope="row"><span>Date Released/Cancelled</span></th>
             <th scope="row"><span>Order Paid Time</span></th>
+            <th scope="row"><span>Shop</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -92,12 +104,19 @@
             <td>{{ shopeeOrder.orderPaidTime | formatDate }}</td>
             <td>
               <div v-if="shopeeOrder.shop">
-                <router-link :to="{ name: 'ShopView', params: { shopId: shopeeOrder.shop.id } }">{{ shopeeOrder.shop.id }}</router-link>
+                <router-link :to="{ name: 'ClientShopView', params: { shopId: shopeeOrder.shop.id } }">{{
+                  shopeeOrder.shop.shopName
+                }}</router-link>
               </div>
+              <div v-else></div>
             </td>
             <td class="text-right">
               <div class="btn-group">
-                <router-link :to="{ name: 'ClientShopeeOrderView', params: { shopeeOrderId: shopeeOrder.id } }">
+                <router-link
+                  :to="{ name: 'ClientShopeeOrderView', params: { shopeeOrderId: shopeeOrder.id } }"
+                  custom
+                  v-slot="{ navigate }"
+                >
                   <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline">View</span>

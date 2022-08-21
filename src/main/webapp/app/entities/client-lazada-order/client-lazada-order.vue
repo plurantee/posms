@@ -4,6 +4,17 @@
       <label class="form-control-label" for="file">Lazada Orders</label>
 
       <div class="row col-md-12">
+        <div class="form-group">
+          <label class="form-control-label" for="shop-clientCode">Shop</label>
+          <select class="form-control" id="shop" data-cy="shop" name="shop" v-model="shop">
+            <option v-bind:value="null"></option>
+            <option v-for="shopOption in shops" :key="shopOption.id" v-bind:value="shopOption.id">
+              {{ shopOption.shopName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row col-md-12">
         <b-form-file
           v-model="file"
           placeholder="Upload Lazada File"
@@ -55,6 +66,7 @@
             <th scope="row"><span>Create Time</span></th>
             <th scope="row"><span>Date Uploaded</span></th>
             <th scope="row"><span>Date Released/Cancelled</span></th>
+            <th scope="row"><span>Shop</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -86,7 +98,14 @@
             <td>{{ lazadaOrder.createTime | formatDate }}</td>
             <td>{{ lazadaOrder.dateUploaded | formatDate }}</td>
             <td>{{ lazadaOrder.dateReleasedOrCancelled | formatDate }}</td>
-
+            <td>
+              <div v-if="lazadaOrder.shop">
+                <router-link :to="{ name: 'ClientShopView', params: { shopId: lazadaOrder.shop.id } }">{{
+                  lazadaOrder.shop.shopName
+                }}</router-link>
+              </div>
+              <div v-else></div>
+            </td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link

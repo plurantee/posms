@@ -74,6 +74,13 @@ const ClientInventory = () => import('@/entities/client-inventory/inventory.vue'
 const ClientInventoryUpdate = () => import('@/entities/client-inventory/inventory-update.vue');
 // prettier-ignore
 const ClientInventoryDetails = () => import('@/entities/client-inventory/inventory-details.vue');
+
+// prettier-ignore
+const ClientShop = () => import('@/entities/client-shop/shop.vue');
+// prettier-ignore
+const ClientShopUpdate = () => import('@/entities/client-shop/shop-update.vue');
+// prettier-ignore
+const ClientShopDetails = () => import('@/entities/client-shop/shop-details.vue');
 export default {
   path: '/',
   component: Entities,
@@ -148,6 +155,30 @@ export default {
       path: 'shop/:shopId/view',
       name: 'ShopView',
       component: ShopDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/shop',
+      name: 'ClientShop',
+      component: ClientShop,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/shop/new',
+      name: 'ClientShopCreate',
+      component: ClientShopUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/shop/:shopId/edit',
+      name: 'ClientShopEdit',
+      component: ClientShopUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'client/shop/:shopId/view',
+      name: 'ClientShopView',
+      component: ClientShopDetails,
       meta: { authorities: [Authority.USER] },
     },
     {

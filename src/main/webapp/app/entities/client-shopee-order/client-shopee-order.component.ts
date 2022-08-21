@@ -7,6 +7,7 @@ import AlertService from '@/shared/alert/alert.service';
 import ClientShopeeOrderService from './client-shopee-order.service';
 import { IShop } from '@/shared/model/shop.model';
 import ShopeeOrder from '../shopee-order/shopee-order.component';
+import ClientShopService from '../client-shop/shop.service';
 
 @Component({
   watch: {
@@ -26,6 +27,7 @@ import ShopeeOrder from '../shopee-order/shopee-order.component';
 })
 export default class ClientShopeeOrder extends ShopeeOrder {
   @Inject('clientShopeeOrderService') private clientShopeeOrderService: () => ClientShopeeOrderService;
+  @Inject('clientShopService') private clientShopService: () => ClientShopService;
   @Inject('alertService') private clientAlertService: () => AlertService;
 
   public shopeeOrders: IShopeeOrder[] = [];
@@ -34,6 +36,10 @@ export default class ClientShopeeOrder extends ShopeeOrder {
 
   private file = null;
 
+  public shops = null;
+
+  public shop = null;
+
   public filter = 'all';
 
   public mounted(): void {
@@ -41,8 +47,9 @@ export default class ClientShopeeOrder extends ShopeeOrder {
   }
 
   public clear(): void {
-    if (this.$props?.shop) {
-      this.retrieveAllShopeeOrdersByShop(this.$props.shop);
+    this.initRelationships();
+    if (this.shop) {
+      this.retrieveAllShopeeOrdersByShop(this.shop);
     } else {
       this.retrieveAllShopeeOrdersByClient();
     }
@@ -77,7 +84,7 @@ export default class ClientShopeeOrder extends ShopeeOrder {
       );
   }
 
-  public retrieveAllShopeeOrdersByShop(shop: IShop): void {
+  public retrieveAllShopeeOrdersByShop(shop): void {
     this.isFetching = true;
     this.clientShopeeOrderService()
       .retrieveByShop(shop)
@@ -110,6 +117,9 @@ export default class ClientShopeeOrder extends ShopeeOrder {
     // eslint-disable-next-line prefer-const
     let formData = new FormData();
     formData.append('file', this.file);
+    if (this.shop) {
+      formData.append('shopId', this.shop);
+    }
     this.clientShopeeOrderService()
       .uploadLazadaExcel(formData)
       .then(
@@ -160,6 +170,14 @@ export default class ClientShopeeOrder extends ShopeeOrder {
       })
       .catch(error => {
         this.clientAlertService().showHttpError(this, error.response);
+      });
+  }
+
+  public initRelationships(): void {
+    this.clientShopService()
+      .retrieve()
+      .then(res => {
+        this.shops = res.data;
       });
   }
 }

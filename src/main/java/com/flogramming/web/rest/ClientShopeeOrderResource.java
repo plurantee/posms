@@ -62,8 +62,8 @@ public class ClientShopeeOrderResource {
     }
 
     @PostMapping(path = "/shopee-orders/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<List<ShopeeOrder>> uploadShopeeOrders(@RequestParam("file") MultipartFile file) throws IOException {
-        Page<ShopeeOrder> page = excelFileService.processShopeeExcelFile(file);
+    public ResponseEntity<List<ShopeeOrder>> uploadShopeeOrders(@RequestParam("file") MultipartFile file, @RequestParam(value="shopId", required = false) Long shopId) throws IOException {
+        Page<ShopeeOrder> page = excelFileService.processShopeeExcelFile(file, shopId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

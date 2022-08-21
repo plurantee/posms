@@ -7,10 +7,10 @@ import buildPaginationQueryOpts from '@/shared/sort/sorts';
 const baseApiUrl = 'api/lazada-orders';
 
 export default class ClientLazadaOrderService extends LazadaOrderService {
-  public retrieveByShop(shop: IShop): Promise<any> {
+  public retrieveByShop(shop): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
-        .get(`${baseApiUrl}/shop/${shop.id}`)
+        .get(`${baseApiUrl}/shop/${shop}`)
         .then(res => {
           resolve(res);
         })
