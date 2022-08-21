@@ -73,44 +73,50 @@ public class WaybillFileService {
         PDDocument pdDocument = PDDocument.load(file.getInputStream());
 
         PDFTextStripper reader = new PDFTextStripper();
-        String pageText = reader.getText(pdDocument);
-        // Get tracking number
-        List<String> pageTexts = List.of(pageText.split("\n"));
-        String trackingNumber = "";
-        boolean isLazada = true;
-        try {
-            trackingNumber = pageTexts.stream().filter(e -> e.toLowerCase().contains("tracking number")).findFirst().orElse("");
-            trackingNumber = trackingNumber.replaceAll("(?i)tracking number", "").replaceAll("[\\n\\r\\t]+", "");
 
-            // Must be shopee waybill
-            if (StringUtils.isBlank(trackingNumber)) {
-                isLazada = false;
-                var pattern = Pattern.compile("^(?!63)[0-9]{12,}$");
-                List<String> possibleOrderTrackers = pageTexts.stream().filter(e -> pattern.matcher(e).matches()).collect(Collectors.toList());
-
-                trackingNumber = possibleOrderTrackers.stream().findFirst().orElse("");
-
-            }
-            if (StringUtils.isBlank(trackingNumber)) {
-                throw new RuntimeException();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("No Tracking Number found");
-        }
         List<OrderTracker> orderTrackers = new ArrayList<>();
-        if (isLazada) {
-            List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByTrackingCode(trackingNumber);
+        for(int i=1; i <= pdDocument.getNumberOfPages(); i++){
+            reader.setStartPage(i);
+            reader.setEndPage(i);
+            String pageText = reader.getText(pdDocument);
+            // Get tracking number
+            List<String> pageTexts = List.of(pageText.split("\n"));
+            String trackingNumber = "";
+            boolean isLazada = true;
+            try {
+                trackingNumber = pageTexts.stream().filter(e -> e.toLowerCase().contains("tracking number")).findFirst().orElse("");
+                trackingNumber = trackingNumber.replaceAll("(?i)tracking number", "").replaceAll("[\\n\\r\\t]+", "");
 
-            lazadaOrders.forEach(order -> {
-                orderTrackers.add(OrderTrackerUtil.mapLazadaToOrderTracker(order));
-            });
-        } else {
-            List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByTrackingNumber(trackingNumber);
-            shopeeOrders.forEach(order -> {
-                orderTrackers.add(OrderTrackerUtil.mapShopeeToOrderTracker(order));
-            });
+                // Must be shopee waybill
+                if (StringUtils.isBlank(trackingNumber)) {
+                    isLazada = false;
+                    var pattern = Pattern.compile("^(?!63)[0-9]{12,}$");
+                    List<String> possibleOrderTrackers = pageTexts.stream().filter(e -> pattern.matcher(e).matches()).collect(Collectors.toList());
+
+                    trackingNumber = possibleOrderTrackers.stream().findFirst().orElse("");
+
+                }
+                if (StringUtils.isBlank(trackingNumber)) {
+                    throw new RuntimeException();
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("No Tracking Number found. Iteration: "+i);
+            }
+            if (isLazada) {
+                List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByTrackingCode(trackingNumber);
+
+                lazadaOrders.forEach(order -> {
+                    orderTrackers.add(OrderTrackerUtil.mapLazadaToOrderTracker(order));
+                });
+            } else {
+                List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByTrackingNumber(trackingNumber);
+                shopeeOrders.forEach(order -> {
+                    orderTrackers.add(OrderTrackerUtil.mapShopeeToOrderTracker(order));
+                });
+            }
+
+
         }
-
         return orderTrackers;
     }
 }

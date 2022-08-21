@@ -60,6 +60,7 @@
             <th scope="row"><span>ID</span></th>
             <th scope="row"><span>Order Item Id</span></th>
             <th scope="row"><span>Order Type</span></th>
+            <th scope="row"><span>Tracking Number</span></th>
             <th scope="row"><span>SKU Reference</span></th>
             <th scope="row"><span>Status</span></th>
             <th scope="row"><span>Site</span></th>
@@ -85,6 +86,7 @@
             </td>
             <td>{{ orderTracker.orderItemId }}</td>
             <td>{{ orderTracker.orderType }}</td>
+            <td>{{ orderTracker.barcodeNumber }}</td>
             <td>{{ orderTracker.skuReference }}</td>
             <td>{{ orderTracker.status }}</td>
             <td>{{ orderTracker.site }}</td>
