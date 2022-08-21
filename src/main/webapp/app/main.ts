@@ -31,6 +31,7 @@ import '../content/scss/vendor.scss';
 import ClientShopeeOrderService from './entities/client-shopee-order/client-shopee-order.service';
 import ClientLazadaOrderService from './entities/client-lazada-order/client-lazada-order.service';
 import clientShopeeOrderService from './entities/client-shopee-order/client-shopee-order.service';
+import CommonsService from './entities/common/commons-service';
 /* tslint:disable */
 
 // jhipster-needle-add-entity-service-to-main-import - JHipster will import entities services here
@@ -96,6 +97,7 @@ const vue = new Vue({
     alertService: () => new AlertService(),
     clientLazadaOrderService: () => new ClientLazadaOrderService(),
     clientShopeeOrderService: () => new ClientShopeeOrderService(),
+    commonsService: () => new CommonsService(),
   },
   store,
 });

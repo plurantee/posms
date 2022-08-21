@@ -4,12 +4,14 @@ import { IInventory } from '@/shared/model/inventory.model';
 
 import InventoryService from './inventory.service';
 import AlertService from '@/shared/alert/alert.service';
+import CommonsService from '../common/commons-service';
 
 @Component({
   mixins: [Vue2Filters.mixin],
 })
 export default class Inventory extends Vue {
   @Inject('clientInventoryService') private clientInventoryService: () => InventoryService;
+  @Inject('commonsService') private commonsService: () => CommonsService;
   @Inject('alertService') private alertService: () => AlertService;
 
   private removeId: number = null;
@@ -20,6 +22,7 @@ export default class Inventory extends Vue {
   public propOrder = 'id';
   public reverse = false;
   public totalItems = 0;
+  private file = null;
 
   public inventories: IInventory[] = [];
 
@@ -116,5 +119,36 @@ export default class Inventory extends Vue {
 
   public closeDialog(): void {
     (<any>this.$refs.removeEntity).hide();
+  }
+
+  public uploadFile(): void {
+    this.file = (<HTMLInputElement>this.$refs.file).files[0];
+  }
+
+  public submitFile(): void {
+    this.isFetching = true;
+    // eslint-disable-next-line prefer-const
+    let formData = new FormData();
+    formData.append('file', this.file);
+    this.commonsService()
+      .uploadInventoryExcel(formData)
+      .then(
+        res => {
+          this.handleSyncList();
+          this.isFetching = false;
+          return this.$root.$bvToast.toast(this.file.name + ' Uploaded', {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        },
+        err => {
+          this.handleSyncList();
+          this.isFetching = false;
+          this.alertService().showHttpError(this, err.response);
+        }
+      );
   }
 }

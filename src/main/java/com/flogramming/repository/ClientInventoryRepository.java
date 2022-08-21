@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface ClientInventoryRepository extends InventoryRepository {
-    Inventory findBySku(String sku);
     Page<Inventory> findByClient(Client client, Pageable pageable);
+
+    Inventory findBySkuAndClient(String sku, Client client);
 }

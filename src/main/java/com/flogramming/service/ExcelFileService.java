@@ -49,6 +49,7 @@ public class ExcelFileService {
     @Autowired
     private ClientShopeeOrderPaymentsRepository clientShopeeOrderPaymentsRepository;
 
+
     /**
      * Lazada
      */
@@ -189,7 +190,7 @@ public class ExcelFileService {
             lazadaUtil.bundleDiscount(valueOf(row.get("bundleDiscount")));
             lazadaUtil.refundAmount(valueOf(row.get("refundAmount")));
             String sellerSku = lazadaUtil.getLazadaOrder().getSellerSku();
-            Inventory inventory = clientInventoryRepository.findBySku(sellerSku);
+            Inventory inventory = clientInventoryRepository.findBySkuAndClient(sellerSku, client);
             if (inventory == null) {
                 inventory = new Inventory();
                 inventory.setCost(0.0);
@@ -336,7 +337,7 @@ public class ExcelFileService {
             shopeeOrder.setOrderCompleteTime(convertShopeeDate(row.get("Order Complete Time")));
             shopeeOrder.setNote(row.get("Note"));
             String sellerSku = shopeeOrder.getSkuReferenceNo();
-            Inventory inventory = clientInventoryRepository.findBySku(sellerSku);
+            Inventory inventory = clientInventoryRepository.findBySkuAndClient(sellerSku, client);
             if (inventory == null) {
                 inventory = new Inventory();
                 inventory.setCost(0.0);
@@ -610,5 +611,94 @@ public class ExcelFileService {
             result = 0;
         }
         return result;
+    }
+
+    public Page<Inventory> processInventoryUpload(MultipartFile file) throws IOException {
+        Workbook workbook = new XSSFWorkbook(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);
+        Map<Integer, HashMap<String, String>> excelHashMap = new HashMap<>();
+        List<String> columnNames = new ArrayList<>();
+        Row columnNamesRow = sheet.getRow(0);
+        for (Cell cell : columnNamesRow) {
+            switch (cell.getCellType()) {
+                case STRING:
+                    columnNames.add(cell.getStringCellValue());
+                    String original = cell.getStringCellValue();
+                    String[] words = original.split("[\\W_]+");
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < words.length; i++) {
+                        String word = words[i];
+                        word = word.isEmpty() ? word : Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+
+                        builder.append(word);
+                    }
+                    String camelCase = builder.toString();
+                    System.out.println("lazadaOrderPayment.set" + camelCase + "(row.get(\"" + original + "\"));");
+                    break;
+            }
+        }
+        int i = 0;
+        for (Row row : sheet) {
+            excelHashMap.put(i, new HashMap<>());
+            for (int j = 0; j < columnNames.size(); j++) {
+                if (row == null || row.getCell(j) == null) {
+                    break;
+                }
+                switch (row.getCell(j).getCellType()) {
+                    case STRING:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getRichStringCellValue().getString());
+                        break;
+                    case NUMERIC:
+                        if (DateUtil.isCellDateFormatted(row.getCell(j))) {
+                            excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getDateCellValue() + "");
+                        } else {
+                            excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getNumericCellValue() + "" + "");
+                        }
+                        break;
+                    case BOOLEAN:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getBooleanCellValue() + "" + "");
+                        break;
+                    case FORMULA:
+                        excelHashMap.get(i).put(columnNames.get(j), row.getCell(j).getCellFormula() + "");
+                        break;
+                    default:
+                        excelHashMap.get(i).put(columnNames.get(j), " ");
+                }
+            }
+
+            i++;
+        }
+        return setInventoriesFromExcelHashMap(excelHashMap);
+    }
+
+    private Page<Inventory> setInventoriesFromExcelHashMap(Map<Integer, HashMap<String, String>> excelHashMap) {
+        List<Inventory> result = new ArrayList<>();
+        // 04 Jul 2022 11:46
+        excelHashMap.remove(0); // Column rows
+        Client client = clientUserService.getCurrentUser().getClientCode();
+
+
+        for (HashMap<String, String> row : excelHashMap.values()) {
+            String sku = row.get("Product Name");
+            Inventory inventory = null;
+            if (!StringUtils.isEmpty(sku)) {
+                inventory = clientInventoryRepository.findBySkuAndClient(sku, client);
+            } else  {
+                break;
+            }
+            if (inventory == null) {
+                inventory = new Inventory();
+                inventory.setClient(client);
+                inventory.setSku(sku);
+            }
+            inventory.setCost(Double.valueOf(row.get("Cost")));
+            inventory.setStocks(Integer.valueOf(row.get("Stocks")));
+            inventory.setPrice(Double.valueOf(row.get("Price(RETAIL SALE)")));
+            inventory.setThreshold(Integer.valueOf(row.get("Threshold")));
+            result.add(inventory);
+
+        }
+        clientInventoryRepository.saveAll(result);
+        return clientInventoryRepository.findByClient(client, Pageable.ofSize(10));
     }
 }
