@@ -100,9 +100,8 @@ public class WaybillFileService {
         table.addHeaderRow(hRow);
 
         List<String> keys = new ArrayList(ordersMap.keySet());
-        int t1limit = keys.size() > 4 ? keys.size() : 4;
         int t2limit = 4;
-        for (int i=0; i < t1limit; i++) {
+        for (int i=0; i < 4; i++) {
             Row<PDPage> t1Row = table.createRow(1);
             String key = "";
             String value = "";
