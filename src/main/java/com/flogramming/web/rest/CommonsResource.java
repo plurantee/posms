@@ -1,7 +1,6 @@
 package com.flogramming.web.rest;
 
 import com.flogramming.domain.Inventory;
-import com.flogramming.domain.LazadaOrder;
 import com.flogramming.service.ExcelFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

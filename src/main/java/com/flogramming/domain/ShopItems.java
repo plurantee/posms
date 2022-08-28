@@ -1,7 +1,7 @@
 package com.flogramming.domain;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * A ShopItems.

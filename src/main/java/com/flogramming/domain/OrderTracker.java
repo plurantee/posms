@@ -1,5 +1,7 @@
 package com.flogramming.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.ZonedDateTime;
 
 public class OrderTracker {
@@ -13,8 +15,10 @@ public class OrderTracker {
 
     private String courier;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ZonedDateTime dateUploaded;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ZonedDateTime dateReleasedOrCancelled;
 
     public long getId() {
