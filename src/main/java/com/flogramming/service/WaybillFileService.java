@@ -47,9 +47,10 @@ public class WaybillFileService {
         PDDocument pdDocument = PDDocument.load(file.getInputStream());
         for (int i = 0; i < pdDocument.getNumberOfPages(); i++) {
             PDPage page = pdDocument.getPage(i);
-            String trackingNumber = getTrackingNumberPerPage(pdDocument, i+1);
+            page.setRotation(0);
+            SearchTrackingNumber searchTrackingNumber = getTrackingNumberPerPage(pdDocument, i+1);
             Map<String, Long> ordersMap = orders.stream()
-                .filter(order -> trackingNumber.equals(order.getBarcodeNumber()))
+                .filter(order -> searchTrackingNumber.getTrackingNumber().equals(order.getBarcodeNumber()))
                 .collect(Collectors.groupingBy(e -> e.getSkuReference(), Collectors.counting()));
 
             PDPageContentStream contentStream = new PDPageContentStream(pdDocument, page, PDPageContentStream.AppendMode.PREPEND, true);
@@ -59,22 +60,40 @@ public class WaybillFileService {
 
 
 
+            float x =  -30;
+            float y = -110;
 
 
-            PDRectangle mediabox = new PDRectangle(-30, -110, pageWidth, pageHeight);
+            PDRectangle mediabox = new PDRectangle(x, y, pageWidth, pageHeight);
             page.setMediaBox(mediabox);
             page.setCropBox(mediabox);
             // - End Paddings
 
             contentStream.setMiterLimit(1);
             contentStream.beginText();
+            contentStream.setFont(PDType1Font.HELVETICA, 40);
             // - Table
-            fillPage(pdDocument, page, ordersMap);
+            if (searchTrackingNumber.isLazada()) {
+                fillPage(pdDocument, page, ordersMap, searchTrackingNumber.isLazada());
+            }
             Matrix matrix = new Matrix();
             float xScale = 0.8f;
             float yScale = 0.75f;
             matrix.scale(xScale, yScale);
             contentStream.transform(matrix);
+            if (!searchTrackingNumber.isLazada()) {
+                contentStream.endText();
+                contentStream.close();
+                contentStream = new PDPageContentStream(pdDocument, page, PDPageContentStream.AppendMode.APPEND, true, true);
+                contentStream.beginText();
+                fillPage(pdDocument, page, ordersMap, searchTrackingNumber.isLazada());
+                Matrix shopeeMatrix = new Matrix();
+                shopeeMatrix.scale(0.8f, 0.8f);
+                contentStream.transform(shopeeMatrix);
+
+                //contentStream.transform(Matrix.getRotateInstance(Math.toRadians(180), 300, 450));
+
+            }
             contentStream.endText();
             contentStream.close();
         }
@@ -87,16 +106,22 @@ public class WaybillFileService {
         return IOUtils.toByteArray(inputStream);
     }
 
-    private static void fillPage(PDDocument pdDocument, PDPage page, Map<String, Long> ordersMap) throws IOException {
+    private static void fillPage(PDDocument pdDocument, PDPage page, Map<String, Long> ordersMap, boolean lazada) throws IOException {
         float yTableStart = page.getMediaBox().getHeight() - 530;
         float tableWidth = page.getMediaBox().getWidth() - 0;
-        BaseTable table = new BaseTable(0, yTableStart, -400, tableWidth, -30, pdDocument, page, true, true);
-        BaseTable table2 = new BaseTable(0, yTableStart, -400, tableWidth, 150, pdDocument, page, true, true);
+        float t1margin = -30;
+        float t2margin = 150;
+        float yStart = lazada ? 0 : 500;
+        Cell<PDPage> cell;
+        BaseTable table = new BaseTable(0, yTableStart, -400, tableWidth, t1margin, pdDocument, page, true, true);
+
+        BaseTable table2 = new BaseTable(0, yTableStart, -400, tableWidth, t2margin, pdDocument, page, true, true);
         // Table 1
         Row<PDPage> hRow = table.createRow(10);
-        Cell<PDPage> cell = null;
-        hRow.createCell(30, "SKU", HorizontalAlignment.LEFT, VerticalAlignment.TOP).setFont(PDType1Font.HELVETICA);
-        hRow.createCell(30, "PCS", HorizontalAlignment.LEFT, VerticalAlignment.TOP).setFont(PDType1Font.HELVETICA);
+        cell = hRow.createCell(30, "SKU");
+        cell.setFont(PDType1Font.HELVETICA);
+        cell = hRow.createCell(30, "PCS");
+        cell.setFont(PDType1Font.HELVETICA);
         table.addHeaderRow(hRow);
 
         List<String> keys = new ArrayList(ordersMap.keySet());
@@ -111,8 +136,8 @@ public class WaybillFileService {
             } catch (Exception e) {
                 log.info("Putting empty string instead");
             }
-            t1Row.createCell(30, key);
-            t1Row.createCell(30, value);
+            cell = t1Row.createCell(30, key);
+            cell = t1Row.createCell(30, value);
         }
 
         table.draw();
@@ -120,9 +145,12 @@ public class WaybillFileService {
 
         // Table 2
         Row<PDPage> hRow2 = table2.createRow(10);
+
         Cell<PDPage> cell2 = null;
-        hRow2.createCell(30, "SKU", HorizontalAlignment.LEFT, VerticalAlignment.TOP).setFont(PDType1Font.HELVETICA);
-        hRow2.createCell(30, "PCS", HorizontalAlignment.LEFT, VerticalAlignment.TOP).setFont(PDType1Font.HELVETICA);
+        cell = hRow2.createCell(30, "SKU");
+        cell.setFont(PDType1Font.HELVETICA);
+        cell = hRow2.createCell(30, "PCS");
+        cell.setFont(PDType1Font.HELVETICA);
         table2.addHeaderRow(hRow);
 
         for (int i=0; i < t2limit; i++) {
@@ -135,8 +163,8 @@ public class WaybillFileService {
             } catch (Exception e) {
                 log.info("Putting empty string instead");
             }
-            t2Row.createCell(30, key);
-            t2Row.createCell(30, value);
+            cell = t2Row.createCell(30, key);
+            cell =t2Row.createCell(30, value);
         }
         table2.draw();
         // - End Table 2
@@ -199,7 +227,7 @@ public class WaybillFileService {
         return orderTrackers;
     }
 
-    public String getTrackingNumberPerPage(PDDocument pdDocument, int page) throws IOException {
+    public SearchTrackingNumber getTrackingNumberPerPage(PDDocument pdDocument, int page) throws IOException {
         PDFTextStripper reader = new PDFTextStripper();
         List<OrderTracker> orderTrackers = new ArrayList<>();
         reader.setStartPage(page);
@@ -230,7 +258,7 @@ public class WaybillFileService {
         }
 
 
-        return trackingNumber;
+        return new SearchTrackingNumber(trackingNumber, isLazada);
     }
 
     public float mm2pt(float pt) {
