@@ -112,6 +112,7 @@ public class WaybillFileService {
         float t1margin = -30;
         float t2margin = 150;
         float yStart = lazada ? 0 : 500;
+        float fontSize = 12;
         Cell<PDPage> cell;
         BaseTable table = new BaseTable(0, yTableStart, -400, tableWidth, t1margin, pdDocument, page, true, true);
 
@@ -119,9 +120,11 @@ public class WaybillFileService {
         // Table 1
         Row<PDPage> hRow = table.createRow(10);
         cell = hRow.createCell(30, "SKU");
+        cell.setFontSize(fontSize);
         cell.setFont(PDType1Font.HELVETICA);
         cell = hRow.createCell(30, "PCS");
         cell.setFont(PDType1Font.HELVETICA);
+        cell.setFontSize(fontSize);
         table.addHeaderRow(hRow);
 
         List<String> keys = new ArrayList(ordersMap.keySet());
@@ -137,7 +140,9 @@ public class WaybillFileService {
                 log.info("Putting empty string instead");
             }
             cell = t1Row.createCell(30, key);
+            cell.setFontSize(fontSize);
             cell = t1Row.createCell(30, value);
+            cell.setFontSize(fontSize);
         }
 
         table.draw();
@@ -149,8 +154,10 @@ public class WaybillFileService {
         Cell<PDPage> cell2 = null;
         cell = hRow2.createCell(30, "SKU");
         cell.setFont(PDType1Font.HELVETICA);
+        cell.setFontSize(fontSize);
         cell = hRow2.createCell(30, "PCS");
         cell.setFont(PDType1Font.HELVETICA);
+        cell.setFontSize(fontSize);
         table2.addHeaderRow(hRow);
 
         for (int i=0; i < t2limit; i++) {
@@ -164,7 +171,9 @@ public class WaybillFileService {
                 log.info("Putting empty string instead");
             }
             cell = t2Row.createCell(30, key);
+            cell.setFontSize(fontSize);
             cell =t2Row.createCell(30, value);
+            cell.setFontSize(fontSize);
         }
         table2.draw();
         // - End Table 2
