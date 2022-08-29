@@ -6,13 +6,14 @@
     </div>
     <div v-if="authenticated">
       <b-nav tabs>
+        <b-nav-item @click="switchNav('dashboard')" :active="nav == 'lazada'">Dashboard</b-nav-item>
         <b-nav-item @click="switchNav('lazada')" :active="nav == 'lazada'">Lazada</b-nav-item>
         <b-nav-item @click="switchNav('shopee')" :active="nav == 'shopee'">Shopee</b-nav-item>
 
         <b-nav-item @click="switchNav('payments')" :active="nav == 'payments'">Payments</b-nav-item>
         <b-nav-item @click="switchNav('order-tracker')" :active="nav == 'order-tracker'">Order Tracker and Management</b-nav-item>
       </b-nav>
-
+      <client-dashboard v-if="nav == 'dashboard'"></client-dashboard>
       <client-lazada-order v-if="nav == 'lazada'"></client-lazada-order>
       <client-shopee-order v-if="nav == 'shopee'"></client-shopee-order>
       <client-payments v-if="nav == 'payments'"></client-payments>
