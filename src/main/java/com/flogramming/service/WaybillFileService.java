@@ -221,13 +221,13 @@ public class WaybillFileService {
             throw new RuntimeException("No Tracking Number found. Iteration: " + page);
         }
         if (isLazada) {
-            List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByTrackingCode(trackingNumber);
+            List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByTrackingCodeOrderByDateUploadedDesc(trackingNumber);
 
             lazadaOrders.forEach(order -> {
                 orderTrackers.add(OrderTrackerUtil.mapLazadaToOrderTracker(order));
             });
         } else {
-            List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByTrackingNumber(trackingNumber);
+            List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByTrackingNumberOrderByDateUploadedDesc(trackingNumber);
             shopeeOrders.forEach(order -> {
                 orderTrackers.add(OrderTrackerUtil.mapShopeeToOrderTracker(order));
             });

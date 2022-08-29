@@ -38,9 +38,45 @@
           v-model="barcode"
         />
       </div>
+      <div class="form-group">
+        <div class="">
+          <label class="form-control-label" for="client-validityDate">From:</label>
+          <div class="">
+            <input
+              id="client-validityDate"
+              data-cy="validityDate"
+              type="datetime-local"
+              class="form-control col-md-4"
+              name="validityDate"
+              @change="updateStartDate($event)"
+            />
+          </div>
+        </div>
 
+        <div class="">
+          <label class="form-control-label" for="client-validityDate">To:</label>
+          <div>
+            <input
+              id="client-validityDate"
+              data-cy="validityDate"
+              type="datetime-local"
+              class="form-control col-md-4"
+              name="validityDate"
+              @change="updateEndDate($event)"
+            />
+          </div>
+        </div>
+
+        <label class="form-control-label" for="site">Site:</label>
+        <select class="form-control col-md-4" name="site" v-model="site" data-cy="site">
+          <option v-bind:value="all">SHOPEE OR LAZADA</option>
+          <option v-bind:value="shopee">SHOPEE</option>
+          <option v-bind:value="lazada">LAZADA</option>
+        </select>
+      </div>
       <button type="submit" class="btn btn-primary" data-cy="submit">Search</button>
     </form>
+
     <div class="alert alert-warning" v-if="!isFetching && orderTrackers && orderTrackers.length === 0">
       <span>No Orders found</span>
     </div>

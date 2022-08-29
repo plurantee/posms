@@ -1,9 +1,8 @@
 package com.flogramming.web.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flogramming.domain.LazadaOrder;
-import com.flogramming.domain.OrderTracker;
-import com.flogramming.domain.ShopeeOrder;
+import com.flogramming.StatusType;
+import com.flogramming.domain.*;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
 import com.flogramming.service.WaybillFileService;
@@ -21,6 +20,8 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/order-tracker")
@@ -39,9 +40,9 @@ public class OrderTrackerResource {
     @GetMapping("{queryId}")
     public ResponseEntity<List<OrderTracker>> getOrder(@PathVariable String queryId) {
         List<OrderTracker> result = new ArrayList<>();
-        List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByOrderId(queryId);
+        List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByOrderIdOrderByDateUploadedDesc(queryId);
         if (shopeeOrders.isEmpty()) {
-            shopeeOrders = clientShopeeOrderRepository.findByTrackingNumber(queryId);
+            shopeeOrders = clientShopeeOrderRepository.findByTrackingNumberOrderByDateUploadedDesc(queryId);
         }
 
         if (!shopeeOrders.isEmpty()) {
@@ -50,12 +51,12 @@ public class OrderTrackerResource {
             });
             return ResponseEntity.ok(result);
         }
-        List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByOrderNumber(queryId);
+        List<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByOrderNumberOrderByDateUploadedDesc(queryId);
         if (lazadaOrders.isEmpty()) {
-            lazadaOrders = clientLazadaOrderRepository.findByOrderItemId(queryId);
+            lazadaOrders = clientLazadaOrderRepository.findByOrderItemIdOrderByDateUploadedDesc(queryId);
         }
         if (lazadaOrders.isEmpty()) {
-            lazadaOrders = clientLazadaOrderRepository.findByTrackingCode(queryId);
+            lazadaOrders = clientLazadaOrderRepository.findByTrackingCodeOrderByDateUploadedDesc(queryId);
         }
 
         if (!lazadaOrders.isEmpty()) {
@@ -116,27 +117,27 @@ public class OrderTrackerResource {
         return ResponseEntity.ok(result);
     }
 
-    private List<OrderTracker> modifyShopeeOrders(List<OrderTracker> orderTrackers, ProcessType release) {
+    private List<OrderTracker> modifyShopeeOrders(List<OrderTracker> orderTrackers, ProcessType processType) {
         List<OrderTracker> result = new ArrayList<>();
         orderTrackers.forEach( orderTracker -> {
-            clientShopeeOrderRepository.findByOrderId(orderTracker.getOrderItemId())
-                .forEach(shopeeOrder -> {
-                    shopeeOrder.setOrderStatus(release.getProcess());
-                    clientShopeeOrderRepository.save(shopeeOrder);
-                    shopeeOrder.setDateReleasedOrCancelled(ZonedDateTime.now());
-                    result.add(OrderTrackerUtil.mapShopeeToOrderTracker(shopeeOrder));
-                });
-
+            ShopeeOrder shopeeOrder = clientShopeeOrderRepository.findByOrderIdAndSkuReferenceNoOrderByDateUploadedDesc(orderTracker.getOrderItemId(), orderTracker.getSkuReference());
+            shopeeOrder.setOrderStatus(
+                ProcessType.RELEASE.getProcess().equals(processType.getProcess()) ? releaseShopeeThenChangeStatus(shopeeOrder) : processType.getProcess()
+            );
+            shopeeOrder.dateReleasedOrCancelled(ZonedDateTime.now());
+            result.add(OrderTrackerUtil.mapShopeeToOrderTracker(shopeeOrder));
         });
         return result;
     }
 
-    private List<OrderTracker> modifyLazadaOrders(List<OrderTracker> orderTrackers, ProcessType release) {
+    private List<OrderTracker> modifyLazadaOrders(List<OrderTracker> orderTrackers, ProcessType processType) {
         List<OrderTracker> result = new ArrayList<>();
         orderTrackers.forEach( orderTracker -> {
-            clientLazadaOrderRepository.findByOrderItemId(orderTracker.getOrderItemId())
+            clientLazadaOrderRepository.findByOrderItemIdOrderByDateUploadedDesc(orderTracker.getOrderItemId())
                 .forEach(lazadaOrder -> {
-                    lazadaOrder.setStatus(release.getProcess());
+                    lazadaOrder.setStatus(
+                        ProcessType.RELEASE.getProcess().equals(processType.getProcess()) ? releaseLazadaThenChangeStatus(lazadaOrder) : processType.getProcess()
+                    );
                     lazadaOrder.dateReleasedOrCancelled(ZonedDateTime.now());
                     clientLazadaOrderRepository.save(lazadaOrder);
                     result.add(OrderTrackerUtil.mapLazadaToOrderTracker(lazadaOrder));
@@ -146,12 +147,33 @@ public class OrderTrackerResource {
         return result;
     }
 
+    public String releaseLazadaThenChangeStatus(LazadaOrder lazadaOrder) {
+        String currentStatus = lazadaOrder.getStatus();
+        Set<LazadaOrderPayments> payments = lazadaOrder.getPayments();
+        if (StatusType.PENDING_PICKUP.getValue().equals(currentStatus)) {
+            return payments.isEmpty() ? StatusType.PENDING_PAYMENT.getValue() : StatusType.PAID.getValue();
+        }
+
+        return currentStatus;
+    }
+
+    public String releaseShopeeThenChangeStatus(ShopeeOrder shopeeOrder) {
+        String currentStatus = shopeeOrder.getOrderStatus();
+        Set<ShopeeOrderPayments> payments = shopeeOrder.getPayments();
+        if (StatusType.PENDING_PICKUP.getValue().equals(currentStatus)) {
+            return payments.isEmpty() ? StatusType.PENDING_PAYMENT.getValue() : StatusType.PAID.getValue();
+        }
+
+        return currentStatus;
+    }
 
 }
 
 enum ProcessType {
     RELEASE("released"),
-    CANCEL("cancelled");
+    CANCEL("cancelled"),
+    RETURNED("returned")
+    ;
 
     public final String process;
     ProcessType(String process) {

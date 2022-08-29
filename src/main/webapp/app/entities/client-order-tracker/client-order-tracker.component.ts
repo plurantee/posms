@@ -3,6 +3,8 @@ import Vue2Filters from 'vue2-filters';
 import axios from 'axios';
 import { IOrderTracker, OrderTracker } from '@/shared/model/order-tracker.model';
 import AlertService from '@/shared/alert/alert.service';
+import dayjs from 'dayjs';
+import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 
 const baseApiUrl = 'api/order-tracker';
 
@@ -15,6 +17,10 @@ export default class ClientOrderTracker extends Vue {
   public orderTrackers: IOrderTracker[] = [];
   public isFetching = false;
   public file = null;
+  public startDate = null;
+  public endDate = null;
+  public site = null;
+
   public mounted(): void {
     
     this.clear();
@@ -28,6 +34,20 @@ export default class ClientOrderTracker extends Vue {
   }
 
   public searchText() {
+    this.search(this.barcode).then(
+      res => {
+        this.orderTrackers = res.data;
+        this.isFetching = false;
+        this.barcode = '';
+      },
+      err => {
+        this.isFetching = false;
+        this.clientAlertService().showHttpError(this, err.response);
+      }
+    );
+  }
+
+  public loadByCondition() {
     this.search(this.barcode).then(
       res => {
         this.orderTrackers = res.data;
@@ -179,5 +199,22 @@ export default class ClientOrderTracker extends Vue {
           reject(err);
         });
     });
+  }
+
+  public updateStartDate(event) {
+    if (event.target.value) {
+      this.startDate = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
+      alert(this.startDate);
+    } else {
+      this.startDate = null;
+    }
+  }
+  public updateEndDate(event) {
+    if (event.target.value) {
+      this.endDate = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
+      alert(this.endDate);
+    } else {
+      this.endDate = null;
+    }
   }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data SQL repository for the ShopeeOrder entity.
@@ -17,14 +18,15 @@ import java.util.List;
 public interface ClientShopeeOrderRepository extends ShopeeOrderRepository, ShopeeOrderRepositoryWithBagRelationships {
     List<ShopeeOrder> findByShop(Shop shop);
 
-    Page<ShopeeOrder> findByClient(Client client, Pageable pageable);
+    Page<ShopeeOrder> findByClientOrderByDateUploadedDesc(Client client, Pageable pageable);
 
-    List<ShopeeOrder> findByClient(Client client);
+    List<ShopeeOrder> findByClientOrderByDateUploadedDesc(Client client);
 
 
-    List<ShopeeOrder> findByOrderId(String orderId);
+    List<ShopeeOrder> findByOrderIdOrderByDateUploadedDesc(String orderId);
+    ShopeeOrder findByOrderIdAndSkuReferenceNoOrderByDateUploadedDesc(String orderId, String skuReferenceNo);
 
-    List<ShopeeOrder> findByTrackingNumber(String trackingNumber);
+    List<ShopeeOrder> findByTrackingNumberOrderByDateUploadedDesc(String trackingNumber);
 
     long deleteByOrderId(String orderId);
 }

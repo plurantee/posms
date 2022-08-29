@@ -1,5 +1,6 @@
 package com.flogramming.service;
 
+import com.flogramming.StatusType;
 import com.flogramming.domain.*;
 import com.flogramming.repository.*;
 import org.apache.commons.lang3.StringUtils;
@@ -188,7 +189,7 @@ public class ExcelFileService {
             lazadaOrder.trackingCodeFM(row.get("trackingCodeFM"));
             lazadaOrder.promisedShippingTime(convertLazadaDate(row.get("promisedShippingTime")));
             lazadaOrder.premium(row.get("premium"));
-            lazadaOrder.status(row.get("status"));
+            lazadaOrder.status(StatusType.PENDING_PICKUP.getValue());
             lazadaOrder.buyerFailedDeliveryReturnInitiator(row.get("buyerFailedDeliveryReturnInitiator"));
             lazadaOrder.buyerFailedDeliveryReason(row.get("buyerFailedDeliveryReason"));
             lazadaOrder.buyerFailedDeliveryDetail(row.get("buyerFailedDeliveryDetail"));
@@ -215,7 +216,7 @@ public class ExcelFileService {
                 lazadaOrderRepository.save(lazadaOrder);
             }
         }
-        return lazadaOrderRepository.findByClient(client, Pageable.ofSize(10));
+        return lazadaOrderRepository.findByClientOrderByDateUploadedDesc(client, Pageable.ofSize(10));
     }
 
     /**
@@ -297,7 +298,7 @@ public class ExcelFileService {
             shopeeOrder.setShop(shop);
             shopeeOrder.setClient(client);
             shopeeOrder.setOrderId(row.get("Order ID"));
-            shopeeOrder.setOrderStatus(row.get("Order Status"));
+            shopeeOrder.setOrderStatus(StatusType.PENDING_PICKUP.getValue());
             shopeeOrder.setReturnRefundStatus(row.get("Return / Refund Status"));
             shopeeOrder.setTrackingNumber(row.get("Tracking Number*"));
             shopeeOrder.setShippingOption(row.get("Shipping Option"));
@@ -368,7 +369,7 @@ public class ExcelFileService {
                 clientShopeeOrderRepository.save(shopeeOrder);
             }
         }
-        return clientShopeeOrderRepository.findByClient(client, Pageable.ofSize(10));
+        return clientShopeeOrderRepository.findByClientOrderByDateUploadedDesc(client, Pageable.ofSize(10));
     }
 
     /**
@@ -434,7 +435,7 @@ public class ExcelFileService {
         // 04 Jul 2022 11:46
         excelHashMap.remove(0); // Column rows
         for (HashMap<String, String> row : excelHashMap.values()) {
-            List<LazadaOrder> lazadaOrder = lazadaOrderRepository.findByOrderItemId(row.get("Order Item No."));
+            List<LazadaOrder> lazadaOrder = lazadaOrderRepository.findByOrderItemIdOrderByDateUploadedDesc(row.get("Order Item No."));
             if (lazadaOrder.isEmpty()) {
                 continue;
             }
@@ -533,7 +534,7 @@ public class ExcelFileService {
         excelHashMap.remove(0); // Column rows
         for (HashMap<String, String> row : excelHashMap.values()) {
             System.out.println(row.get("Order ID"));
-            List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByOrderId(row.get("Order ID"));
+            List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByOrderIdOrderByDateUploadedDesc(row.get("Order ID"));
             if (shopeeOrders.isEmpty()) {
                 continue;
             }

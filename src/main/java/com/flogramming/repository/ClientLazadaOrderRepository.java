@@ -17,13 +17,13 @@ import java.util.List;
 public interface ClientLazadaOrderRepository extends LazadaOrderRepository {
     List<LazadaOrder> findByShop(Shop shop);
 
-    Page<LazadaOrder> findByClient(Client client, Pageable pageable);
+    Page<LazadaOrder> findByClientOrderByDateUploadedDesc(Client client, Pageable pageable);
 
-    List<LazadaOrder> findByOrderItemId(String orderItemId);
+    List<LazadaOrder> findByOrderItemIdOrderByDateUploadedDesc(String orderItemId);
 
-    List<LazadaOrder> findByOrderNumber(String orderNumber);
+    List<LazadaOrder> findByOrderNumberOrderByDateUploadedDesc(String orderNumber);
 
     long deleteByOrderItemId(String orderItemId);
 
-    List<LazadaOrder> findByTrackingCode(String trackingCode);
+    List<LazadaOrder> findByTrackingCodeOrderByDateUploadedDesc(String trackingCode);
 }

@@ -82,7 +82,7 @@ public class ClientShopeeOrderResource {
     ) {
         log.debug("REST request to get all LazadaOrders");
         Client client = clientUserService.getCurrentUser().getClientCode();
-        List<ShopeeOrder> orders = shopeeOrderRepository.findByClient(client);
+        List<ShopeeOrder> orders = shopeeOrderRepository.findByClientOrderByDateUploadedDesc(client);
         if ("all".equals(filter)) {
 
         } else if ("unpaid".equals(filter)) {

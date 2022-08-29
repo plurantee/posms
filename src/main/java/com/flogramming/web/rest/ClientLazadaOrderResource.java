@@ -75,7 +75,7 @@ public class ClientLazadaOrderResource {
     ) {
         log.debug("REST request to get all LazadaOrders");
         Client client = clientUserService.getCurrentUser().getClientCode();
-        Page<LazadaOrder> page = lazadaOrderRepository.findByClient(client, pageable);
+        Page<LazadaOrder> page = lazadaOrderRepository.findByClientOrderByDateUploadedDesc(client, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
