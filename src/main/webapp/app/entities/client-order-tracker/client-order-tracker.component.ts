@@ -4,7 +4,7 @@ import axios from 'axios';
 import { IOrderTracker, OrderTracker } from '@/shared/model/order-tracker.model';
 import AlertService from '@/shared/alert/alert.service';
 import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from '@/shared/date/filters';
+import { DATE_TIME_FORMAT, DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 
 const baseApiUrl = 'api/order-tracker';
 
@@ -17,8 +17,8 @@ export default class ClientOrderTracker extends Vue {
   public orderTrackers: IOrderTracker[] = [];
   public isFetching = false;
   public file = null;
-  public startDate = null;
-  public endDate = null;
+  public startDate = dayjs().add(-1, 'day').format(DATE_TIME_FORMAT);
+  public endDate = dayjs().format(DATE_TIME_FORMAT);
   public site = 'all';
   public status = 'all';
   public nav: string | string[] = 'waybill';
@@ -240,6 +240,7 @@ export default class ClientOrderTracker extends Vue {
   }
 
   public switchNav(value: string) {
+    this.orderTrackers = [];
     this.nav = value;
   }
 

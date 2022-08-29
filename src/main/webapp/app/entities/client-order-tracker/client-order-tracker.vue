@@ -59,6 +59,7 @@
               type="datetime-local"
               class="form-control col-md-4"
               name="validityDate"
+              :value="startDate"
               @change="updateStartDate($event)"
             />
           </div>
@@ -73,6 +74,7 @@
               type="datetime-local"
               class="form-control col-md-4"
               name="validityDate"
+              :value="endDate"
               @change="updateEndDate($event)"
             />
           </div>
