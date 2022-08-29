@@ -1,12 +1,14 @@
 package com.flogramming.repository;
 
 import com.flogramming.domain.Client;
+import com.flogramming.domain.LazadaOrder;
 import com.flogramming.domain.Shop;
 import com.flogramming.domain.ShopeeOrder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +31,7 @@ public interface ClientShopeeOrderRepository extends ShopeeOrderRepository, Shop
     List<ShopeeOrder> findByTrackingNumberOrderByDateUploadedDesc(String trackingNumber);
 
     long deleteByOrderId(String orderId);
+
+    List<ShopeeOrder> findByDateUploadedBetweenOrderByDateUploadedDesc(ZonedDateTime zStartDate, ZonedDateTime zEndDate);
+    List<ShopeeOrder> findByOrderStatusAndDateUploadedBetweenOrderByDateUploadedDesc(String orderStatus, ZonedDateTime startDate, ZonedDateTime endDate);
 }

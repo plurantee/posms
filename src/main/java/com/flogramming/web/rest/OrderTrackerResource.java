@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -69,6 +72,47 @@ public class OrderTrackerResource {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/query")
+    public ResponseEntity<List<OrderTracker>> executeQuery(@RequestParam("startDate") String startDate,
+                                                           @RequestParam(value="endDate") String endDate,
+                                                           @RequestParam(value="site") String site,
+                                                           @RequestParam(value="status") String status) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        ZoneId zoneId = ZoneId.of("Asia/Manila");
+        ZonedDateTime zStartDate  = LocalDateTime.parse(startDate, formatter).atZone(zoneId);
+        ZonedDateTime zEndDate = LocalDateTime.parse(endDate, formatter).atZone(zoneId).plusMinutes(1);
+        List<OrderTracker> result = new ArrayList<>();
+        List<LazadaOrder> lazadaOrders = new ArrayList<>();
+        List<ShopeeOrder> shopeeOrders = new ArrayList<>();
+        if ("all".equals(status)) {
+            if ("all".equals(site) || "lazada".equals(site)) {
+                lazadaOrders = clientLazadaOrderRepository.findByDateUploadedBetweenOrderByDateUploadedDesc(zStartDate, zEndDate);
+            }
+            if ("all".equals(site) || "shopee".equals(site)) {
+                shopeeOrders = clientShopeeOrderRepository.findByDateUploadedBetweenOrderByDateUploadedDesc(zStartDate, zEndDate);
+            }
+
+        } else {
+            if ("all".equals(site) || "lazada".equals(site)) {
+                lazadaOrders = clientLazadaOrderRepository.findByStatusAndDateUploadedBetweenOrderByDateUploadedDesc(status, zStartDate, zEndDate);
+            }
+            if ("all".equals(site) || "shopee".equals(site)) {
+                shopeeOrders = clientShopeeOrderRepository.findByOrderStatusAndDateUploadedBetweenOrderByDateUploadedDesc(status, zStartDate, zEndDate);
+            }
+        }
+        if (lazadaOrders.size() > 0) {
+            lazadaOrders.forEach(lazadaOrder -> {
+                result.add(OrderTrackerUtil.mapLazadaToOrderTracker(lazadaOrder));
+            });
+        }
+        if (shopeeOrders.size() > 0) {
+            shopeeOrders.forEach(shopeeOrder -> {
+                result.add(OrderTrackerUtil.mapShopeeToOrderTracker(shopeeOrder));
+            });
+        }
+        return ResponseEntity.ok(result);
+    }
+
     @PostMapping(path = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces =
         MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> modifyWaybill(@RequestParam("file") MultipartFile file,
@@ -116,7 +160,17 @@ public class OrderTrackerResource {
 
         return ResponseEntity.ok(result);
     }
+    @PutMapping(path = "/return")
+    public ResponseEntity<List<OrderTracker>> returnOrders(@RequestBody List<OrderTracker> orderTrackers) throws IOException {
+        List<OrderTracker> result = new ArrayList<>();
+        if ("LAZADA".equals(orderTrackers.get(0).getSite())) {
+            result = modifyLazadaOrders(orderTrackers, ProcessType.RETURNED);
+        } else if ("SHOPEE".equals(orderTrackers.get(0).getSite())) {
+            result = modifyShopeeOrders(orderTrackers, ProcessType.RETURNED);
+        }
 
+        return ResponseEntity.ok(result);
+    }
     private List<OrderTracker> modifyShopeeOrders(List<OrderTracker> orderTrackers, ProcessType processType) {
         List<OrderTracker> result = new ArrayList<>();
         orderTrackers.forEach( orderTracker -> {
@@ -148,23 +202,13 @@ public class OrderTrackerResource {
     }
 
     public String releaseLazadaThenChangeStatus(LazadaOrder lazadaOrder) {
-        String currentStatus = lazadaOrder.getStatus();
         Set<LazadaOrderPayments> payments = lazadaOrder.getPayments();
-        if (StatusType.PENDING_PICKUP.getValue().equals(currentStatus)) {
-            return payments.isEmpty() ? StatusType.PENDING_PAYMENT.getValue() : StatusType.PAID.getValue();
-        }
-
-        return currentStatus;
+        return payments.isEmpty() ? StatusType.PENDING_PAYMENT.getValue() : StatusType.PAID.getValue();
     }
 
     public String releaseShopeeThenChangeStatus(ShopeeOrder shopeeOrder) {
-        String currentStatus = shopeeOrder.getOrderStatus();
         Set<ShopeeOrderPayments> payments = shopeeOrder.getPayments();
-        if (StatusType.PENDING_PICKUP.getValue().equals(currentStatus)) {
-            return payments.isEmpty() ? StatusType.PENDING_PAYMENT.getValue() : StatusType.PAID.getValue();
-        }
-
-        return currentStatus;
+        return payments.isEmpty() ? StatusType.PENDING_PAYMENT.getValue() : StatusType.PAID.getValue();
     }
 
 }

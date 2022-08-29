@@ -1,43 +1,54 @@
 <template>
   <div>
-    <div class="form-group">
-      <label class="form-control-label" for="file">Upload to fill Waybill informations</label>
-      <div class="row col-md-12">
-        <b-form-file
-          ref="file"
-          v-model="file"
-          placeholder="Upload Waybill"
-          v-on:change="uploadFile($event)"
-          drop-placeholder="Drop file here..."
-          class="col-md-4"
-        ></b-form-file>
-        <button
-          @click="submitFile()"
-          id="jh-create-entity"
-          data-cy="entityCreateButton"
-          class="btn btn-primary jh-create-entity create-lazada-order"
-        >
-          <font-awesome-icon icon="plus"></font-awesome-icon>
-          <span> Upload Waybill </span>
-        </button>
+    <b-nav tabs>
+      <b-nav-item @click="switchNav('waybill')" :active="nav == 'waybill'">Track by waybill</b-nav-item>
+      <b-nav-item @click="switchNav('query')" :active="nav == 'query'">Track by query</b-nav-item>
+    </b-nav>
+    <div v-if="nav == 'waybill'">
+      <div class="form-group">
+        <label class="form-control-label" for="file">Upload to fill Waybill informations</label>
+        <div class="row col-md-12">
+          <b-form-file
+            ref="file"
+            v-model="file"
+            placeholder="Upload Waybill"
+            v-on:change="uploadFile($event)"
+            accept=".pdf"
+            drop-placeholder="Drop file here..."
+            class="col-md-4"
+          ></b-form-file>
+          <button
+            @click="submitFile()"
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+            class="btn btn-primary jh-create-entity create-lazada-order"
+          >
+            <font-awesome-icon icon="plus"></font-awesome-icon>
+            <span> Upload Waybill </span>
+          </button>
+        </div>
       </div>
+
+      <form name="form" role="form" id="tracker-form" v-on:submit.prevent="searchText()">
+        <div class="form-group">
+          <label class="form-control-label" for="barcode">Barcode Number</label>
+          <input
+            ref="barcode"
+            type="text"
+            class="form-control"
+            id="barcode"
+            inputname="barcode"
+            placeholder="Scan tracking number or order id"
+            autofocus
+            required
+            v-model="barcode"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary" data-cy="submit">Search</button>
+      </form>
     </div>
 
-    <form name="form" role="form" id="tracker-form" v-on:submit.prevent="searchText()">
-      <div class="form-group">
-        <label class="form-control-label" for="barcode">Barcode Number</label>
-        <input
-          ref="barcode"
-          type="text"
-          class="form-control"
-          id="barcode"
-          inputname="barcode"
-          placeholder="Scan tracking number or order id"
-          autofocus
-          required
-          v-model="barcode"
-        />
-      </div>
+    <form v-if="nav == 'query'" name="form" role="form" id="tracker-form" v-on:submit.prevent="query()">
       <div class="form-group">
         <div class="">
           <label class="form-control-label" for="client-validityDate">From:</label>
@@ -69,9 +80,19 @@
 
         <label class="form-control-label" for="site">Site:</label>
         <select class="form-control col-md-4" name="site" v-model="site" data-cy="site">
-          <option v-bind:value="all">SHOPEE OR LAZADA</option>
-          <option v-bind:value="shopee">SHOPEE</option>
-          <option v-bind:value="lazada">LAZADA</option>
+          <option value="all" selected>ALL</option>
+          <option value="shopee">SHOPEE</option>
+          <option value="lazada">LAZADA</option>
+        </select>
+
+        <label class="form-control-label" for="status">Status:</label>
+        <select class="form-control col-md-4" name="status" v-model="status" data-cy="status">
+          <option value="all" selected>ALL</option>
+          <option value="paid">PAID</option>
+          <option value="pending_payment">PENDING PAYMENT</option>
+          <option value="returned">RETURNED</option>
+          <option value="pending_pickup">PENDING PICKUP</option>
+          <option value="cancelled">CANCELLED</option>
         </select>
       </div>
       <button type="submit" class="btn btn-primary" data-cy="submit">Search</button>
@@ -81,11 +102,14 @@
       <span>No Orders found</span>
     </div>
     <div class="table-responsive" v-if="orderTrackers && orderTrackers.length > 0">
-      <div class="modify-orders">
+      <div class="modify-orders" v-if="nav == 'waybill'">
         <button @click="releaseOrders()" class="btn btn-success jh-create-entity create-lazada-order">
           <span> Release Orders </span>
         </button>
-        <button @click="cancelOrders()" class="btn btn-warning jh-create-entity create-lazada-order">
+        <button @click="returnOrders()" class="btn btn-warning jh-create-entity create-lazada-order">
+          <span> Return Orders </span>
+        </button>
+        <button @click="cancelOrders()" class="btn btn-danger jh-create-entity create-lazada-order">
           <span> Cancel Orders </span>
         </button>
       </div>

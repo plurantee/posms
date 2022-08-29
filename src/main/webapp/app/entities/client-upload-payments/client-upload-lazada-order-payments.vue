@@ -8,6 +8,7 @@
           v-model="file"
           placeholder="Upload Lazada File"
           v-on:change="uploadFile()"
+          accept=".xlsx"
           drop-placeholder="Drop file here..."
           class="col-md-4"
         ></b-form-file>

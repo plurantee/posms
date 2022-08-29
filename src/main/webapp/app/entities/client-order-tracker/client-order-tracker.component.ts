@@ -4,7 +4,7 @@ import axios from 'axios';
 import { IOrderTracker, OrderTracker } from '@/shared/model/order-tracker.model';
 import AlertService from '@/shared/alert/alert.service';
 import dayjs from 'dayjs';
-import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
+import { DATE_TIME_FORMAT } from '@/shared/date/filters';
 
 const baseApiUrl = 'api/order-tracker';
 
@@ -19,7 +19,9 @@ export default class ClientOrderTracker extends Vue {
   public file = null;
   public startDate = null;
   public endDate = null;
-  public site = null;
+  public site = 'all';
+  public status = 'all';
+  public nav: string | string[] = 'waybill';
 
   public mounted(): void {
     
@@ -201,20 +203,90 @@ export default class ClientOrderTracker extends Vue {
     });
   }
 
+  public returnOrders() {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .put(`${baseApiUrl}/return`, this.orderTrackers)
+        .then(res => {
+          resolve(res.data);
+          this.orderTrackers = res.data;
+          return this.$root.$bvToast.toast('Orders Returned', {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
   public updateStartDate(event) {
     if (event.target.value) {
-      this.startDate = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
-      alert(this.startDate);
+      this.startDate = dayjs(event.target.value).format(DATE_TIME_FORMAT);
     } else {
       this.startDate = null;
     }
   }
   public updateEndDate(event) {
     if (event.target.value) {
-      this.endDate = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
-      alert(this.endDate);
+      this.endDate = dayjs(event.target.value).format(DATE_TIME_FORMAT);
     } else {
       this.endDate = null;
     }
+  }
+
+  public switchNav(value: string) {
+    this.nav = value;
+  }
+
+  public query() {
+    // eslint-disable-next-line prefer-const
+    let formData = new FormData();
+    // eslint-disable-next-line prefer-const
+    let yesterday = dayjs().add(-1, 'day').format(DATE_TIME_FORMAT);
+    // START DATE
+    if (this.startDate) {
+      formData.append('startDate', this.startDate);
+    } else {
+      formData.append('startDate', yesterday);
+    }
+
+    // END DATE
+    if (this.endDate) {
+      formData.append('endDate', this.endDate);
+    } else {
+      formData.append('endDate', dayjs().format(DATE_TIME_FORMAT));
+    }
+
+    // SITE
+    if (this.site) {
+      formData.append('site', this.site);
+    } else {
+      formData.append('site', 'all');
+    }
+
+    // STATUS
+    if (this.status) {
+      formData.append('status', this.status);
+    } else {
+      formData.append('status', 'all');
+    }
+
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .post(`${baseApiUrl}/query`, formData)
+        .then(res => {
+          resolve(res.data);
+          this.orderTrackers = res.data;
+        this.isFetching = false;
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   }
 }

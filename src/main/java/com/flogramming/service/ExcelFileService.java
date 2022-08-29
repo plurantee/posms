@@ -465,6 +465,12 @@ public class ExcelFileService {
 
             lazadaOrderPayment.setLazadaOrder(lazadaOrder.stream().findFirst().get());
             result.add(lazadaOrderPayment);
+            lazadaOrder.forEach(lazadaOrder1 -> {
+                if (StatusType.PENDING_PAYMENT.equals(lazadaOrder1.getStatus())) {
+                    lazadaOrder1.setStatus(StatusType.PAID.getValue());
+                    lazadaOrderRepository.save(lazadaOrder1);
+                }
+            });
         }
         clientLazadaOrderPaymentsRepository.saveAll(result);
         return result;
@@ -569,6 +575,13 @@ public class ExcelFileService {
             shopeeOrderPayments.addShopeeOrderFromList(shopeeOrders);
 
             result.add(shopeeOrderPayments);
+
+            shopeeOrders.forEach(shopeeOrder -> {
+                if (StatusType.PENDING_PAYMENT.equals(shopeeOrder.getOrderStatus())) {
+                    shopeeOrder.setOrderStatus(StatusType.PAID.getValue());
+                    clientShopeeOrderRepository.save(shopeeOrder);
+                }
+            });
         }
         clientShopeeOrderPaymentsRepository.saveAll(result);
         return result;

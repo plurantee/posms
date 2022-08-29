@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -26,4 +27,7 @@ public interface ClientLazadaOrderRepository extends LazadaOrderRepository {
     long deleteByOrderItemId(String orderItemId);
 
     List<LazadaOrder> findByTrackingCodeOrderByDateUploadedDesc(String trackingCode);
+
+    List<LazadaOrder> findByDateUploadedBetweenOrderByDateUploadedDesc(ZonedDateTime startDate, ZonedDateTime endDate);
+    List<LazadaOrder> findByStatusAndDateUploadedBetweenOrderByDateUploadedDesc(String status, ZonedDateTime startDate, ZonedDateTime endDate);
 }

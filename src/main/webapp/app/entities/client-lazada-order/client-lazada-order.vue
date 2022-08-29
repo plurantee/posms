@@ -19,6 +19,7 @@
           v-model="file"
           placeholder="Upload Lazada File"
           v-on:change="uploadFile()"
+          accept=".xlsx"
           drop-placeholder="Drop file here..."
           class="col-md-4"
         ></b-form-file>
@@ -67,6 +68,7 @@
             <th scope="row"><span>Date Uploaded</span></th>
             <th scope="row"><span>Date Released/Cancelled</span></th>
             <th scope="row"><span>Shop</span></th>
+            <th scope="row"><span>Status</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -106,6 +108,7 @@
               </div>
               <div v-else></div>
             </td>
+            <td>{{ lazadaOrder.status }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link

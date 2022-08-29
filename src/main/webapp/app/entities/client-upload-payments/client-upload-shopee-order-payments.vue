@@ -8,6 +8,7 @@
           v-model="file"
           placeholder="Upload Shopee File"
           v-on:change="uploadFile()"
+          accept=".xls"
           drop-placeholder="Drop file here..."
           class="col-md-4"
         ></b-form-file>

@@ -248,7 +248,7 @@ public class LazadaOrder implements Serializable {
     @Column(name = "date_released_or_cancelled")
     private ZonedDateTime dateReleasedOrCancelled;
 
-    @OneToMany(mappedBy = "lazadaOrder")
+    @OneToMany(mappedBy = "lazadaOrder", fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = { "lazadaOrder" }, allowSetters = true)
     private Set<LazadaOrderPayments> payments = new HashSet<>();
 
