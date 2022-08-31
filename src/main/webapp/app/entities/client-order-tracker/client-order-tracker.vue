@@ -108,6 +108,13 @@
         <button @click="releaseOrders()" class="btn btn-success jh-create-entity create-lazada-order">
           <span> Release Orders </span>
         </button>
+        <button
+          @click="downloadReleaseReport()"
+          v-if="checkOrdersIfReleased()"
+          class="btn btn-success jh-create-entity create-lazada-order"
+        >
+          <span> Download Release Report <b-icon icon="cloud-arrow-down"></b-icon> </span>
+        </button>
         <button @click="returnOrders()" class="btn btn-warning jh-create-entity create-lazada-order">
           <span> Return Orders </span>
         </button>

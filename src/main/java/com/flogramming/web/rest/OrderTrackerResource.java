@@ -7,6 +7,9 @@ import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
 import com.flogramming.service.WaybillFileService;
 import com.flogramming.util.OrderTrackerUtil;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -147,6 +154,18 @@ public class OrderTrackerResource {
         }
 
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping(path = "/release-report", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity releaseReport(@RequestBody List<OrderTracker> orderTrackers, HttpServletResponse response) throws IOException {
+        ServletOutputStream os = response.getOutputStream();
+        response.setContentType("application/vnd.ms-excel");
+        response.setHeader("Content-Disposition", "attachment; filename=test.xlsx\"");
+
+        Workbook workbook = new XSSFWorkbook();
+        workbook.write(os);
+        response.flushBuffer();
+        return null;
     }
 
     @PutMapping(path = "/cancel")

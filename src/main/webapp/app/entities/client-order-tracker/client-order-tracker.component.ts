@@ -24,13 +24,12 @@ export default class ClientOrderTracker extends Vue {
   public nav: string | string[] = 'waybill';
 
   public mounted(): void {
-    
     this.clear();
   }
 
   public clear(): void {
     if (this.$route.query?.barcodeNumber) {
-      this.barcode= this.$route.query.barcodeNumber;
+      this.barcode = this.$route.query.barcodeNumber;
       this.searchText();
     }
   }
@@ -38,7 +37,24 @@ export default class ClientOrderTracker extends Vue {
   public searchText() {
     this.search(this.barcode).then(
       res => {
-        this.orderTrackers = res.data;
+        const resdata: IOrderTracker[] = res.data;
+        if (this.orderTrackers.length > 0) {
+          resdata.forEach((item, index) => {
+            if (!this.orderTrackers.some(e => e.id === item.id)) {
+              this.orderTrackers.push(item);
+            } else {
+              this.$root.$bvToast.toast('This order is already in the list', {
+                toaster: 'b-toaster-top-center',
+                title: 'Info',
+                variant: 'info',
+                solid: true,
+                autoHideDelay: 5000,
+              });
+            }
+          });
+        } else {
+          this.orderTrackers = res.data;
+        }
         this.isFetching = false;
         this.barcode = '';
       },
@@ -78,7 +94,7 @@ export default class ClientOrderTracker extends Vue {
     });
   }
 
-  public uploadFile( event ): void {
+  public uploadFile(event): void {
     this.file = event.target.files[0];
     this.isFetching = true;
     // eslint-disable-next-line prefer-const
@@ -95,8 +111,6 @@ export default class ClientOrderTracker extends Vue {
         this.clientAlertService().showHttpError(this, err.response);
       }
     );
-
-
   }
 
   public submitFile(): void {
@@ -283,11 +297,47 @@ export default class ClientOrderTracker extends Vue {
         .then(res => {
           resolve(res.data);
           this.orderTrackers = res.data;
-        this.isFetching = false;
+          this.isFetching = false;
         })
         .catch(err => {
           reject(err);
         });
     });
+  }
+
+  public downloadReleaseReport() {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .post(`${baseApiUrl}/release-report`, this.orderTrackers, { responseType: 'blob' })
+        .then(res => {
+          resolve(res.data);
+          const blob = new Blob([res.data], { type: 'application/vnd.ms-excel' });
+          const objectUrl = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = objectUrl;
+          link.download = 'test.xlsx';
+          link.click();
+          return this.$root.$bvToast.toast('Orders Released', {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  public checkOrdersIfReleased() {
+    let result = true;
+    if (this.orderTrackers.length > 0) {
+      if (this.orderTrackers.some(e => e.status === 'pending_pickup' || e.status === 'returned')) {
+        result = false;
+      }
+    }
+    return result;
   }
 }
