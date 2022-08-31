@@ -5,6 +5,7 @@ import com.flogramming.StatusType;
 import com.flogramming.domain.*;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
+import com.flogramming.service.ExcelFileService;
 import com.flogramming.service.WaybillFileService;
 import com.flogramming.util.OrderTrackerUtil;
 import org.apache.poi.ss.usermodel.*;
@@ -47,6 +48,9 @@ public class OrderTrackerResource {
 
     @Autowired
     private WaybillFileService waybillFileService;
+
+    @Autowired
+    private ExcelFileService excelFileService;
 
     @GetMapping("{queryId}")
     public ResponseEntity<List<OrderTracker>> getOrder(@PathVariable String queryId) {
@@ -159,54 +163,11 @@ public class OrderTrackerResource {
 
     @PostMapping(path = "/release-report", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity releaseReport(@RequestBody List<OrderTracker> orderTrackers, HttpServletResponse response) throws IOException {
-        ServletOutputStream os = response.getOutputStream();
-        response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment; filename=test.xlsx\"");
-
-        Workbook workbook = new XSSFWorkbook();
-
-        Sheet sheet = workbook.createSheet("Released Orders");
-        Row header = sheet.createRow(0);
-        CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
-        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-
-        XSSFFont font = ((XSSFWorkbook) workbook).createFont();
-        font.setFontName("Arial");
-        font.setFontHeightInPoints((short) 16);
-        font.setBold(true);
-        headerStyle.setFont(font);
-
-        Cell headerCell = header.createCell(0);
-        headerCell.setCellValue("Name");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(1);
-        headerCell.setCellValue("Age");
-        headerCell.setCellStyle(headerStyle);
-
-        font.setFontHeightInPoints((short) 16);
-        font.setBold(true);
-        headerStyle.setFont(font);
-
-        sheet.setColumnWidth(0, 6000);
-        sheet.setColumnWidth(1, 4000);
-        CellStyle style = workbook.createCellStyle();
-        style.setWrapText(true);
-
-        Row row = sheet.createRow(2);
-        Cell cell = row.createCell(0);
-        cell.setCellValue("John Smith");
-        cell.setCellStyle(style);
-
-        cell = row.createCell(1);
-        cell.setCellValue(20);
-        cell.setCellStyle(style);
-
-        workbook.write(os);
-        response.flushBuffer();
+        excelFileService.createReport(orderTrackers, response);
         return null;
     }
+
+
 
     @PutMapping(path = "/cancel")
     public ResponseEntity<List<OrderTracker>> cancel(@RequestBody List<OrderTracker> orderTrackers) throws IOException {

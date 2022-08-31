@@ -166,7 +166,10 @@ export default class ClientOrderTracker extends Vue {
         .then(res => {
           const blob = new Blob([res.data], { type: 'application/pdf' });
           const objectUrl = window.URL.createObjectURL(blob);
-          window.open(objectUrl);
+          const link = document.createElement('a');
+          link.href = objectUrl;
+          link.download = 'waybill - ' + dayjs().format(DATE_TIME_FORMAT) + '.pdf';
+          link.click();
           resolve(res.data);
         })
         .catch(err => {
@@ -315,7 +318,7 @@ export default class ClientOrderTracker extends Vue {
           const objectUrl = window.URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = objectUrl;
-          link.download = 'test.xlsx';
+          link.download = 'release report - ' + dayjs().format(DATE_TIME_FORMAT) + '.xlsx';
           link.click();
           return this.$root.$bvToast.toast('Orders Released', {
             toaster: 'b-toaster-top-center',

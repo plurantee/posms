@@ -6,6 +6,7 @@ import com.flogramming.repository.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,16 +16,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ExcelFileService {
@@ -727,5 +728,145 @@ public class ExcelFileService {
         }
         clientInventoryRepository.saveAll(result);
         return clientInventoryRepository.findByClient(client, Pageable.ofSize(10));
+    }
+
+    public void createReport(List<OrderTracker> orders, HttpServletResponse response) throws IOException {
+
+        ServletOutputStream os = response.getOutputStream();
+        response.setContentType("application/vnd.ms-excel");
+        response.setHeader("Content-Disposition", "attachment; filename=test.xlsx\"");
+
+        Workbook workbook = new XSSFWorkbook();
+
+        Sheet sheet = workbook.createSheet("Released Orders");
+        Row header = sheet.createRow(0);
+        CellStyle headerStyle = workbook.createCellStyle();
+
+        XSSFFont font = ((XSSFWorkbook) workbook).createFont();
+        font.setFontName("Arial");
+        font.setFontHeightInPoints((short) 16);
+        font.setBold(true);
+        headerStyle.setFont(font);
+
+        Cell headerCell = header.createCell(0);
+        headerCell.setCellValue("Number");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(1);
+        headerCell.setCellValue("Tracking Number");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(2);
+        headerCell.setCellValue("Transaction Number/s");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(3);
+        headerCell.setCellValue("Shipping Provider");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(4);
+        headerCell.setCellValue("Store Name");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(5);
+        headerCell.setCellValue("Quantity");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(6);
+        headerCell.setCellValue("Site");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(7);
+        headerCell.setCellValue("Item/s");
+        headerCell.setCellStyle(headerStyle);
+
+        font.setFontHeightInPoints((short) 16);
+        font.setBold(true);
+        headerStyle.setFont(font);
+
+        sheet.setColumnWidth(0, 4000);
+        sheet.setColumnWidth(1, 6000);
+        sheet.setColumnWidth(2, 6000);
+        sheet.setColumnWidth(3, 6000);
+        sheet.setColumnWidth(4, 6000);
+        sheet.setColumnWidth(5, 4000);
+        sheet.setColumnWidth(6, 6000);
+        sheet.setColumnWidth(7, 6000);
+
+        CellStyle style = workbook.createCellStyle();
+        style.setWrapText(true);
+        List<String> barcodes = new ArrayList<>(orders.stream().map(order -> order.getBarcodeNumber()).collect(Collectors.toSet()));
+
+        for (int i=0; i < barcodes.size(); i++) {
+            Row row = sheet.createRow(i+1);
+            Cell cell = row.createCell(0);
+            cell.setCellValue(i+1);
+            final String barcode = barcodes.get(i);
+            cell = row.createCell(1);
+            cell.setCellValue(barcode);
+            Map<String, Long> ordersMap = orders.stream()
+                .filter(order -> barcode.equals(order.getBarcodeNumber()))
+                .collect(Collectors.groupingBy(e -> e.getSkuReference(), Collectors.counting()));
+            StringBuilder transactions = new StringBuilder();
+            String storeName = "DEFAULT";
+            if ("LAZADA".equalsIgnoreCase(orders.get(0).getSite())) {
+                List<LazadaOrder> lazadaOrders = lazadaOrderRepository.findByTrackingCodeOrderByDateUploadedDesc(barcode);
+                if (lazadaOrders.size() > 0 && lazadaOrders.get(0).getShop() != null) {
+                    storeName = lazadaOrders.get(0).getShop().getShopName();
+                }
+                List<String> orderIds = new ArrayList<>(lazadaOrders.stream().map(order -> order.getOrderNumber()).collect(Collectors.toSet()));
+                for (String order : orderIds) {
+                    transactions.append(order);
+                }
+                cell = row.createCell(5);
+                cell.setCellValue(lazadaOrders.size());
+                cell = row.createCell(6);
+                cell.setCellValue("LAZADA");
+            } else {
+                List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByTrackingNumberOrderByDateUploadedDesc(barcode);
+                if (shopeeOrders.size() > 0 && shopeeOrders.get(0).getShop() != null) {
+                    storeName = shopeeOrders.get(0).getShop().getShopName();
+                }
+                List<String> orderIds = new ArrayList<>(shopeeOrders.stream().map(order -> order.getOrderId()).collect(Collectors.toSet()));
+                for (int j = 0; j < orderIds.size(); j++) {
+                    String order = orderIds.get(j);
+                    if (j == orderIds.size()-1) {
+                        transactions.append(order);
+                    } else {
+                        transactions.append(order + ", ");
+                    }
+                }
+                cell = row.createCell(5);
+                cell.setCellValue(shopeeOrders.size());
+                cell = row.createCell(6);
+                cell.setCellValue("SHOPEE");
+            }
+            cell = row.createCell(2);
+            cell.setCellValue(transactions.toString());
+
+            String shippingProvider = orders.stream().filter(order -> order.getBarcodeNumber() == barcode).findFirst().stream().findFirst().get().getCourier();
+            cell = row.createCell(3);
+            cell.setCellValue(shippingProvider);
+
+            cell = row.createCell(4);
+            cell.setCellValue(storeName);
+
+            StringBuilder items = new StringBuilder();
+            List<String> itemsList = new ArrayList(ordersMap.keySet());
+            for (int j = 0; j < itemsList.size(); j++) {
+                if (j == itemsList.size()-1) {
+                    items.append(itemsList.get(j));
+                } else {
+                    items.append(itemsList.get(j) + ", ");
+                }
+            }
+            cell = row.createCell(7);
+            cell.setCellValue(items.toString());
+
+        }
+
+
+        workbook.write(os);
+        response.flushBuffer();
     }
 }
