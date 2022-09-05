@@ -770,21 +770,26 @@ public class ExcelFileService {
         font2.setBold(true);
         sheetInfoStyle.setFont(font2);
 
-        int startingRowOfTable = 2;
+        int startingRowOfTable = 3;
         Sheet sheet = workbook.createSheet("Released Orders");
+        Row sheetTitle = sheet.createRow(0);
+        Row sheetInfo = sheet.createRow(1);
 
-        Row sheetInfo = sheet.createRow(0);
-        Cell cell = sheetInfo.createCell(0);
+        Cell cell = sheetTitle.createCell(0);
+        cell.setCellValue("Daily Released");
+        cell.setCellStyle(sheetInfoStyle);
+
+        CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 7));
+
+        cell = sheetInfo.createCell(0);
         cell.setCellValue("Date Released:");
         cell.setCellStyle(sheetInfoStyle);
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 1));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 2, 3));
 
-        cell = sheetInfo.createCell(2);
-        ZonedDateTime dateToday = ZonedDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM, dd yyyy - HH:mm:ss");
-        cell.setCellValue(dateToday.format(formatter));
-        cell.setCellStyle(sheetInfoStyle);
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 2, 3));
+
+
 
         Row header = sheet.createRow(startingRowOfTable);
 
@@ -860,6 +865,19 @@ public class ExcelFileService {
                 cell.setCellValue(lazadaOrders.size());
                 cell = row.createCell(6);
                 cell.setCellValue("LAZADA");
+
+                // Dates
+                List<ZonedDateTime> dates = lazadaOrders.stream()
+                    .map(lazadaOrder -> lazadaOrder.getDateReleasedOrCancelled())
+                    .sorted(Comparator.naturalOrder()).collect(Collectors.toList());
+                cell = sheetInfo.createCell(2);
+                ZonedDateTime dateToday = ZonedDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM, dd yyyy - HH:mm:ss");
+                String earliest = dates.get(0).format(formatter);
+                String latest = dates.get(dates.size() - 1).format(formatter);
+                String datesToShow = earliest.equals(latest) ? latest : earliest + " - " + latest;
+                cell.setCellValue(datesToShow);
+                cell.setCellStyle(sheetInfoStyle);
             } else {
                 List<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByTrackingNumberOrderByDateUploadedDesc(barcode);
                 if (shopeeOrders.size() > 0 && shopeeOrders.get(0).getShop() != null) {
@@ -878,7 +896,21 @@ public class ExcelFileService {
                 cell.setCellValue(shopeeOrders.size());
                 cell = row.createCell(6);
                 cell.setCellValue("SHOPEE");
+
+                // Dates
+                List<ZonedDateTime> dates = shopeeOrders.stream()
+                    .map(shopeeOrder -> shopeeOrder.getDateReleasedOrCancelled())
+                    .sorted(Comparator.naturalOrder()).collect(Collectors.toList());
+                cell = sheetInfo.createCell(2);
+                ZonedDateTime dateToday = ZonedDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM, dd yyyy - HH:mm:ss");
+                String earliest = dates.get(0).format(formatter);
+                String latest = dates.get(dates.size() - 1).format(formatter);
+                String datesToShow = earliest.equals(latest) ? latest : earliest + " - " + latest;
+                cell.setCellValue(datesToShow);
+                cell.setCellStyle(sheetInfoStyle);
             }
+
             cell = row.createCell(2);
             cell.setCellValue(transactions.toString());
 
