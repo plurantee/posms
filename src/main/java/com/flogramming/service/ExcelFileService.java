@@ -6,6 +6,8 @@ import com.flogramming.repository.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
@@ -737,16 +739,55 @@ public class ExcelFileService {
         response.setHeader("Content-Disposition", "attachment; filename=test.xlsx\"");
 
         Workbook workbook = new XSSFWorkbook();
-
-        Sheet sheet = workbook.createSheet("Released Orders");
-        Row header = sheet.createRow(0);
         CellStyle headerStyle = workbook.createCellStyle();
 
         XSSFFont font = ((XSSFWorkbook) workbook).createFont();
         font.setFontName("Arial");
-        font.setFontHeightInPoints((short) 16);
+        font.setFontHeightInPoints((short) 12);
         font.setBold(true);
+        font.setColor(IndexedColors.WHITE.getIndex());
         headerStyle.setFont(font);
+        headerStyle.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+        headerStyle.setFillPattern(FillPatternType.ALT_BARS);
+        headerStyle.setBorderBottom(BorderStyle.THIN);
+        headerStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+
+        headerStyle.setBorderTop(BorderStyle.THIN);
+        headerStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
+
+        headerStyle.setBorderLeft(BorderStyle.THIN);
+        headerStyle.setLeftBorderColor(IndexedColors.WHITE.getIndex());
+
+        headerStyle.setBorderRight(BorderStyle.THIN);
+        headerStyle.setRightBorderColor(IndexedColors.WHITE.getIndex());
+
+
+        CellStyle sheetInfoStyle = workbook.createCellStyle();
+
+        XSSFFont font2 = ((XSSFWorkbook) workbook).createFont();
+        font2.setFontName("Arial");
+        font2.setFontHeightInPoints((short) 18);
+        font2.setBold(true);
+        sheetInfoStyle.setFont(font2);
+
+        int startingRowOfTable = 2;
+        Sheet sheet = workbook.createSheet("Released Orders");
+
+        Row sheetInfo = sheet.createRow(0);
+        Cell cell = sheetInfo.createCell(0);
+        cell.setCellValue("Date Released:");
+        cell.setCellStyle(sheetInfoStyle);
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
+
+        cell = sheetInfo.createCell(2);
+        ZonedDateTime dateToday = ZonedDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM, dd yyyy - HH:mm:ss");
+        cell.setCellValue(dateToday.format(formatter));
+        cell.setCellStyle(sheetInfoStyle);
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 2, 3));
+
+        Row header = sheet.createRow(startingRowOfTable);
+
 
         Cell headerCell = header.createCell(0);
         headerCell.setCellValue("Number");
@@ -780,9 +821,6 @@ public class ExcelFileService {
         headerCell.setCellValue("Item/s");
         headerCell.setCellStyle(headerStyle);
 
-        font.setFontHeightInPoints((short) 16);
-        font.setBold(true);
-        headerStyle.setFont(font);
 
         sheet.setColumnWidth(0, 4000);
         sheet.setColumnWidth(1, 6000);
@@ -798,8 +836,8 @@ public class ExcelFileService {
         List<String> barcodes = new ArrayList<>(orders.stream().map(order -> order.getBarcodeNumber()).collect(Collectors.toSet()));
 
         for (int i=0; i < barcodes.size(); i++) {
-            Row row = sheet.createRow(i+1);
-            Cell cell = row.createCell(0);
+            Row row = sheet.createRow(i+(startingRowOfTable+1));
+            cell = row.createCell(0);
             cell.setCellValue(i+1);
             final String barcode = barcodes.get(i);
             cell = row.createCell(1);
@@ -831,7 +869,7 @@ public class ExcelFileService {
                 for (int j = 0; j < orderIds.size(); j++) {
                     String order = orderIds.get(j);
                     if (j == orderIds.size()-1) {
-                        transactions.append(order);
+                        transactions.append(order+ ", ");
                     } else {
                         transactions.append(order + ", ");
                     }
@@ -864,8 +902,29 @@ public class ExcelFileService {
             cell.setCellValue(items.toString());
 
         }
+        // Signature part
+        int signatureLinesRowNumber = (barcodes.size() + startingRowOfTable) < 40 ? 40 : (barcodes.size() + startingRowOfTable + 5) ;
+        Row signatureLines = sheet.createRow(signatureLinesRowNumber);
+        Row signatureTexts = sheet.createRow(signatureLinesRowNumber + 1);
+        cell = signatureLines.createCell(0);
+        cell.setCellValue("__________________________________________________________________________");
+        CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+        sheet.addMergedRegion(new CellRangeAddress(signatureLinesRowNumber, signatureLinesRowNumber, 0, 3));
+        cell = signatureLines.createCell(4);
+
+        cell.setCellValue("__________________________________________________________________________");
+        CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+        sheet.addMergedRegion(new CellRangeAddress(signatureLinesRowNumber, signatureLinesRowNumber, 4, 7));
 
 
+        cell = signatureTexts.createCell(0);
+        cell.setCellValue("Authorized Signature");
+        CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+        sheet.addMergedRegion(new CellRangeAddress(signatureLinesRowNumber+1, signatureLinesRowNumber+1, 0, 3));
+        cell = signatureTexts.createCell(4);
+        cell.setCellValue("Received by & Signature");
+        CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
+        sheet.addMergedRegion(new CellRangeAddress(signatureLinesRowNumber+1, signatureLinesRowNumber+1, 4, 7));
         workbook.write(os);
         response.flushBuffer();
     }
