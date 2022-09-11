@@ -4,6 +4,7 @@ import com.flogramming.domain.Client;
 import com.flogramming.domain.Inventory;
 import com.flogramming.repository.ClientInventoryRepository;
 import com.flogramming.service.ClientUserService;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.PaginationUtil;
-
-import java.util.List;
 
 /**
  * REST controller for managing {@link Inventory}.
@@ -45,7 +44,6 @@ public class ClientInventoryResource {
         this.inventoryRepository = inventoryRepository;
     }
 
-
     /**
      * {@code GET  /inventories} : get all the inventories.
      *
@@ -56,9 +54,8 @@ public class ClientInventoryResource {
     public ResponseEntity<List<Inventory>> getAllInventories(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Inventories");
         Client client = clientUserService.getCurrentUser().getClientCode();
-        Page<Inventory> page = inventoryRepository.findByClient(client, pageable);
+        Page<Inventory> page = inventoryRepository.findByClientOrderByIdDesc(client, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-
 }

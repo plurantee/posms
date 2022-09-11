@@ -3,6 +3,16 @@ package com.flogramming.service;
 import com.flogramming.StatusType;
 import com.flogramming.domain.*;
 import com.flogramming.repository.*;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -17,17 +27,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ExcelFileService {
@@ -54,7 +53,6 @@ public class ExcelFileService {
 
     @Autowired
     private ShopRepository shopRepository;
-
 
     /**
      * Lazada
@@ -707,13 +705,12 @@ public class ExcelFileService {
         excelHashMap.remove(0); // Column rows
         Client client = clientUserService.getCurrentUser().getClientCode();
 
-
         for (HashMap<String, String> row : excelHashMap.values()) {
             String sku = row.get("Product Name");
             Inventory inventory = null;
             if (!StringUtils.isEmpty(sku)) {
                 inventory = clientInventoryRepository.findBySkuAndClient(sku, client);
-            } else  {
+            } else {
                 break;
             }
             if (inventory == null) {
@@ -726,14 +723,12 @@ public class ExcelFileService {
             inventory.setPrice(Double.valueOf(row.get("Price(RETAIL SALE)")));
             inventory.setThreshold(Integer.valueOf(row.get("Threshold")));
             result.add(inventory);
-
         }
         clientInventoryRepository.saveAll(result);
-        return clientInventoryRepository.findByClient(client, Pageable.ofSize(10));
+        return clientInventoryRepository.findByClientOrderByIdDesc(client, Pageable.ofSize(10));
     }
 
     public void createReport(List<OrderTracker> orders, HttpServletResponse response) throws IOException {
-
         ServletOutputStream os = response.getOutputStream();
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-Disposition", "attachment; filename=test.xlsx\"");
@@ -761,7 +756,6 @@ public class ExcelFileService {
         headerStyle.setBorderRight(BorderStyle.THIN);
         headerStyle.setRightBorderColor(IndexedColors.WHITE.getIndex());
 
-
         CellStyle sheetInfoStyle = workbook.createCellStyle();
 
         XSSFFont font2 = ((XSSFWorkbook) workbook).createFont();
@@ -788,11 +782,7 @@ public class ExcelFileService {
         sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 1));
         sheet.addMergedRegion(new CellRangeAddress(1, 1, 2, 3));
 
-
-
-
         Row header = sheet.createRow(startingRowOfTable);
-
 
         Cell headerCell = header.createCell(0);
         headerCell.setCellValue("Number");
@@ -826,7 +816,6 @@ public class ExcelFileService {
         headerCell.setCellValue("Item/s");
         headerCell.setCellStyle(headerStyle);
 
-
         sheet.setColumnWidth(0, 4000);
         sheet.setColumnWidth(1, 6000);
         sheet.setColumnWidth(2, 6000);
@@ -840,14 +829,15 @@ public class ExcelFileService {
         style.setWrapText(true);
         List<String> barcodes = new ArrayList<>(orders.stream().map(order -> order.getBarcodeNumber()).collect(Collectors.toSet()));
 
-        for (int i=0; i < barcodes.size(); i++) {
-            Row row = sheet.createRow(i+(startingRowOfTable+1));
+        for (int i = 0; i < barcodes.size(); i++) {
+            Row row = sheet.createRow(i + (startingRowOfTable + 1));
             cell = row.createCell(0);
-            cell.setCellValue(i+1);
+            cell.setCellValue(i + 1);
             final String barcode = barcodes.get(i);
             cell = row.createCell(1);
             cell.setCellValue(barcode);
-            Map<String, Long> ordersMap = orders.stream()
+            Map<String, Long> ordersMap = orders
+                .stream()
                 .filter(order -> barcode.equals(order.getBarcodeNumber()))
                 .collect(Collectors.groupingBy(e -> e.getSkuReference(), Collectors.counting()));
             StringBuilder transactions = new StringBuilder();
@@ -857,7 +847,9 @@ public class ExcelFileService {
                 if (lazadaOrders.size() > 0 && lazadaOrders.get(0).getShop() != null) {
                     storeName = lazadaOrders.get(0).getShop().getShopName();
                 }
-                List<String> orderIds = new ArrayList<>(lazadaOrders.stream().map(order -> order.getOrderNumber()).collect(Collectors.toSet()));
+                List<String> orderIds = new ArrayList<>(
+                    lazadaOrders.stream().map(order -> order.getOrderNumber()).collect(Collectors.toSet())
+                );
                 for (String order : orderIds) {
                     transactions.append(order);
                 }
@@ -867,9 +859,11 @@ public class ExcelFileService {
                 cell.setCellValue("LAZADA");
 
                 // Dates
-                List<ZonedDateTime> dates = lazadaOrders.stream()
+                List<ZonedDateTime> dates = lazadaOrders
+                    .stream()
                     .map(lazadaOrder -> lazadaOrder.getDateReleasedOrCancelled())
-                    .sorted(Comparator.naturalOrder()).collect(Collectors.toList());
+                    .sorted(Comparator.naturalOrder())
+                    .collect(Collectors.toList());
                 cell = sheetInfo.createCell(2);
                 ZonedDateTime dateToday = ZonedDateTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM, dd yyyy - HH:mm:ss");
@@ -886,8 +880,8 @@ public class ExcelFileService {
                 List<String> orderIds = new ArrayList<>(shopeeOrders.stream().map(order -> order.getOrderId()).collect(Collectors.toSet()));
                 for (int j = 0; j < orderIds.size(); j++) {
                     String order = orderIds.get(j);
-                    if (j == orderIds.size()-1) {
-                        transactions.append(order+ ", ");
+                    if (j == orderIds.size() - 1) {
+                        transactions.append(order + ", ");
                     } else {
                         transactions.append(order + ", ");
                     }
@@ -898,9 +892,11 @@ public class ExcelFileService {
                 cell.setCellValue("SHOPEE");
 
                 // Dates
-                List<ZonedDateTime> dates = shopeeOrders.stream()
+                List<ZonedDateTime> dates = shopeeOrders
+                    .stream()
                     .map(shopeeOrder -> shopeeOrder.getDateReleasedOrCancelled())
-                    .sorted(Comparator.naturalOrder()).collect(Collectors.toList());
+                    .sorted(Comparator.naturalOrder())
+                    .collect(Collectors.toList());
                 cell = sheetInfo.createCell(2);
                 ZonedDateTime dateToday = ZonedDateTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM, dd yyyy - HH:mm:ss");
@@ -914,7 +910,14 @@ public class ExcelFileService {
             cell = row.createCell(2);
             cell.setCellValue(transactions.toString());
 
-            String shippingProvider = orders.stream().filter(order -> order.getBarcodeNumber() == barcode).findFirst().stream().findFirst().get().getCourier();
+            String shippingProvider = orders
+                .stream()
+                .filter(order -> order.getBarcodeNumber() == barcode)
+                .findFirst()
+                .stream()
+                .findFirst()
+                .get()
+                .getCourier();
             cell = row.createCell(3);
             cell.setCellValue(shippingProvider);
 
@@ -924,7 +927,7 @@ public class ExcelFileService {
             StringBuilder items = new StringBuilder();
             List<String> itemsList = new ArrayList(ordersMap.keySet());
             for (int j = 0; j < itemsList.size(); j++) {
-                if (j == itemsList.size()-1) {
+                if (j == itemsList.size() - 1) {
                     items.append(itemsList.get(j));
                 } else {
                     items.append(itemsList.get(j) + ", ");
@@ -932,10 +935,9 @@ public class ExcelFileService {
             }
             cell = row.createCell(7);
             cell.setCellValue(items.toString());
-
         }
         // Signature part
-        int signatureLinesRowNumber = (barcodes.size() + startingRowOfTable) < 40 ? 40 : (barcodes.size() + startingRowOfTable + 5) ;
+        int signatureLinesRowNumber = (barcodes.size() + startingRowOfTable) < 40 ? 40 : (barcodes.size() + startingRowOfTable + 5);
         Row signatureLines = sheet.createRow(signatureLinesRowNumber);
         Row signatureTexts = sheet.createRow(signatureLinesRowNumber + 1);
         cell = signatureLines.createCell(0);
@@ -948,15 +950,14 @@ public class ExcelFileService {
         CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
         sheet.addMergedRegion(new CellRangeAddress(signatureLinesRowNumber, signatureLinesRowNumber, 4, 7));
 
-
         cell = signatureTexts.createCell(0);
         cell.setCellValue("Authorized Signature");
         CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
-        sheet.addMergedRegion(new CellRangeAddress(signatureLinesRowNumber+1, signatureLinesRowNumber+1, 0, 3));
+        sheet.addMergedRegion(new CellRangeAddress(signatureLinesRowNumber + 1, signatureLinesRowNumber + 1, 0, 3));
         cell = signatureTexts.createCell(4);
         cell.setCellValue("Received by & Signature");
         CellUtil.setAlignment(cell, HorizontalAlignment.CENTER);
-        sheet.addMergedRegion(new CellRangeAddress(signatureLinesRowNumber+1, signatureLinesRowNumber+1, 4, 7));
+        sheet.addMergedRegion(new CellRangeAddress(signatureLinesRowNumber + 1, signatureLinesRowNumber + 1, 4, 7));
         workbook.write(os);
         response.flushBuffer();
     }

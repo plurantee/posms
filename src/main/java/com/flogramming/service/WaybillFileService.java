@@ -7,6 +7,15 @@ import com.flogramming.domain.ShopeeOrder;
 import com.flogramming.repository.ClientLazadaOrderRepository;
 import com.flogramming.repository.ClientShopeeOrderRepository;
 import com.flogramming.util.OrderTrackerUtil;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -21,16 +30,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 public class WaybillFileService {
@@ -48,8 +47,9 @@ public class WaybillFileService {
         for (int i = 0; i < pdDocument.getNumberOfPages(); i++) {
             PDPage page = pdDocument.getPage(i);
             page.setRotation(0);
-            SearchTrackingNumber searchTrackingNumber = getTrackingNumberPerPage(pdDocument, i+1);
-            Map<String, Long> ordersMap = orders.stream()
+            SearchTrackingNumber searchTrackingNumber = getTrackingNumberPerPage(pdDocument, i + 1);
+            Map<String, Long> ordersMap = orders
+                .stream()
                 .filter(order -> searchTrackingNumber.getTrackingNumber().equals(order.getBarcodeNumber()))
                 .collect(Collectors.groupingBy(e -> e.getSkuReference(), Collectors.counting()));
 
@@ -58,11 +58,8 @@ public class WaybillFileService {
             float pageHeight = mm2pt(150);
             float pageWidth = mm2pt(104);
 
-
-
-            float x =  -30;
+            float x = -30;
             float y = -110;
-
 
             PDRectangle mediabox = new PDRectangle(x, y, pageWidth, pageHeight);
             page.setMediaBox(mediabox);
@@ -90,7 +87,6 @@ public class WaybillFileService {
                 Matrix shopeeMatrix = new Matrix();
                 shopeeMatrix.scale(0.8f, 0.8f);
                 contentStream.transform(shopeeMatrix);
-
                 //contentStream.transform(Matrix.getRotateInstance(Math.toRadians(180), 300, 450));
 
             }
@@ -129,11 +125,11 @@ public class WaybillFileService {
 
         List<String> keys = new ArrayList(ordersMap.keySet());
         int t2limit = 4;
-        for (int i=0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             Row<PDPage> t1Row = table.createRow(1);
             String key = "";
             String value = "";
-            try{
+            try {
                 key = keys.get(i);
                 value = String.valueOf(ordersMap.get(key));
             } catch (Exception e) {
@@ -160,25 +156,24 @@ public class WaybillFileService {
         cell.setFontSize(fontSize);
         table2.addHeaderRow(hRow);
 
-        for (int i=0; i < t2limit; i++) {
+        for (int i = 0; i < t2limit; i++) {
             Row<PDPage> t2Row = table2.createRow(1);
             String key = "";
             String value = "";
-            try{
-                key = keys.get(i+4);
+            try {
+                key = keys.get(i + 4);
                 value = String.valueOf(ordersMap.get(key));
             } catch (Exception e) {
                 log.info("Putting empty string instead");
             }
             cell = t2Row.createCell(30, key);
             cell.setFontSize(fontSize);
-            cell =t2Row.createCell(30, value);
+            cell = t2Row.createCell(30, value);
             cell.setFontSize(fontSize);
         }
         table2.draw();
         // - End Table 2
     }
-
 
     public List<OrderTracker> viewWaybill(MultipartFile file) throws IOException {
         PDDocument pdDocument = PDDocument.load(file.getInputStream());
@@ -186,7 +181,6 @@ public class WaybillFileService {
         List<OrderTracker> orderTrackers = new ArrayList<>();
         for (int i = 1; i <= pdDocument.getNumberOfPages(); i++) {
             orderTrackers.addAll(viewWaybillPerPage(pdDocument, i));
-
         }
         return orderTrackers;
     }
@@ -208,11 +202,14 @@ public class WaybillFileService {
             // Must be shopee waybill
             if (StringUtils.isBlank(trackingNumber)) {
                 isLazada = false;
-                var pattern = Pattern.compile("^(?!63)[0-9]{12,}$");
-                List<String> possibleOrderTrackers = pageTexts.stream().filter(e -> pattern.matcher(e).matches()).collect(Collectors.toList());
+                var pattern = Pattern.compile("^(([A-Za-z]){1,})?(?!63)[0-9]{12,}(\\r)?$");
+                List<String> possibleOrderTrackers = pageTexts
+                    .stream()
+                    .filter(e -> pattern.matcher(e).matches())
+                    .collect(Collectors.toList());
 
                 trackingNumber = possibleOrderTrackers.stream().findFirst().orElse("");
-
+                trackingNumber = trackingNumber.replaceAll("[\\n\\r\\t]+", "");
             }
             if (StringUtils.isBlank(trackingNumber)) {
                 throw new RuntimeException();
@@ -253,11 +250,14 @@ public class WaybillFileService {
             // Must be shopee waybill
             if (StringUtils.isBlank(trackingNumber)) {
                 isLazada = false;
-                var pattern = Pattern.compile("^(?!63)[0-9]{12,}$");
-                List<String> possibleOrderTrackers = pageTexts.stream().filter(e -> pattern.matcher(e).matches()).collect(Collectors.toList());
+                var pattern = Pattern.compile("^(([A-Za-z]){1,})?(?!63)[0-9]{12,}(\\r)?$");
+                List<String> possibleOrderTrackers = pageTexts
+                    .stream()
+                    .filter(e -> pattern.matcher(e).matches())
+                    .collect(Collectors.toList());
 
                 trackingNumber = possibleOrderTrackers.stream().findFirst().orElse("");
-
+                trackingNumber = trackingNumber.replaceAll("[\\n\\r\\t]+", "");
             }
             if (StringUtils.isBlank(trackingNumber)) {
                 throw new RuntimeException();
@@ -265,7 +265,6 @@ public class WaybillFileService {
         } catch (Exception e) {
             throw new RuntimeException("No Tracking Number found. Iteration: " + page);
         }
-
 
         return new SearchTrackingNumber(trackingNumber, isLazada);
     }
