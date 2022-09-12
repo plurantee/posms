@@ -17,6 +17,10 @@ eureka:
     prefer-ip-address: false
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: ${JDBC_DATABASE_URL}
