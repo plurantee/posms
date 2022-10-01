@@ -58,38 +58,43 @@ public class ClientDashboardResource {
     }
 
     @PostMapping("/dashboard/init")
-    public DashboardData getAllLazadaOrdersByShop(@RequestParam("startDate") String startDate,
-                                                  @RequestParam(value="endDate") String endDate,
-                                                  @RequestParam(value="site") String site) {
+    public DashboardData init() {
+        Client client = clientUserService.getCurrentUser().getClientCode();
+
+        List<Inventory> allInventory = inventoryRepository.findByClient(client);
+        List<Inventory> thresholdItems = new ArrayList<>();
+        if (allInventory!=null && allInventory.isEmpty()) {
+            thresholdItems = allInventory.stream().filter(
+                inventory -> inventory != null
+                    && inventory.getStocks() != null
+                    && inventory.getThreshold() != null
+                    && inventory.getStocks() <= inventory.getThreshold()
+            ).collect(Collectors.toList());
+        }
+
+
+        DashboardData dashboardData = new DashboardData();
+        dashboardData.setThresholdItems(thresholdItems);
+        return dashboardData;
+    }
+    @PostMapping("/dashboard/init-lazada")
+    public DashboardData initlazada(@RequestParam("startDate") String startDate,
+                                                  @RequestParam(value="endDate") String endDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         ZoneId zoneId = ZoneId.of("Asia/Manila");
         ZonedDateTime zStartDate  = LocalDateTime.parse(startDate, formatter).atZone(zoneId);
         ZonedDateTime zEndDate = LocalDateTime.parse(endDate, formatter).atZone(zoneId).plusMinutes(1);
         Client client = clientUserService.getCurrentUser().getClientCode();
-        Set<LazadaOrder> lazadaOrders = new HashSet<>();
-        Set<ShopeeOrder> shopeeOrders = new HashSet<>();
 
-        if ("all".equals(site) || "lazada".equals(site)) {
-            lazadaOrders = clientLazadaOrderRepository.findByDateUploadedBetweenOrderByDateUploadedDesc(zStartDate, zEndDate);
+        Set<LazadaOrder> lazadaOrders = clientLazadaOrderRepository.findByDateUploadedBetweenOrderByDateUploadedDesc(zStartDate, zEndDate);
 
-            var payments = clientLazadaOrderPaymentsRepository.findByTransactionDateBetweenOrderByTransactionDateDesc(zStartDate, zEndDate);
+        var payments = clientLazadaOrderPaymentsRepository.findByTransactionDateBetweenOrderByTransactionDateDesc(zStartDate, zEndDate);
 
-            for (LazadaOrderPayments payment : payments) {
-                lazadaOrders.add(payment.getLazadaOrder());
-            }
-        }
-        if ("all".equals(site) || "shopee".equals(site)) {
-            shopeeOrders = clientShopeeOrderRepository.findByDateUploadedBetweenOrderByDateUploadedDesc(zStartDate, zEndDate);
-
-            var payments = clientShopeeOrderPaymentsRepository.findByPayoutCompletedDateBetweenOrderByPayoutCompletedDateDesc(zStartDate, zEndDate);
-
-            for (ShopeeOrderPayments payment : payments) {
-                shopeeOrders.addAll(payment.getShopeeOrders());
-            }
+        for (LazadaOrderPayments payment : payments) {
+            lazadaOrders.add(payment.getLazadaOrder());
         }
         double profit = 0;
         Map<String, Set<LazadaOrderPayments>> lazadaMap = new HashMap<>();
-        Map<String, Set<ShopeeOrderPayments>> shopeeMap = new HashMap<>();
 
         for (LazadaOrder lazadaOrder : lazadaOrders) {
             Inventory inventory = inventoryRepository.findBySkuAndClient(lazadaOrder.getSellerSku(), client);
@@ -99,16 +104,6 @@ public class ClientDashboardResource {
             } else {
                 lazadaMap.get(key).addAll(lazadaOrder.getPayments());
             }
-        }
-        for (ShopeeOrder shopeeOrder : shopeeOrders) {
-            Inventory inventory = inventoryRepository.findBySkuAndClient(shopeeOrder.getSkuReferenceNo(), client);
-            String key = inventory.getId()+"|"+inventory.getSku()+"|"+ inventory.getCost();
-            if (shopeeMap.get(key) == null || shopeeMap.get(key).isEmpty()) {
-                shopeeMap.put(key, shopeeOrder.getPayments());
-            } else {
-                shopeeMap.get(key).addAll(shopeeOrder.getPayments());
-            }
-            shopeeMap.put(key, shopeeOrder.getPayments());
         }
 
         for(Map.Entry<String, Set<LazadaOrderPayments>> entry : lazadaMap.entrySet()) {
@@ -121,6 +116,42 @@ public class ClientDashboardResource {
             profit = profit + (gross - inventory.getCost());
         }
 
+
+        DashboardData dashboardData = new DashboardData();
+        dashboardData.setProfit(profit);
+        dashboardData.setLazadaMap(lazadaMap);
+        return dashboardData;
+    }
+
+    @PostMapping("/dashboard/init-shopee")
+    public DashboardData shopee(@RequestParam("startDate") String startDate,
+                                    @RequestParam(value="endDate") String endDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        ZoneId zoneId = ZoneId.of("Asia/Manila");
+        ZonedDateTime zStartDate  = LocalDateTime.parse(startDate, formatter).atZone(zoneId);
+        ZonedDateTime zEndDate = LocalDateTime.parse(endDate, formatter).atZone(zoneId).plusMinutes(1);
+        Client client = clientUserService.getCurrentUser().getClientCode();
+        Set<ShopeeOrder> shopeeOrders = clientShopeeOrderRepository.findByDateUploadedBetweenOrderByDateUploadedDesc(zStartDate, zEndDate);
+
+        var payments = clientShopeeOrderPaymentsRepository.findByPayoutCompletedDateBetweenOrderByPayoutCompletedDateDesc(zStartDate, zEndDate);
+
+        for (ShopeeOrderPayments payment : payments) {
+            shopeeOrders.addAll(payment.getShopeeOrders());
+        }
+        double profit = 0;
+        Map<String, Set<ShopeeOrderPayments>> shopeeMap = new HashMap<>();
+
+        for (ShopeeOrder shopeeOrder : shopeeOrders) {
+            Inventory inventory = inventoryRepository.findBySkuAndClient(shopeeOrder.getSkuReferenceNo(), client);
+            String key = inventory.getId()+"|"+inventory.getSku()+"|"+ inventory.getCost();
+            if (shopeeMap.get(key) == null || shopeeMap.get(key).isEmpty()) {
+                shopeeMap.put(key, shopeeOrder.getPayments());
+            } else {
+                shopeeMap.get(key).addAll(shopeeOrder.getPayments());
+            }
+            shopeeMap.put(key, shopeeOrder.getPayments());
+        }
+
         for(Map.Entry<String, Set<ShopeeOrderPayments>> entry : shopeeMap.entrySet()) {
             String[] inventoryDetails = entry.getKey().split("\\|");
             Inventory inventory = inventoryRepository.findBySkuAndClient(inventoryDetails[1], client);
@@ -131,22 +162,10 @@ public class ClientDashboardResource {
             profit = profit + (gross - inventory.getCost());
         }
 
-        List<Inventory> allInventory = inventoryRepository.findAll();
-        List<Inventory> thresholdItems = new ArrayList<>();
-        if (allInventory!=null && allInventory.isEmpty()) {
-            thresholdItems = inventoryRepository.findAll().stream().filter(
-                inventory -> inventory != null
-                    && inventory.getStocks() != null
-                    && inventory.getThreshold() != null
-                    && inventory.getStocks() <= inventory.getThreshold()
-            ).collect(Collectors.toList());
-        }
 
 
         DashboardData dashboardData = new DashboardData();
         dashboardData.setProfit(profit);
-        dashboardData.setThresholdItems(thresholdItems);
-        dashboardData.setLazadaMap(lazadaMap);
         dashboardData.setShopeeMap(shopeeMap);
         return dashboardData;
     }

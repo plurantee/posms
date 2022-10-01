@@ -44,15 +44,15 @@
     <h2 id="page-heading" data-cy="ProfitHeading">
       <span id="profit-heading">Profit: {{ profit }}</span>
     </h2>
-    <div v-if="profit > 0" class="">
+    <div class="">
       <button @click="viewBreakdown()" class="btn btn-primary">View breakdown</button>
     </div>
     <div class="" v-if="isViewBreakdown">
       <h2 id="page-heading" data-cy="InventoryHeading">
         <span id="inventory-heading">Lazada Profit Breakdown</span>
       </h2>
-      <div class="table-responsive" v-if="dashboardData && dashboardData.lazadaMap">
-        <table class="table table-striped" aria-describedby="dashboardData.thresholdItems">
+      <div class="table-responsive" v-if="lazadaMap">
+        <table class="table table-striped" aria-describedby="thresholdItems">
           <thead>
             <tr>
               <th scope="row"><span>SKU</span></th>
@@ -62,7 +62,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(payments, inventory) in dashboardData.lazadaMap" :key="inventory" data-cy="entityTable">
+            <tr v-for="(payments, inventory) in lazadaMap" :key="inventory" data-cy="entityTable">
               <td>
                 <router-link :to="{ name: 'ClientInventoryView', params: { inventoryId: inventory.split('|')[0] } }">
                   {{ inventory.split('|')[1] }}
@@ -88,8 +88,8 @@
       <h2 id="page-heading" data-cy="InventoryHeading">
         <span id="inventory-heading">Shopee Profit Breakdown</span>
       </h2>
-      <div class="table-responsive" v-if="dashboardData && dashboardData.shopeeMap">
-        <table class="table table-striped" aria-describedby="dashboardData.thresholdItems">
+      <div class="table-responsive" v-if="shopeeMap">
+        <table class="table table-striped" aria-describedby="thresholdItems">
           <thead>
             <tr>
               <th scope="row"><span>SKU</span></th>
@@ -100,7 +100,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(payments, inventory) in dashboardData.shopeeMap" :key="inventory" data-cy="entityTable">
+            <tr v-for="(payments, inventory) in shopeeMap" :key="inventory" data-cy="entityTable">
               <td>
                 <router-link :to="{ name: 'ClientInventoryView', params: { inventoryId: inventory.split('|')[0] } }">
                   {{ inventory.split('|')[1] }}
@@ -129,14 +129,11 @@
     <h2 id="page-heading" data-cy="InventoryHeading">
       <span id="inventory-heading">Low stock items</span>
     </h2>
-    <div
-      class="alert alert-warning"
-      v-if="!isFetching && (!dashboardData || !dashboardData.thresholdItems || dashboardData.thresholdItems.length === 0)"
-    >
+    <div class="alert alert-warning" v-if="!isFetching && (!thresholdItems || thresholdItems.length === 0)">
       <span>No items are in low stock</span>
     </div>
-    <div class="table-responsive" v-if="dashboardData && dashboardData.thresholdItems && dashboardData.thresholdItems.length > 0">
-      <table class="table table-striped" aria-describedby="dashboardData.thresholdItems">
+    <div class="table-responsive" v-if="thresholdItems && thresholdItems.length > 0">
+      <table class="table table-striped" aria-describedby="thresholdItems">
         <thead>
           <tr>
             <th scope="row"><span>SKU</span></th>
@@ -146,7 +143,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="inventory in dashboardData.thresholdItems" :key="inventory.id" data-cy="entityTable">
+          <tr v-for="inventory in thresholdItems" :key="inventory.id" data-cy="entityTable">
             <td>
               <router-link :to="{ name: 'ClientInventoryView', params: { inventoryId: inventory.id } }">{{ inventory.sku }}</router-link>
             </td>

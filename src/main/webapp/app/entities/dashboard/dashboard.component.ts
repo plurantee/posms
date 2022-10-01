@@ -6,11 +6,14 @@ import { DATE_TIME_FORMAT, DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 import { IDashboardData } from '@/shared/model/dashboard-data.model';
 import { IShopeeOrderPayments } from '@/shared/model/shopee-order-payments.model';
 import { ILazadaOrderPayments } from '@/shared/model/lazada-order-payments.model';
+import { IInventory } from '@/shared/model/inventory.model';
 
 const baseApiUrl = 'api/dashboard';
 @Component
 export default class Dashboard extends Vue {
-  public dashboardData: IDashboardData = null;
+  public lazadaMap: Map<string, ILazadaOrderPayments[]> = null;
+  public shopeeMap: Map<string, IShopeeOrderPayments[]> = null;
+  public thresholdItems: IInventory[];
   public startDate = dayjs().add(-1, 'day').format(DATE_TIME_FORMAT);
   public endDate = dayjs().format(DATE_TIME_FORMAT);
   public site = 'all';
@@ -19,10 +22,20 @@ export default class Dashboard extends Vue {
   public isViewBreakdown = false;
 
   public mounted(): void {
+    this.init();
     this.search();
   }
 
-  public search(): Promise<any> {
+  public search() {
+    if (this.site === 'all' || this.site === 'lazada') {
+      this.initLazada();
+    }
+    if (this.site === 'all' || this.site === 'shopee') {
+      this.initShopee();
+    }
+  }
+
+  public init(): Promise<any> {
     // eslint-disable-next-line prefer-const
     let formData = new FormData();
     // eslint-disable-next-line prefer-const
@@ -53,8 +66,7 @@ export default class Dashboard extends Vue {
         .post(`${baseApiUrl}/init`, formData)
         .then(res => {
           resolve(res.data);
-          this.dashboardData = res.data;
-          this.profit = this.dashboardData.profit;
+          this.thresholdItems = res.data.thresholdItems;
           this.isFetching = false;
         })
         .catch(err => {
@@ -63,7 +75,75 @@ export default class Dashboard extends Vue {
     });
   }
 
-  public query() {}
+  public initLazada(): Promise<any> {
+    // eslint-disable-next-line prefer-const
+    let formData = new FormData();
+    // eslint-disable-next-line prefer-const
+    let yesterday = dayjs().add(-1, 'day').format(DATE_TIME_FORMAT);
+    // START DATE
+    if (this.startDate) {
+      formData.append('startDate', this.startDate);
+    } else {
+      formData.append('startDate', yesterday);
+    }
+
+    // END DATE
+    if (this.endDate) {
+      formData.append('endDate', this.endDate);
+    } else {
+      formData.append('endDate', dayjs().format(DATE_TIME_FORMAT));
+    }
+
+
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .post(`${baseApiUrl}/init-lazada`, formData)
+        .then(res => {
+          resolve(res.data);
+          this.lazadaMap = res.data.lazadaMap;
+          this.profit = this.profit + res.data.profit;
+          this.isFetching = false;
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  public initShopee(): Promise<any> {
+    // eslint-disable-next-line prefer-const
+    let formData = new FormData();
+    // eslint-disable-next-line prefer-const
+    let yesterday = dayjs().add(-1, 'day').format(DATE_TIME_FORMAT);
+    // START DATE
+    if (this.startDate) {
+      formData.append('startDate', this.startDate);
+    } else {
+      formData.append('startDate', yesterday);
+    }
+
+    // END DATE
+    if (this.endDate) {
+      formData.append('endDate', this.endDate);
+    } else {
+      formData.append('endDate', dayjs().format(DATE_TIME_FORMAT));
+    }
+
+
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .post(`${baseApiUrl}/init-shopee`, formData)
+        .then(res => {
+          resolve(res.data);
+          this.shopeeMap = res.data.shopeeMap;
+          this.profit =  this.profit + res.data.profit;
+          this.isFetching = false;
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
 
   public updateStartDate(event) {
     if (event.target.value) {
@@ -81,7 +161,10 @@ export default class Dashboard extends Vue {
   }
 
   public viewBreakdown() {
-    console.log(this.dashboardData);
+    console.log(this.lazadaMap);
+    console.log(this.shopeeMap);
+    console.log(this.profit);
+    console.log(this.thresholdItems);
     this.isViewBreakdown = !this.isViewBreakdown;
   }
 
