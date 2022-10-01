@@ -23,7 +23,9 @@
         </button>
       </div>
     </div>
-    <div class="total-payments" v-else>Total Payments: {{ totalPayments }}</div>
+    <div class="total-payments" v-else>
+      Total Payments: {{ totalPayments }} - Total Product Cost: {{ productCost }} = Profit {{ totalPayments - productCost }}
+    </div>
     <div class="alert alert-warning" v-if="!isFetching && lazadaOrderPayments && lazadaOrderPayments.length === 0">
       <span>No lazadaOrderPayments found</span>
     </div>

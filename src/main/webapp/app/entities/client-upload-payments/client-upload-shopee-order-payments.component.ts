@@ -26,6 +26,7 @@ export default class ClientShopeeOrderPayments extends Vue {
   private file = null;
   private hasNoOrderId = true;
   public totalPayments = 0;
+  public productCost = 0;
   private removeId: number = null;
   public itemsPerPage = 20;
   public queryCount: number = null;
@@ -48,6 +49,21 @@ export default class ClientShopeeOrderPayments extends Vue {
           this.shopeeOrderPayments.forEach(element => {
             this.totalPayments = this.totalPayments + element.totalReleasedAmount;
           });
+          return this.$root.$bvToast.toast(this.file.name + ' Uploaded', {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        },
+        err => {
+          this.alertService().showHttpError(this, err.response);
+        }
+      );
+
+      this.getCost(this.$props.orderId).then(
+        res => {
           return this.$root.$bvToast.toast(this.file.name + ' Uploaded', {
             toaster: 'b-toaster-top-center',
             title: 'Info',
@@ -87,6 +103,7 @@ export default class ClientShopeeOrderPayments extends Vue {
         this.alertService().showHttpError(this, err.response);
       }
     );
+    
   }
 
   public uploadShopeeExcel(file: FormData) {
@@ -112,6 +129,19 @@ export default class ClientShopeeOrderPayments extends Vue {
         .get(`api/shopee-order-payments/by-order-id/` + orderId)
         .then(res => {
           resolve(res.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  public getCost(orderId: string) {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .get(`api/shopee-order-payments/by-order-id/cost/` + orderId)
+        .then(res => {
+          this.productCost = res.data;
         })
         .catch(err => {
           reject(err);

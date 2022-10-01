@@ -25,6 +25,7 @@ export default class ClientLazadaOrderPayments extends Vue {
   private file = null;
   private hasNoOrderId = true;
   public totalPayments = 0;
+  public productCost = 0;
 
   public mounted(): void {
     this.clear();
@@ -39,6 +40,22 @@ export default class ClientLazadaOrderPayments extends Vue {
           this.lazadaOrderPayments.forEach(element => {
             this.totalPayments = this.totalPayments + element.amount;
           });
+          return this.$root.$bvToast.toast(this.file.name + ' Uploaded', {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        },
+        err => {
+          this.alertService().showHttpError(this, err.response);
+        }
+      );
+
+      this.getCost(this.$props.orderId).then(
+        res => {
+
           return this.$root.$bvToast.toast(this.file.name + ' Uploaded', {
             toaster: 'b-toaster-top-center',
             title: 'Info',
@@ -103,6 +120,19 @@ export default class ClientLazadaOrderPayments extends Vue {
         .get(`api/lazada-order-payments/by-order-id/` + orderId)
         .then(res => {
           resolve(res.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  public getCost(orderId: string) {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .get(`api/lazada-order-payments/by-order-id/cost/` + orderId)
+        .then(res => {
+          this.productCost = res.data;
         })
         .catch(err => {
           reject(err);

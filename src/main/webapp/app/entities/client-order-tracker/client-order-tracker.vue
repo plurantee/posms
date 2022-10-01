@@ -144,12 +144,12 @@
             <td>
               <router-link
                 v-if="orderTracker.site == 'LAZADA'"
-                :to="{ name: 'LazadaOrderView', params: { lazadaOrderId: orderTracker.id } }"
+                :to="{ name: 'ClientLazadaOrderView', params: { lazadaOrderId: orderTracker.id } }"
                 >{{ orderTracker.id }}</router-link
               >
               <router-link
                 v-if="orderTracker.site == 'SHOPEE'"
-                :to="{ name: 'ShopeeOrderView', params: { shopeeOrderId: orderTracker.id } }"
+                :to="{ name: 'ClientShopeeOrderView', params: { shopeeOrderId: orderTracker.id } }"
                 >{{ orderTracker.id }}</router-link
               >
             </td>
