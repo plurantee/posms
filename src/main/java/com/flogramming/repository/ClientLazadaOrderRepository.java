@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Spring Data SQL repository for the LazadaOrder entity.
@@ -28,6 +29,7 @@ public interface ClientLazadaOrderRepository extends LazadaOrderRepository {
 
     List<LazadaOrder> findByTrackingCodeOrderByDateUploadedDesc(String trackingCode);
 
-    List<LazadaOrder> findByDateUploadedBetweenOrderByDateUploadedDesc(ZonedDateTime startDate, ZonedDateTime endDate);
-    List<LazadaOrder> findByStatusAndDateUploadedBetweenOrderByDateUploadedDesc(String status, ZonedDateTime startDate, ZonedDateTime endDate);
+    Set<LazadaOrder> findByDateUploadedBetweenOrderByDateUploadedDesc(ZonedDateTime startDate, ZonedDateTime endDate);
+
+    Set<LazadaOrder> findByStatusAndDateUploadedBetweenOrderByDateUploadedDesc(String status, ZonedDateTime startDate, ZonedDateTime endDate);
 }

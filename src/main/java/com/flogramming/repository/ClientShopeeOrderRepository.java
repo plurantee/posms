@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Spring Data SQL repository for the ShopeeOrder entity.
@@ -32,6 +33,6 @@ public interface ClientShopeeOrderRepository extends ShopeeOrderRepository, Shop
 
     long deleteByOrderId(String orderId);
 
-    List<ShopeeOrder> findByDateUploadedBetweenOrderByDateUploadedDesc(ZonedDateTime zStartDate, ZonedDateTime zEndDate);
-    List<ShopeeOrder> findByOrderStatusAndDateUploadedBetweenOrderByDateUploadedDesc(String orderStatus, ZonedDateTime startDate, ZonedDateTime endDate);
+    Set<ShopeeOrder> findByDateUploadedBetweenOrderByDateUploadedDesc(ZonedDateTime zStartDate, ZonedDateTime zEndDate);
+    Set<ShopeeOrder> findByOrderStatusAndDateUploadedBetweenOrderByDateUploadedDesc(String orderStatus, ZonedDateTime startDate, ZonedDateTime endDate);
 }

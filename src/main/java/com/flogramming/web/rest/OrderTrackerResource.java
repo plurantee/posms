@@ -31,6 +31,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -94,8 +95,8 @@ public class OrderTrackerResource {
         ZonedDateTime zStartDate  = LocalDateTime.parse(startDate, formatter).atZone(zoneId);
         ZonedDateTime zEndDate = LocalDateTime.parse(endDate, formatter).atZone(zoneId).plusMinutes(1);
         List<OrderTracker> result = new ArrayList<>();
-        List<LazadaOrder> lazadaOrders = new ArrayList<>();
-        List<ShopeeOrder> shopeeOrders = new ArrayList<>();
+        Set<LazadaOrder> lazadaOrders = new HashSet<>();
+        Set<ShopeeOrder> shopeeOrders = new HashSet<>();
         if ("all".equals(status)) {
             if ("all".equals(site) || "lazada".equals(site)) {
                 lazadaOrders = clientLazadaOrderRepository.findByDateUploadedBetweenOrderByDateUploadedDesc(zStartDate, zEndDate);

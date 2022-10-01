@@ -48,6 +48,12 @@ public class ClientDashboardResource {
     private ClientShopeeOrderRepository clientShopeeOrderRepository;
 
     @Autowired
+    private ClientLazadaOrderPaymentsRepository clientLazadaOrderPaymentsRepository;
+
+    @Autowired
+    private ClientShopeeOrderPaymentsRepository clientShopeeOrderPaymentsRepository;
+
+    @Autowired
     private ClientInventoryRepository inventoryRepository;
 
     public ClientDashboardResource(
@@ -71,13 +77,26 @@ public class ClientDashboardResource {
         ZonedDateTime zStartDate  = LocalDateTime.parse(startDate, formatter).atZone(zoneId);
         ZonedDateTime zEndDate = LocalDateTime.parse(endDate, formatter).atZone(zoneId).plusMinutes(1);
         Client client = clientUserService.getCurrentUser().getClientCode();
-        List<LazadaOrder> lazadaOrders = new ArrayList<>();
-        List<ShopeeOrder> shopeeOrders = new ArrayList<>();
+        Set<LazadaOrder> lazadaOrders = new HashSet<>();
+        Set<ShopeeOrder> shopeeOrders = new HashSet<>();
+
         if ("all".equals(site) || "lazada".equals(site)) {
             lazadaOrders = clientLazadaOrderRepository.findByDateUploadedBetweenOrderByDateUploadedDesc(zStartDate, zEndDate);
+
+            var payments = clientLazadaOrderPaymentsRepository.findByTransactionDateBetweenOrderByTransactionDateDesc(zStartDate, zEndDate);
+
+            for (LazadaOrderPayments payment : payments) {
+                lazadaOrders.add(payment.getLazadaOrder());
+            }
         }
         if ("all".equals(site) || "shopee".equals(site)) {
             shopeeOrders = clientShopeeOrderRepository.findByDateUploadedBetweenOrderByDateUploadedDesc(zStartDate, zEndDate);
+
+            var payments = clientShopeeOrderPaymentsRepository.findByPayoutCompletedDateBetweenOrderByPayoutCompletedDateDesc(zStartDate, zEndDate);
+
+            for (ShopeeOrderPayments payment : payments) {
+                shopeeOrders.addAll(payment.getShopeeOrders());
+            }
         }
         double profit = 0;
         Map<String, Set<LazadaOrderPayments>> lazadaMap = new HashMap<>();
