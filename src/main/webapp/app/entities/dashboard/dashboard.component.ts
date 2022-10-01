@@ -27,6 +27,9 @@ export default class Dashboard extends Vue {
   }
 
   public search() {
+    this.lazadaMap = null;
+    this.shopeeMap = null;
+    this.profit = 0;
     if (this.site === 'all' || this.site === 'lazada') {
       this.initLazada();
     }
@@ -161,10 +164,6 @@ export default class Dashboard extends Vue {
   }
 
   public viewBreakdown() {
-    console.log(this.lazadaMap);
-    console.log(this.shopeeMap);
-    console.log(this.profit);
-    console.log(this.thresholdItems);
     this.isViewBreakdown = !this.isViewBreakdown;
   }
 
