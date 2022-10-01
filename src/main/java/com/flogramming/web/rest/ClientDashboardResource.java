@@ -34,11 +34,6 @@ import java.util.stream.Collectors;
 @Transactional
 public class ClientDashboardResource {
 
-    private static final String ENTITY_NAME = "lazadaOrder";
-    private final Logger log = LoggerFactory.getLogger(ClientDashboardResource.class);
-    private final ShopRepository shopRepository;
-    private final ExcelFileService excelFileService;
-    private final ClientLazadaOrderRepository lazadaOrderRepository;
     private final ClientUserService clientUserService;
 
     @Autowired
@@ -57,14 +52,8 @@ public class ClientDashboardResource {
     private ClientInventoryRepository inventoryRepository;
 
     public ClientDashboardResource(
-        ShopRepository shopRepository,
-        ExcelFileService excelFileService,
-        ClientLazadaOrderRepository lazadaOrderRepository,
         ClientUserService clientUserService
     ) {
-        this.shopRepository = shopRepository;
-        this.excelFileService = excelFileService;
-        this.lazadaOrderRepository = lazadaOrderRepository;
         this.clientUserService = clientUserService;
     }
 
@@ -105,7 +94,6 @@ public class ClientDashboardResource {
         for (LazadaOrder lazadaOrder : lazadaOrders) {
             Inventory inventory = inventoryRepository.findBySkuAndClient(lazadaOrder.getSellerSku(), client);
             String key = inventory.getId()+"|"+inventory.getSku()+"|"+ inventory.getCost();
-            lazadaMap.get(key);
             if (lazadaMap.get(key) == null || lazadaMap.get(key).isEmpty()) {
                 lazadaMap.put(key, lazadaOrder.getPayments());
             } else {
@@ -115,7 +103,6 @@ public class ClientDashboardResource {
         for (ShopeeOrder shopeeOrder : shopeeOrders) {
             Inventory inventory = inventoryRepository.findBySkuAndClient(shopeeOrder.getSkuReferenceNo(), client);
             String key = inventory.getId()+"|"+inventory.getSku()+"|"+ inventory.getCost();
-            lazadaMap.get(key);
             if (shopeeMap.get(key) == null || shopeeMap.get(key).isEmpty()) {
                 shopeeMap.put(key, shopeeOrder.getPayments());
             } else {
@@ -144,9 +131,17 @@ public class ClientDashboardResource {
             profit = profit + (gross - inventory.getCost());
         }
 
-        List<Inventory> thresholdItems = inventoryRepository.findAll().stream().filter(
-            inventory -> inventory.getStocks() <= inventory.getThreshold()
-        ).collect(Collectors.toList());
+        List<Inventory> allInventory = inventoryRepository.findAll();
+        List<Inventory> thresholdItems = new ArrayList<>();
+        if (allInventory!=null && allInventory.isEmpty()) {
+            thresholdItems = inventoryRepository.findAll().stream().filter(
+                inventory -> inventory != null
+                    && inventory.getStocks() != null
+                    && inventory.getThreshold() != null
+                    && inventory.getStocks() <= inventory.getThreshold()
+            ).collect(Collectors.toList());
+        }
+
 
         DashboardData dashboardData = new DashboardData();
         dashboardData.setProfit(profit);
